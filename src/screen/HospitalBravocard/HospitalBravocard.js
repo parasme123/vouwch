@@ -1,0 +1,168 @@
+
+import { NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, ImageBackground, Image, FlatList, Modal, Alert, TextInput, Share } from 'react-native';
+import styles from './hospitalecss';
+import { useNavigation } from '@react-navigation/native';
+import Imagepath from '../../common/imagepath';
+import { Header } from '../../common/Header';
+import String from '../../common/String';
+import ApiCall from '../../Lib/ApiCall';
+import SortUrl from '../../Lib/SortUrl';
+import CustomLoader from '../../Lib/CustomLoader';
+import Message from '../../modal/Message';
+import Comments from '../../modal/Comments';
+export default Hospotalbravocard = (props) => {
+    const [loaderVisible, setloaderVisible] = useState(false)
+    const [modalVisibleComment, setModalVisibleComment] = useState(false);
+    const [modalVisibleMessage, setModalVisibleMessage] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [DataCardList, setDataCardList] = useState(false);
+    const [ReviewModalPopup, setReviewModalPopup] = useState()
+    const [commentModalPopup, setcommentModalPopup] = useState()
+
+    const MessagepropPage = (item) => {
+        setReviewModalPopup(!modalVisible)
+        setModalVisible(!modalVisible)
+
+    }
+    // console.log ("message------",MessagepropPage)
+    const CommentpropPage = (item) => {
+        setcommentModalPopup(!commentModalPopup)
+        setModalVisibleComment(!modalVisibleComment)
+    }
+
+
+    useEffect(() => {
+        Call_DataCardApi();
+        for (let count = 0; count <= 100; count++) {
+            count % 2 == 0 ? console.log(`${count} is even`) : console.log(`${count} is odd`);
+            ;
+        }
+    }, []);
+
+    const navigation = useNavigation();
+    // share module
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message:
+                    'React Native | A framework for building native apps using React',
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    // DataCardApi
+    const Call_DataCardApi = () => {
+        setloaderVisible(true)
+        ApiCall.ApiMethod(SortUrl.AllCards, 'Get',).then(
+            (response) => {
+                setloaderVisible(false)
+                console.log("Response==========", response);
+                if (response.status == true) {
+                    setloaderVisible(false)
+                    setDataCardList(response.data.cards)
+                } else {
+                    setloaderVisible(false)
+                }
+            }
+        );
+    }
+
+    // Card DATA Content
+    const Card = ({ item, index }) => {
+        return (
+            <TouchableOpacity onPress={() => { navigation.navigate('Bravocard') }} style={[styles.cardContainer, index % 2 != 0 ? { backgroundColor: "#FEF8E4"
+             } : null]}>
+                <View style={styles.cardIconView} >
+                    <Image style={styles.cardIcon} source={Imagepath.Bravo} />
+                </View>
+                {/* Button of Share , Comment and Mesage */}
+                <View style={styles.shareCardView}>
+                    <TouchableOpacity style={styles.shareButton} onPress={() => CommentpropPage(item.id)}>
+                        <Image style={styles.shareButtonImage} source={Imagepath.commenticon} />
+                        <Text style={styles.shareButtonText}>Comment</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.shareButton} onPress={() => MessagepropPage(item.id)}>
+                        <Image style={styles.shareButtonImage} source={Imagepath.Messageicon} />
+                        <Text style={styles.shareButtonText}>Message</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.shareButton} onPress={onShare}>
+                        <Image style={styles.shareButtonImage} source={Imagepath.Share} />
+                        <Text style={styles.shareButtonText}>share</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/* Hospital name and details */}
+                <View style={styles.cardHospitalView}>
+                    <Text style={styles.hospitalName}>{item.hospital}</Text>
+                    <Text style={styles.cardHospitalViewText}>{item.detail}</Text>
+                    {/* photo & Videos Btn */}
+                    <View style={styles.cardHospitalViewButton}>
+                        <TouchableOpacity style={styles.cardPhotoButton}>
+                            <Image style={styles.cardPhotoImage} source={Imagepath.Photo} />
+                            <Text style={styles.cardPhotoVideoText}>Photo</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.videoButton}>
+                            <Image style={styles.cardVideoIcon} source={Imagepath.Video} />
+                            <Text style={styles.cardPhotoVideoText}>Video</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
+
+
+    return (
+        <ImageBackground
+            source={Imagepath.homebg}
+            resizeMode='cover'
+            style={{ flex: 1, }} >
+            <Header title={String.Bravocard} isback={true} />
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ flexGrow: 1 }}>
+
+                {/* Card of hospitals */}
+                < FlatList
+                    data={DataCardList}
+                    showsVerticalScrollIndicator={false}
+                    numColumns={2}
+                    // horizontal={true}
+                    style={{}}
+                    renderItem={Card}
+                    keyExtractor={items => items}
+                />
+
+                {ReviewModalPopup &&
+                    <Message
+                        modalVisible={modalVisible}
+                        Hidemodal={MessagepropPage}
+                    />
+                }
+                {commentModalPopup &&
+                    <Comments
+                        modalVisible={modalVisibleComment}
+                        Hidemodal={CommentpropPage}
+                    />
+                }
+
+            </ScrollView>
+            <CustomLoader loaderVisible={loaderVisible} />
+        </ImageBackground>
+
+    );
+}
