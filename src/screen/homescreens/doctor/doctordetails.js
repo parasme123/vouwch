@@ -46,6 +46,9 @@ const Doctordetails = ({ route }) => {
     const [loaderVisible, setloaderVisible] = useState()
     const [Feedback, setFeedback] = useState(personRed);
     const [DoctorCardDetails, setDoctorCardDetails] = useState();
+    const [userType, setuserType] = useState();
+
+
 
     const Aboutus = () => {
         setAbout(true)
@@ -82,17 +85,26 @@ const Doctordetails = ({ route }) => {
         setBusiness(false)
         setFeedback(true)
     }
+    const AddReview =()=>{
+        if (userType !== 2 ){
+            navigation.navigate('rate', { detail: doctorId })
+        }else{
+                alert("you are not able to give a review")
+        }
+    }
 
-    useEffect(() => {
+    useEffect( () => {
         Call_CategouryApi();
         AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
             if (value !== null) {
-                // We have data!!
+                // We have data!!of user 
                 console.log("AsyncStorageHelper : ", value);
-            }
+            }setuserType(value?.user_type)
+            console.log("anil_____________________++++++++++++++",userType);
     
         })
     }, []);
+
     const Call_CategouryApi = () => {
         const data = {
             id: doctorId.id
@@ -153,7 +165,7 @@ const Doctordetails = ({ route }) => {
                             <View style={styles.yellowStarSubview}>
                                 <Text style={styles.ratingNumber}>3.2
                                     <Text style={styles.clinicianReview}>Patient Review</Text></Text>
-                                <TouchableOpacity onPress={() => navigation.navigate('rate', { detail: doctorId })} style={styles.yellowstarButton}>
+                                <TouchableOpacity onPress={() => { AddReview() } } style={styles.yellowstarButton}>
                                     <Image source={Imagepath.mess}
                                         style={styles.yellowStarSubviewIcon} />
                                     <Text style={styles.yellowStarSubviewIconTExt}>Add review</Text>
