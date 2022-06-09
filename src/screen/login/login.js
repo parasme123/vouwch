@@ -70,8 +70,6 @@ export default function Login({ navigation, route }) {
         } 
     
       const Signin_CallApi=()=>{
-        console.log("sdfgsdufhgdsyfg");
-        console.log("dfuiaswer wf w");
         let data = {
             email: Email,
             password : Password,
