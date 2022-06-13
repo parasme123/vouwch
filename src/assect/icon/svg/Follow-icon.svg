@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Follow-icon" transform="translate(-126 -671)">
+    <circle id="Ellipse_39" data-name="Ellipse 39" cx="10" cy="10" r="10" transform="translate(126 671)" fill="#fff"/>
+    <g id="_3355719181618135049" data-name="3355719181618135049" transform="translate(131.159 676.159)">
+      <path id="Path_138" data-name="Path 138" d="M0,0H9.682V9.682H0Z" fill="none"/>
+      <path id="Path_139" data-name="Path 139" d="M8.034,6.346v.843A2.42,2.42,0,0,0,4.807,9.471H4A3.227,3.227,0,0,1,8.034,6.345Zm-.807-.505a2.42,2.42,0,1,1,2.42-2.42A2.42,2.42,0,0,1,7.227,5.841Zm0-.807A1.614,1.614,0,1,0,5.614,3.42,1.613,1.613,0,0,0,7.227,5.034Zm2.337,3.6L10.99,7.2l.571.57-2,2L8.138,8.345l.571-.57.855.856Z" transform="translate(-2.386 -0.597)"/>
+    </g>
+  </g>
+</svg>

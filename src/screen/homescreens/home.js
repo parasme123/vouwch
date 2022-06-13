@@ -1,16 +1,21 @@
-
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, ImageBackground, Image, FlatList, Modal, Alert, TextInput, Share } from 'react-native';
-import styles from './homecss';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import {
+    Alert, FlatList, Image, ImageBackground, ScrollView, Share, Text, TextInput, TouchableOpacity, View
+} from 'react-native';
+import Toast from 'react-native-simple-toast';
+import Colors from '../../common/Colors';
 import Imagepath from '../../common/imagepath';
 import ApiCall from '../../Lib/ApiCall';
-import SortUrl from '../../Lib/SortUrl';
+import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
+import Constants from '../../Lib/Constants';
 import CustomLoader from '../../Lib/CustomLoader';
+import SortUrl from '../../Lib/SortUrl';
 import Comments from '../../modal/Comments';
 import Message from '../../modal/Message';
-import Constants from '../../Lib/Constants';
-import Toast from 'react-native-simple-toast';
+import styles from './homecss';
+import { Bravocard, DoctorCard } from "@component";
 const Home = () => {
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisible, setModalVisible] = useState();
@@ -19,32 +24,79 @@ const Home = () => {
     const [DoctorCardList, setDoctorCardList] = useState();
     const [loaderVisible, setloaderVisible] = useState(false)
     const [ReviewModalPopup, setReviewModalPopup] = useState()
-    const [search, setsearch] = useState()
+    const [search, setsearch] = useState("")
     const [commentModalPopup, setcommentModalPopup] = useState()
     const [Follows, setFollow] = useState([]);
     const [followDetails, setFollowDetails] = useState();
-    const [searchData, setSearchData] = useState();
+    const [searchData, setSearchData] = useState([]);
+    const [userType, setuserType] = useState();
+    const [userToken, setuserToken] = useState();
 
+    // const userTypeOne = () => { userToken && userType.user_type == 1 };
     const FollowButton = (item) => {
         let follows1 = [...Follows];
-        if (!follows1.includes(item)) {          //checking weather array contain the id
-            follows1.push(item);               //adding to array because value doesnt exists
+        if (!follows1.includes(item)) { //checking weather array contain the id
+            follows1.push(item); //adding to array because value doesnt exists
         } else {
-            follows1.splice(follows1.indexOf(item), 1);  //deleting
+            follows1.splice(follows1.indexOf(item), 1); //deleting
         }
         setFollow(follows1)
     }
     const MessagepropPage = (item) => {
-        setReviewModalPopup(!modalVisible)
-        setModalVisible(!modalVisible)
+        if (!userType) {
+            alert("Please Login");
+        } else if (userType?.user_type !== 1) {
+            alert("please login with personal account")
+        } else {
+            setReviewModalPopup(!modalVisible)
+            setModalVisible(!modalVisible)
+        }
+
+
     }
-    const CommentpropPage = (item) => {
-        setcommentModalPopup(!commentModalPopup)
-        setModalVisibleComment(!modalVisibleComment)
+    // const CommentpropPage = (item) => {
+    //     setcommentModalPopup(!commentModalPopup);
+    //     setModalVisibleComment(!modalVisibleComment);
+    //  }
+    // const Module_Page = (clickFor) => {
+    //     if (!userType) {
+    //         alert("Please Login");
+    //     } else if (userType?.user_type !== 1) {
+    //         alert("please login with personal account")
+    //     } else {
+
+    //     }
+
+
+    // }
+    const CommentpropPage = () => {
+        if (!userType) {
+            alert("Please Login");
+        } else if (userType?.user_type !== 1) {
+            alert("please login with personal account")
+        } else {
+            setcommentModalPopup(!commentModalPopup);
+            setModalVisibleComment(!modalVisibleComment);
+        }
+
+
     }
+
+
 
     useEffect(() => {
         Call_CategouryApi();
+        AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
+            if (value !== null) { }
+            setuserToken(value)
+            console.log("UserToken-----", userToken);
+        });
+        AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+            if (value !== null) { }
+            setuserType(value)
+            console.log("setuserType-----", userType);
+
+        });
     }, []);
 
     const navigation = useNavigation();
@@ -52,8 +104,7 @@ const Home = () => {
     const onShare = async () => {
         try {
             const result = await Share.share({
-                message:
-                    'React Native | A framework for building native apps using React',
+                message: 'React Native | A framework for building native apps using React',
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
@@ -73,12 +124,11 @@ const Home = () => {
         setloaderVisible(true)
         ApiCall.ApiMethod(SortUrl.HomeData, 'GET',).then(
             (response) => {
-
                 if (response.status == true) {
                     setloaderVisible(false)
                     setcategouryDataList(response.data.categories)
                     setDataCardList(response.data.cards)
-                    setDoctorCardList(response.data.cards)
+                    setDoctorCardList(response.data.reviews)
                 } else {
                     setloaderVisible(false);
 
@@ -106,7 +156,11 @@ const Home = () => {
     };
 
     // Search API
-    const Call_SearchApi = (search) => {
+    const Call_SearchApi = () => {
+        if (search.length <= 0) {
+            setSearchData([])
+            return;
+        }
         setloaderVisible(true)
         const data = {
             keyword: search
@@ -118,6 +172,7 @@ const Home = () => {
                     setloaderVisible(false);
                     // navigation.navigate('Doctordetails')
                 } else {
+                    setSearchData([])
                     setloaderVisible(false)
                     navigation.navigate('search')
                     Toast.show(response.message);
@@ -147,83 +202,64 @@ const Home = () => {
     }
     const SearchDetails = ({ item, index }) => {
         return (
-            <TouchableOpacity key={item.id} style={[styles.searchkey, { borderTopLeftRadius: index == 0 ? 15 : 0, borderTopRightRadius: index == 0 ? 15 : 0, borderBottomLeftRadius: index - 2 == DataCardList.length ? 15 : 0, borderBottomRightRadius: index - 2 == DataCardList.length ? 15 : 0, }]} >
-                <Text style={styles.searchName}>{item.business_name}</Text>
+            <TouchableOpacity key={item.id}
+                style={
+                    [styles.searchkey, { borderTopLeftRadius: index == 0 ? 15 : 0, borderTopRightRadius: index == 0 ? 15 : 0, borderBottomLeftRadius: searchData.length - 1 == index ? 15 : 0, borderBottomRightRadius: searchData.length - 1 == index ? 15 : 0, }]} >
+                <Text style={styles.searchName} > {item.business_name} </Text>
             </TouchableOpacity>
         )
     }
 
     const categoriesItemData = ({ item, index }) => {
         return (
-            <TouchableOpacity key={item.id} style={styles.categoFlatelistView} >
-                <Text style={styles.categoFlatelistViewText}>{item.name}</Text>
+            <TouchableOpacity key={item.id}
+                style={styles.categoFlatelistView} >
+                <Text style={styles.categoFlatelistViewText} > {item.name} </Text>
             </TouchableOpacity>
         )
     }
-    // Card DATA Content
+    const BravoNavigation = () => {
+        navigation.navigate("Bravocard")
+    }
+
+    // Card DATA Content   && Bravo card
     const Card = ({ item, index }) => {
         return (
-            <TouchableOpacity key={item.id}
-                onPress={() => { navigation.navigate('Bravocard') }}
-                style={[styles.cardContainer, { backgroundColor: index / 2 == index ? "#245FC714" : "#FEF8E4" }]}>
-                <View style={styles.cardIconView} >
-                    <Image style={styles.cardIcon} source={Imagepath.Bravo} />
-                </View>
-                {/*  Button of Share , Comment and Mesage  */}
-                <View style={styles.shareCardView}>
-                    <TouchableOpacity style={styles.shareButton} onPress={() => CommentpropPage(item.id)}>
-                        <Image style={styles.shareButtonImage} source={Imagepath.commenticon} />
-                        <Text style={styles.shareButtonText}>Comment</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.shareButton} onPress={() => { MessagepropPage(item.id) }}>
-                        <Image style={styles.shareButtonImage} source={Imagepath.Messageicon} />
-                        <Text style={styles.shareButtonText}>Message</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.shareButton} onPress={onShare}>
-                        <Image style={styles.shareButtonImage} source={Imagepath.Share} />
-                        <Text style={styles.shareButtonText}>share</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {/* Hospital name and details   */}
-                <View style={styles.cardHospitalView}>
-                    <Text style={styles.hospitalName}>{item.hospital}</Text>
-                    <Text style={styles.cardHospitalViewText}>{item.detail}</Text>
-                    {/* photo & Videos Btn */}
-                    <View style={styles.cardHospitalViewButton}>
-                        <TouchableOpacity style={styles.cardPhotoButton}>
-                            <Image style={styles.cardPhotoImage} source={Imagepath.Photo} />
-                            <Text style={styles.cardPhotoVideoText}>Photo</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.videoButton}>
-                            <Image style={styles.cardVideoIcon} source={Imagepath.Video} />
-                            <Text style={styles.cardPhotoVideoText}>Video</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-            </TouchableOpacity>
+            <Bravocard
+                bravo_Navigation={BravoNavigation}
+                bravo_Card_name={item.name}
+                bravo_Card_Details={item.department}
+                onpress_Comment={CommentpropPage}
+                onpress_Message={MessagepropPage}
+                onpress_Share={onShare}
+                item={item}
+                index={index}
+            // onpress_Photo={}
+            // onpress_Video={}
+            />
         )
     }
 
-    // Doctor CARDS
+    /* // Doctor CARDS */
     const DoctorCard = ({ item, index }) => {
         return (
             <TouchableOpacity key={item.id}
-                onPress={() => navigation.navigate('Doctordetails', { person: true })}
-                style={[styles.doctorCardContainer, { backgroundColor: index / 2 == 0 ? "#D7EFFB" : "#FBEBE2" }]}>
+                onPress={() => { userType?.user_token && userType?.user_type == 1 ? navigation.navigate('Doctordetails', { person: true }) : alert("Please login with Personal Account") }}
+
+                // onPress={() => navigation.navigate('Doctordetails', { person: true })}
+                style={[styles.doctorCardContainer, { backgroundColor: index % 2 == 0 ? "#D7EFFB" : "#FBEBE2" }]}>
                 <Image style={styles.doctorCardIcon} source={Imagepath.doctors} />
                 {/* Button of Share , Comment and Mesage */}
                 <View style={styles.DoctorCardShareView}>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => CommentpropPage(item.id)}>
+                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { userType?.user_token && userType?.user_type == 1 ? CommentpropPage(item.id) : alert("Please login with Personal Account") }}>
                         <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.commenticon} />
                         <Text style={styles.DoctorCardShareButtonText}>Comment</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { MessagepropPage(item.id) }} >
+                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { userType?.user_token && userType?.user_type == 1 ? MessagepropPage(item.id) : alert("Please login with Personal Account") }}>
                         <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.Messageicon} />
                         <Text style={styles.DoctorCardShareButtonText}>Message</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => Call_FollowApi(item.id)}>
+                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { userType?.user_token && userType?.user_type == 1 ? Call_FollowApi(item.id) : alert("Please login with Personal Account") }} >
                         <Image style={styles.DoctorCardShareButtonIcon} source={Follows?.includes(item.id) ? Imagepath.following : Imagepath.Followicon} />
                         {Follows?.includes(item.id) ? <Text style={styles.DoctorCardShareButtonText}>Following</Text> :
                             <Text style={styles.DoctorCardShareButtonText}>Follow</Text>}
@@ -235,7 +271,7 @@ const Home = () => {
                 </View>
                 {/* Hospital name and details */}
                 <View style={styles.doctorDetails}>
-                    <Text style={styles.doctorname}>Dr. Anthony</Text>
+                    <Text style={styles.doctorname}>{item.business_name}</Text>
                     <Text style={styles.doctorProfile}>Emergency medicine</Text>
                     {/* photo & Videos Btn */}
                     {/* Red Star Line */}
@@ -345,11 +381,10 @@ const Home = () => {
                         <Text style={styles.categouryViewButtonText}>See All</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ marginLeft: "4%" }}>
+                <View style={{ marginLeft: 15 }}>
                     < FlatList
                         data={categouryDataList}
                         style={{}}
-                        // numColumns={2}
                         renderItem={categoriesItemData}
                         keyExtractor={item => item}
                         showsHorizontalScrollIndicator={false}
@@ -365,10 +400,9 @@ const Home = () => {
                     </TouchableOpacity>
                 </View>
                 {/* Bravo Card */}
-                <View style={{ marginLeft: "4%" }}>
+                <View style={{ marginHorizontal: 5 }}>
                     < FlatList
                         data={DataCardList}
-                        style={{ flex: 1 }}
                         renderItem={Card}
                         numColumns={2}
                         keyExtractor={item => item}
@@ -383,16 +417,15 @@ const Home = () => {
                     </TouchableOpacity>
                 </View>
                 {/* Card of Doctors */}
-                <View style={{ marginLeft: "4%" }}>
+                <View style={{ marginHorizontal: 5 }}>
                     < FlatList
                         data={DoctorCardList}
-                        style={{}}
                         renderItem={DoctorCard}
                         keyExtractor={item => item}
                         numColumns={2}
                     />
                 </View>
-                { 
+                {
                     <FlatList
                         data={searchData}
                         renderItem={SearchDetails}
@@ -418,12 +451,13 @@ const Home = () => {
 
 
 
+
             </ScrollView>
             <CustomLoader loaderVisible={loaderVisible} />
 
         </ImageBackground>
 
-    );
-}
+    )
+};
 
 export default Home;

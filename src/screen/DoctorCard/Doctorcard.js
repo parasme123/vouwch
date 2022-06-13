@@ -45,8 +45,7 @@ const Home = () => {
         setModalVisibleComment(!modalVisibleComment)
         console.log("item", item)
     }
-    console.log("Message--------", CommentpropPage)
-    console.log("Message--------", MessagepropPage)
+
 
 
     const FollowButton = (item) => {
@@ -82,7 +81,7 @@ const Home = () => {
                 // dismissed
             }
         } catch (error) {
-            alert(error.message); 
+            alert(error.message);
         }
     };
     // api   Doctor Card
@@ -101,7 +100,7 @@ const Home = () => {
             }
         );
     }
-// follow Api
+    // follow Api
     const Call_FollowApi = () => {
         const data = {
             business_id: DoctorCardList.id
@@ -118,7 +117,6 @@ const Home = () => {
             }
         );
     }
-
 
     // Doctor CARDS
     const DoctorCard = ({ item, index }) => {
@@ -197,7 +195,7 @@ const Home = () => {
 
                 < FlatList
                     data={DoctorCardList}
-                    style={{flex:1}}
+                    style={{ flex: 1 }}
                     renderItem={DoctorCard}
                     numColumns={2}
                     keyExtractor={(item, index) => item.key}

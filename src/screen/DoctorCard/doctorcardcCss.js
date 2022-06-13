@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     DoctorCardShareView: { flexDirection: "row" , marginVertical:10 },
     DoctorCardShareButton: { alignItems: "center", flex:1 },
     DoctorCardShareButtonIcon: { height: 20, width: 20 },
-    DoctorCardShareButtonText: { color: "#929397", fontSize: 7, fontFamily: Fonts.ProximaNovaRegular },
+    DoctorCardShareButtonText: { color: "#929397", fontSize: 12, fontFamily: Fonts.ProximaNovaRegular },
     doctorDetails: {   },
     doctorname: { color: Colors.black, fontSize: 15, fontFamily: Fonts.ProximaNovaBold, marginVertical: 5 },
     doctorProfile: { color: Colors.appcolor, fontSize: 8, fontFamily: Fonts.ProximaNovaRegular },
