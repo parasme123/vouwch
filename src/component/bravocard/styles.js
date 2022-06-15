@@ -9,10 +9,17 @@ const {
 
 
 const styles = StyleSheet.create({
-    cardContainer: { borderRadius: 10, padding: 15, margin: 10, flex: 1, maxWidth: SCREEN_WIDTH / 2 - 25 },
-    cardIconView: { height: 100, width: 100, backgroundColor: Colors.white, borderRadius: 100, justifyContent: "center", alignItems: "center", alignSelf: "center" },
+    cardContainer: {
+        borderRadius: 10, padding: 15,
+        margin: 10, 
+        width: SCREEN_WIDTH / 2-20
+    },
+    cardIconView: {
+        height: 100, width: 100,
+        backgroundColor: Colors.white, borderRadius: 100, justifyContent: "center", alignItems: "center", alignSelf: "center"
+    },
     cardIcon: { height: 78, width: 78, borderRadius: 100, alignSelf: "center" },
-    shareCardView: { flexDirection: "row", marginVertical: 10 },
+    shareCardView: { flexDirection: "row", marginTop:10 },
     shareButton: { alignItems: "center", flex: 1 },
     shareButtonImage: { height: 30, width: 30 },
     shareButtonText: { color: Colors.grey, fontSize: Fontsize.small, lineHeight: 15, fontFamily: Fonts.ProximaNovaRegular, marginTop: 5 },
@@ -20,7 +27,7 @@ const styles = StyleSheet.create({
     hospitalName: { color: Colors.black, fontSize: Fontsize.fontFifteen, fontFamily: Fonts.ProximaNovaSemibold, marginVertical: 5 },
     cardHospitalViewText: { color: Colors.lightGrey, fontSize: Fontsize.small, lineHeight: 15, fontFamily: Fonts.ProximaNovaRegular, flex: 1 },
     // 
-    cardHospitalViewButton: { flexDirection: "row", justifyContent: "space-between", marginTop: 10 },
+    cardHospitalViewButton: { flexDirection: "row", justifyContent: "space-between", marginTop: 10 ,},
     // 
     cardPhotoButton: { justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: Colors.appcolor, borderRadius: 10, flex: 1, paddingVertical: 5, marginRight: 5 },
     videoButton: { justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff", borderRadius: 10, flex: 1, paddingVertical: 5, marginLeft: 5 },

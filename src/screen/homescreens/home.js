@@ -1,9 +1,7 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import {
-    Alert, FlatList, Image, ImageBackground, ScrollView, Share, Text, TextInput, TouchableOpacity, View
-} from 'react-native';
+import {Alert, FlatList, Image, ImageBackground, ScrollView, Share, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import Colors from '../../common/Colors';
 import Imagepath from '../../common/imagepath';
@@ -42,6 +40,7 @@ const Home = () => {
         }
         setFollow(follows1)
     }
+
     const MessagepropPage = (item) => {
         if (!userType) {
             alert("Please Login");
@@ -51,24 +50,8 @@ const Home = () => {
             setReviewModalPopup(!modalVisible)
             setModalVisible(!modalVisible)
         }
-
-
     }
-    // const CommentpropPage = (item) => {
-    //     setcommentModalPopup(!commentModalPopup);
-    //     setModalVisibleComment(!modalVisibleComment);
-    //  }
-    // const Module_Page = (clickFor) => {
-    //     if (!userType) {
-    //         alert("Please Login");
-    //     } else if (userType?.user_type !== 1) {
-    //         alert("please login with personal account")
-    //     } else {
 
-    //     }
-
-
-    // }
     const CommentpropPage = () => {
         if (!userType) {
             alert("Please Login");
@@ -78,11 +61,7 @@ const Home = () => {
             setcommentModalPopup(!commentModalPopup);
             setModalVisibleComment(!modalVisibleComment);
         }
-
-
     }
-
-
 
     useEffect(() => {
         Call_CategouryApi();
@@ -119,6 +98,7 @@ const Home = () => {
             alert(error.message);
         }
     };
+
     // api  Home Page 
     const Call_CategouryApi = () => {
         setloaderVisible(true)
@@ -131,12 +111,10 @@ const Home = () => {
                     setDoctorCardList(response.data.reviews)
                 } else {
                     setloaderVisible(false);
-
                 }
             }
         );
     }
-
 
     // Follow API
     const Call_FollowApi = () => {
@@ -149,7 +127,9 @@ const Home = () => {
                     setFollowDetails(response.data)
                     FollowButton(item.id);
                 } else {
-                    Alert.alert("something went wrong")
+                    setFollowDetails(response.data)
+                    FollowButton(item.id);
+                    Alert.alert("something went wrongs")
                 }
             }
         );
@@ -157,18 +137,17 @@ const Home = () => {
 
     // Search API
     const Call_SearchApi = () => {
-        if (search.length <= 0) {
-            setSearchData([])
-            return;
-        }
-        setloaderVisible(true)
+        // if (search.length <= 0) {
+        //     setSearchData([])
+        //     return;
+        // }
+        // setloaderVisible(true)
         const data = {
             keyword: search
         }
         ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
             (response) => {
-                if (response?.data?.data?.length > 0) {
-                    setSearchData(response.data.data)
+                if (response?.data?.data) {
                     setloaderVisible(false);
                     // navigation.navigate('Doctordetails')
                 } else {
@@ -183,7 +162,6 @@ const Home = () => {
             }
         );
     };
-
 
     // api   Profile 
     const Call_ProfileApi = () => {
@@ -200,15 +178,7 @@ const Home = () => {
             }
         );
     }
-    const SearchDetails = ({ item, index }) => {
-        return (
-            <TouchableOpacity key={item.id}
-                style={
-                    [styles.searchkey, { borderTopLeftRadius: index == 0 ? 15 : 0, borderTopRightRadius: index == 0 ? 15 : 0, borderBottomLeftRadius: searchData.length - 1 == index ? 15 : 0, borderBottomRightRadius: searchData.length - 1 == index ? 15 : 0, }]} >
-                <Text style={styles.searchName} > {item.business_name} </Text>
-            </TouchableOpacity>
-        )
-    }
+
 
     const categoriesItemData = ({ item, index }) => {
         return (
@@ -218,15 +188,20 @@ const Home = () => {
             </TouchableOpacity>
         )
     }
-    const BravoNavigation = () => {
-        navigation.navigate("Bravocard")
+
+
+    const DoctorNavigation = (item) => {
+        navigation.navigate('Doctordetails',  { person: true, doctorId: DoctorCardList.id,  })
+    }
+
+    const Follow_api =()=>{
+        Call_FollowApi
     }
 
     // Card DATA Content   && Bravo card
     const Card = ({ item, index }) => {
         return (
             <Bravocard
-                bravo_Navigation={BravoNavigation}
                 bravo_Card_name={item.name}
                 bravo_Card_Details={item.department}
                 onpress_Comment={CommentpropPage}
@@ -241,69 +216,26 @@ const Home = () => {
     }
 
     /* // Doctor CARDS */
-    const DoctorCard = ({ item, index }) => {
+    const Doctor_Card = ({ item, index }) => {
         return (
-            <TouchableOpacity key={item.id}
-                onPress={() => { userType?.user_token && userType?.user_type == 1 ? navigation.navigate('Doctordetails', { person: true }) : alert("Please login with Personal Account") }}
-
-                // onPress={() => navigation.navigate('Doctordetails', { person: true })}
-                style={[styles.doctorCardContainer, { backgroundColor: index % 2 == 0 ? "#D7EFFB" : "#FBEBE2" }]}>
-                <Image style={styles.doctorCardIcon} source={Imagepath.doctors} />
-                {/* Button of Share , Comment and Mesage */}
-                <View style={styles.DoctorCardShareView}>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { userType?.user_token && userType?.user_type == 1 ? CommentpropPage(item.id) : alert("Please login with Personal Account") }}>
-                        <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.commenticon} />
-                        <Text style={styles.DoctorCardShareButtonText}>Comment</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { userType?.user_token && userType?.user_type == 1 ? MessagepropPage(item.id) : alert("Please login with Personal Account") }}>
-                        <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.Messageicon} />
-                        <Text style={styles.DoctorCardShareButtonText}>Message</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { userType?.user_token && userType?.user_type == 1 ? Call_FollowApi(item.id) : alert("Please login with Personal Account") }} >
-                        <Image style={styles.DoctorCardShareButtonIcon} source={Follows?.includes(item.id) ? Imagepath.following : Imagepath.Followicon} />
-                        {Follows?.includes(item.id) ? <Text style={styles.DoctorCardShareButtonText}>Following</Text> :
-                            <Text style={styles.DoctorCardShareButtonText}>Follow</Text>}
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={onShare} >
-                        <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.Share} />
-                        <Text style={styles.DoctorCardShareButtonText}>share</Text>
-                    </TouchableOpacity>
-                </View>
-                {/* Hospital name and details */}
-                <View style={styles.doctorDetails}>
-                    <Text style={styles.doctorname}>{item.business_name}</Text>
-                    <Text style={styles.doctorProfile}>Emergency medicine</Text>
-                    {/* photo & Videos Btn */}
-                    {/* Red Star Line */}
-                    <TouchableOpacity style={styles.ratingViewRed} onPress={() => navigation.navigate('Doctordetails', { personRed: true })}>
-                        <View style={styles.ratingViewmain}>
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                        </View>
-                        <Text style={styles.ratingText}>3.2
-                            <Text style={styles.clinicianReview}>Clinician's Review</Text>
-                        </Text>
-                    </TouchableOpacity>
-
-                    {/* yellow Star Line */}
-                    <TouchableOpacity style={styles.yellowstarview} onPress={() => navigation.navigate('Doctordetails', { personRed: true })}>
-                        <View style={styles.ratingViewmain}>
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                        </View>
-                        <Text style={styles.ratingText}>3.2
-                            <Text style={styles.clinicianReview}>Patient Review</Text></Text>
-
-                    </TouchableOpacity>
-                </View>
-
-            </TouchableOpacity>
+             <DoctorCard
+             onpress_DoctorCard={DoctorNavigation}
+             onpress_Comment={CommentpropPage}
+             onpress_Message={MessagepropPage}
+             onpress_Share={onShare}
+             user_Type={userType}
+             Follows={Follows}
+             onpress_DoctorCard_Follow={Follow_api}
+             item={item}
+             index={index}
+             Doctor_business_name={item?.business_name}
+             Doctorcard_Details={item?.category?.name}
+             Clinician_Rating={item?.clinical_rate}
+             patient_Rating={item?.patient_rate}
+             startingValue={item?.patient_rate}
+             ClinicianReview_Value={item?.clinical_rate}
+         />
+            
         )
     }
 
@@ -371,20 +303,16 @@ const Home = () => {
 
                     </View>
 
-
                 </ImageBackground>
 
                 {/* Categouries: */}
                 <View style={styles.categouryView}>
                     <Text style={styles.categouryViewText}>Categories:</Text>
-                    <TouchableOpacity style={{}}>
-                        <Text style={styles.categouryViewButtonText}>See All</Text>
-                    </TouchableOpacity>
+                    
                 </View>
                 <View style={{ marginLeft: 15 }}>
                     < FlatList
                         data={categouryDataList}
-                        style={{}}
                         renderItem={categoriesItemData}
                         keyExtractor={item => item}
                         showsHorizontalScrollIndicator={false}
@@ -404,8 +332,10 @@ const Home = () => {
                     < FlatList
                         data={DataCardList}
                         renderItem={Card}
-                        numColumns={2}
                         keyExtractor={item => item}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+
                     />
                 </View>
 
@@ -420,20 +350,12 @@ const Home = () => {
                 <View style={{ marginHorizontal: 5 }}>
                     < FlatList
                         data={DoctorCardList}
-                        renderItem={DoctorCard}
+                        renderItem={Doctor_Card}
                         keyExtractor={item => item}
-                        numColumns={2}
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
                     />
                 </View>
-                {
-                    <FlatList
-                        data={searchData}
-                        renderItem={SearchDetails}
-                        keyExtractor={item => item}
-                        style={{ width: "100%", zIndex: 100, position: "absolute", marginTop: 140 }}
-                    />
-
-                }
 
                 {ReviewModalPopup &&
                     <Message
@@ -447,10 +369,6 @@ const Home = () => {
                         Hidemodal={CommentpropPage}
                     />
                 }
-
-
-
-
 
             </ScrollView>
             <CustomLoader loaderVisible={loaderVisible} />

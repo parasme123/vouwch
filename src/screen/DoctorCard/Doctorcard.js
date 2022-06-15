@@ -12,10 +12,11 @@ import SortUrl from '../../Lib/SortUrl';
 import CustomLoader from '../../Lib/CustomLoader';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
+import { DoctorCard } from "@component";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 let STORAGE_KEY = '@user_input';
 
-const Home = () => {
+export const Doctor_Card = () => {
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisibleMessage, setModalVisibleMessage] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -112,73 +113,32 @@ const Home = () => {
                     // console.log(followDetails, "response===========")
                     FollowButton(item.id);
                 } else {
-                    Alert.alert("something went wrong")
+                    alert("something went wrong")
                 }
             }
         );
     }
 
     // Doctor CARDS
-    const DoctorCard = ({ item, index }) => {
+    const DoctorCard_Cards = ({ item, index }) => {
         return (
-            <TouchableOpacity key={index} onPress={() => navigation.navigate('Doctordetails', { person: true, detail: DoctorCardList, doctorId: item, })} style={[styles.doctorCardContainer, { backgroundColor: index % 2 == 0 ? "#D7EFFB" : "#FBEBE2" }]}>
-                {/* <View style={styles.doctorCardIconVIew}> */}
-                <Image style={styles.doctorCardIcon} source={Imagepath.doctors} />
-                {/* </View> */}
-                {/* Button of Share , Comment and Mesage */}
-                <View style={styles.DoctorCardShareView}>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => CommentpropPage(item.id)}>
-                        <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.commenticon} />
-                        <Text style={styles.DoctorCardShareButtonText}>Comment</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { MessagepropPage(item.id) }}>
-                        <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.Messageicon} />
-                        <Text style={styles.DoctorCardShareButtonText}>Message</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => Call_FollowApi(item.id)}>
-                        <Image style={styles.DoctorCardShareButtonIcon} source={Follows?.includes(item.id) ? Imagepath.following : Imagepath.Followicon} />
-                        {Follows?.includes(item.id) ? <Text style={styles.DoctorCardShareButtonText}>Following</Text> :
-                            <Text style={styles.DoctorCardShareButtonText}>Follow</Text>}
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.DoctorCardShareButton} onPress={onShare} >
-                        <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.Share} />
-                        <Text style={styles.DoctorCardShareButtonText}>share</Text>
-                    </TouchableOpacity>
-                </View>
-                {/* Hospital name and details */}
-                <View style={styles.doctorDetails}>
-
-                    <Text style={styles.doctorname}>{item.name}</Text>
-                    <Text style={styles.doctorProfile}>{item.description}</Text>
-                    {/* photo & Videos Btn */}
-                    {/* Red Star Line */}
-                    <TouchableOpacity style={styles.ratingViewRed} onPress={() => navigation.navigate('Doctordetails', { personRed: true })}>
-                        <View style={styles.ratingViewmain}>
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                            <Image style={styles.star} source={Imagepath.redstar} />
-                        </View>
-                        <Text style={styles.ratingText}>3.2
-                            <Text style={styles.clinicianReview}>Clinician's Review</Text></Text>
-                    </TouchableOpacity>
-
-                    {/* yellow Star Line */}
-                    <TouchableOpacity style={styles.yellowstarview} onPress={() => navigation.navigate('Doctordetails', { personRed: true })}>
-                        <View style={styles.ratingViewmain}>
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                            <Image style={styles.star} source={Imagepath.yellowstar} />
-                        </View>
-                        <Text style={styles.ratingText}>3.2
-                            <Text style={styles.clinicianReview}>Patient Review</Text></Text>
-
-                    </TouchableOpacity>
-                </View>
-            </TouchableOpacity>
+           
+                  <DoctorCard
+                    onpress_Comment={CommentpropPage}
+                    onpress_Message={MessagepropPage}
+                    onpress_Share={onShare}
+                    // user_Type={userType}
+                    // Follows={Follows}
+                    // onpress_DoctorCard_Follow={Follow_api}
+                    item={item}
+                    index={index}
+                    Doctor_business_name={item?.name}
+                    Doctorcard_Details={item?.description}
+                    Clinician_Rating={item?.clinical_rate}
+                    patient_Rating={item?.patient_rate}
+                    startingValue={item?.patient_rate}
+                    ClinicianReview_Value={3}
+                />
         )
     }
 
@@ -186,7 +146,7 @@ const Home = () => {
         <ImageBackground
             source={Imagepath.homebg}
             resizeMode='cover'
-            style={{ flex: 1, }} >
+            style={styles.image} >
             <Header title={String.doctorcard} isback={true} />
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -196,12 +156,13 @@ const Home = () => {
                 < FlatList
                     data={DoctorCardList}
                     style={{ flex: 1 }}
-                    renderItem={DoctorCard}
+                    renderItem={DoctorCard_Cards}
                     numColumns={2}
                     keyExtractor={(item, index) => item.key}
                     showsVerticalScrollIndicator={false}
 
                 />
+              
 
 
                 {ReviewModalPopup &&
@@ -225,5 +186,5 @@ const Home = () => {
     );
 }
 
-export default Home;
+
 

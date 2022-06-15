@@ -10,9 +10,7 @@ import Colors from '../../common/Colors';
 export  default Bravocard =(props)=> {
     
         return (
-            <TouchableOpacity key={props.key}
-            // onPress={() => { userType?.user_token && userType?.user_type !== 1 ? navigation.navigate('Bravocard') : alert("Please login with Personal Account") }}
-            onPress={() => props.bravo_Navigation()}
+            <View key={props.key}
             style={[styles.cardContainer, { backgroundColor: props.index % 2 == 0 ? Colors.lightBlue : Colors.skinColor }]}>
             <View style={styles.cardIconView} >
                 <Image style={styles.cardIcon} source={Imagepath.Bravo} />
@@ -50,7 +48,7 @@ export  default Bravocard =(props)=> {
                 </View>
             </View>
     
-        </TouchableOpacity>
+            </View>
             
         );
     }

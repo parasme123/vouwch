@@ -24,10 +24,11 @@ import Editprofile from '../screen/setting/editprofile';
 import ForgotPassword from '../screen/Forgotpassword/Forgotpassword';
 import OtpPage from '../screen/Forgotpassword/Otppage';
 import Hospotalbravocard from '../screen/HospitalBravocard/HospitalBravocard'
-import Doctorcard from '../screen/DoctorCard/Doctorcard';
+// import Doctorcard from '../screen/DoctorCard/Doctorcard';
 import Resetpassword from '../screen/Forgotpassword/Resetpassword';
 import Reply from '../screen/Message/Reply';
 import MessageBox from '../common/MessegeBox';
+import { Doctor_Card } from '../screen/DoctorCard/Doctorcard';
 const MainStack = createStackNavigator();
 const Navigator = () => {
 
@@ -55,7 +56,7 @@ const Navigator = () => {
                 <MainStack.Screen name='edit' component={Editprofile} />
                 <MainStack.Screen name='forgotpassword' component={ForgotPassword} />
                 <MainStack.Screen name='otppage' component={OtpPage} />
-                <MainStack.Screen name='DoctorCard' component={Doctorcard} />
+                <MainStack.Screen name='DoctorCard' component={Doctor_Card} />
                 <MainStack.Screen name='Hospotalbravocard' component={Hospotalbravocard} />
                 <MainStack.Screen name='Confirmpassword' component={Resetpassword} />
                 <MainStack.Screen name='Reply' component={Reply} />
