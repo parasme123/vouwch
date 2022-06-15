@@ -42,8 +42,10 @@ const Rate = ({ navigation, route }) => {
         setpatient(true)
 
     }
-    useEffect(() => {
+    useEffect( async() => {
         PasientPage();
+     const userData =  await  AsyncStorageHelper.getData(Constants.USER_DATA)
+console.log(userData,"userData------")
     }, []);
 
 
@@ -152,7 +154,7 @@ const Rate = ({ navigation, route }) => {
                         <Text style={{ color: "#ffffff", fontSize: 13 }}>Clinician Review</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { PasientPage() }} style={[{ backgroundColor: patient ? "#19428A" : null, fontFamily: Fonts.ProximaNovaSemibold }, styles.button]} >
-                        <Text style={{ color: "#ffffff", fontSize: 13 }}>Pasient Review</Text>
+                        <Text style={{ color: "#ffffff", fontSize: 13 }}>Patient Review</Text>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -12,10 +12,12 @@ import {
     Image,
     FlatList, Alert, Modal
 } from 'react-native';
+import { Fontsize, Colors } from '@common';
+
 import { TextInput } from 'react-native-gesture-handler';
 import Imagepath from '../common/imagepath';
 
-export default function Message (props)  {
+export default function Message(props) {
     // const [modalVisibleMessage, setModalVisibleMessage] = useState(false);
     const navigation = useNavigation();
     return (
@@ -25,7 +27,7 @@ export default function Message (props)  {
                 animationType="slide"
                 transparent={true}
                 visible={props.modalVisible}
-                onRequestClose={() => 
+                onRequestClose={() =>
                     // Alert.alert("Modal has been closed.");
                     props.Hidemodal()
                 }
@@ -44,7 +46,7 @@ export default function Message (props)  {
                             placeholder="Enter Messages"
                             keyboardType="default"
                         />
-                        <TouchableOpacity onPress={()=>{navigation.navigate('rate')}}  style={styles.messageButton}>
+                        <TouchableOpacity onPress={() => { navigation.navigate('rate') }} style={styles.messageButton}>
                             <Text style={styles.messageButtonText}>Send Messages</Text>
                         </TouchableOpacity>
                     </View>
@@ -58,74 +60,80 @@ export default function Message (props)  {
 }
 
 const styles = StyleSheet.create({
-    button: { height: 40, width: 168, justifyContent: "center", alignItems: "center", borderRadius: 20 },
+    button: {
+        height: 40,
+        width: 168,
+        justifyContent: "center", alignItems: "center",
+        borderRadius: 20
+    },
 
     centeredView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22,
-        // opacity:9
     },
     centeredView1: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         // marginTop: 22,
-        backgroundColor: "#00000090",
+        backgroundColor: Colors.transparentBlack,
         opacity: 5
     },
     modalView: {
         margin: 20,
-        backgroundColor: "white",
+        backgroundColor: Colors.white,
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
         elevation: 5
     },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-    },
-    centeredView2:{
-        width: "92%", height: 255, borderRadius: 15, alignSelf: "center", backgroundColor: "#fff", shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 1,
+    centeredView2: {
+        width: "92%", height: 255,
+        borderRadius: 15,
+        alignSelf: "center",
+        backgroundColor: Colors.white,
         elevation: 1
     },
-    headerView:{ height: 50, backgroundColor: "#245FC7", borderTopLeftRadius: 15, borderTopRightRadius: 15, flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 15 },
-    headerText:{ color: "#fff", fontSize: 15 },
-    headerIcon:{ height: 30, width: 30 },
-    textInput:{ borderWidth: 1, borderColor: "#929397", marginHorizontal: 15, borderRadius: 10, marginTop: 40, paddingLeft: 15 },
-    messageButton:{ width: 149, height: 45, flexDirection: "row", borderRadius: 10, backgroundColor: "#245FC7", justifyContent: "center", alignItems: "center", alignSelf: "flex-end", marginRight: 15, marginTop: 20 },
-    messageButtonText:{ color: "#fff", fontSize: 15 }
+    headerView: {
+        height: 50, backgroundColor: Colors.bottonColors,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 15
+    },
+    headerText: {
+        color: Colors.white,
+        fontSize: Fontsize.fontFifteen
+    },
+    headerIcon: {
+        height: 30,
+        width: 30
+    },
+    textInput: {
+        borderWidth: 1,
+        borderColor:Colors.grey,
+        marginHorizontal: 15,
+        borderRadius: 10,
+        marginTop: 40, paddingLeft: 15
+    },
+    messageButton: {
+        width: 149, height: 45,
+        flexDirection: "row",
+        borderRadius: 10,
+        backgroundColor: Colors.bottonColors,
+         justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "flex-end",
+        marginRight: 15, marginTop: 20
+    },
+    messageButtonText: {
+        color: Colors.white,
+        fontSize: Fontsize.fontFifteen
+    }
 
 
 

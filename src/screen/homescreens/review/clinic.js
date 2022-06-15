@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import {
     View,
     Text,
@@ -11,8 +11,8 @@ import {
     Image,
     FlatList
 } from 'react-native';
+import { ApiCall, SortUrl, CustomLoader, Constants, AsyncStorageHelper } from '@lib';
 import { TextInput } from 'react-native-gesture-handler';
-import LinearGradient from 'react-native-linear-gradient';
 import Imagepath from '../../../common/imagepath';
 import { useNavigation } from '@react-navigation/native';
 import CustomDropDown from '../../../common/CustomDropDown';
@@ -24,11 +24,11 @@ export default  Clinic = ({  }) => {
     const [mark, setMark] = useState()
     const [DropDownSec, setDropDownSec] = useState(false);
     const [selectvalue, setselectvalue] = useState('Select');
+    const [recomendation, setRecomendation] = useState();
     const onChangesecond=(value)=> {
         setDropDownSec(!DropDownSec)
         setselectvalue(value)
       }
-    
    const onPickersecond = () => {
       setDropDownSec(!DropDownSec)
 }
@@ -36,6 +36,35 @@ export default  Clinic = ({  }) => {
         setMark(!mark)
     }
     let DishesData= [{ label: 'First Choice', value: '5 Star', }, { label: 'Second Choice', value: '4 Star', }, { label: 'Third Choice', value: '3 Star', }, { label: 'Maybe', value: '2 Star', },{ label: 'Emergency only', value: '1 Star', }]
+   
+    useEffect( async () => {
+        const UserData = await AsyncStorageHelper.getData(Constants.USER_DATA)
+            console.log(UserData,"anil_____________________++++++++++++++");
+        },
+         []);
+
+
+    const Call_ClinicialApi = () => {
+        let data = {
+            id: 5,
+            review_type: "Clinical",
+            // rate: ,
+            review: recomendation,
+            is_anonym: 1,
+        };
+        // alert("message")
+
+        ApiCall.ApiMethod(SortUrl.Login, 'POST', data).then(
+            (response) => {
+                // alert(JSON.stringify(response))
+                if (response.status == true) {
+                    // navigation.navigate("BottomTap")
+                } else {
+                    ToastMessage("Error in fetching child categories");
+                }
+            }
+        );
+    }
 
     return (
         <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
@@ -67,6 +96,8 @@ export default  Clinic = ({  }) => {
                     style={{ paddingLeft: 15,height: 120, borderColor: "CECECE", borderWidth: 0.5, width:"90%", alignSelf:"center", borderRadius: 10, marginTop: 10,   textAlign:"center",fontFamily:Fonts.ProximaNovaSemibold  }}
                     keyboardType='default'
                     numberOfLines={20}
+                    onChangeText={(text) => {setRecomendation(text) }}
+                    // onChangeText={(text) => { setemail(text) }}
                     
                     
                 />
@@ -79,7 +110,7 @@ export default  Clinic = ({  }) => {
                 <Text style={{ fontSize: 15, color: "#000000",fontFamily:Fonts.ProximaNovaRegular }} >Keep this feedback publicity anonymous</Text>
             </View>
 
-            <TouchableOpacity onPress={()=>RateReview_CallApi()} style={{ backgroundColor: "#245FC7", height: 50, justifyContent: "center", alignItems: "center", borderRadius: 10, width:"90%", alignSelf:"center", marginVertical: 10 }}>
+            <TouchableOpacity onPress={()=>Call_ClinicialApi()} style={{ backgroundColor: "#245FC7", height: 50, justifyContent: "center", alignItems: "center", borderRadius: 10, width:"90%", alignSelf:"center", marginVertical: 10 }}>
                 <Text style={{ fontSize: 16, color: "#FFFFFF", fontFamily:Fonts.ProximaNovaSemibold }}>SUBMIT</Text>
             </TouchableOpacity>
         </ImageBackground>

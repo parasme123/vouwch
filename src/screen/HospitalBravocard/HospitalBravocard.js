@@ -12,6 +12,7 @@ import SortUrl from '../../Lib/SortUrl';
 import CustomLoader from '../../Lib/CustomLoader';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
+import {Bravocard} from '@component'
 export default Hospotalbravocard = (props) => {
     const [loaderVisible, setloaderVisible] = useState(false)
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
@@ -26,7 +27,6 @@ export default Hospotalbravocard = (props) => {
         setModalVisible(!modalVisible)
 
     }
-    // console.log ("message------",MessagepropPage)
     const CommentpropPage = (item) => {
         setcommentModalPopup(!commentModalPopup)
         setModalVisibleComment(!modalVisibleComment)
@@ -83,44 +83,18 @@ export default Hospotalbravocard = (props) => {
     // Card DATA Content
     const Card = ({ item, index }) => {
         return (
-            <TouchableOpacity onPress={() => { navigation.navigate('Bravocard') }} style={[styles.cardContainer, index % 2 != 0 ? { backgroundColor: "#FEF8E4"
-             } : null]}>
-                <View style={styles.cardIconView} >
-                    <Image style={styles.cardIcon} source={Imagepath.Bravo} />
-                </View>
-                {/* Button of Share , Comment and Mesage */}
-                <View style={styles.shareCardView}>
-                    <TouchableOpacity style={styles.shareButton} onPress={() => CommentpropPage(item.id)}>
-                        <Image style={styles.shareButtonImage} source={Imagepath.commenticon} />
-                        <Text style={styles.shareButtonText}>Comment</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.shareButton} onPress={() => MessagepropPage(item.id)}>
-                        <Image style={styles.shareButtonImage} source={Imagepath.Messageicon} />
-                        <Text style={styles.shareButtonText}>Message</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.shareButton} onPress={onShare}>
-                        <Image style={styles.shareButtonImage} source={Imagepath.Share} />
-                        <Text style={styles.shareButtonText}>share</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {/* Hospital name and details */}
-                <View style={styles.cardHospitalView}>
-                    <Text style={styles.hospitalName}>{item.hospital}</Text>
-                    <Text style={styles.cardHospitalViewText}>{item.detail}</Text>
-                    {/* photo & Videos Btn */}
-                    <View style={styles.cardHospitalViewButton}>
-                        <TouchableOpacity style={styles.cardPhotoButton}>
-                            <Image style={styles.cardPhotoImage} source={Imagepath.Photo} />
-                            <Text style={styles.cardPhotoVideoText}>Photo</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.videoButton}>
-                            <Image style={styles.cardVideoIcon} source={Imagepath.Video} />
-                            <Text style={styles.cardPhotoVideoText}>Video</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </TouchableOpacity>
+           
+                <Bravocard
+                bravo_Card_name={item.name}
+                bravo_Card_Details={item.department}
+                onpress_Comment={CommentpropPage}
+                onpress_Message={MessagepropPage}
+                onpress_Share={onShare}
+                item={item}
+                index={index}
+            // onpress_Photo={}
+            // onpress_Video={}
+            />
         )
     }
 
@@ -130,7 +104,7 @@ export default Hospotalbravocard = (props) => {
         <ImageBackground
             source={Imagepath.homebg}
             resizeMode='cover'
-            style={{ flex: 1, }} >
+            style={styles.image} >
             <Header title={String.Bravocard} isback={true} />
             <ScrollView
                 showsVerticalScrollIndicator={false}

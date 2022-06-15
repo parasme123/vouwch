@@ -22,12 +22,7 @@ import Feedbackpage from './feedbackpage';
 // import { useNavigation } from '@react-navigation/native'; 
 import Fonts from '../../../common/Fonts';
 import { ApiCall, SortUrl, CustomLoader, Constants, AsyncStorageHelper } from '@lib';
-// import ApiCall from '../../../Lib/ApiCall';
-// import SortUrl from '../../../Lib/SortUrl';
-// import CustomLoader from '../../../Lib/CustomLoader';
 import Colors from '../../../common/Colors';
-// import AsyncStorageHelper from '../../../Lib/AsyncStorageHelper';
-// import Constants from '../../../Lib/Constants';
 
 const Doctordetails = ({ route }) => {
 
@@ -36,7 +31,6 @@ const Doctordetails = ({ route }) => {
     const person = route.params ? route.params.person : false;
     const personRed = route.params ? route.params.personRed : false;
     const doctorId = route.params ? route.params.doctorId : 0;
-    // const  detail  = route.params?route.params.detail:0;
 
 
     const [About, setAbout] = useState(person);
@@ -46,6 +40,7 @@ const Doctordetails = ({ route }) => {
     const [loaderVisible, setloaderVisible] = useState()
     const [Feedback, setFeedback] = useState(personRed);
     const [DoctorCardDetails, setDoctorCardDetails] = useState();
+    const [userType, setuserType] = useState();
 
     const Aboutus = () => {
         setAbout(true)
@@ -82,22 +77,32 @@ const Doctordetails = ({ route }) => {
         setBusiness(false)
         setFeedback(true)
     }
+    const AddReview =()=>{
+        if (userType !== 2 ){
+            navigation.navigate('rate', { detail: doctorId })
+        }else{
+                alert("you are not able to give a review")
+        }
+    }
 
-    useEffect(() => {
+    useEffect( () => {
         Call_CategouryApi();
         AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
             if (value !== null) {
-                // We have data!!
+                // We have data!!of user 
                 console.log("AsyncStorageHelper : ", value);
-            }
+            }setuserType(value?.user_type)
+            console.log("anil_____________________++++++++++++++",userType);
     
         })
     }, []);
+
     const Call_CategouryApi = () => {
         const data = {
-            id: doctorId.id
+            id: doctorId
             // id: 2
         }
+        console.log("doctorId======", doctorId);
         // setloaderVisible(true)
         ApiCall.ApiMethod(SortUrl.DoctorDetail, 'POST', data).then(
             (response) => {
@@ -127,7 +132,7 @@ const Doctordetails = ({ route }) => {
                     </TouchableOpacity>
                     {/* Doctor detail Card */}
                     <View style={styles.DoctordetailsCard}>
-                        <Text style={styles.dactorName}>{doctorId?.name} </Text>
+                        <Text style={styles.dactorName}>{DoctorCardDetails?.business_name} </Text>
                         <Text style={styles.doctorSpacilist}>{doctorId?.description}</Text>
                         <View style={styles.redstarView}>
                             <View style={styles.ratingView}>
@@ -153,7 +158,7 @@ const Doctordetails = ({ route }) => {
                             <View style={styles.yellowStarSubview}>
                                 <Text style={styles.ratingNumber}>3.2
                                     <Text style={styles.clinicianReview}>Patient Review</Text></Text>
-                                <TouchableOpacity onPress={() => navigation.navigate('rate', { detail: doctorId })} style={styles.yellowstarButton}>
+                                <TouchableOpacity onPress={() => { AddReview() } } style={styles.yellowstarButton}>
                                     <Image source={Imagepath.mess}
                                         style={styles.yellowStarSubviewIcon} />
                                     <Text style={styles.yellowStarSubviewIconTExt}>Add review</Text>
