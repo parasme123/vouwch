@@ -26,7 +26,7 @@ const Home = () => {
     const [commentModalPopup, setcommentModalPopup] = useState()
     const [Follows, setFollow] = useState([]);
     const [followDetails, setFollowDetails] = useState();
-    const [searchData, setSearchData] = useState([]);
+    const [searchData, setSearchData] = useState();
     const [userType, setuserType] = useState();
     const [userToken, setuserToken] = useState();
 
@@ -182,13 +182,11 @@ const Home = () => {
 
     const categoriesItemData = ({ item, index }) => {
         return (
-            <TouchableOpacity key={item.id}
-                style={styles.categoFlatelistView} >
+            <TouchableOpacity key={item.id}  style={styles.categoFlatelistView} >
                 <Text style={styles.categoFlatelistViewText} > {item.name} </Text>
             </TouchableOpacity>
         )
     }
-
 
     const DoctorNavigation = (item) => {
         navigation.navigate('Doctordetails',  { person: true, doctorId: DoctorCardList.id,  })

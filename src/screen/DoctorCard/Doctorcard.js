@@ -93,7 +93,7 @@ export const Doctor_Card = () => {
 
                 if (response.status == true) {
                     setloaderVisible(false)
-                    setDoctorCardList(response.data.services)
+                    setDoctorCardList(response?.data?.data)
                     // setCall(response.data.cards)
                 } else {
                     setloaderVisible(false)
@@ -132,12 +132,12 @@ export const Doctor_Card = () => {
                     // onpress_DoctorCard_Follow={Follow_api}
                     item={item}
                     index={index}
-                    Doctor_business_name={item?.name}
+                    Doctor_business_name={item?.business_name}
                     Doctorcard_Details={item?.description}
                     Clinician_Rating={item?.clinical_rate}
+                    ClinicianReview_Value={item?.clinical_rate}
                     patient_Rating={item?.patient_rate}
                     startingValue={item?.patient_rate}
-                    ClinicianReview_Value={3}
                 />
         )
     }

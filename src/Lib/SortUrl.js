@@ -7,7 +7,7 @@ const SortUrl = {
   VarifyOTP:"api/confirm-otp",
   ResetPassword:"api/reset-password",
   HomeData:"api/get-home-data",
-  AllServices:"api/get-services",
+  AllServices:"api/all-doctor-list",
   AllCards:"api/get-cards",
   SetDoctorAccount:"api/set-doctor-account",
   searchDoctor:"api/get-doctors",
