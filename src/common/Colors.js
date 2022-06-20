@@ -1,7 +1,7 @@
 const Colors = {
     appcolor: '#245FC7',
     white: "#fff",
-    // grey: '#a3a3a3',
+    darkgreydark: '#a3a3a3',
     headtext: '#8b959a',
     bottonColors: '#245FC7',
     textcolor: '#696969',

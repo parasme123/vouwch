@@ -2,6 +2,7 @@ const Constants = {
   AppName: "Doctor",
   Base_Url: "https://apponedemo.top/vouwch/",
   Image_Url: "https://apponedemo.top/vouwch/",
+  Video_Url: "https://apponedemo.top/vouwch/",
   google_place_api_key: "",
 
   //Methods Apis

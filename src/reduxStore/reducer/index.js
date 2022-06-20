@@ -2,8 +2,12 @@ import ChangeTheNumber from "./upDown";
 
 import { combineReducers } from "redux";
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     ChangeTheNumber
 })
 
-export default rootReducer;
+//  default rootReducer;
+
+
+import _mainReducer from "./rateReview";
+export const mainReducer = _mainReducer;

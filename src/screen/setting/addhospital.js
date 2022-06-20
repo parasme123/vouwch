@@ -98,7 +98,7 @@ const Addhospital = () => {
 
 const styles = StyleSheet.create({
     imagebg: { flex: 1 },
-    textInputHeader: { color: "#000", fontSize: 12, marginHorizontal: 20, fontFamily:Fonts.ProximaNovaMedium, marginBottom: 5,marginTop:10  },
+    textInputHeader: { color: "#000", fontSize: 16, marginHorizontal: 20, fontFamily:Fonts.ProximaNovaBold, marginBottom: 5,marginTop:10  },
     textInput: { borderWidth: 1, borderColor: "#CECECE", fontSize: 15, borderRadius: 10, marginHorizontal: 20, paddingLeft: 10,height:45, fontFamily:Fonts.ProximaNovaLight },
     button: { marginHorizontal: 20, backgroundColor:Colors.appcolor, height: 45, justifyContent: "center", alignItems: "center", borderRadius: 10, marginTop: 15 },
     textButton: { color: '#fff', fontSize: 16,fontFamily:Fonts.ProximaNovaMedium }

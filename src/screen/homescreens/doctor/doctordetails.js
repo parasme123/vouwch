@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import Imagepath from '../../../common/imagepath';
 import { useNavigation } from '@react-navigation/native';
+import { Rating, AirbnbRating } from 'react-native-ratings';
+
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ServicesPage from './ServicesPage';
 import Locationn from './Locationn';
@@ -23,6 +25,7 @@ import Feedbackpage from './feedbackpage';
 import Fonts from '../../../common/Fonts';
 import { ApiCall, SortUrl, CustomLoader, Constants, AsyncStorageHelper } from '@lib';
 import Colors from '../../../common/Colors';
+import Fontsize from '../../../common/Fontsize';
 
 const Doctordetails = ({ route }) => {
 
@@ -30,8 +33,7 @@ const Doctordetails = ({ route }) => {
 
     const person = route.params ? route.params.person : false;
     const personRed = route.params ? route.params.personRed : false;
-    const doctorId = route.params ? route.params.doctorId : 0;
-
+    const doctorId = route.params ? route.params.doctorId : null;
 
     const [About, setAbout] = useState(person);
     const [Service, setService] = useState();
@@ -77,38 +79,40 @@ const Doctordetails = ({ route }) => {
         setBusiness(false)
         setFeedback(true)
     }
-    const AddReview =()=>{
-        if (userType !== 2 ){
+    const AddReview = () => {
+        if (userType !== 2) {
             navigation.navigate('rate', { detail: doctorId })
-        }else{
-                alert("you are not able to give a review")
+        } else {
+            alert("you are not able to give a review")
         }
     }
 
-    useEffect( () => {
+    useEffect(() => {
+        console.log("anil______doctorId_______________++++++++++++++", doctorId);
         Call_CategouryApi();
         AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
             if (value !== null) {
                 // We have data!!of user 
                 console.log("AsyncStorageHelper : ", value);
-            }setuserType(value?.user_type)
-            console.log("anil_____________________++++++++++++++",userType);
-    
+            } setuserType(value?.user_type)
+            // console.log("anil______doctorId_______________++++++++++++++",doctorId);
+
         })
     }, []);
 
     const Call_CategouryApi = () => {
         const data = {
             id: doctorId
-            // id: 2
+
+
         }
-        console.log("doctorId======", doctorId);
+        console.log("doctorId data======", doctorId);
         // setloaderVisible(true)
         ApiCall.ApiMethod(SortUrl.DoctorDetail, 'POST', data).then(
             (response) => {
                 if (response.status == true) {
                     // setloaderVisible(false)
-                    setDoctorCardDetails(response.data)
+                    setDoctorCardDetails(response.data?.business)
                     // console.log(DoctorCardDetails,"response===========")
                     // setCall(response.data.cards)
                 } else {
@@ -133,38 +137,56 @@ const Doctordetails = ({ route }) => {
                     {/* Doctor detail Card */}
                     <View style={styles.DoctordetailsCard}>
                         <Text style={styles.dactorName}>{DoctorCardDetails?.business_name} </Text>
-                        <Text style={styles.doctorSpacilist}>{doctorId?.description}</Text>
-                        <View style={styles.redstarView}>
-                            <View style={styles.ratingView}>
-                                <Image style={styles.star} source={Imagepath.redstar} />
-                                <Image style={styles.star} source={Imagepath.redstar} />
-                                <Image style={styles.star} source={Imagepath.redstar} />
-                                <Image style={styles.star} source={Imagepath.redstar} />
-                                <Image style={styles.star} source={Imagepath.redstar} />
-                            </View>
-                            <Text style={styles.ratingNumber}>3.2
-                                <Text style={styles.clinicianReview}>Clinician's Review</Text></Text>
-                        </View>
+                        <Text style={styles.doctorSpacilist}>{DoctorCardDetails?.category?.name}</Text>
+                        <View style={{flexDirection:"row",}} >
+                            <View style={{flex:1}}>
+                                <View style={styles.ratingViewRed}>
+                                    <View style={styles.ratingViewmain}>
+                                        <Rating
+                                            type='custom'
+                                            max={5}
+                                            readonly="true"
+                                            ratingColor={Colors.red}
+                                            ratingBackgroundColor={Colors.white}
+                                            startingValue={DoctorCardDetails?.clinical_rate}
+                                            imageSize={10}
+                                            iconWidth={10}
+                                            iconHeight={10}
+                                        />
+                                    </View>
+                                    <Text style={styles.ratingText}>{DoctorCardDetails?.clinical_rate}
+                                        <Text style={styles.clinicianReview}> Clinician's Review</Text>
+                                    </Text>
+                                </View>
 
-                        {/* yellow Star Line */}
-                        <View style={styles.yellowStarview}>
-                            <View style={styles.ratingView}>
-                                <Image style={styles.star} source={Imagepath.yellowstar} />
-                                <Image style={styles.star} source={Imagepath.yellowstar} />
-                                <Image style={styles.star} source={Imagepath.yellowstar} />
-                                <Image style={styles.star} source={Imagepath.yellowstar} />
-                                <Image style={styles.star} source={Imagepath.yellowstar} />
+                                {/* yellow Star Line */}
+                                <View style={styles.yellowstarview} >
+                                    {/* onPress={() => navigation.navigate('Doctordetails', { personRed: true })} */}
+                                    <View style={styles.ratingViewmain}>
+                                        <Rating
+                                            max={5}
+                                            readonly="true"
+                                            startingValue={DoctorCardDetails?.patient_rate}
+                                            imageSize={10}
+                                            iconWidth={10}
+                                            iconHeight={10}
+                                        />
+                                    </View>
+                                    <Text style={styles.ratingText}>{DoctorCardDetails?.patient_rate}
+                                        <Text style={styles.clinicianReview}> Patient Review</Text></Text>
+
+                                </View>
                             </View>
-                            <View style={styles.yellowStarSubview}>
-                                <Text style={styles.ratingNumber}>3.2
-                                    <Text style={styles.clinicianReview}>Patient Review</Text></Text>
-                                <TouchableOpacity onPress={() => { AddReview() } } style={styles.yellowstarButton}>
+                            <View style={{ flexDirection:"column-reverse"}}>
+                                <TouchableOpacity onPress={() => { AddReview() }} style={styles.yellowstarButton}>
                                     <Image source={Imagepath.mess}
                                         style={styles.yellowStarSubviewIcon} />
-                                    <Text style={styles.yellowStarSubviewIconTExt}>Add review</Text>
+                                    <Text style={styles.yellowStarSubviewIconTExt}> Add review</Text>
                                 </TouchableOpacity>
                             </View>
+
                         </View>
+
                     </View>
 
                     {/* tab View */}
@@ -210,11 +232,10 @@ const Doctordetails = ({ route }) => {
                         }
 
                     </View>
-
                 </View>
             </ScrollView>
             {/* <CustomLoader loaderVisible={loaderVisible} /> */}
-        </ImageBackground>
+        </ImageBackground >
 
     );
 }
@@ -234,7 +255,7 @@ const styles = StyleSheet.create({
     backIcon: { height: 21, width: 32 },
     DoctordetailsCard: { backgroundColor: "#E7F6FC", width: "90%", justifyContent: "center", paddingHorizontal: 20, borderRadius: 20, alignSelf: "center", marginTop: -65, paddingVertical: 15 },
     dactorName: { color: "#000000", fontSize: 20, fontFamily: Fonts.ProximaNovaBold, marginBottom: 5 },
-    doctorSpacilist: { color: "#858585", fontSize: 15, fontFamily: Fonts.ProximaNovaMedium },
+    doctorSpacilist: { color: "#858585", fontSize: 15, fontFamily: Fonts.ProximaNovaMedium, marginBottom: 5 },
     redstarView: { width: "85%", flexDirection: "row", marginVertical: 5 },
     ratingView: { height: 15, width: 45, backgroundColor: "#ffffff", flexDirection: "row", justifyContent: "space-around", alignItems: "center", borderRadius: 10, paddingHorizontal: 5 },
     star: { height: 6, width: 6 },
@@ -245,7 +266,36 @@ const styles = StyleSheet.create({
     yellowStarSubviewIcon: { height: 12, width: 12 },
     yellowStarSubviewIconTExt: { color: "#ffffff", fontSize: 10, paddingLeft: 10, fontFamily: Fonts.ProximaNovaMedium },
     yellowStarview: { width: "100%", flexDirection: "row", alignItems: "center" },
-
     tabviewDetails: { width: "90%", backgroundColor: "#ffffff", alignSelf: "center", marginTop: 15, borderRadius: 10, elevation: 5 },
+
+
+
+    ratingViewRed: {
+        flexDirection: "row",
+        marginVertical: 10, alignItems: "center"
+    },
+    ratingViewmain: {
+        backgroundColor: Colors.white,
+        flexDirection: "row", alignItems: "center",
+        borderRadius: 10, flex: 1,
+        justifyContent: "center",
+        paddingHorizontal: 15,
+        paddingVertical: 5
+    },
+    ratingText: {
+        color: Colors.black,
+        fontSize: Fontsize.fontTwelve, lineHeight: 15,
+        fontFamily: Fonts.ProximaNovaMedium,
+        marginLeft: 10, flex: 5
+    },
+    clinicianReview: {
+        color: Colors.darkGrey,
+        fontSize: Fontsize.fontTwelve,
+        lineHeight: 15, fontFamily: Fonts.ProximaNovaRegular
+    },
+    yellowstarview: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
 
 })

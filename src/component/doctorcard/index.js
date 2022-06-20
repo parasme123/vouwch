@@ -13,7 +13,7 @@ export default Doctorcard = (props) => {
         <TouchableOpacity
             key={props.item.id}
             // onPress={() => { userType?.user_token && userType?.user_type == 1 ? navigation.navigate('Doctordetails', { person: true }) : alert("Please login with Personal Account") }}
-            onPress={() => { props.onpress_DoctorCard() }}
+            onPress={() => { props.onpress_DoctorCard(props.item.id) }}
             style={[styles.doctorCardContainer, { backgroundColor: props.index % 2 == 0 ? "#D7EFFB" : "#FBEBE2" }]}>
             <Image style={styles.doctorCardIcon} source={Imagepath.doctors} />
             {/* Button of Share , Comment and Mesage */}
@@ -21,6 +21,7 @@ export default Doctorcard = (props) => {
                 <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { props.onpress_Comment(props.item.id) }}>
                     <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.commenticon} />
                     <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>Comment</Text>
+                    
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.DoctorCardShareButton} onPress={() => { props.onpress_Message(props.item.id) }}>
                     <Image style={styles.DoctorCardShareButtonIcon} source={Imagepath.Messageicon} />

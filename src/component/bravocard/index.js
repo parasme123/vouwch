@@ -8,9 +8,10 @@ import Imagepath from '../../common/imagepath';
 import Colors from '../../common/Colors';
 
 export  default Bravocard =(props)=> {
+
     
         return (
-            <View key={props.key}
+            <View key={props.item.id}
             style={[styles.cardContainer, { backgroundColor: props.index % 2 == 0 ? Colors.lightBlue : Colors.skinColor }]}>
             <View style={styles.cardIconView} >
                 <Image style={styles.cardIcon} source={Imagepath.Bravo} />

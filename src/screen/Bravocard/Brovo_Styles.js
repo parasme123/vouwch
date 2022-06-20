@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { Fontsize, Colors , Fonts} from '@common';
+import { Fontsize, Colors , } from '@common';
+import Fonts from "../../common/Fonts";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -29,7 +30,7 @@ const Brovo_Styles = StyleSheet.create({
     },
     TextStyles: {
         fontSize: Fontsize.fontSixteen, color: Colors.black,
-        fontFamily: Fonts.ProximaNovaMedium
+        fontFamily: Fonts.ProximaNovaBold
     },
     PhotoText: {
         fontSize: Fontsize.fontFourteen,

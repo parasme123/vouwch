@@ -12,11 +12,14 @@ import SortUrl from '../../Lib/SortUrl';
 import CustomLoader from '../../Lib/CustomLoader';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
-import { DoctorCard } from "@component";
+import { DoctorCard,Searchresult } from "@component";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-let STORAGE_KEY = '@user_input';
+import { forHorizontalIOS } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/CardStyleInterpolators';
+// let STORAGE_KEY = '@user_input';
 
-export const Doctor_Card = () => {
+export const Doctor_Card = ({ route }) => {
+    const searchProps = route.params ? route.params.searchProps : null;
+
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisibleMessage, setModalVisibleMessage] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -26,7 +29,7 @@ export const Doctor_Card = () => {
     const [ReviewModalPopup, setReviewModalPopup] = useState()
     const [commentModalPopup, setcommentModalPopup] = useState()
     const [followDetails, setFollowDetails] = useState();
-    const [input, setInput] = useState('');
+    const [searchComponent, setsearchComponent] = useState(false);
 
     // const saveData = async () => {
     //     try {
@@ -47,6 +50,9 @@ export const Doctor_Card = () => {
         console.log("item", item)
     }
 
+    const Component_search = () => {
+        setsearchComponent(!searchComponent)
+    }
 
 
     const FollowButton = (item) => {
@@ -61,7 +67,12 @@ export const Doctor_Card = () => {
     }
 
     useEffect(() => {
-        Call_CategouryApi();
+        if (searchProps == null) {
+            Call_CategouryApi();
+        }
+        else {
+            Call_SearchApi();
+        }
     }, []);
 
     const navigation = useNavigation();
@@ -85,7 +96,7 @@ export const Doctor_Card = () => {
             alert(error.message);
         }
     };
-    // api   Doctor Card
+    // api  of all Doctor Card
     const Call_CategouryApi = () => {
         setloaderVisible(true)
         ApiCall.ApiMethod(SortUrl.AllServices, 'GET',).then(
@@ -97,10 +108,33 @@ export const Doctor_Card = () => {
                     // setCall(response.data.cards)
                 } else {
                     setloaderVisible(false)
+                    // setDoctorCardList([])
                 }
             }
         );
     }
+
+        // Search API
+        const Call_SearchApi = () => {
+            setloaderVisible(true)
+            const data = {
+                keyword: searchProps,
+            }
+            ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
+                (response) => {
+                    if (response?.data?.data?.length > 0) {
+                        setloaderVisible(false);
+                        setDoctorCardList(response?.data?.data)
+                    } else {
+                        // setDoctorCardList([])
+                        setloaderVisible(false)
+                        Component_search()
+                    }
+                }
+            );
+        };
+
+
     // follow Api
     const Call_FollowApi = () => {
         const data = {
@@ -108,9 +142,10 @@ export const Doctor_Card = () => {
         }
         ApiCall.ApiMethod(SortUrl.Follow, 'POST', data).then(
             (response) => {
+                console.log(response, "response===========")
                 if (response.status == true) {
                     // setFollowDetails(response.data)
-                    // console.log(followDetails, "response===========")
+
                     FollowButton(item.id);
                 } else {
                     alert("something went wrong")
@@ -119,26 +154,30 @@ export const Doctor_Card = () => {
         );
     }
 
+
+
+
     // Doctor CARDS
     const DoctorCard_Cards = ({ item, index }) => {
         return (
-           
-                  <DoctorCard
-                    onpress_Comment={CommentpropPage}
-                    onpress_Message={MessagepropPage}
-                    onpress_Share={onShare}
-                    // user_Type={userType}
-                    // Follows={Follows}
-                    // onpress_DoctorCard_Follow={Follow_api}
-                    item={item}
-                    index={index}
-                    Doctor_business_name={item?.business_name}
-                    Doctorcard_Details={item?.description}
-                    Clinician_Rating={item?.clinical_rate}
-                    ClinicianReview_Value={item?.clinical_rate}
-                    patient_Rating={item?.patient_rate}
-                    startingValue={item?.patient_rate}
-                />
+
+            <DoctorCard
+                onpress_Comment={CommentpropPage}
+                onpress_Message={MessagepropPage}
+                onpress_Share={onShare}
+                // user_Type={userType}
+                // Follows={Follows}
+                // onpress_DoctorCard_Follow={Follow_api}
+                item={item}
+                index={index}
+                Doctor_business_name={item?.business_name}
+                Doctorcard_Details={item?.category?.name}
+                Clinician_Rating={item?.clinical_rate}
+                ClinicianReview_Value={item?.clinical_rate}
+                patient_Rating={item?.patient_rate}
+                startingValue={item?.patient_rate}
+                
+            />
         )
     }
 
@@ -162,7 +201,7 @@ export const Doctor_Card = () => {
                     showsVerticalScrollIndicator={false}
 
                 />
-              
+
 
 
                 {ReviewModalPopup &&
@@ -176,6 +215,11 @@ export const Doctor_Card = () => {
                         modalVisible={modalVisibleComment}
                         Hidemodal={CommentpropPage}
                     />
+                }
+
+                {searchComponent &&
+
+                    <Searchresult />
                 }
 
 

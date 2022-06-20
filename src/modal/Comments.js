@@ -8,6 +8,7 @@ import { Fontsize, Colors } from '@common';
 
 export default Comments = (props) => {
     const navigation = useNavigation();
+    const [message_Text, setmessage_Text] = useState();
     // const [modalVisibleComment, setModalVisibleComment] = useState();
     return (
         <View  style={{ flex: 1 }}>
@@ -40,8 +41,10 @@ export default Comments = (props) => {
                             style={styles.textInput}
                             placeholder="Enter Comment"
                             keyboardType="default"
+                            onChangeText={(text) => setmessage_Text(text)}
+
                             />
-                            <TouchableOpacity onPress={()=>{navigation.navigate('rate')}} style={styles.messageButton}>
+                            <TouchableOpacity onPress={()=>props.Message_Button(message_Text)} style={styles.messageButton}>
                                 <Text style={styles.messageButtonText}>Send Comment</Text>
                             </TouchableOpacity>
                         </View>
