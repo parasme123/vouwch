@@ -9,12 +9,12 @@ import Account from '../screen/setting/account';
 import Profile from '../screen/setting/profile';
 import Welcome from '../screen/welcome/welcome';
 
-export const bottomtab = (props) => {
+export const Bottomtab = (props) => {
   const[Position_Center,setPosition_Center]=useState(false)
   const [modalVisible, setModalVisible] = useState(false);
-  useEffect(()=>{},[])
+  // useEffect(()=>{},[])
   const _renderIcon = (routeName, selectedTab) => {
-    console.log('routeName',routeName)
+    // console.log('routeName',routeName)
     let icon = '';
 
     switch (routeName) {
@@ -44,7 +44,7 @@ export const bottomtab = (props) => {
     );
   };
   const renderTabBar = ({ routeName, selectedTab, navigate }  ) => {
-    console.log('routeName===>>>>>',routeName, selectedTab, navigate)
+    // console.log('routeName===>>>>>',routeName, selectedTab, navigate)
     return (
       <TouchableOpacity
         onPress={() => navigate(routeName)}
@@ -94,7 +94,7 @@ export const bottomtab = (props) => {
         />
         <CurvedBottomBar.Screen
           name="Account"
-          component={()=><Welcome {...props} />}
+          component={()=><Welcome />}
           position="left"
         /> 
     
@@ -102,12 +102,14 @@ export const bottomtab = (props) => {
           name="Notification"
           component={()=><Notification {...props} /> }
           position="right"
+          
         />
 
      <CurvedBottomBar.Screen
           name="Settingprofile"
-          component={()=><Profile {...props} /> }
+          component={()=><Profile  {...props} /> }
           position="right"
+          
         />
       </CurvedBottomBar.Navigator>
       <View style={{position:'absolute'}}>
@@ -216,4 +218,4 @@ buttonTwo:{ width: 149, height: 45, flexDirection: "row", borderRadius: 10, back
 buttonTwoText:{ color: "#fff", fontSize: 15, marginLeft: 5, }
 
 });
-export default bottomtab
+export default Bottomtab

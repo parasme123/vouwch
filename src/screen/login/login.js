@@ -22,7 +22,7 @@ import SortUrl from '../../Lib/SortUrl';
 import Constants from '../../Lib/Constants';
 import CustomLoader from '../../Lib/CustomLoader';
 import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
-import { handleNavigation } from '../../navigator/navigator';
+import { handleNavigation } from '../../navigator/Navigator';
 import Colors from '../../common/Colors';
 import Fontsize from '../../common/Fontsize';
 

@@ -16,11 +16,13 @@ import MessageBox from '../../common/MessegeBox';
 import Colors  from '../../common/Colors';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import {incNumber, decNumber } from '../../reduxStore/action/index'
+// import {incNumber, decNumber } from '../../reduxStore/action/DoctorAction';
+// import {add_message} from '../../reduxStore/action/DoctorAction'
 
 const Comment = ({ navigation }) => {
     // redux
     const myState = useSelector((state)=>state.ChangeTheNumber )
+
     const dispatch = useDispatch();
     // 
     const [NotificationList, setNotificationList] = useState([1, 2, 3, 4]);
@@ -47,7 +49,7 @@ const Comment = ({ navigation }) => {
                     <Image style={styles.replyIcon} source={Imagepath.forwordIcon} />
                     <Text style={styles.mesageText}>Hello</Text>
                 </View> */}
-                <View style={{flexDirection:"row", alignItems:"center", backgroundColor:"red", flex:1,justifyContent:"center"}}>
+                {/* <View style={{flexDirection:"row", alignItems:"center", backgroundColor:"red", flex:1,justifyContent:"center"}}>
                 <TouchableOpacity  onPress={()=>dispatch(incNumber(index==index))} style={{backgroundColor:"green", paddingHorizontal:20}}>
                     <Text style={{fontSize:20,color:"#000"}}>+</Text>
                     </TouchableOpacity>
@@ -55,7 +57,7 @@ const Comment = ({ navigation }) => {
                     <TouchableOpacity  onPress={()=>dispatch(decNumber(index==index))}   style={{backgroundColor:"green", paddingHorizontal:20}}>
                     <Text style={{fontSize:20,color:"#000"}}>-</Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
                 </View>
                 {DropDownSec &&
                     <MessageBox />

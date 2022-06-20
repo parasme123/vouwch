@@ -136,8 +136,10 @@ const Home = () => {
 
 
     // Search API
+
     const Call_SearchApi = (searchProps) => {
         navigation.navigate('DoctorCard', { searchProps })
+        
     }
 
     // Message API
@@ -147,10 +149,10 @@ const Home = () => {
             doctor_id: msgDocId,
             detail: message_Text,
         }
-        console.log("message_Text------------------------",data);
+        // console.log("message_Text------------------------",data);
         ApiCall.ApiMethod(SortUrl.Message, 'POST', data).then(
             (response) => {
-                console.log("response=-------", response);
+                // console.log("response=-------", response);
 
                 if (response?.data?.detail?.length > 0) {
                     setloaderVisible(false);

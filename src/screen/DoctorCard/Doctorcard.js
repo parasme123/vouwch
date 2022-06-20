@@ -12,13 +12,15 @@ import SortUrl from '../../Lib/SortUrl';
 import CustomLoader from '../../Lib/CustomLoader';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
-import { DoctorCard,Searchresult } from "@component";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { forHorizontalIOS } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/CardStyleInterpolators';
+import { DoctorCard, Searchresult } from "@component";
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getDoctorData } from '../../reduxStore/action/doctorAction';
 // let STORAGE_KEY = '@user_input';
 
-export const Doctor_Card = ({ route }) => {
-    const searchProps = route.params ? route.params.searchProps : null;
+const Doctor_Card = (props, { route }) => {
+    const searchProps = props.route?.params ? props.route?.params?.searchProps : null;
 
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisibleMessage, setModalVisibleMessage] = useState(false);
@@ -31,15 +33,6 @@ export const Doctor_Card = ({ route }) => {
     const [followDetails, setFollowDetails] = useState();
     const [searchComponent, setsearchComponent] = useState(false);
 
-    // const saveData = async () => {
-    //     try {
-    //       await AsyncStorage.setDoctorCardList(STORAGE_KEY, id)
-    //       alert('Data successfully saved')
-    //     } catch (e) {
-    //       alert('Failed to save the data to the storage')
-    //     }
-    //   }
-
     const MessagepropPage = (item, Index) => {
         setReviewModalPopup(!modalVisible)
         setModalVisible(!modalVisible)
@@ -47,7 +40,7 @@ export const Doctor_Card = ({ route }) => {
     const CommentpropPage = (item) => {
         setcommentModalPopup(!commentModalPopup)
         setModalVisibleComment(!modalVisibleComment)
-        console.log("item", item)
+        // console.log("item", item)
     }
 
     const Component_search = () => {
@@ -67,6 +60,7 @@ export const Doctor_Card = ({ route }) => {
     }
 
     useEffect(() => {
+        console.log(searchProps,"searchProps----------------------");
         if (searchProps == null) {
             Call_CategouryApi();
         }
@@ -98,41 +92,39 @@ export const Doctor_Card = ({ route }) => {
     };
     // api  of all Doctor Card
     const Call_CategouryApi = () => {
-        setloaderVisible(true)
-        ApiCall.ApiMethod(SortUrl.AllServices, 'GET',).then(
-            (response) => {
+        let { actions } = props;
+        actions.getDoctorData();
+    }
 
-                if (response.status == true) {
-                    setloaderVisible(false)
+
+    
+    // Search API
+    // const Call_SearchApi = () => {
+    //     let { actions } = props;
+    //     actions.postDoctorSearch(searchProps);
+    // };
+
+
+
+    // // Search API
+    const Call_SearchApi = () => {
+        setloaderVisible(true)
+        const data = {
+            keyword: searchProps,
+        }
+        console.log(searchProps,"searchProps");
+        ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
+            (response) => {
+                if (response?.data?.data?.length > 0) {
+                    setloaderVisible(false);
                     setDoctorCardList(response?.data?.data)
-                    // setCall(response.data.cards)
                 } else {
                     setloaderVisible(false)
-                    // setDoctorCardList([])
+                    Component_search()
                 }
             }
         );
-    }
-
-        // Search API
-        const Call_SearchApi = () => {
-            setloaderVisible(true)
-            const data = {
-                keyword: searchProps,
-            }
-            ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
-                (response) => {
-                    if (response?.data?.data?.length > 0) {
-                        setloaderVisible(false);
-                        setDoctorCardList(response?.data?.data)
-                    } else {
-                        // setDoctorCardList([])
-                        setloaderVisible(false)
-                        Component_search()
-                    }
-                }
-            );
-        };
+    };
 
 
     // follow Api
@@ -176,7 +168,7 @@ export const Doctor_Card = ({ route }) => {
                 ClinicianReview_Value={item?.clinical_rate}
                 patient_Rating={item?.patient_rate}
                 startingValue={item?.patient_rate}
-                
+
             />
         )
     }
@@ -187,13 +179,11 @@ export const Doctor_Card = ({ route }) => {
             resizeMode='cover'
             style={styles.image} >
             <Header title={String.doctorcard} isback={true} />
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ flexGrow: 1 }}>
+          
                 {/* Header */}
 
                 < FlatList
-                    data={DoctorCardList}
+                    data={props.doctorList}
                     style={{ flex: 1 }}
                     renderItem={DoctorCard_Cards}
                     numColumns={2}
@@ -223,12 +213,22 @@ export const Doctor_Card = ({ route }) => {
                 }
 
 
-            </ScrollView>
+       
             <CustomLoader loaderVisible={loaderVisible} />
         </ImageBackground>
 
     );
 }
 
+const mapStateToProps = state => ({
+    doctorList: state.doctor.doctorList,
+});
 
+const ActionCreators = Object.assign(
+    { getDoctorData },
+);
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
 
+export default connect(mapStateToProps, mapDispatchToProps)(Doctor_Card)

@@ -7,7 +7,7 @@ import ApiCall from '../../Lib/ApiCall';
 import Constants from '../../Lib/Constants';
 import SortUrl from '../../Lib/SortUrl';
 import CustomLoader from '../../Lib/CustomLoader';
-import { handleNavigation } from '../../navigator/navigator';
+import { handleNavigation } from '../../navigator/Navigator';
 import styles from './css';
 const Signup = ({ navigation }) => {
     const [mark, setMark] = useState()

@@ -11,9 +11,6 @@ const Notification =( {navigation,route}) => {
     const [NotificationList, setNotificationList] = useState([1,2,3,4]);
     const  isTrue  = route.params?route.params.isTrue:false;
 
-    useEffect(() => {
-        
-    }, []);
 
     // api all Data list
     const Call_CategouryApi = () => {
