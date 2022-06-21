@@ -21,7 +21,7 @@ import { Header } from '../../common/Header';
 import Fonts from '../../common/Fonts';
 import Helper from '../../Lib/Helper';
 import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
-import { handleNavigation } from '../../navigator/navigator';
+import { handleNavigation } from '../../navigator/Navigator';
 import Constants from '../../Lib/Constants';
 import Colors from '../../common/Colors';
 // import styles from './styles';

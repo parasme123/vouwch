@@ -20,10 +20,10 @@ const Account = ({ navigation, }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [DropDownSec, setDropDownSec] = useState(false);
     const [selectvalue, setselectvalue] = useState('Select');
-    const [image, setImage] = useState('');
-    const [Location, setLocation] = useState('');
-    const [Hours, setHours] = useState('');
-    const [Aboutus, setAboutus] = useState('');
+    const [image, setImage] = useState();
+    const [userName, setuserName] = useState();
+    const [mailAddress, setmailAddress] = useState();
+    const [password, setpassword] = useState();
     const [Profilepic, setProfilepic] = useState('');
     const [loaderVisible, setloaderVisible] = useState(false)
     const [CateList, setCateList] = useState([])
@@ -66,9 +66,9 @@ const Account = ({ navigation, }) => {
 
     // const Signin_Validators=()=>{
     //     if(
-    //       Validators.checkNotNull("service_hours", Hours)&&
-    //       Validators.checkNotNull("service_location", Hours)&&
-    //       Validators.checkNotNull("about_us", Hours)
+    //       Validators.checkNotNull("service_mailAddress", mailAddress)&&
+    //       Validators.checkNotNull("service_location", mailAddress)&&
+    //       Validators.checkNotNull("about_us", mailAddress)
 
     //       ) {
     //         Account_SettingApi()    
@@ -101,9 +101,9 @@ const Account = ({ navigation, }) => {
     const Account_SettingApi = () => {
         let data = {
             services: CateId,
-            service_hours: Hours,
-            service_location: Location,
-            about_us: Aboutus,
+            service_mailAddress: mailAddress,
+            service_location: userName,
+            about_us: password,
             profile_picture: image,
         };
         setloaderVisible(true)
@@ -152,44 +152,30 @@ const Account = ({ navigation, }) => {
                 {/* Image Crop Picker */}
 
                 {/* details */}
-                <Text style={styles.textInputHeader}>Services</Text>
-                {/* <TouchableOpacity onPress={() => Get_Categroy()} style={styles.dropdownView} >
-                    <Text style={styles.dropdownText}>{selectvalue}</Text>
-                    <Image style={styles.downArrow} source={Imagepath.down} resizeMode='contain' />
-                </TouchableOpacity> */}
-                <View style={{ marginHorizontal: 20, borderColor: "#CECECE", borderWidth: 1, borderRadius: 10, }} >
-                    <RNPickerSelect
-                        placeholder={{ label: 'Select Categroy', value: null }}
-                        onValueChange={(value) => setCateId(value)}
-                        // onClose={(value) =>setCateId(value)}
-                        items={CateList}
-                        style={styles}
-                    />
-                </View>
 
-                <Text style={styles.textInputHeader}>Service Location</Text>
+                <Text style={styles.textInputHeader}>User Name</Text>
                 <TextInput
                     style={styles.textInput}
                     keyboardType="default"
-                    placeholder='Serivice Location'
+                    placeholder='User Name'
                     placeholderTextColor={"#737373"}
-                    onChangeText={(text) => { setLocation(text) }}
+                    onChangeText={(text) => { setuserName(text) }}
                 />
-                <Text style={styles.textInputHeader}>Business Hours</Text>
+                <Text style={styles.textInputHeader}>Email address</Text>
                 <TextInput
                     style={styles.textInput}
-                    keyboardType="default"
-                    placeholder='hours'
+                    keyboardType="email-address"
+                    placeholder='Email address'
                     placeholderTextColor={"#737373"}
-                    onChangeText={(text) => { setHours(text) }}
+                    onChangeText={(text) => { setmailAddress(text) }}
                 />
                 <Text style={styles.textInputHeader}>About  Us</Text>
                 <TextInput
-                    style={styles.textInputAbout}
+                    style={styles.textInput}
                     keyboardType="default"
-                    placeholder='message'
+                    placeholder='********'
                     placeholderTextColor={"#737373"}
-                    onChangeText={(text) => { setAboutus(text) }}
+                    onChangeText={(text) => { setpassword(text) }}
                 />
 
                 <TouchableOpacity onPress={() => Account_SettingApi()} style={styles.button}>

@@ -8,9 +8,10 @@ import Imagepath from '../../common/imagepath';
 import Colors from '../../common/Colors';
 
 export  default Bravocard =(props)=> {
+
     
         return (
-            <View key={props.key}
+            <View key={props.item.id}
             style={[styles.cardContainer, { backgroundColor: props.index % 2 == 0 ? Colors.lightBlue : Colors.skinColor }]}>
             <View style={styles.cardIconView} >
                 <Image style={styles.cardIcon} source={Imagepath.Bravo} />
@@ -19,15 +20,15 @@ export  default Bravocard =(props)=> {
             <View style={styles.shareCardView}>
                 <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Comment(props.item.id) }}>
                     <Image style={styles.shareButtonImage} source={Imagepath.commenticon} />
-                    <Text style={styles.shareButtonText}>Comment</Text>
+                    <Text numberOfLines={1} style={styles.shareButtonText}>Comment</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.shareButton} onPress={() => {props.onpress_Message(props.item.id) }}>
                     <Image style={styles.shareButtonImage} source={Imagepath.Messageicon} />
-                    <Text style={styles.shareButtonText}>Message</Text>
+                    <Text numberOfLines={1}  style={styles.shareButtonText}>Message</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.shareButton} onPress={()=>{props.onpress_Share(props.item.id)}}>
                     <Image style={styles.shareButtonImage} source={Imagepath.Share} />
-                    <Text style={styles.shareButtonText}>share</Text>
+                    <Text numberOfLines={1} style={styles.shareButtonText}>share</Text>
                 </TouchableOpacity>
             </View>
     

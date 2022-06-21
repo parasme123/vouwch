@@ -12,11 +12,16 @@ import SortUrl from '../../Lib/SortUrl';
 import CustomLoader from '../../Lib/CustomLoader';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
-import { DoctorCard } from "@component";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-let STORAGE_KEY = '@user_input';
+import { DoctorCard, Searchresult } from "@component";
 
-export const Doctor_Card = () => {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getDoctorData, postDoctorSearch } from '../../reduxStore/action/doctorAction';
+// let STORAGE_KEY = '@user_input';
+
+const Doctor_Card = (props, { route }) => {
+    const searchProps = props.route?.params ? props.route?.params?.searchProps : null;
+
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisibleMessage, setModalVisibleMessage] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -26,16 +31,7 @@ export const Doctor_Card = () => {
     const [ReviewModalPopup, setReviewModalPopup] = useState()
     const [commentModalPopup, setcommentModalPopup] = useState()
     const [followDetails, setFollowDetails] = useState();
-    const [input, setInput] = useState('');
-
-    // const saveData = async () => {
-    //     try {
-    //       await AsyncStorage.setDoctorCardList(STORAGE_KEY, id)
-    //       alert('Data successfully saved')
-    //     } catch (e) {
-    //       alert('Failed to save the data to the storage')
-    //     }
-    //   }
+    const [searchComponent, setsearchComponent] = useState(false);
 
     const MessagepropPage = (item, Index) => {
         setReviewModalPopup(!modalVisible)
@@ -44,9 +40,12 @@ export const Doctor_Card = () => {
     const CommentpropPage = (item) => {
         setcommentModalPopup(!commentModalPopup)
         setModalVisibleComment(!modalVisibleComment)
-        console.log("item", item)
+        // console.log("item", item)
     }
 
+    const Component_search = () => {
+        setsearchComponent(!searchComponent)
+    }
 
 
     const FollowButton = (item) => {
@@ -61,7 +60,13 @@ export const Doctor_Card = () => {
     }
 
     useEffect(() => {
-        Call_CategouryApi();
+        console.log(searchProps,"searchProps----------------------");
+        if (searchProps == null) {
+            Call_CategouryApi();
+        }
+        else {
+            Call_SearchApi();
+        }
     }, []);
 
     const navigation = useNavigation();
@@ -85,22 +90,45 @@ export const Doctor_Card = () => {
             alert(error.message);
         }
     };
-    // api   Doctor Card
+    // api  of all Doctor Card
     const Call_CategouryApi = () => {
-        setloaderVisible(true)
-        ApiCall.ApiMethod(SortUrl.AllServices, 'GET',).then(
-            (response) => {
+        let { actions } = props;
+        actions.getDoctorData();
+    }
 
-                if (response.status == true) {
-                    setloaderVisible(false)
-                    setDoctorCardList(response.data.services)
-                    // setCall(response.data.cards)
+
+    
+    // Search API
+    const Call_SearchApi = () => {
+        let { actions } = props;
+        let apiData = {
+            keyword: searchProps,
+        }
+        actions.postDoctorSearch(apiData);
+      
+    };
+
+
+
+    // // Search API
+    const Call_SearchApis = () => {
+        setloaderVisible(true)
+       
+        console.log(searchProps,"searchProps");
+        ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
+            (response) => {
+                if (response?.data?.data?.length > 0) {
+                    setloaderVisible(false);
+                    setDoctorCardList(response?.data?.data)
                 } else {
                     setloaderVisible(false)
+                    Component_search()
                 }
             }
         );
-    }
+    };
+
+
     // follow Api
     const Call_FollowApi = () => {
         const data = {
@@ -108,9 +136,10 @@ export const Doctor_Card = () => {
         }
         ApiCall.ApiMethod(SortUrl.Follow, 'POST', data).then(
             (response) => {
+                console.log(response, "response===========")
                 if (response.status == true) {
                     // setFollowDetails(response.data)
-                    // console.log(followDetails, "response===========")
+
                     FollowButton(item.id);
                 } else {
                     alert("something went wrong")
@@ -119,26 +148,30 @@ export const Doctor_Card = () => {
         );
     }
 
+
+
+
     // Doctor CARDS
     const DoctorCard_Cards = ({ item, index }) => {
         return (
-           
-                  <DoctorCard
-                    onpress_Comment={CommentpropPage}
-                    onpress_Message={MessagepropPage}
-                    onpress_Share={onShare}
-                    // user_Type={userType}
-                    // Follows={Follows}
-                    // onpress_DoctorCard_Follow={Follow_api}
-                    item={item}
-                    index={index}
-                    Doctor_business_name={item?.name}
-                    Doctorcard_Details={item?.description}
-                    Clinician_Rating={item?.clinical_rate}
-                    patient_Rating={item?.patient_rate}
-                    startingValue={item?.patient_rate}
-                    ClinicianReview_Value={3}
-                />
+
+            <DoctorCard
+                onpress_Comment={CommentpropPage}
+                onpress_Message={MessagepropPage}
+                onpress_Share={onShare}
+                // user_Type={userType}
+                // Follows={Follows}
+                // onpress_DoctorCard_Follow={Follow_api}
+                item={item}
+                index={index}
+                Doctor_business_name={item?.business_name}
+                Doctorcard_Details={item?.category?.name}
+                Clinician_Rating={item?.clinical_rate}
+                ClinicianReview_Value={item?.clinical_rate}
+                patient_Rating={item?.patient_rate}
+                startingValue={item?.patient_rate}
+
+            />
         )
     }
 
@@ -148,13 +181,11 @@ export const Doctor_Card = () => {
             resizeMode='cover'
             style={styles.image} >
             <Header title={String.doctorcard} isback={true} />
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ flexGrow: 1 }}>
+          
                 {/* Header */}
 
                 < FlatList
-                    data={DoctorCardList}
+                    data={props.doctorList}
                     style={{ flex: 1 }}
                     renderItem={DoctorCard_Cards}
                     numColumns={2}
@@ -162,7 +193,7 @@ export const Doctor_Card = () => {
                     showsVerticalScrollIndicator={false}
 
                 />
-              
+
 
 
                 {ReviewModalPopup &&
@@ -178,13 +209,29 @@ export const Doctor_Card = () => {
                     />
                 }
 
+                {searchComponent &&
 
-            </ScrollView>
+                    <Searchresult />
+                }
+
+
+       
             <CustomLoader loaderVisible={loaderVisible} />
         </ImageBackground>
 
     );
 }
 
+const mapStateToProps = state => ({
+    doctorList: state.doctor.doctorList,
+});
 
+const ActionCreators = Object.assign(
+    { getDoctorData },
+    {postDoctorSearch}
+);
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
 
+export default connect(mapStateToProps, mapDispatchToProps)(Doctor_Card)

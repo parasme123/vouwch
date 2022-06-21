@@ -7,12 +7,11 @@ import { useNavigation } from '@react-navigation/native';
 import Imagepath from '../../common/imagepath';
 import { Header } from '../../common/Header';
 import String from '../../common/String';
-import ApiCall from '../../Lib/ApiCall';
-import SortUrl from '../../Lib/SortUrl';
-import CustomLoader from '../../Lib/CustomLoader';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
 import {Bravocard} from '@component'
+import { ApiCall, SortUrl, CustomLoader, Constants, AsyncStorageHelper } from '@lib'
+
 export default Hospotalbravocard = (props) => {
     const [loaderVisible, setloaderVisible] = useState(false)
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
@@ -21,26 +20,55 @@ export default Hospotalbravocard = (props) => {
     const [DataCardList, setDataCardList] = useState(false);
     const [ReviewModalPopup, setReviewModalPopup] = useState()
     const [commentModalPopup, setcommentModalPopup] = useState()
+    const [userType, setuserType] = useState();
+    const [userToken, setuserToken] = useState();
 
-    const MessagepropPage = (item) => {
-        setReviewModalPopup(!modalVisible)
-        setModalVisible(!modalVisible)
+    const MessagepropPage = () => {
+        // setmsgDocId(DataCardiList)
+        if (!userType) {
+            alert("Please Login");
+        } else if (userType?.user_type !== 1) {
+            alert("please login with personal account")
+        } else {
+            setReviewModalPopup(!modalVisible)
+            setModalVisible(!modalVisible)
 
+        }
     }
-    const CommentpropPage = (item) => {
-        setcommentModalPopup(!commentModalPopup)
-        setModalVisibleComment(!modalVisibleComment)
+
+    const CommentpropPage = () => {
+        if (!userType) {
+            alert("Please Login");
+        } else if (userType?.user_type !== 1) {
+            alert("please login with personal account")
+        } else {
+            setcommentModalPopup(!commentModalPopup);
+            setModalVisibleComment(!modalVisibleComment);
+        }
     }
 
+    // useEffect(() => {
+    //     Call_DataCardApi();
+    //     for (let count = 0; count <= 100; count++) {
+    //         count % 2 == 0 ? console.log(`${count} is even`) : console.log(`${count} is odd`);
+    //         ;
+    //     }
+    // }, []);
 
     useEffect(() => {
         Call_DataCardApi();
-        for (let count = 0; count <= 100; count++) {
-            count % 2 == 0 ? console.log(`${count} is even`) : console.log(`${count} is odd`);
-            ;
-        }
-    }, []);
+        AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
+            if (value !== null) { }
+            setuserToken(value)
+            console.log("UserToken------------", userToken);
+        });
+        AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+            if (value !== null) { }
+            setuserType(value)
+            console.log("setuserType-------", userType);
 
+        });
+    }, []);
     const navigation = useNavigation();
     // share module
     const onShare = async () => {

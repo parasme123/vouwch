@@ -16,7 +16,7 @@ import Svg, {
 import Imagepath from '../../common/imagepath';
 import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
 import Constants from '../../Lib/Constants';
-import { handleNavigation } from '../../navigator/navigator';
+import { handleNavigation } from '../../navigator/Navigator';
 import styles from './css';
 export default  Splash =({navigation})=> {
     useEffect(() => {

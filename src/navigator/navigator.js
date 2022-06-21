@@ -8,7 +8,7 @@ import Login from '../screen/login/login';
 import Signup from '../screen/signup/signup';
 import BusinessSignup from '../screen/businessSignup/businessSignup';
 import Home from '../screen/homescreens/home';
-import bottomtab from './bottomtab';
+import Bottomtab from './Bottomtab';
 import Doctordetails from '../screen/homescreens/doctor/doctordetails';
 import Bravocard from '../screen/Bravocard/Bravocard';
 import Notification from '../screen/Notification/Notification';
@@ -24,11 +24,11 @@ import Editprofile from '../screen/setting/editprofile';
 import ForgotPassword from '../screen/Forgotpassword/Forgotpassword';
 import OtpPage from '../screen/Forgotpassword/Otppage';
 import Hospotalbravocard from '../screen/HospitalBravocard/HospitalBravocard'
-// import Doctorcard from '../screen/DoctorCard/Doctorcard';
+import Doctorcard from '../screen/DoctorCard/Doctorcard';
 import Resetpassword from '../screen/Forgotpassword/Resetpassword';
 import Reply from '../screen/Message/Reply';
 import MessageBox from '../common/MessegeBox';
-import { Doctor_Card } from '../screen/DoctorCard/Doctorcard';
+// import { Doctor_Card } from '../screen/DoctorCard/Doctorcard';
 const MainStack = createStackNavigator();
 const Navigator = () => {
 
@@ -41,7 +41,7 @@ const Navigator = () => {
                 <MainStack.Screen name='signup' component={Signup} />
                 <MainStack.Screen name='business' component={BusinessSignup} />
                 <MainStack.Screen name='home' component={Home} />
-                <MainStack.Screen name='bottomtab' component={bottomtab} />
+                <MainStack.Screen name='bottomtab' component={Bottomtab} />
                 <MainStack.Screen name='Doctordetails' component={Doctordetails} />
                 <MainStack.Screen name='Bravocard' component={Bravocard} />
                 <MainStack.Screen name='Notification' component={Notification} />
@@ -56,7 +56,7 @@ const Navigator = () => {
                 <MainStack.Screen name='edit' component={Editprofile} />
                 <MainStack.Screen name='forgotpassword' component={ForgotPassword} />
                 <MainStack.Screen name='otppage' component={OtpPage} />
-                <MainStack.Screen name='DoctorCard' component={Doctor_Card} />
+                <MainStack.Screen name='DoctorCard' component={Doctorcard} />
                 <MainStack.Screen name='Hospotalbravocard' component={Hospotalbravocard} />
                 <MainStack.Screen name='Confirmpassword' component={Resetpassword} />
                 <MainStack.Screen name='Reply' component={Reply} />

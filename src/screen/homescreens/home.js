@@ -1,20 +1,21 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import {Alert, FlatList, Image, ImageBackground, ScrollView, Share, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import { Alert, FlatList, Image, ImageBackground, ScrollView, Share, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import Colors from '../../common/Colors';
 import Imagepath from '../../common/imagepath';
-import ApiCall from '../../Lib/ApiCall';
-import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
-import Constants from '../../Lib/Constants';
-import CustomLoader from '../../Lib/CustomLoader';
-import SortUrl from '../../Lib/SortUrl';
+import { ApiCall, SortUrl, CustomLoader, Constants, AsyncStorageHelper } from '@lib'
 import Comments from '../../modal/Comments';
 import Message from '../../modal/Message';
 import styles from './homecss';
 import { Bravocard, DoctorCard } from "@component";
-const Home = () => {
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getHomeData } from '../../reduxStore/action/doctorAction';
+const Home = (props) => {
+
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisible, setModalVisible] = useState();
     const [categouryDataList, setcategouryDataList] = useState();
@@ -26,10 +27,9 @@ const Home = () => {
     const [commentModalPopup, setcommentModalPopup] = useState()
     const [Follows, setFollow] = useState([]);
     const [followDetails, setFollowDetails] = useState();
-    const [searchData, setSearchData] = useState([]);
+    const [msgDocId, setmsgDocId] = useState();
     const [userType, setuserType] = useState();
     const [userToken, setuserToken] = useState();
-
     // const userTypeOne = () => { userToken && userType.user_type == 1 };
     const FollowButton = (item) => {
         let follows1 = [...Follows];
@@ -41,7 +41,8 @@ const Home = () => {
         setFollow(follows1)
     }
 
-    const MessagepropPage = (item) => {
+    const MessagepropPage = (DataCardiList) => {
+        setmsgDocId(DataCardiList)
         if (!userType) {
             alert("Please Login");
         } else if (userType?.user_type !== 1) {
@@ -65,15 +66,17 @@ const Home = () => {
 
     useEffect(() => {
         Call_CategouryApi();
+        Call_CategouryApis();
+        console.log("homeData---------",props.getHomeData);
         AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
             if (value !== null) { }
             setuserToken(value)
-            console.log("UserToken-----", userToken);
+            console.log("UserToken------------", userToken);
         });
         AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
             if (value !== null) { }
             setuserType(value)
-            console.log("setuserType-----", userType);
+            console.log("setuserType-------", userType);
 
         });
     }, []);
@@ -98,6 +101,12 @@ const Home = () => {
             alert(error.message);
         }
     };
+
+    // api  Home Page 
+    const Call_CategouryApis = () => {
+        let { actions } = props;
+        actions.getHomeData();
+    }
 
     // api  Home Page 
     const Call_CategouryApi = () => {
@@ -135,30 +144,34 @@ const Home = () => {
         );
     };
 
+
     // Search API
-    const Call_SearchApi = () => {
-        // if (search.length <= 0) {
-        //     setSearchData([])
-        //     return;
-        // }
-        // setloaderVisible(true)
+
+    const Call_SearchApi = (searchProps) => {
+        navigation.navigate('DoctorCard', { searchProps })
+
+    }
+
+    // Message API
+    const Call_MEssage_Api = (message_Text) => {
+        setloaderVisible(true)
         const data = {
-            keyword: search
+            doctor_id: msgDocId,
+            detail: message_Text,
         }
-        ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
+        // console.log("message_Text------------------------",data);
+        ApiCall.ApiMethod(SortUrl.Message, 'POST', data).then(
             (response) => {
-                if (response?.data?.data) {
+                // console.log("response=-------", response);
+
+                if (response?.data?.detail?.length > 0) {
                     setloaderVisible(false);
-                    // navigation.navigate('Doctordetails')
+                    // props.Hidemodal()
+                    alert("Message sent sucessfully")
                 } else {
-                    setSearchData([])
                     setloaderVisible(false)
-                    navigation.navigate('search')
-                    Toast.show(response.message);
-                    // console.log(searchData, "searchdata=======")
-                    // console.log(search,"search============")
+                    alert("hii")
                 }
-                console.log(searchData, "search============")
             }
         );
     };
@@ -180,23 +193,24 @@ const Home = () => {
     }
 
 
+
     const categoriesItemData = ({ item, index }) => {
         return (
-            <TouchableOpacity key={item.id}
-                style={styles.categoFlatelistView} >
+            <TouchableOpacity onPress={() => Call_SearchApi(item.name)} key={item.id} style={styles.categoFlatelistView} >
                 <Text style={styles.categoFlatelistViewText} > {item.name} </Text>
             </TouchableOpacity>
         )
     }
 
-
     const DoctorNavigation = (item) => {
-        navigation.navigate('Doctordetails',  { person: true, doctorId: DoctorCardList.id,  })
+        navigation.navigate('Doctordetails', { person: true, doctorId: item })
     }
 
-    const Follow_api =()=>{
+    const Follow_api = () => {
         Call_FollowApi
     }
+
+
 
     // Card DATA Content   && Bravo card
     const Card = ({ item, index }) => {
@@ -208,6 +222,7 @@ const Home = () => {
                 onpress_Message={MessagepropPage}
                 onpress_Share={onShare}
                 item={item}
+                // key={}
                 index={index}
             // onpress_Photo={}
             // onpress_Video={}
@@ -218,24 +233,23 @@ const Home = () => {
     /* // Doctor CARDS */
     const Doctor_Card = ({ item, index }) => {
         return (
-             <DoctorCard
-             onpress_DoctorCard={DoctorNavigation}
-             onpress_Comment={CommentpropPage}
-             onpress_Message={MessagepropPage}
-             onpress_Share={onShare}
-             user_Type={userType}
-             Follows={Follows}
-             onpress_DoctorCard_Follow={Follow_api}
-             item={item}
-             index={index}
-             Doctor_business_name={item?.business_name}
-             Doctorcard_Details={item?.category?.name}
-             Clinician_Rating={item?.clinical_rate}
-             patient_Rating={item?.patient_rate}
-             startingValue={item?.patient_rate}
-             ClinicianReview_Value={item?.clinical_rate}
-         />
-            
+            <DoctorCard
+                onpress_DoctorCard={DoctorNavigation}
+                onpress_Comment={CommentpropPage}
+                onpress_Message={MessagepropPage}
+                onpress_Share={onShare}
+                user_Type={userType}
+                Follows={Follows}
+                onpress_DoctorCard_Follow={Follow_api}
+                item={item}
+                index={index}
+                Doctor_business_name={item?.business_name}
+                Doctorcard_Details={item?.category?.name}
+                Clinician_Rating={item?.clinical_rate}
+                patient_Rating={item?.patient_rate}
+                startingValue={item?.patient_rate}
+                ClinicianReview_Value={item?.clinical_rate}
+            />
         )
     }
 
@@ -291,9 +305,8 @@ const Home = () => {
                             onChangeText={(text) => {
                                 setsearch(text)
                             }}
-                            onShare={() => Call_SearchApi()}
                         />
-                        <TouchableOpacity onPress={() => Call_SearchApi()} >
+                        <TouchableOpacity onPress={() => Call_SearchApi(search)} >
                             <Image
                                 source={Imagepath.searchbtn}
                                 resizeMode='stretch'
@@ -302,16 +315,15 @@ const Home = () => {
                         </TouchableOpacity>
 
                     </View>
-
                 </ImageBackground>
 
                 {/* Categouries: */}
                 <View style={styles.categouryView}>
                     <Text style={styles.categouryViewText}>Categories:</Text>
-                    
                 </View>
                 <View style={{ marginLeft: 15 }}>
                     < FlatList
+                        // data={props.homeData.data.categories}
                         data={categouryDataList}
                         renderItem={categoriesItemData}
                         keyExtractor={item => item}
@@ -320,7 +332,7 @@ const Home = () => {
                     />
                 </View>
 
-                {/* Categouries: */}
+                {/* Categouries Bravo card: */}
                 <View style={styles.bravoCategoury}>
                     <Text style={styles.bravoCategouryText}>Bravo Card</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Hospotalbravocard')}>
@@ -330,6 +342,7 @@ const Home = () => {
                 {/* Bravo Card */}
                 <View style={{ marginHorizontal: 5 }}>
                     < FlatList
+                        // data={props.homeData.data.cards}
                         data={DataCardList}
                         renderItem={Card}
                         keyExtractor={item => item}
@@ -349,6 +362,7 @@ const Home = () => {
                 {/* Card of Doctors */}
                 <View style={{ marginHorizontal: 5 }}>
                     < FlatList
+                        // data={props.homeData.data.reviews}
                         data={DoctorCardList}
                         renderItem={Doctor_Card}
                         keyExtractor={item => item}
@@ -361,12 +375,14 @@ const Home = () => {
                     <Message
                         modalVisible={modalVisible}
                         Hidemodal={MessagepropPage}
+                        Message_Button={Call_MEssage_Api}
                     />
                 }
                 {commentModalPopup &&
                     <Comments
                         modalVisible={modalVisibleComment}
                         Hidemodal={CommentpropPage}
+                        Message_Button={Call_MEssage_Api}
                     />
                 }
 
@@ -378,4 +394,16 @@ const Home = () => {
     )
 };
 
-export default Home;
+
+const mapStateToProps = state => ({
+    homeData: state.doctor.homeData,
+});
+
+const ActionCreators = Object.assign(
+    {getHomeData} ,
+);
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -23,7 +23,7 @@ import Constants from '../../Lib/Constants';
 import CustomLoader from '../../Lib/CustomLoader';
 import { Header } from '../../common/Header';
 import String from '../../common/String';
-import { handleNavigation } from '../../navigator/navigator';
+import { handleNavigation } from '../../navigator/Navigator';
 // import styles from './css';
 import Colors from '../../common/Colors';
 

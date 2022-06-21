@@ -22,8 +22,9 @@ import SortUrl from '../../Lib/SortUrl';
 import Constants from '../../Lib/Constants';
 import CustomLoader from '../../Lib/CustomLoader';
 import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
-import { handleNavigation } from '../../navigator/navigator';
+import { handleNavigation } from '../../navigator/Navigator';
 import Colors from '../../common/Colors';
+import Fontsize from '../../common/Fontsize';
 
 export default function Login({ navigation, route }) {
     const [securepasswordIcon, setSecurepassworddIcon] = useState(true)
@@ -77,7 +78,7 @@ export default function Login({ navigation, route }) {
             device_type:"Android"
         };
           setloaderVisible(true)
-          ApiCall.ApiMethod(SortUrl.UserLogin, Constants.POST,data)
+          ApiCall.ApiMethod(Login_User(), Constants.POST,data)
             .then((response) => {
                setloaderVisible(false)
               if (response.status==Constants.Success) {
@@ -87,6 +88,7 @@ export default function Login({ navigation, route }) {
                     handleNavigation({ type: 'setRoot', page: 'bottomtab', navigation: navigation, });
               } else {
                   setloaderVisible(false)
+                  
                   Toast.show(response.message);
               }
             })
@@ -100,6 +102,14 @@ export default function Login({ navigation, route }) {
                navigation.navigate("signup")
             }else{
              navigation.navigate("business")
+            }
+       
+        }
+        const Login_User =()=>{
+            if(route.params.UserType=='PERSONAL'){
+                return SortUrl.UserLogin
+            }else{
+             return   SortUrl.BusinessLogin
             }
        
         }
@@ -136,7 +146,7 @@ export default function Login({ navigation, route }) {
                                     onChangeText={(text)=>{setEmail(text)}}
                                     value={Email}
                                     maxLength={40}
-                                    keyboardType="default" />
+                                    keyboardType="email-address" />
 
                             </View>
                             {/* textInput password */}
@@ -234,7 +244,7 @@ const styles = StyleSheet.create({
     },
 
     container: { width: "85%", alignSelf: "center", height: "100%", },
-    header: { color: "#000000", fontSize: 34, marginTop: hp("9%"), marginBottom: hp("2%"), fontFamily: Fonts.ProximaNovaBold },
+    header: { color: "#000000", fontSize: Fontsize.fontThirtyfour, marginTop: hp("9%"), marginBottom: hp("2%"), fontFamily: Fonts.ProximaNovaBold },
     subHeader: { color: "#737373", fontSize: 17, marginBottom: hp("5%"), fontFamily: Fonts.ProximaNovaRegular },
     textInputMainView: { width: "100%", alignSelf: "center", },
     textinputUsernameView: { flexDirection: "row", borderColor: "#CCC", borderWidth: 1, width: "100%", borderRadius: 30, alignSelf: "center", height: 48, marginBottom: hp("1%") },
