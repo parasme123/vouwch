@@ -3,7 +3,8 @@ import thunk from 'redux-thunk';
 import doctorReducer from '../reducer/doctorReducer';
 
 const rootReducer = combineReducers(
-    { doctor: doctorReducer }
+    { doctor: doctorReducer },
+    
 );
 
 const configureStore = () => {

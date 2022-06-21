@@ -1,3 +1,3 @@
 export const DOCTORRECORD = "DOCTORRECORD";
 
-export const SEARCHDOCTORDATA = "SEARCHDOCTORDATA";
+export const HOMEDATA = "HOMEDATA";

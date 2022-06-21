@@ -11,7 +11,10 @@ import Message from '../../modal/Message';
 import styles from './homecss';
 import { Bravocard, DoctorCard } from "@component";
 
-const Home = () => {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getHomeData } from '../../reduxStore/action/doctorAction';
+const Home = (props) => {
 
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisible, setModalVisible] = useState();
@@ -47,7 +50,6 @@ const Home = () => {
         } else {
             setReviewModalPopup(!modalVisible)
             setModalVisible(!modalVisible)
-
         }
     }
 
@@ -64,6 +66,8 @@ const Home = () => {
 
     useEffect(() => {
         Call_CategouryApi();
+        Call_CategouryApis();
+        console.log("homeData---------",props.getHomeData);
         AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
             if (value !== null) { }
             setuserToken(value)
@@ -97,6 +101,12 @@ const Home = () => {
             alert(error.message);
         }
     };
+
+    // api  Home Page 
+    const Call_CategouryApis = () => {
+        let { actions } = props;
+        actions.getHomeData();
+    }
 
     // api  Home Page 
     const Call_CategouryApi = () => {
@@ -139,7 +149,7 @@ const Home = () => {
 
     const Call_SearchApi = (searchProps) => {
         navigation.navigate('DoctorCard', { searchProps })
-        
+
     }
 
     // Message API
@@ -310,10 +320,10 @@ const Home = () => {
                 {/* Categouries: */}
                 <View style={styles.categouryView}>
                     <Text style={styles.categouryViewText}>Categories:</Text>
-
                 </View>
                 <View style={{ marginLeft: 15 }}>
                     < FlatList
+                        // data={props.homeData.data.categories}
                         data={categouryDataList}
                         renderItem={categoriesItemData}
                         keyExtractor={item => item}
@@ -322,7 +332,7 @@ const Home = () => {
                     />
                 </View>
 
-                {/* Categouries: */}
+                {/* Categouries Bravo card: */}
                 <View style={styles.bravoCategoury}>
                     <Text style={styles.bravoCategouryText}>Bravo Card</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Hospotalbravocard')}>
@@ -332,6 +342,7 @@ const Home = () => {
                 {/* Bravo Card */}
                 <View style={{ marginHorizontal: 5 }}>
                     < FlatList
+                        // data={props.homeData.data.cards}
                         data={DataCardList}
                         renderItem={Card}
                         keyExtractor={item => item}
@@ -351,6 +362,7 @@ const Home = () => {
                 {/* Card of Doctors */}
                 <View style={{ marginHorizontal: 5 }}>
                     < FlatList
+                        // data={props.homeData.data.reviews}
                         data={DoctorCardList}
                         renderItem={Doctor_Card}
                         keyExtractor={item => item}
@@ -382,4 +394,16 @@ const Home = () => {
     )
 };
 
-export default Home;
+
+const mapStateToProps = state => ({
+    homeData: state.doctor.homeData,
+});
+
+const ActionCreators = Object.assign(
+    {getHomeData} ,
+);
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -16,7 +16,7 @@ import { DoctorCard, Searchresult } from "@component";
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getDoctorData } from '../../reduxStore/action/doctorAction';
+import { getDoctorData, postDoctorSearch } from '../../reduxStore/action/doctorAction';
 // let STORAGE_KEY = '@user_input';
 
 const Doctor_Card = (props, { route }) => {
@@ -99,19 +99,21 @@ const Doctor_Card = (props, { route }) => {
 
     
     // Search API
-    // const Call_SearchApi = () => {
-    //     let { actions } = props;
-    //     actions.postDoctorSearch(searchProps);
-    // };
+    const Call_SearchApi = () => {
+        let { actions } = props;
+        let apiData = {
+            keyword: searchProps,
+        }
+        actions.postDoctorSearch(apiData);
+      
+    };
 
 
 
     // // Search API
-    const Call_SearchApi = () => {
+    const Call_SearchApis = () => {
         setloaderVisible(true)
-        const data = {
-            keyword: searchProps,
-        }
+       
         console.log(searchProps,"searchProps");
         ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
             (response) => {
@@ -226,6 +228,7 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
     { getDoctorData },
+    {postDoctorSearch}
 );
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(ActionCreators, dispatch),
