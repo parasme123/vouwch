@@ -21,15 +21,10 @@ const Constants = {
   success: 'true',
   GUEST_USER: "guest_user",
 
-
-
-
   //Main Message Api
   SorryMessageError: "Sorry, something went wrong.",
   InternetError: "You're offline \n Please check internet connection.",
   Currentpassword: "Enter current password.",
   current_passwordChar: "Current password should be minimum 8 characters.",
-
-
 };
 export default Constants;

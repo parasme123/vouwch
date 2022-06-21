@@ -1,4 +1,4 @@
-import  React from 'react';
+import React from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Fonts from './Fonts';
 
@@ -11,9 +11,8 @@ export default class CoustomButton extends React.Component {
     render() {
         return (
             <TouchableOpacity onPress={this.props.onPress} style={[styles.container, { marginHorizontal: this.props.MargH, backgroundColor: this.props.backgroundColor, borderColor: this.props.borderColor, borderWidth: this.props.borderWidth, paddingHorizontal: this.props.paddingH, marginTop: this.props.marginT }]} >
-                <Text style={[{fontFamily:Fonts.ProximaNovaMedium, fontSize:this.props.fontSize, color: this.props.color, marginHorizontal: this.props.textmarginh, marginVertical: this.props.margv }]}>{this.props.title}</Text>
+                <Text style={[{ fontFamily: Fonts.ProximaNovaMedium, fontSize: this.props.fontSize, color: this.props.color, marginHorizontal: this.props.textmarginh, marginVertical: this.props.margv }]}>{this.props.title}</Text>
             </TouchableOpacity>
-
         );
     }
 }

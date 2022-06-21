@@ -33,7 +33,6 @@
 //     return (
 //         <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
 
-
 //             < ScrollView
 //                 showsVerticalScrollIndicator={false}
 //                 contentContainerStyle={{ flexGrow: 1 }}
@@ -126,7 +125,6 @@
 
 //                     </View>
 
-
 //                     {/* Register text */}
 //                     <View style={styles.signinView} >
 //                         <Text style={styles.textsignin} >Already have an account? </Text>
@@ -180,13 +178,6 @@
 //     signinView: { flexDirection: "row", justifyContent: "center", },
 //     textsignin: { color: "#000000", fontSize: 20, fontFamily: Fonts.ProximaNovaRegular },
 //     button: { color: "#245FC7", fontSize: 20, fontFamily: Fonts.ProximaNovaSemibold },
-
-
-
-
-
-
-
 
 // })
 // export default Signup

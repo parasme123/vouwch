@@ -60,7 +60,7 @@ const Doctor_Card = (props, { route }) => {
     }
 
     useEffect(() => {
-        console.log(searchProps,"searchProps----------------------");
+        console.log(searchProps, "searchProps----------------------");
         if (searchProps == null) {
             Call_CategouryApi();
         }
@@ -97,7 +97,7 @@ const Doctor_Card = (props, { route }) => {
     }
 
 
-    
+
     // Search API
     const Call_SearchApi = () => {
         let { actions } = props;
@@ -105,7 +105,7 @@ const Doctor_Card = (props, { route }) => {
             keyword: searchProps,
         }
         actions.postDoctorSearch(apiData);
-      
+
     };
 
 
@@ -113,8 +113,8 @@ const Doctor_Card = (props, { route }) => {
     // // Search API
     const Call_SearchApis = () => {
         setloaderVisible(true)
-       
-        console.log(searchProps,"searchProps");
+
+        console.log(searchProps, "searchProps");
         ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
             (response) => {
                 if (response?.data?.data?.length > 0) {
@@ -181,41 +181,41 @@ const Doctor_Card = (props, { route }) => {
             resizeMode='cover'
             style={styles.image} >
             <Header title={String.doctorcard} isback={true} />
-          
-                {/* Header */}
 
-                < FlatList
-                    data={props.doctorList}
-                    style={{ flex: 1 }}
-                    renderItem={DoctorCard_Cards}
-                    numColumns={2}
-                    keyExtractor={(item, index) => item.key}
-                    showsVerticalScrollIndicator={false}
+            {/* Header */}
 
+            < FlatList
+                data={props.doctorList}
+                style={{ flex: 1 }}
+                renderItem={DoctorCard_Cards}
+                numColumns={2}
+                keyExtractor={(item, index) => item.key}
+                showsVerticalScrollIndicator={false}
+
+            />
+
+
+
+            {ReviewModalPopup &&
+                <Message
+                    modalVisible={modalVisible}
+                    Hidemodal={MessagepropPage}
                 />
+            }
+            {commentModalPopup &&
+                <Comments
+                    modalVisible={modalVisibleComment}
+                    Hidemodal={CommentpropPage}
+                />
+            }
+
+            {searchComponent &&
+
+                <Searchresult />
+            }
 
 
 
-                {ReviewModalPopup &&
-                    <Message
-                        modalVisible={modalVisible}
-                        Hidemodal={MessagepropPage}
-                    />
-                }
-                {commentModalPopup &&
-                    <Comments
-                        modalVisible={modalVisibleComment}
-                        Hidemodal={CommentpropPage}
-                    />
-                }
-
-                {searchComponent &&
-
-                    <Searchresult />
-                }
-
-
-       
             <CustomLoader loaderVisible={loaderVisible} />
         </ImageBackground>
 
@@ -228,7 +228,7 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
     { getDoctorData },
-    {postDoctorSearch}
+    { postDoctorSearch }
 );
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(ActionCreators, dispatch),

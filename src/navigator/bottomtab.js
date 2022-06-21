@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Animated, StyleSheet, TouchableOpacity, View, Image} from 'react-native';
-import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
+import React, {useEffect, useState} from 'react';
+import {
+  Animated,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Image,
+} from 'react-native';
+import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
 import Imagepath from '../common/imagepath';
 import Reviewmodal from '../modal/Reviewmodal';
 import Home from '../screen/homescreens/home';
@@ -9,8 +15,8 @@ import Account from '../screen/setting/account';
 import Profile from '../screen/setting/profile';
 import Welcome from '../screen/welcome/welcome';
 
-export const Bottomtab = (props) => {
-  const[Position_Center,setPosition_Center]=useState(false)
+export const Bottomtab = props => {
+  const [Position_Center, setPosition_Center] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   // useEffect(()=>{},[])
   const _renderIcon = (routeName, selectedTab) => {
@@ -19,31 +25,34 @@ export const Bottomtab = (props) => {
 
     switch (routeName) {
       case 'Home':
-        icon =Imagepath.homeicon;
+        icon = Imagepath.homeicon;
         break;
       case 'Settingprofile':
         icon = Imagepath.setting_icon;
         break;
       case 'Notification':
-          icon = Imagepath.Notfication_icon;
-          break;
+        icon = Imagepath.Notfication_icon;
+        break;
       case 'Account':
-            icon =Imagepath.User_Icon;
+        icon = Imagepath.User_Icon;
         break;
     }
 
     return (
-      <View >
-          <Image 
-            resizeMode='contain'
-            style={{height:20,width:20,tintColor:routeName === selectedTab ? '#245FC7' : 'gray'  }} 
-            source={icon}
-            />
+      <View>
+        <Image
+          resizeMode="contain"
+          style={{
+            height: 20,
+            width: 20,
+            tintColor: routeName === selectedTab ? '#245FC7' : 'gray',
+          }}
+          source={icon}
+        />
       </View>
-      
     );
   };
-  const renderTabBar = ({ routeName, selectedTab, navigate }  ) => {
+  const renderTabBar = ({routeName, selectedTab, navigate}) => {
     // console.log('routeName===>>>>>',routeName, selectedTab, navigate)
     return (
       <TouchableOpacity
@@ -58,30 +67,29 @@ export const Bottomtab = (props) => {
     );
   };
 
-
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <CurvedBottomBar.Navigator
         style={styles.bottomBar}
         strokeWidth={0.5}
         height={55}
         circleWidth={55}
-        
         bgColor="white"
         initialRouteName="Home"
         borderTopLeftRight
         swipeEnabled={false}
-        renderCircle={({ selectedTab, navigate }) => (
-          <Animated.View style={[styles.btnCircle,{backgroundColor:'#245FC7',}]}>
+        renderCircle={({selectedTab, navigate}) => (
+          <Animated.View
+            style={[styles.btnCircle, {backgroundColor: '#245FC7'}]}>
             <TouchableOpacity
-              style={{ flex: 1, justifyContent: 'center', }}
+              style={{flex: 1, justifyContent: 'center'}}
               onPress={() => setModalVisible(true)}>
-            <View >
-             <Image 
-               resizeMode='contain'
-               style={{height:20,width:20,tintColor:'#fff'  }} 
-               source={Imagepath.plus}
-            />
+              <View>
+                <Image
+                  resizeMode="contain"
+                  style={{height: 20, width: 20, tintColor: '#fff'}}
+                  source={Imagepath.plus}
+                />
               </View>
             </TouchableOpacity>
           </Animated.View>
@@ -90,38 +98,42 @@ export const Bottomtab = (props) => {
         <CurvedBottomBar.Screen
           name="Home"
           position="left"
-          component={()=> <Home {...props} />}
+          component={() => <Home {...props} />}
         />
         <CurvedBottomBar.Screen
           name="Account"
-          component={()=><Welcome />}
+          component={() => <Welcome />}
           position="left"
-        /> 
-    
-     <CurvedBottomBar.Screen
-          name="Notification"
-          component={()=><Notification {...props} /> }
-          position="right"
-          
         />
 
-     <CurvedBottomBar.Screen
-          name="Settingprofile"
-          component={()=><Profile  {...props} /> }
+        <CurvedBottomBar.Screen
+          name="Notification"
+          component={() => <Notification {...props} />}
           position="right"
-          
+        />
+
+        <CurvedBottomBar.Screen
+          name="Settingprofile"
+          component={() => <Profile {...props} />}
+          position="right"
         />
       </CurvedBottomBar.Navigator>
-      <View style={{position:'absolute'}}>
-      <Reviewmodal
-       modalVisible={modalVisible}
-       Hidemodal={()=>{setModalVisible(!modalVisible)}}
-       AddReview={()=>{setModalVisible(!modalVisible), props.navigation.navigate("rate")}}
-       AddBravoCard={()=>{setModalVisible(!modalVisible), props.navigation.navigate("Bravocard")}}
-      />
-      </View> 
+      <View style={{position: 'absolute'}}>
+        <Reviewmodal
+          modalVisible={modalVisible}
+          Hidemodal={() => {
+            setModalVisible(!modalVisible);
+          }}
+          AddReview={() => {
+            setModalVisible(!modalVisible), props.navigation.navigate('rate');
+          }}
+          AddBravoCard={() => {
+            setModalVisible(!modalVisible),
+              props.navigation.navigate('Bravocard');
+          }}
+        />
+      </View>
     </View>
-    
   );
 };
 
@@ -161,61 +173,89 @@ export const styles = StyleSheet.create({
     height: 30,
   },
 
-
-
-
-
-
-
-
   // MOdule
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 22,
     // opacity:9
-},
-centeredView1: {
+  },
+  centeredView1: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     // marginTop: 22,
-    backgroundColor: "#00000090",
-    opacity: 5
-},
-modalView: {
+    backgroundColor: '#00000090',
+    opacity: 5,
+  },
+  modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
-},
-centeredView2: {
-    width: "92%", height: 255, borderRadius: 15, alignSelf: "center", backgroundColor: "#fff", shadowColor: "#000",
+    elevation: 5,
+  },
+  centeredView2: {
+    width: '92%',
+    height: 255,
+    borderRadius: 15,
+    alignSelf: 'center',
+    backgroundColor: '#fff',
+    shadowColor: '#000',
     shadowOffset: {
-        width: 0,
-        height: 1
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.05,
     shadowRadius: 1,
-    elevation: 1
-},
-headerView: { height: 50, backgroundColor: "#245FC7", borderTopLeftRadius: 15, borderTopRightRadius: 15, flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 15 },
-headerText: { color: "#fff", fontSize: 15 },
-headerIcon: { height: 30, width: 30 },
-buttonView:{ justifyContent: "space-around", flexDirection: "row", alignItems: "center", marginTop: 65, paddingHorizontal: 10 },
-buttonFirst:{ width: 149, height: 45, flexDirection: "row", borderRadius: 10, backgroundColor: "#245FC7", justifyContent: "center", alignItems: "center" },
-buttonTwo:{ width: 149, height: 45, flexDirection: "row", borderRadius: 10, backgroundColor: "#245FC7", justifyContent: "center", alignItems: "center" },
-buttonTwoText:{ color: "#fff", fontSize: 15, marginLeft: 5, }
-
+    elevation: 1,
+  },
+  headerView: {
+    height: 50,
+    backgroundColor: '#245FC7',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  headerText: {color: '#fff', fontSize: 15},
+  headerIcon: {height: 30, width: 30},
+  buttonView: {
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 65,
+    paddingHorizontal: 10,
+  },
+  buttonFirst: {
+    width: 149,
+    height: 45,
+    flexDirection: 'row',
+    borderRadius: 10,
+    backgroundColor: '#245FC7',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonTwo: {
+    width: 149,
+    height: 45,
+    flexDirection: 'row',
+    borderRadius: 10,
+    backgroundColor: '#245FC7',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonTwoText: {color: '#fff', fontSize: 15, marginLeft: 5},
 });
-export default Bottomtab
+export default Bottomtab;

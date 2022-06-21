@@ -7,9 +7,7 @@ export function VideoImage() {
   const MOdule = () => {
     return (
       <View>
-        <Image source={{ URL(SDFJKADJFKLAKDSLFJ) }}
-
-        />
+        {/* <Image source={{ URL(SDFJKADJFKLAKDSLFJ) }} /> */}
       </View>
     )
   }
