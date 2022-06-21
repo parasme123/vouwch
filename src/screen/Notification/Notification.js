@@ -25,7 +25,7 @@ const Notification = ({navigation, route}) => {
       }
     });
   };
-  const NotificationItem = () => {
+  const NotificationItem = ({item, index}) => {
     return (
       <View
         style={{
@@ -37,7 +37,8 @@ const Notification = ({navigation, route}) => {
           borderRadius: 10,
           elevation: 2,
           backgroundColor: '#fff',
-        }}>
+        }}
+        key={index}>
         <View style={{flex: 0.3}}>
           <Image
             style={styles.Imageicon}

@@ -84,18 +84,18 @@ const Home = props => {
   useEffect(() => {
     Call_CategouryApi();
     Call_CategouryApis();
-    console.log('homeData---------', props.getHomeData);
+    // console.log('homeData---------', props.getHomeData);
     AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
       if (value !== null) {
       }
       setuserToken(value);
-      console.log('UserToken------------', userToken);
+      // console.log('UserToken------------', userToken);
     });
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
       }
       setuserType(value);
-      console.log('setuserType-------', userType);
+      // console.log('setuserType-------', userType);
     });
   }, []);
 
@@ -205,7 +205,7 @@ const Home = props => {
     return (
       <TouchableOpacity
         onPress={() => Call_SearchApi(item.name)}
-        key={item.id}
+        key={index}
         style={styles.categoFlatelistView}>
         <Text style={styles.categoFlatelistViewText}> {item.name} </Text>
       </TouchableOpacity>
@@ -340,7 +340,7 @@ const Home = props => {
             // data={props.homeData.data.categories}
             data={categouryDataList}
             renderItem={categoriesItemData}
-            keyExtractor={item => item}
+            keyExtractor={(item, index) => String(index)}
             showsHorizontalScrollIndicator={false}
             horizontal
           />
@@ -360,7 +360,7 @@ const Home = props => {
             // data={props.homeData.data.cards}
             data={DataCardList}
             renderItem={Card}
-            keyExtractor={item => item}
+            keyExtractor={(item, index) => String(index)}
             horizontal
             showsHorizontalScrollIndicator={false}
           />
@@ -383,7 +383,7 @@ const Home = props => {
             // data={props.homeData.data.reviews}
             data={DoctorCardList}
             renderItem={Doctor_Card}
-            keyExtractor={item => item}
+            keyExtractor={(item, index) => String(index)}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           />

@@ -29,10 +29,10 @@ export default Feedbackpage = () => {
       NameFeedback: 'Dr. jenny wilson',
     },
   ];
-  const Feedback = ({item}) => {
+  const Feedback = ({item, index}) => {
     return (
       <View
-        style={{borderBottomWidth: 0.5, borderColor: '#929397', width: '100%'}}>
+        style={{borderBottomWidth: 0.5, borderColor: '#929397', width: '100%'}} key={index}>
         <View
           style={{
             flexDirection: 'row',

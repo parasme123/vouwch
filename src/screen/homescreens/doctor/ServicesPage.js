@@ -16,9 +16,9 @@ import {useLinkProps} from '@react-navigation/native';
 
 export default ServicesPage = props => {
   const [DoctorServiceList, setDoctorServiceList] = useState([1, 2, 3, 4]);
-  const DoctorService = () => {
+  const DoctorService = ({item, index}) => {
     return (
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}} key={index}>
         <Image
           style={{height: 10, width: 10, tintColor: 'black'}}
           source={require('../../../assect/icon/dot.png')}

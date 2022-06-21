@@ -34,7 +34,7 @@ const Comment = ({navigation}) => {
   const onChangesecond = index => {
     setDropDownSec(!DropDownSec);
   };
-  const NotificationItem = (index, item) => {
+  const NotificationItem = ({item, index}) => {
     return (
       <View key={index} style={{marginLeft: 15, marginRight: 15}}>
         <View style={styles.ContentView}>

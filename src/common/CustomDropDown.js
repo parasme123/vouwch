@@ -29,7 +29,7 @@ export default class CustomDropDown extends React.Component {
                             source={this.props.ImagePath} />
                     </View>
                 </TouchableOpacity> */}
-                {this.props.isDropDownSec ?
+                {/* {this.props.isDropDownSec ?
                     <FlatList
                         nestedScrollEnabled={true}
                         data={this.props.items}
@@ -40,7 +40,9 @@ export default class CustomDropDown extends React.Component {
                             return (
                                 <TouchableOpacity
                                     onPress={() => this.props.onChangeItem(item)}
-                                    style={styles.dropDownFlatListItemCss}>
+                                    style={styles.dropDownFlatListItemCss}
+                                    key={index}
+                                    >
                                     <Image style={styles.redstar} source={Imagepath.redstar} resizeMode='contain' />
                                     <Text style={[styles.dropDownText, { color: this.props.placeholder == item.label ? Colors.bottonColors : '#000000', paddingHorizontal: 10, }]}>{item.value}</Text>
 
@@ -49,7 +51,7 @@ export default class CustomDropDown extends React.Component {
                             );
                         }} />
                     : null
-                }
+                } */}
             </View>
         );
     }

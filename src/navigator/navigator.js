@@ -73,7 +73,7 @@ const Navigator = () => {
   );
 };
 export function handleNavigation(nav) {
-  console.log('====navigation', nav.navigation);
+  // console.log('====navigation', nav.navigation);
   switch (nav.type) {
     case 'push':
       nav.navigation.navigate(nav.page, nav.passProps);

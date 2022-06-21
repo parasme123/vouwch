@@ -11,7 +11,7 @@ export default class ApiCall extends React.Component {
       .then(isConnected => {
         if (isConnected == true) {
           let CompleteUrl = CommonApiMethods.BaseUrl(Url);
-          console.log('token  : - ', token);
+          // console.log('token  : - ', token);
           var HeaderToken = {
             Accept: 'application/json',
             'Content-Type': isImage
@@ -26,21 +26,21 @@ export default class ApiCall extends React.Component {
           } else {
             apiData = JSON.stringify(SendData);
           }
-          console.log('HeaderToken  : - ', HeaderToken);
-          console.log('Url  : - ', CompleteUrl);
-          console.log('apiData  : - ', apiData);
-          console.log('Method  : - ', Method);
+          // console.log('HeaderToken  : - ', HeaderToken);
+          // console.log('Url  : - ', CompleteUrl);
+          // console.log('apiData  : - ', apiData);
+          // console.log('Method  : - ', Method);
           return fetch(CompleteUrl, {
             body: apiData,
             method: Method,
             headers: HeaderToken,
           })
             .then(response => {
-              console.log('response  : - ', response);
+              // console.log('response  : - ', response);
               return response.json();
             })
             .then(responseJson => {
-              console.log('responseJson  : - ', responseJson);
+              // console.log('responseJson  : - ', responseJson);
               return responseJson;
             })
             .catch(error => {
