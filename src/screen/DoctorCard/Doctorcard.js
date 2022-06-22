@@ -13,7 +13,6 @@ import CustomLoader from '../../Lib/CustomLoader';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
 import { DoctorCard, Searchresult } from "@component";
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getDoctorData, postDoctorSearch } from '../../reduxStore/action/doctorAction';

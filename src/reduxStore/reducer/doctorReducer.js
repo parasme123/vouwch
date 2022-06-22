@@ -1,7 +1,8 @@
-import { DOCTORRECORD, HOMEDATA } from '../action/types';
+import { BRAVOCARD, DOCTORRECORD, HOMEDATA } from '../action/types';
 const initialState = {
     doctorList: [],
-    homeData:{}
+    homeData:{},
+    allBravoCardDataLIst:[]
 };
 
 const ChangeTheNumber = (state = initialState, action) => {
@@ -9,7 +10,9 @@ const ChangeTheNumber = (state = initialState, action) => {
         case DOCTORRECORD:
             return { ...state, doctorList: action.payload }
             case HOMEDATA:
-                return {...state, homeData:action.payload }
+                return {...state, allHomeData:action.payload }
+                case BRAVOCARD:
+                return {...state, allBravoCardDataLIst:action.payload }
         default:
             return state;
     }
