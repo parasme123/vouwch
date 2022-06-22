@@ -1,7 +1,7 @@
 import { BRAVOCARD, DOCTORRECORD, HOMEDATA } from '../action/types';
 const initialState = {
     doctorList: [],
-    homeData:{},
+    allHomeData:{},
     allBravoCardDataLIst:[]
 };
 
