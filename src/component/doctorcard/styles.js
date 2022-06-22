@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     margin: 10,
-    width: SCREEN_WIDTH / 2 - 20,
+    width: SCREEN_WIDTH / 2 + 60,
   },
   doctorCardIconVIew: {
     height: 100,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     fontSize: Fontsize.fontFifteen,
     lineHeight: 25,
     fontFamily: Fonts.ProximaNovaBold,
-    marginVertical: 5,
+    marginBottom: 5,
   },
   doctorProfile: {
     color: Colors.appcolor,

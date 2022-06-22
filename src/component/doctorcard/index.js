@@ -92,6 +92,29 @@ export default Doctorcard = props => {
           </Text>
         </TouchableOpacity>
       </View>
+
+      <View style={{flex: 1, flexDirection: 'row', marginVertical: 15}}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: 'blue',
+            flex: 1,
+            marginRight: 2,
+            padding: 5,
+            borderRadius: 10,
+          }}>
+          <Text>Add Bravo Card</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            backgroundColor: 'blue',
+            flex: 1,
+            marginLeft: 2,
+            padding: 5,
+            borderRadius: 10,
+          }}>
+          <Text>Add a Review</Text>
+        </TouchableOpacity>
+      </View>
       {/* Hospital name and details */}
       <View style={styles.doctorDetails}>
         <Text numberOfLines={1} style={styles.doctorname}>
