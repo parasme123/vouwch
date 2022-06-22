@@ -21,6 +21,8 @@ import Imagepath from '../../common/imagepath';
 import {Header} from '../../common/Header';
 import String from '../../common/String';
 import Message from '../../modal/Message';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Comments from '../../modal/Comments';
 import {Bravocard} from '@component';
 import {

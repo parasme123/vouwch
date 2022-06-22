@@ -1,6 +1,6 @@
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {useEffect, useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
 import {
   Alert,
   FlatList,
@@ -26,11 +26,11 @@ import {
 import Comments from '../../modal/Comments';
 import Message from '../../modal/Message';
 import styles from './homecss';
-import {Bravocard, DoctorCard} from '@component';
+import { Bravocard, DoctorCard } from '@component';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {getHomeData} from '../../reduxStore/action/doctorAction';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getHomeData } from '../../reduxStore/action/doctorAction';
 const Home = props => {
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
   const [modalVisible, setModalVisible] = useState();
@@ -123,7 +123,7 @@ const Home = props => {
 
   // api  Home Page
   const Call_CategouryApis = () => {
-    let {actions} = props;
+    let { actions } = props;
     actions.getHomeData();
   };
 
@@ -162,7 +162,7 @@ const Home = props => {
   // Search API
 
   const Call_SearchApi = searchProps => {
-    navigation.navigate('DoctorCard', {searchProps});
+    navigation.navigate('DoctorCard', { searchProps });
   };
 
   // Message API
@@ -192,7 +192,7 @@ const Home = props => {
     setloaderVisible(true);
     ApiCall.ApiMethod(SortUrl.Profile, 'GET').then(response => {
       if (response.status == true) {
-        navigation.navigate('profilepage', {isBackTrue: true});
+        navigation.navigate('profilepage', { isBackTrue: true });
         setloaderVisible(false);
       } else {
         setloaderVisible(false);
@@ -201,7 +201,7 @@ const Home = props => {
     });
   };
 
-  const categoriesItemData = ({item, index}) => {
+  const categoriesItemData = ({ item, index }) => {
     return (
       <TouchableOpacity
         onPress={() => Call_SearchApi(item.name)}
@@ -213,7 +213,7 @@ const Home = props => {
   };
 
   const DoctorNavigation = item => {
-    navigation.navigate('Doctordetails', {person: true, doctorId: item});
+    navigation.navigate('Doctordetails', { person: true, doctorId: item });
   };
 
   const Follow_api = () => {
@@ -221,7 +221,7 @@ const Home = props => {
   };
 
   // Card DATA Content   && Bravo card
-  const Card = ({item, index}) => {
+  const Card = ({ item, index }) => {
     return (
       <Bravocard
         bravo_Card_name={item.name}
@@ -232,14 +232,14 @@ const Home = props => {
         item={item}
         // key={}
         index={index}
-        // onpress_Photo={}
-        // onpress_Video={}
+      // onpress_Photo={}
+      // onpress_Video={}
       />
     );
   };
 
   /* // Doctor CARDS */
-  const Doctor_Card = ({item, index}) => {
+  const Doctor_Card = ({ item, index }) => {
     return (
       <DoctorCard
         onpress_DoctorCard={DoctorNavigation}
@@ -265,10 +265,10 @@ const Home = props => {
     <ImageBackground
       source={Imagepath.homebg}
       resizeMode="cover"
-      style={{flex: 1, paddingBottom: 20, zIndex: 80}}>
+      style={{ flex: 1, paddingBottom: 20, zIndex: 80 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, paddingBottom: 40}}>
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}>
         {/* Header */}
         <ImageBackground
           source={Imagepath.headerbg}
@@ -289,7 +289,7 @@ const Home = props => {
             {/* profile Notification */}
             <View style={styles.profileView}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Reply', {isBack: true})}
+                onPress={() => navigation.navigate('Reply', { isBack: true })}
                 style={styles.notificationbutton}>
                 <Image
                   source={Imagepath.massege}
@@ -335,7 +335,7 @@ const Home = props => {
         <View style={styles.categouryView}>
           <Text style={styles.categouryViewText}>Categories:</Text>
         </View>
-        <View style={{marginLeft: 15}}>
+        <View style={{ marginLeft: 15 }}>
           <FlatList
             // data={props.homeData.data.categories}
             data={categouryDataList}
@@ -355,7 +355,7 @@ const Home = props => {
           </TouchableOpacity>
         </View>
         {/* Bravo Card */}
-        <View style={{marginHorizontal: 5}}>
+        <View style={{ marginHorizontal: 5 }}>
           <FlatList
             // data={props.homeData.data.cards}
             data={DataCardList}
@@ -378,7 +378,7 @@ const Home = props => {
           </TouchableOpacity>
         </View>
         {/* Card of Doctors */}
-        <View style={{marginHorizontal: 5}}>
+        <View style={{ marginHorizontal: 5 }}>
           <FlatList
             // data={props.homeData.data.reviews}
             data={DoctorCardList}
@@ -413,7 +413,10 @@ const mapStateToProps = state => ({
   homeData: state.doctor.homeData,
 });
 
-const ActionCreators = Object.assign({getHomeData});
+const ActionCreators = Object.assign(
+  { getHomeData }
+);
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
