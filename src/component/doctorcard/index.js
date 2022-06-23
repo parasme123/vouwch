@@ -17,6 +17,7 @@ import {Rating, AirbnbRating} from 'react-native-ratings';
 import Colors from '../../common/Colors';
 
 export default Doctorcard = props => {
+
   return (
     <TouchableOpacity
       key={props.index}
@@ -60,7 +61,7 @@ export default Doctorcard = props => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_DoctorCard_Follow();
+            props.onpress_DoctorCard_Follow(props.item.id);
           }}>
           <Image
             style={styles.DoctorCardShareButtonIcon}

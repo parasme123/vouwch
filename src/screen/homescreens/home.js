@@ -27,16 +27,12 @@ import Comments from '../../modal/Comments';
 import Message from '../../modal/Message';
 import styles from './homecss';
 import { Bravocard, DoctorCard } from '@component';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getHomeData } from '../../reduxStore/action/doctorAction';
-const Home = props => {
+import { getHomeData, postFollow } from '../../reduxStore/action/doctorAction';
+const Home = (props) => {
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
   const [modalVisible, setModalVisible] = useState();
-  const [categouryDataList, setcategouryDataList] = useState();
-  const [DataCardList, setDataCardList] = useState();
-  const [DoctorCardList, setDoctorCardList] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const [ReviewModalPopup, setReviewModalPopup] = useState();
   const [search, setsearch] = useState('');
@@ -47,16 +43,7 @@ const Home = props => {
   const [userType, setuserType] = useState();
   const [userToken, setuserToken] = useState();
   // const userTypeOne = () => { userToken && userType.user_type == 1 };
-  const FollowButton = item => {
-    let follows1 = [...Follows];
-    if (!follows1.includes(item)) {
-      //checking weather array contain the id
-      follows1.push(item); //adding to array because value doesnt exists
-    } else {
-      follows1.splice(follows1.indexOf(item), 1); //deleting
-    }
-    setFollow(follows1);
-  };
+ 
 
   const MessagepropPage = DataCardiList => {
     setmsgDocId(DataCardiList);
@@ -83,8 +70,6 @@ const Home = props => {
 
   useEffect(() => {
     Call_CategouryApi();
-    Call_CategouryApis();
-    // console.log('homeData---------', props.getHomeData);
     AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
       if (value !== null) {
       }
@@ -122,42 +107,42 @@ const Home = props => {
   };
 
   // api  Home Page
-  const Call_CategouryApis = () => {
+  const Call_CategouryApi = () => {
     let { actions } = props;
     actions.getHomeData();
   };
 
-  // api  Home Page
-  const Call_CategouryApi = () => {
-    setloaderVisible(true);
-    ApiCall.ApiMethod(SortUrl.HomeData, 'GET').then(response => {
-      if (response.status == true) {
-        setloaderVisible(false);
-        setcategouryDataList(response.data.categories);
-        setDataCardList(response.data.cards);
-        setDoctorCardList(response.data.reviews);
-      } else {
-        setloaderVisible(false);
-      }
-    });
-  };
 
   // Follow API
-  const Call_FollowApi = () => {
-    const data = {
-      business_id: DoctorCardList.id,
-    };
-    ApiCall.ApiMethod(SortUrl.Follow, 'POST', data).then(response => {
-      if (response.status == true) {
-        setFollowDetails(response.data);
-        FollowButton(item.id);
-      } else {
-        setFollowDetails(response.data);
-        FollowButton(item.id);
-        Alert.alert('something went wrongs');
-      }
-    });
+
+  const FollowButton = item => {
+    let follows1 = [...Follows];
+    if (!follows1.includes(item)) {
+      //checking weather array contain the id
+      follows1.push(item); //adding to array because value doesnt exists
+      // Call_FollowApi(id);
+    } else {
+      follows1.splice(follows1.indexOf(item), 1); //deleting
+      // Call_FollowApi(id);
+    }
+    setFollow(follows1);
   };
+
+const Call_FollowApi = (id) => {
+  let { actions } = props;
+  let apiData = {
+    business_id: id,
+  }
+  // console.log("apiData------------------------",apiData);
+  actions.postFollow(apiData);
+
+};
+
+const Follow_api = (id) => {
+      Call_FollowApi(id);
+      FollowButton(id);
+};
+
 
   // Search API
 
@@ -216,9 +201,7 @@ const Home = props => {
     navigation.navigate('Doctordetails', { person: true, doctorId: item });
   };
 
-  const Follow_api = () => {
-    Call_FollowApi;
-  };
+ 
 
   // Card DATA Content   && Bravo card
   const Card = ({ item, index }) => {
@@ -337,8 +320,8 @@ const Home = props => {
         </View>
         <View style={{ marginLeft: 15 }}>
           <FlatList
-            // data={props.homeData.data.categories}
-            data={categouryDataList}
+            data={props.allHomeData.categories}
+            // data={categouryDataList}
             renderItem={categoriesItemData}
             keyExtractor={(item, index) => String(index)}
             showsHorizontalScrollIndicator={false}
@@ -357,8 +340,8 @@ const Home = props => {
         {/* Bravo Card */}
         <View style={{ marginHorizontal: 5 }}>
           <FlatList
-            // data={props.homeData.data.cards}
-            data={DataCardList}
+            data={props.allHomeData.cards}
+            // data={DataCardList}
             renderItem={Card}
             keyExtractor={(item, index) => String(index)}
             horizontal
@@ -380,8 +363,8 @@ const Home = props => {
         {/* Card of Doctors */}
         <View style={{ marginHorizontal: 5 }}>
           <FlatList
-            // data={props.homeData.data.reviews}
-            data={DoctorCardList}
+            data={props.allHomeData.reviews}
+            // data={DoctorCardList}
             renderItem={Doctor_Card}
             keyExtractor={(item, index) => String(index)}
             horizontal={true}
@@ -410,11 +393,13 @@ const Home = props => {
 };
 
 const mapStateToProps = state => ({
-  homeData: state.doctor.homeData,
+  allHomeData: state.doctor.allHomeData,
+  allFollowPost: state.doctor.allFollowPost,
 });
 
 const ActionCreators = Object.assign(
-  { getHomeData }
+  { getHomeData },
+  { postFollow }
 );
 
 const mapDispatchToProps = dispatch => ({
