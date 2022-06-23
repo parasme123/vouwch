@@ -4,12 +4,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Image
 import styles from './doctorcardcCss';
 import { useNavigation } from '@react-navigation/native';
 import Imagepath from '../../common/imagepath';
-import Fonts from '../../common/Fonts';
-import { Header } from '../../common/Header';
-import String from '../../common/String';
-import ApiCall from '../../Lib/ApiCall';
-import SortUrl from '../../Lib/SortUrl';
-import CustomLoader from '../../Lib/CustomLoader';
+import {  Colors, Fontsize, Fonts, Header,String } from "@common";
+import { AsyncStorageHelper, Constants, SortUrl, ApiCall, Validators, CustomLoader } from '@lib';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
 import { DoctorCard, Searchresult } from "@component";

@@ -1,10 +1,13 @@
 import {StyleSheet} from 'react-native';
-import {Fonts, Colors} from '@common';
+// import {Fonts, Colors} from '@common';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Fontsize from '../../common/Fontsize';
+// import Fontsize from '../../common/Fontsize';
+import {  Colors, Fontsize, Fonts } from "@common";
+
+import { AsyncStorageHelper, Constants, SortUrl, ApiCall, Validators, CustomLoader } from '@lib';
 // Login mail
 
 const styles = StyleSheet.create({
@@ -15,34 +18,34 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: hp('2%'),
   },
-  line: {
-    flex: 1,
-    height: hp('0.15%'),
-    backgroundColor: '#737373',
-  },
-  orText: {
-    width: wp('10%'),
-    textAlign: 'center',
-    color: '#737373',
-    fontSize: hp('2%'),
-    // fontSize:15
-  },
+  // line: {
+  //   flex: 1,
+  //   height: hp('0.15%'),
+  //   backgroundColor: '#737373',
+  // },
+  // orText: {
+  //   width: wp('10%'),
+  //   textAlign: 'center',
+  //   color: '#737373',
+  //   fontSize: hp('2%'),
+  //   // fontSize:15
+  // },
 
-  container: {width: '85%', alignSelf: 'center', height: '100%'},
+  container: { width: '85%', alignSelf: 'center', height: '100%' },
   header: {
-    color: Colors.black,
+    color: '#000000',
     fontSize: Fontsize.fontThirtyfour,
+    marginTop: hp('9%'),
+    marginBottom: hp('2%'),
     fontFamily: Fonts.ProximaNovaBold,
-    marginTop: 100,
-    marginBottom: 15,
   },
   subHeader: {
-    color: Colors.black,
-    fontSize: Fontsize.fontSixteen,
+    color: '#737373',
+    fontSize: 17,
+    marginBottom: hp('5%'),
     fontFamily: Fonts.ProximaNovaRegular,
-    opacity: 0.5,
   },
-  textInputMainView: {width: '100%', alignSelf: 'center'},
+  textInputMainView: { width: '100%', alignSelf: 'center' },
   textinputUsernameView: {
     flexDirection: 'row',
     borderColor: '#CCC',
@@ -51,6 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignSelf: 'center',
     height: 48,
+    marginBottom: hp('1%'),
   },
   textinputpasswordView: {
     borderRightWidth: 1,
@@ -65,6 +69,7 @@ const styles = StyleSheet.create({
     height: 15,
     width: 15,
     alignSelf: 'center',
+    marginLeft: '7%',
   },
   textInputname: {
     alignSelf: 'center',
@@ -82,6 +87,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignSelf: 'center',
     height: 48,
+    marginVertical: hp('3%'),
     alignItems: 'center',
   },
   passwordIcon: {
@@ -90,6 +96,7 @@ const styles = StyleSheet.create({
     height: 18,
     width: 18,
     alignSelf: 'center',
+    marginLeft: '7%',
   },
   textinputPassword: {
     alignSelf: 'center',
@@ -99,7 +106,7 @@ const styles = StyleSheet.create({
     width: '75%',
     fontFamily: Fonts.ProximaNovaLight,
   },
-  forgotButton: {marginBottom: hp('3%'), alignSelf: 'flex-end'},
+  forgotButton: { marginBottom: hp('3%'), alignSelf: 'flex-end' },
   forgotButtontext: {
     color: 'rgba(36, 95, 199, 1)',
     fontSize: 15,
@@ -124,7 +131,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: hp('4%'),
   },
-  subView: {flex: 1, height: 1, backgroundColor: '#929397'},
+  subView: { flex: 1, height: 1, backgroundColor: '#929397' },
   orText: {
     width: 150,
     textAlign: 'center',
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
   },
-  googleIcon: {height: 18, width: 18},
+  googleIcon: { height: 18, width: 18 },
   fbButton: {
     borderColor: '#3B5998',
     width: 83,
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
   },
-  fbIcon: {height: 23, width: 23},
+  fbIcon: { height: 23, width: 23 },
   twiterButton: {
     borderColor: '#27AAE2',
     width: 83,
@@ -168,8 +175,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
   },
-  twiterIcon: {height: 33, width: 33},
-  registerview: {flexDirection: 'row', justifyContent: 'center'},
+  twiterIcon: { height: 33, width: 33 },
+  registerview: { flexDirection: 'row', justifyContent: 'center' },
   registerText: {
     color: '#000000',
     fontSize: 17,
@@ -181,5 +188,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaBold,
   },
 });
+
 
 export default styles;

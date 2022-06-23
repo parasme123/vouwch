@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Image,
@@ -12,14 +12,15 @@ import {
 } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import Toast from 'react-native-simple-toast';
-import {Validators} from '../../Lib/Validators';
-import ApiCall from '../../Lib/ApiCall';
-import Constants from '../../Lib/Constants';
-import SortUrl from '../../Lib/SortUrl';
-import CustomLoader from '../../Lib/CustomLoader';
-import {handleNavigation} from '../../navigator/Navigator';
+import { CustomLoader, Validators } from '@lib';
+import { handleNavigation } from '../../navigator/Navigator';
 import styles from './css';
-const Signup = ({navigation}) => {
+import { useNavigation } from '@react-navigation/native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { postRegister } from '../../reduxStore/action/doctorAction';
+
+const Signup = (props) => {
   const [mark, setMark] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const [firstname, setfirstname] = useState('');
@@ -27,50 +28,30 @@ const Signup = ({navigation}) => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
-
+  const navigation = useNavigation();
   const chexkBox = () => {
     setMark(!mark);
   };
+
   const Signin_Validators = () => {
     if (
       Validators.checkNotNull('First Name', 2, 20, firstname) &&
       Validators.checkNotNull('Last Name', 2, 20, lastname) &&
-      Validators.checkNotNull('Email', 2, 20, email) &&
+      Validators.checkNotNull('Email', 2, 40, email) &&
       Validators.checkPassword('Password', 7, 15, password) &&
       Validators.checkNotNull('Confirm Password', 2, 20, ConfirmPassword) &&
-      Validators.checkMatch(
-        'Password',
-        password,
-        'Confirm Password',
-        ConfirmPassword,
-      )
+      Validators.checkMatch('Password', password, 'Confirm Password', ConfirmPassword,)
     ) {
       if (!mark) {
         Toast.show('Please Select Terms of Services and Privacy Policy');
       } else {
-        Check_User();
+        Signup_CallApi();
       }
-      // Signup_CallApi()
     }
   };
-  //
-  const Check_User = () => {
-    let data = {
-      Email: email,
-    };
-    setloaderVisible(true);
-    ApiCall.ApiMethod(SortUrl.CheckUser, Constants.POST, data)
-      .then(response => {
-        if (response.status == Constants.Success) {
-          Signup_CallApi();
-        } else {
-          Toast.show(response.message);
-        }
-      })
-      .catch(err => {});
-  };
   const Signup_CallApi = () => {
-    let Data = {
+    let { actions } = props;
+    let apiData = {
       user_type: 'User',
       first_name: firstname,
       last_name: lastname,
@@ -78,31 +59,21 @@ const Signup = ({navigation}) => {
       password: password,
       confirm_password: ConfirmPassword,
       device_type: 'Android',
-      device_token: 'User',
+      device_token: 'abcd',
     };
-
-    setloaderVisible(true);
-    ApiCall.ApiMethod(SortUrl.Register, Constants.POST, Data)
-      .then(response => {
-        setloaderVisible(false);
-        if (response.status == true) {
-          handleNavigation({
-            type: 'setRoot',
-            page: 'login',
-            navigation: navigation,
-          });
-          //    Toast.show(response.message);
-        } else {
-          Toast.show(response.message);
-        }
-      })
-      .catch(err => {
-        setloaderVisible(false);
-      });
+    actions.postRegister(apiData, setloaderVisible, () => PageNavigation());
   };
 
+  const PageNavigation = () => {
+    handleNavigation({
+      type: 'setRoot',
+      page: 'bottomtab',
+      navigation: navigation,
+    });
+  }
+
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
+    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.headerText}>Sign up</Text>
@@ -162,7 +133,7 @@ const Signup = ({navigation}) => {
                 }}
                 value={email}
                 maxLength={40}
-                keyboardType="default"
+                keyboardType="email-address"
               />
             </View>
             <View style={styles.textInputView}>
@@ -180,7 +151,6 @@ const Signup = ({navigation}) => {
                   setpassword(text);
                 }}
                 value={password}
-                maxLength={8}
                 keyboardType="default"
               />
             </View>
@@ -199,14 +169,13 @@ const Signup = ({navigation}) => {
                   setConfirmPassword(text);
                 }}
                 value={ConfirmPassword}
-                maxLength={8}
                 keyboardType="default"
               />
             </View>
             <View style={styles.privacyView}>
               <TouchableOpacity
                 onPress={() => chexkBox()}
-                style={{paddingRight: 5}}>
+                style={{ paddingRight: 5 }}>
                 <Image
                   source={
                     mark
@@ -241,7 +210,7 @@ const Signup = ({navigation}) => {
             <Text style={styles.textsignin}>Already have an account? </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('login', {UserType: 'PERSONAL'});
+                navigation.navigate('login', { UserType: 'PERSONAL' });
               }}>
               <Text style={styles.button}>Sign in</Text>
             </TouchableOpacity>
@@ -253,4 +222,18 @@ const Signup = ({navigation}) => {
   );
 };
 
-export default Signup;
+
+
+
+const mapStateToProps = state => ({
+  allLoginRegister: state.doctor.allLoginRegister,
+});
+
+const ActionCreators = Object.assign(
+  { postRegister }
+);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup)
