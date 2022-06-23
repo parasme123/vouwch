@@ -1,15 +1,13 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, LOGIN, REGISTER } from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW } from './types';
 import Toast from 'react-native-simple-toast';
-import { handleNavigation } from '../../navigator/Navigator';
 import * as URL from './webApiUrl';
-import{Constants,AsyncStorageHelper} from "@lib"
+import { Constants, AsyncStorageHelper } from "@lib"
 export const saveDoctorData = (data) => {
     return ({
         type: DOCTORRECORD,
         payload: data
     })
 };
-
 
 export const saveHomeData = (data) => {
     return ({
@@ -32,23 +30,6 @@ export const saveFollowPost = (data) => {
     })
 };
 
-export const saveLoginData = (data) => {
-    return ({
-        type: LOGIN,
-        payload: data
-    })
-};
-
-
-export const saveRegisterData = (data) => {
-    return ({
-        type: REGISTER,
-        payload: data
-    })
-};
-
-
-
 export const getDoctorData = () => {
     return async dispatch => {
         await fetch(`${URL.baseUrl}${URL.getAllDoctors}`, {
@@ -60,16 +41,12 @@ export const getDoctorData = () => {
             let response = await res.json();
             dispatch(saveDoctorData(response.data.data))
         }).catch(err => {
-            console.log("Unable to fetch!", err);
+            console.log("getDoctorData", err);
         })
     }
 };
 
-
-
-
 export const postDoctorSearch = (data) => {
-    // console.log("keyword----------DoctorAction", data);
     return async dispatch => {
         await fetch(`${URL.baseUrl}${URL.postDoctorSearch}`, {
             method: "POST",
@@ -79,15 +56,13 @@ export const postDoctorSearch = (data) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            // console.log("data action------------------------------------------------response", response);
             dispatch(saveDoctorData(response.data.data))
         }).catch(err => {
-            console.log("Unable to fetch!", err);
+            console.log("postDoctorSearch", err);
         })
 
     }
 };
-
 
 export const getHomeData = () => {
     return async dispatch => {
@@ -99,14 +74,11 @@ export const getHomeData = () => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(saveHomeData(response.data))
-            // console.log("log------------getHomeData-----",response)
         }).catch(err => {
-            console.log("Unable to fetch!", err);
+            console.log("getHomeData", err);
         })
     }
 };
-
-
 
 export const getBravoCardData = () => {
     return async dispatch => {
@@ -119,29 +91,24 @@ export const getBravoCardData = () => {
             let response = await res.json();
             dispatch(saveBravoCard(response.data.cards))
         }).catch(err => {
-            console.log("Unable to fetch!", err);
+            console.log("getBravoCardData", err);
         })
     }
 };
 
-
-
 export const postFollow = (data) => {
-    // console.log("keyword----------DoctorAction", data);
     return async dispatch => {
         await fetch(`${URL.baseUrl}${URL.postFollow}`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
-                // "Token":""
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            // console.log("data action-------------------------postFollow-----------------------response", response);
             dispatch(saveFollowPost(response.data))
         }).catch(err => {
-            console.log("Unable to fetch!", err);
+            console.log("postFollow", err);
         })
 
     }
@@ -162,22 +129,20 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
-                global.token=response.token
+                global.token = response.token
                 PageNavigation(response)
                 console.log("hello")
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
             }
-            dispatch(saveLoginData(response))
         }).catch(err => {
-            console.log("Unable to fetch!", err);
+            console.log("postLogin", err);
             setloaderVisible(false);
             Toast.show(response.message);
         })
     }
 };
-
 
 export const postRegister = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
@@ -192,15 +157,15 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
+                AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
+                AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 PageNavigation(response)
-                console.log("hello")
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
             }
-            dispatch(saveLoginData(response))
         }).catch(err => {
-            console.log("Unable to fetch!", err);
+            console.log("postRegister", err);
             setloaderVisible(false);
             Toast.show(response.message);
         })

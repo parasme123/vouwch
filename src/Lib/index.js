@@ -19,7 +19,7 @@ export const Helper = _Helper;
 import _SortUrl from './SortUrl';
 export const SortUrl = _SortUrl;
 
-import _Validators from './Validators';
+import * as _Validators from './Validators';
 export const Validators = _Validators;
 
 // import _ApiCall from "./ApiCall";

@@ -58,7 +58,11 @@ const Login = (props, { route }) => {
 
 
   const PageNavigation = () => {
-    navigation.navigate('bottomtab')
+    handleNavigation({
+      type: 'setRoot',
+      page: 'bottomtab',
+      navigation: navigation,
+    });
   }
 
   const Check_User = () => {

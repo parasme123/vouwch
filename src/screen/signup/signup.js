@@ -12,18 +12,13 @@ import {
 } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import Toast from 'react-native-simple-toast';
-import { Validators } from '../../Lib/Validators';
-import ApiCall from '../../Lib/ApiCall';
-import Constants from '../../Lib/Constants';
-import SortUrl from '../../Lib/SortUrl';
-import CustomLoader from '../../Lib/CustomLoader';
+import { CustomLoader, Validators } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
 import styles from './css';
 import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { postRegister } from '../../reduxStore/action/doctorAction';
-
 
 const Signup = (props) => {
   const [mark, setMark] = useState();
@@ -70,7 +65,11 @@ const Signup = (props) => {
   };
 
   const PageNavigation = () => {
-    navigation.navigate('bottomtab')
+    handleNavigation({
+      type: 'setRoot',
+      page: 'bottomtab',
+      navigation: navigation,
+    });
   }
 
   return (
@@ -227,7 +226,7 @@ const Signup = (props) => {
 
 
 const mapStateToProps = state => ({
-  allRegisterData: state.doctor.allRegisterData,
+  allLoginRegister: state.doctor.allLoginRegister,
 });
 
 const ActionCreators = Object.assign(

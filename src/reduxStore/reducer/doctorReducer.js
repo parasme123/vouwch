@@ -4,8 +4,6 @@ const initialState = {
     allHomeData: {},
     allBravoCardDataLIst: [],
     allFollowPost: {},
-    allLoginData: {},
-    allRegisterData: {}
 };
 
 const ChangeTheNumber = (state = initialState, action) => {
@@ -18,10 +16,6 @@ const ChangeTheNumber = (state = initialState, action) => {
             return { ...state, allBravoCardDataLIst: action.payload };
         case FOLLOW:
             return { ...state, allFollowPost: action.payload };
-        case LOGIN:
-            return { ...state, allLoginData: action.payload };
-        case REGISTER:
-            return { ...state, allRegisterData: action.payload };
         default:
             return state;
     }
