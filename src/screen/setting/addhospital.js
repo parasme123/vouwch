@@ -14,7 +14,7 @@ import {
 // import { TextInput } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Imagepath from '../../common/imagepath';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import String from '../../common/String';
 import Fonts from '../../common/Fonts';
 import {useNavigation} from '@react-navigation/native';

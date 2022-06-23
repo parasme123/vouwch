@@ -17,7 +17,7 @@ import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import String from '../../common/String';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import Fonts from '../../common/Fonts';
 import Imagepath from '../../common/imagepath';
 import CustomDropDown from '../../common/CustomDropDown';

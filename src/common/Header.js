@@ -3,7 +3,7 @@ import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Fonts from './Fonts';
 import Imagepath from './imagepath';
 import { useNavigation } from '@react-navigation/native';
-export const Header = (props) => {
+export default Header = (props) => {
     const navigation = useNavigation();
     return (
         <View style={styles.Header_view}>

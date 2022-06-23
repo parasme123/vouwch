@@ -8,22 +8,22 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import {Header} from '../../common/Header';
+import { TextInput } from 'react-native-gesture-handler';
+import { Header } from '@common';
 import Imagepath from '../../common/imagepath';
 import String from '../../common/String';
 import Fonts from '../../common/Fonts';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Colors from '../../common/Colors';
 
 const Settingprofile = () => {
   const navigation = useNavigation();
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
+    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <Header title={String.ProfileSetting} isback={'bottomtab'} />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.mainView}></View>
         <View style={styles.container}>
           <Image style={styles.doctorImage} source={Imagepath.doctors} />
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   shadowProp: {
     shadowColor: '#171717',
-    shadowOffset: {width: 0, height: 3},
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 2,
   },
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     borderColor: '#00000012',
     borderBottomWidth: 2,
     shadowColor: '#00000012',
-    shadowOffset: {width: 0, height: 3},
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.6,
     shadowRadius: 7,
   },
@@ -105,12 +105,12 @@ const styles = StyleSheet.create({
     borderColor: '#00000012',
     borderBottomWidth: 2,
     shadowColor: '#00000012',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.6,
     shadowRadius: 7,
   },
-  mainView: {height: 115, width: '100%', backgroundColor: Colors.appcolor},
-  doctorImage: {height: 93, width: 93, borderRadius: 100},
+  mainView: { height: 115, width: '100%', backgroundColor: Colors.appcolor },
+  doctorImage: { height: 93, width: 93, borderRadius: 100 },
   doctorImageText: {
     color: '#000',
     fontSize: 20,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 10,
   },
-  followIcon: {tintColor: '#fff', height: 20, width: 20},
+  followIcon: { tintColor: '#fff', height: 20, width: 20 },
   followText: {
     color: '#ffffff',
     fontSize: 10,
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginHorizontal: 15,
   },
-  imputText: {fontSize: 14, width: '90%', fontFamily: Fonts.ProximaNovaMedium},
-  sendIcon: {width: 30, height: 30, flexDirection: 'row', borderRadius: 20},
-  sendImage: {height: 30, width: 30},
+  imputText: { fontSize: 14, width: '90%', fontFamily: Fonts.ProximaNovaMedium },
+  sendIcon: { width: 30, height: 30, flexDirection: 'row', borderRadius: 20 },
+  sendImage: { height: 30, width: 30 },
 });
 export default Settingprofile;
