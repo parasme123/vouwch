@@ -1,7 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import Fonts from '../../common/Fonts';
-import Colors from '../../common/Colors';
-import Fontsize from '../../common/Fontsize';
+import { Fonts, Colors, Fontsize } from "@common";
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -9,7 +7,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     margin: 10,
-    width: SCREEN_WIDTH / 2 - 20,
+    width: SCREEN_WIDTH / 2,
   },
   cardIconView: {
     height: 100,
@@ -73,8 +71,11 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   cardPhotoImage: {height: 11.5, width: 13},
-  cardPhotoVideoText: {
+  cardVideoText: {
     color: Colors.lightGrey,
+  },
+  cardPhotoText: {
+    color: Colors.white,
     fontSize: Fontsize.small,
     lineHeight: 15,
     fontFamily: Fonts.ProximaNovaRegular,

@@ -31,3 +31,6 @@ export const String = _String;
 
 import _TextComman from "./TextComman";
 export const TextComman = _TextComman;
+
+import * as _Svg from "./svg";
+export const svg = _Svg;

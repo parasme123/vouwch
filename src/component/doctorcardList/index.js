@@ -9,8 +9,7 @@ import {
 import { Rating } from 'react-native-ratings';
 import { Colors, imagepath, svg } from '@common';
 
-export default Doctorcard = props => {
-
+export default DoctorcardList = props => {
   return (
     <TouchableOpacity
       key={props.index}
@@ -56,7 +55,7 @@ export default Doctorcard = props => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_DoctorCard_Follow(props.item.id);
+            props.onpress_DoctorCard_Follow();
           }}>
           {svg.followCircle(30, 30, Colors.black, Colors.white)}
           {/* <Image

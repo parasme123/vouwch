@@ -87,6 +87,8 @@ const styles = StyleSheet.create({
   featuredView: {
     flexDirection: 'row',
     marginHorizontal: 15,
+    marginTop:20,
+    marginBottom:10,
     justifyContent: 'space-between',
     alignItems: 'center',
   },

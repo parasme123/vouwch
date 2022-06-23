@@ -183,7 +183,7 @@ const Doctor_Card = (props, { route }) => {
                 data={props.doctorList}
                 style={{ flex: 1 }}
                 renderItem={DoctorCard_Cards}
-                numColumns={2}
+                // numColumns={2}
                 keyExtractor={(item, index) => item.key}
                 showsVerticalScrollIndicator={false}
 
