@@ -10,15 +10,16 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
+import {  Colors, Fontsize, Fonts } from "@common";
+import { AsyncStorageHelper, Constants, SortUrl, ApiCall, Validators, CustomLoader } from '@lib';
 import Imagepath from '../../common/imagepath';
-import {Validators} from '../../Lib/Validators';
-import ApiCall from '../../Lib/ApiCall';
-import SortUrl from '../../Lib/SortUrl';
-import Constants from '../../Lib/Constants';
-import CustomLoader from '../../Lib/CustomLoader';
 import RNPickerSelect from 'react-native-picker-select';
 import Toast from 'react-native-simple-toast';
 import styles from './css';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {  postRegister } from '../../reduxStore/action/doctorAction';
+ 
 const BusinessSignup = ({navigation}) => {
   const [mark, setMark] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
@@ -65,27 +66,9 @@ const BusinessSignup = ({navigation}) => {
       if (!mark) {
         Toast.show('Please Select Terms of Services and Privacy Policy');
       } else {
-        Check_User();
+        Signin_CallApi();
       }
     }
-  };
-
-  const Check_User = () => {
-    let data = {
-      email: email,
-    };
-    setloaderVisible(true);
-    ApiCall.ApiMethod(SortUrl.CheckUser, Constants.POST, data)
-      .then(response => {
-        if (response.status == Constants.Success) {
-          Signin_CallApi();
-        } else {
-          Toast.show(response.message);
-        }
-      })
-      .catch(err => {
-        setloaderVisible(false);
-      });
   };
 
   Signin_CallApi = () => {
@@ -103,6 +86,7 @@ const BusinessSignup = ({navigation}) => {
     };
 
     setloaderVisible(true);
+
     ApiCall.ApiMethod(SortUrl.Register, Constants.POST, Data)
       .then(response => {
         setloaderVisible(false);
@@ -116,7 +100,7 @@ const BusinessSignup = ({navigation}) => {
         setloaderVisible(false);
       });
   };
-  console.log('categories============CateId', CateId);
+  // console.log('categories============CateId', CateId);
   return (
     <ImageBackground source={Imagepath.background} style={{flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
@@ -291,4 +275,16 @@ const BusinessSignup = ({navigation}) => {
   );
 };
 
-export default BusinessSignup;
+
+const mapStateToProps = state => ({
+  allRegisterData: state.doctor.allRegisterData,
+});
+
+const ActionCreators = Object.assign(
+  { postRegister }
+);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BusinessSignup)
