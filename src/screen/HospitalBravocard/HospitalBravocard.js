@@ -18,7 +18,7 @@ import {
 import styles from './hospitalecss';
 import {useNavigation} from '@react-navigation/native';
 import Imagepath from '../../common/imagepath';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import String from '../../common/String';
 import Message from '../../modal/Message';
 import { connect } from 'react-redux';

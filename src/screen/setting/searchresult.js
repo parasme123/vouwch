@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import String from '../../common/String';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import Imagepath from '../../common/imagepath';
 import {useNavigation} from '@react-navigation/native';
 import Fonts from '../../common/Fonts';

@@ -1,18 +1,15 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, ImageBackground, Image, FlatList, Modal, Alert, TextInput, Share } from 'react-native';
+import { ImageBackground, FlatList, Share } from 'react-native';
 import styles from './doctorcardcCss';
-import { useNavigation } from '@react-navigation/native';
-import Imagepath from '../../common/imagepath';
-import {  Colors, Fontsize, Fonts, Header,String } from "@common";
-import { AsyncStorageHelper, Constants, SortUrl, ApiCall, Validators, CustomLoader } from '@lib';
+
+import { Header, String, imagepath } from "@common";
+import { CustomLoader } from '@lib';
+import { DoctorCard, Searchresult } from "@component";
+import { getDoctorData, postDoctorSearch } from '../../reduxStore/action/doctorAction';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
-import { DoctorCard, Searchresult } from "@component";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getDoctorData, postDoctorSearch } from '../../reduxStore/action/doctorAction';
-// let STORAGE_KEY = '@user_input';
 
 const Doctor_Card = (props, { route }) => {
     const searchProps = props.route?.params ? props.route?.params?.searchProps : null;
@@ -42,7 +39,6 @@ const Doctor_Card = (props, { route }) => {
         setsearchComponent(!searchComponent)
     }
 
-
     const FollowButton = (item) => {
         let follows1 = [...Follows];
         if (!follows1.includes(item)) {          //checking weather array contain the id
@@ -64,7 +60,6 @@ const Doctor_Card = (props, { route }) => {
         }
     }, []);
 
-    const navigation = useNavigation();
     // share module
     const onShare = async () => {
         try {
@@ -85,13 +80,12 @@ const Doctor_Card = (props, { route }) => {
             alert(error.message);
         }
     };
+
     // api  of all Doctor Card
     const Call_CategouryApi = () => {
         let { actions } = props;
         actions.getDoctorData();
     }
-
-
 
     // Search API
     const Call_SearchApi = () => {
@@ -102,49 +96,6 @@ const Doctor_Card = (props, { route }) => {
         actions.postDoctorSearch(apiData);
 
     };
-
-
-
-    // // Search API
-    const Call_SearchApis = () => {
-        setloaderVisible(true)
-
-        console.log(searchProps, "searchProps");
-        ApiCall.ApiMethod(SortUrl.searchDoctor, 'POST', data).then(
-            (response) => {
-                if (response?.data?.data?.length > 0) {
-                    setloaderVisible(false);
-                    setDoctorCardList(response?.data?.data)
-                } else {
-                    setloaderVisible(false)
-                    Component_search()
-                }
-            }
-        );
-    };
-
-
-    // follow Api
-    const Call_FollowApi = () => {
-        const data = {
-            business_id: DoctorCardList.id
-        }
-        ApiCall.ApiMethod(SortUrl.Follow, 'POST', data).then(
-            (response) => {
-                console.log(response, "response===========")
-                if (response.status == true) {
-                    // setFollowDetails(response.data)
-
-                    FollowButton(item.id);
-                } else {
-                    alert("something went wrong")
-                }
-            }
-        );
-    }
-
-
-
 
     // Doctor CARDS
     const DoctorCard_Cards = ({ item, index }) => {
@@ -172,7 +123,7 @@ const Doctor_Card = (props, { route }) => {
 
     return (
         <ImageBackground
-            source={Imagepath.homebg}
+            source={imagepath.homebg}
             resizeMode='cover'
             style={styles.image} >
             <Header title={String.doctorcard} isback={true} />

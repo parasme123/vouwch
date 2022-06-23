@@ -14,7 +14,7 @@ import {
 import Imagepath from '../../common/imagepath';
 import {Rating, AirbnbRating} from 'react-native-ratings';
 import ToggleSwitch from 'toggle-switch-react-native';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import String from '../../common/String';
 import {useNavigation} from '@react-navigation/native';
 import Fonts from '../../common/Fonts';

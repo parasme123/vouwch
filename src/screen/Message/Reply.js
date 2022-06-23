@@ -13,7 +13,7 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import Imagepath from '../../common/imagepath';
 import Fonts from '../../common/Fonts';
 import String from '../../common/String';

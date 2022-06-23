@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, ScrollView, Text, Image} from 'react-native';
 import Colors from '../../common/Colors';
 import CoustomButton from '../../common/CommanBotton';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import Imagepath from '../../common/imagepath';
 import InputCommon from '../../common/InputCommon';
 import String from '../../common/String';

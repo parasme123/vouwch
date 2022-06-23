@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Image, FlatList, Dimensions} from 'react-native';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import Imagepath from '../../common/imagepath';
 import String from '../../common/String';
 import styles from './NotificationStyle';

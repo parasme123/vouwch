@@ -15,7 +15,7 @@ import ApiCall from '../../Lib/ApiCall';
 import SortUrl from '../../Lib/SortUrl';
 import Constants from '../../Lib/Constants';
 import CustomLoader from '../../Lib/CustomLoader';
-import {Header} from '../../common/Header';
+import {Header} from '@common';
 import String from '../../common/String';
 import Toast from 'react-native-simple-toast';
 import {handleNavigation} from '../../navigator/navigator';
