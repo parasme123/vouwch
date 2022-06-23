@@ -9,7 +9,7 @@ import {
 import { Rating } from 'react-native-ratings';
 import { Colors, imagepath, svg } from '@common';
 
-export default Doctorcard = props => {
+export default DoctorcardList = props => {
   return (
     <TouchableOpacity
       key={props.index}

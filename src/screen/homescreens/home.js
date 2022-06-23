@@ -332,7 +332,7 @@ const Home = props => {
         </ImageBackground>
 
         {/* Categouries: */}
-        <View style={styles.categouryView}>
+        <View style={styles.featuredView}>
           <Text style={styles.categouryViewText}>Categories:</Text>
         </View>
         <View style={{ marginLeft: 15 }}>
@@ -347,10 +347,10 @@ const Home = props => {
         </View>
 
         {/* Categouries Bravo card: */}
-        <View style={styles.bravoCategoury}>
+        <View style={styles.featuredView}>
           <Text style={styles.bravoCategouryText}>Bravo Card</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Hospotalbravocard')}>
+            onPress={() => navigation.navigate('Hospotalbravocard')} style={{alignItems:'center'}}>
             <Text style={styles.bravoCategouryButtonText}>See All</Text>
           </TouchableOpacity>
         </View>
