@@ -2,111 +2,94 @@ import {StyleSheet} from 'react-native';
 import Fonts from '../../common/Fonts';
 import Colors from '../../common/Colors';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import Fontsize from '../../common/Fontsize';
 
 const styles = StyleSheet.create({
-  container: {width: '85%', alignSelf: 'center', height: '100%', flexGrow: 1},
+  container: {marginHorizontal:24, 
+     flexGrow: 1},
   headerText: {
-    color: '#000000',
-    fontSize: 34,
-    marginTop: 50,
-    marginBottom: 10,
+    color: Colors.black,
+    fontSize: Fontsize.fontThirtyfour,
+    marginTop: 70,
+    marginBottom: 17,
     fontFamily: Fonts.ProximaNovaBold,
   },
   headerSubText: {
-    color: '#737373',
-    fontSize: 17,
-    marginBottom: 40,
+    color: Colors.black,
+    fontSize: Fontsize.fontseventeen,
+    marginBottom: 45,
     fontFamily: Fonts.ProximaNovaRegular,
+    lineHeight: 23,
+    opacity: 0.4
   },
-  subContainer: {width: '100%', alignSelf: 'center'},
+  // subContainer: {width: '100%', alignSelf: 'center'},
   textInputView: {
     flexDirection: 'row',
-    borderColor: '#CCC',
+    borderColor: Colors.imputborderColor,
     borderWidth: 1,
-    width: '100%',
     borderRadius: 30,
-    alignSelf: 'center',
-    height: 50,
     marginBottom: 15,
   },
   textInputSubView: {
     borderRightWidth: 1,
-    borderColor: '#737373',
-    height: 20,
+    borderColor: Colors.imputborderColor,
     alignSelf: 'center',
-    justifyContent: 'center',
-  },
-  textinputIcon: {
-    tintColor: '#8F8B8B',
-    alignSelf: 'center',
-    height: 15,
-    width: 15,
-    alignSelf: 'center',
-    marginLeft: '7%',
+    paddingHorizontal:15
   },
   textInputText: {
     alignSelf: 'center',
     fontSize: 15,
-    paddingLeft: '4%',
-    color: '#000000',
+    paddingLeft: 15,
+    color:Colors.black,
     fontFamily: Fonts.ProximaNovaLight,
-    width: '85%',
-  },
-  emailIcon: {
-    tintColor: '#8F8B8B',
-    alignSelf: 'center',
-    height: 15,
-    width: 15,
-    alignSelf: 'center',
-    marginLeft: '7%',
+    flex:1
   },
   privacyView: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-    width: '85%',
-    alignSelf: 'center',
     marginTop: 5,
+    marginHorizontal:10
   },
   checkbox: {height: 30, width: 30, borderRadius: 5, tintColor: '#707070'},
   checkBoxText: {
-    color: '#000000',
+    color: Colors.black,
     fontFamily: Fonts.ProximaNovaRegular,
-    fontSize: wp('3.5%'),
+    fontSize:Fontsize.fontFifteen,
   },
   checkBoxText2: {
     color: Colors.appcolor,
-    fontFamily: Fonts.ProximaNovaRegular,
-    fontSize: wp('3.5%'),
   },
   signupButton: {
-    backgroundColor: 'rgba(36, 95, 199, 1)',
+    backgroundColor: Colors.appcolor,
     alignItems: 'center',
     borderRadius: 20,
-    height: 45,
     justifyContent: 'center',
     marginBottom: 25,
+    paddingVertical:15
   },
   signupButtonText: {
-    color: '#ffffff',
+    color: Colors.white,
     fontFamily: Fonts.ProximaNovaSemibold,
-    fontSize: 15,
+    fontSize:Fontsize.fontSixteen,
   },
   signinView: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 40,
     alignItems: 'center',
   },
   textsignin: {
-    color: '#000000',
-    fontSize: wp('4.5%'),
+    color: Colors.black,
+    fontSize: Fontsize.fontTwenty,
+    lineHeight:43,
     fontFamily: Fonts.ProximaNovaRegular,
   },
   button: {
     color: Colors.appcolor,
-    fontSize: wp('4.5%'),
+    fontSize: Fontsize.fontTwenty,
+    lineHeight:43,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
 });

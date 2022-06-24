@@ -1,127 +1,84 @@
-import {StyleSheet} from 'react-native';
-// import {Fonts, Colors} from '@common';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-// import Fontsize from '../../common/Fontsize';
-import {  Colors, Fontsize, Fonts } from "@common";
+import { StyleSheet } from 'react-native';
+import { Colors, Fontsize, Fonts } from "@common";
 
-import { AsyncStorageHelper, Constants, SortUrl, ApiCall, Validators, CustomLoader } from '@lib';
-// Login mail
+// marginHorizontal: 24,
+
 
 const styles = StyleSheet.create({
-  saperateLineView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: wp('50%'),
-    alignSelf: 'center',
-    margin: hp('2%'),
+  container: {
+    marginHorizontal: 24,
+    flex: 1,
   },
-  // line: {
-  //   flex: 1,
-  //   height: hp('0.15%'),
-  //   backgroundColor: '#737373',
-  // },
-  // orText: {
-  //   width: wp('10%'),
-  //   textAlign: 'center',
-  //   color: '#737373',
-  //   fontSize: hp('2%'),
-  //   // fontSize:15
-  // },
-
-  container: { width: '85%', alignSelf: 'center', height: '100%' },
   header: {
-    color: '#000000',
+    color: Colors.black,
     fontSize: Fontsize.fontThirtyfour,
-    marginTop: hp('9%'),
-    marginBottom: hp('2%'),
+    marginTop: 70,
+    marginBottom: 17,
     fontFamily: Fonts.ProximaNovaBold,
   },
   subHeader: {
-    color: '#737373',
-    fontSize: 17,
-    marginBottom: hp('5%'),
+    color: Colors.black,
+    fontSize: Fontsize.fontseventeen,
+    marginBottom: 45,
     fontFamily: Fonts.ProximaNovaRegular,
+    lineHeight: 23,
+    opacity: 0.4
   },
-  textInputMainView: { width: '100%', alignSelf: 'center' },
+  textInputMainView: {
+  },
   textinputUsernameView: {
     flexDirection: 'row',
-    borderColor: '#CCC',
+    borderColor: Colors.imputborderColor,
     borderWidth: 1,
-    width: '100%',
     borderRadius: 30,
-    alignSelf: 'center',
-    height: 48,
-    marginBottom: hp('1%'),
+    marginBottom: 20,
+    alignItems: "center"
   },
   textinputpasswordView: {
     borderRightWidth: 1,
-    borderColor: '#CCC',
-    height: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-  usernameIcon: {
-    tintColor: '#8F8B8B',
-    alignSelf: 'center',
-    height: 15,
-    width: 15,
-    alignSelf: 'center',
-    marginLeft: '7%',
+    borderColor: Colors.imputborderColor,
+    paddingHorizontal:15
   },
   textInputname: {
     alignSelf: 'center',
-    fontSize: 15,
-    paddingLeft: '4%',
-    color: '#000000',
-    width: '85%',
+    fontSize: Fontsize.fontFifteen,
+    color: Colors.black,
     fontFamily: Fonts.ProximaNovaLight,
+    paddingLeft:15,
+    flex:1
   },
   textInputPasswordView: {
     flexDirection: 'row',
-    borderColor: '#CCC',
+    borderColor: Colors.imputborderColor,
     borderWidth: 1,
-    width: '100%',
     borderRadius: 30,
-    alignSelf: 'center',
-    height: 48,
-    marginVertical: hp('3%'),
     alignItems: 'center',
-  },
-  passwordIcon: {
-    tintColor: '#8F8B8B',
-    alignSelf: 'center',
-    height: 18,
-    width: 18,
-    alignSelf: 'center',
-    marginLeft: '7%',
+    paddingRight:15
   },
   textinputPassword: {
     alignSelf: 'center',
-    fontSize: 15,
-    paddingLeft: '4%',
-    color: '#000000',
-    width: '75%',
+    fontSize: Fontsize.fontFifteen,
+    color: Colors.black,
+    flex:1,
+    paddingLeft:15,
     fontFamily: Fonts.ProximaNovaLight,
   },
-  forgotButton: { marginBottom: hp('3%'), alignSelf: 'flex-end' },
+  forgotButton: { margin: 25, alignSelf: 'flex-end' },
   forgotButtontext: {
-    color: 'rgba(36, 95, 199, 1)',
-    fontSize: 15,
+    color: Colors.appcolor,
+    fontSize: Fontsize.fontSixteen,
     fontFamily: Fonts.ProximaNovaMedium,
   },
   loginButton: {
-    backgroundColor: 'rgba(36, 95, 199, 1)',
+    backgroundColor: Colors.appcolor,
     alignItems: 'center',
     borderRadius: 30,
-    height: 50,
+    paddingVertical:14,
     justifyContent: 'center',
   },
   loginButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
+    color: Colors.white,
+    fontSize: Fontsize.fontSixteen,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
   orLineView: {
@@ -129,62 +86,51 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '65%',
     alignSelf: 'center',
-    marginTop: hp('4%'),
+    marginVertical: 40,
   },
-  subView: { flex: 1, height: 1, backgroundColor: '#929397' },
+  subView: { flex: 1, height: 1, backgroundColor: Colors.grey },
   orText: {
     width: 150,
     textAlign: 'center',
-    color: '#929397',
-    fontSize: 16,
+    color: Colors.grey,
+    fontSize: Fontsize.fontSixteen,
     fontFamily: Fonts.ProximaNovaRegular,
   },
   socialButtonView: {
     flexDirection: 'row',
-    width: '85%',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
-    marginVertical: hp('5%'),
+    justifyContent:"space-around",
   },
   googleButton: {
     borderColor: '#EA4335',
-    width: 83,
-    height: 48,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
   },
-  googleIcon: { height: 18, width: 18 },
   fbButton: {
     borderColor: '#3B5998',
-    width: 83,
-    height: 48,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
   },
-  fbIcon: { height: 23, width: 23 },
   twiterButton: {
     borderColor: '#27AAE2',
-    width: 83,
-    height: 48,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
   },
   twiterIcon: { height: 33, width: 33 },
-  registerview: { flexDirection: 'row', justifyContent: 'center' },
+  registerview: { flexDirection: 'row', justifyContent: 'center',marginVertical:40 },
   registerText: {
-    color: '#000000',
-    fontSize: 17,
+    color: Colors.black,
+    fontSize: Fontsize.fontTwenty,
     fontFamily: Fonts.ProximaNovaRegular,
   },
   registerButtonText: {
     color: Colors.appcolor,
-    fontSize: 17,
+    fontSize: Fontsize.fontTwenty,
     fontFamily: Fonts.ProximaNovaBold,
   },
 });

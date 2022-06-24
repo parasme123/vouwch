@@ -2,137 +2,125 @@ import {StyleSheet} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Fonts from '../../common/Fonts';
 import Colors from '../../common/Colors';
+import Fontsize from '../../common/Fontsize';
 
 const styles = StyleSheet.create({
-  container: {width: '85%', alignSelf: 'center', flex: 1},
+  container: {marginHorizontal:24,  flex: 1},
   header: {
-    color: '#000000',
+    color: Colors.black,
     fontFamily: Fonts.ProximaNovaBold,
-    fontSize: 34,
-    marginTop: 50,
-    marginBottom: 10,
+    fontSize: Fontsize.fontThirtyfour,
+    marginTop: 70,
+    marginBottom: 17,
   },
   headerText: {
-    color: '#737373',
+    color: Colors.black,
+    fontSize: Fontsize.fontseventeen,
+    marginBottom: 45,
     fontFamily: Fonts.ProximaNovaRegular,
-    fontSize: 15,
-    marginBottom: 40,
+    lineHeight: 23,
+    opacity: 0.4
+  
   },
-  ImputView: {width: '100%', alignSelf: 'center'},
+  // ImputView: {width: '100%', alignSelf: 'center'},
   textInputView: {
     flexDirection: 'row',
-    borderColor: '#CCC',
+    borderColor: Colors.imputborderColor,
     borderWidth: 1,
-    width: '100%',
     borderRadius: 30,
-    alignSelf: 'center',
-    height: 50,
-    marginBottom: 15,
+    marginBottom: 20,
+    alignItems: "center"
   },
   textInputsubView: {
     borderRightWidth: 1,
-    borderColor: '#737373',
-    height: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    borderColor: Colors.imputborderColor,
+    paddingHorizontal:15
   },
   textInput: {
-    alignSelf: 'center',
-    fontSize: 15,
-    paddingLeft: '4%',
-    color: '#000000',
+    fontSize: Fontsize.fontFifteen,
+    color: Colors.black,
     fontFamily: Fonts.ProximaNovaLight,
-    width: '85%',
-  },
-  textInputIcoon: {
-    tintColor: '#8F8B8B',
-    alignSelf: 'center',
-    height: 15,
-    width: 15,
-    alignSelf: 'center',
-    marginLeft: '7%',
-  },
-  checkBoxView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  checkBoxViewIcon: {
-    height: 30,
-    width: 30,
-    borderRadius: 5,
-    tintColor: '#707070',
-  },
-  checkBoxText: {
-    color: '#000000',
-    fontFamily: Fonts.ProximaNovaLight,
-    fontSize: wp('3.5%'),
-  },
-  checkBoxText2: {
-    color: Colors.appcolor,
-    fontFamily: Fonts.ProximaNovaLight,
-    fontSize: wp('3.5%'),
+    paddingLeft:15,
+    flex:1
   },
   continuebtn: {
-    backgroundColor: 'rgba(36, 95, 199, 1)',
+    backgroundColor: Colors.appcolor,
     alignItems: 'center',
     borderRadius: 20,
-    height: 45,
     justifyContent: 'center',
-    marginVertical: 25,
+    marginBottom: 25,
+    paddingVertical:15
   },
   continuebtnText: {
-    color: '#ffffff',
+    color: Colors.white,
     fontFamily: Fonts.ProximaNovaSemibold,
-    fontSize: 15,
+    fontSize:Fontsize.fontSixteen,
   },
   detailbutton: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 40,
     alignItems: 'center',
   },
   detailbuttonText1: {
-    color: '#000000',
-    fontSize: wp('4.5%'),
+    color: Colors.black,
+    fontSize: Fontsize.fontTwenty,
+    lineHeight:43,
     fontFamily: Fonts.ProximaNovaRegular,
   },
   sigininTextButton: {
     color: Colors.appcolor,
-    fontSize: wp('4.5%'),
+    fontSize: Fontsize.fontTwenty,
+    lineHeight:43,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
   dropdownSubView: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    width: '89%',
     paddingHorizontal: 20,
   },
   textSpacilist: {
-    fontSize: 15,
+    fontSize:Fontsize.fontFifteen,
     color: '#999',
     fontFamily: Fonts.ProximaNovaLight,
   },
-  dropdownIcon: {tintColor: '#000', height: 25, width: 25},
+  dropdownIcon: {tintColor:Colors.black, height: 25, width: 25},
   inputAndroid: {
-    fontSize: 20,
-    color: '#000',
+    fontSize: Fontsize.fontTwenty,
+    color: Colors.black,
     fontFamily: Fonts.ProximaNovaLight,
     paddingLeft: 20,
     height: 50,
   },
   inputIOS: {
-    width: '100%',
     height: 50,
     color: '#565656',
     paddingLeft: 10,
   },
   placeholder: {
-    fontSize: 20,
+    fontSize: Fontsize.fontTwenty,
     color: Colors.grey,
     fontFamily: Fonts.ProximaNovaLight,
+  },
+
+
+  privacyView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 5,
+    marginHorizontal:10
+  },
+  checkbox: {height: 30, width: 30, borderRadius: 5, tintColor: Colors.checkboxColor},
+  checkBoxText: {
+    color: Colors.black,
+    fontFamily: Fonts.ProximaNovaRegular,
+    fontSize:Fontsize.fontFifteen,
+  },
+  checkBoxText2: {
+    color: Colors.appcolor,
   },
 });
 

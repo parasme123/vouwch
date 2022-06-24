@@ -10,11 +10,12 @@ import {
   ScrollView,
   ToastAndroid,
 } from 'react-native';
-import Imagepath from '../../common/imagepath';
 import Toast from 'react-native-simple-toast';
 import { CustomLoader, Validators } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
 import styles from './css';
+import { svg, Colors, imagepath } from "@common";
+
 import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -73,137 +74,117 @@ const Signup = (props) => {
   }
 
   return (
-    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
+    <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.headerText}>Sign up</Text>
           <Text style={styles.headerSubText}>Create your personal account</Text>
-          <View style={styles.subContainer}>
-            <View style={styles.textInputView}>
-              <View style={styles.textInputSubView}>
-                <Image
-                  source={Imagepath.user}
-                  resizeMode="contain"
-                  style={styles.textinputIcon}
-                />
-              </View>
-              <TextInput
-                placeholder="Enter your first name"
-                style={styles.textInputText}
-                onChangeText={text => {
-                  setfirstname(text);
-                }}
-                value={firstname}
-                maxLength={40}
-                keyboardType="default"
-              />
+          {/* <View style={styles.subContainer}> */}
+          <View style={styles.textInputView}>
+            <View style={styles.textInputSubView}>
+              {svg.manIcon(16, 18, Colors.imputborderColor)}
             </View>
-            <View style={styles.textInputView}>
-              <View style={styles.textInputSubView}>
-                <Image
-                  source={Imagepath.user}
-                  resizeMode="contain"
-                  style={styles.textinputIcon}
-                />
-              </View>
-              <TextInput
-                placeholder="Enter your last name"
-                style={styles.textInputText}
-                onChangeText={text => {
-                  setlastname(text);
-                }}
-                value={lastname}
-                maxLength={40}
-                keyboardType="default"
-              />
-            </View>
-            <View style={styles.textInputView}>
-              <View style={styles.textInputSubView}>
-                <Image
-                  source={Imagepath.email}
-                  resizeMode="contain"
-                  style={styles.emailIcon}
-                />
-              </View>
-              <TextInput
-                placeholder="Enter your email address"
-                style={styles.textInputText}
-                onChangeText={text => {
-                  setemail(text);
-                }}
-                value={email}
-                maxLength={40}
-                keyboardType="email-address"
-              />
-            </View>
-            <View style={styles.textInputView}>
-              <View style={styles.textInputSubView}>
-                <Image
-                  source={Imagepath.lock}
-                  resizeMode="contain"
-                  style={styles.emailIcon}
-                />
-              </View>
-              <TextInput
-                placeholder="Enter your  Password"
-                style={styles.textInputText}
-                onChangeText={text => {
-                  setpassword(text);
-                }}
-                value={password}
-                keyboardType="default"
-              />
-            </View>
-            <View style={styles.textInputView}>
-              <View style={styles.textInputSubView}>
-                <Image
-                  source={Imagepath.lock}
-                  resizeMode="contain"
-                  style={styles.emailIcon}
-                />
-              </View>
-              <TextInput
-                placeholder="Enter Confirm Password"
-                style={styles.textInputText}
-                onChangeText={text => {
-                  setConfirmPassword(text);
-                }}
-                value={ConfirmPassword}
-                keyboardType="default"
-              />
-            </View>
-            <View style={styles.privacyView}>
-              <TouchableOpacity
-                onPress={() => chexkBox()}
-                style={{ paddingRight: 5 }}>
-                <Image
-                  source={
-                    mark
-                      ? require('../../assect/icon/yes.png')
-                      : require('../../assect/icon/check.png')
-                  }
-                  style={styles.checkbox}
-                  resizeMode="cover"
-                />
-              </TouchableOpacity>
-              <Text style={styles.checkBoxText}>I agree to </Text>
-              <TouchableOpacity>
-                <Text style={styles.checkBoxText2}>Terms of Services </Text>
-              </TouchableOpacity>
-              <Text style={styles.checkBoxText}>and </Text>
-              <TouchableOpacity>
-                <Text style={styles.checkBoxText2}>Privacy Policy</Text>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                Signin_Validators();
+            <TextInput
+              placeholderTextColor={Colors.imputborderColor}
+              placeholder="Enter your first name"
+              style={styles.textInputText}
+              onChangeText={text => {
+                setfirstname(text);
               }}
-              style={styles.signupButton}>
-              <Text style={styles.signupButtonText}>SIGNUP</Text>
-            </TouchableOpacity>
+              value={firstname}
+              maxLength={40}
+              keyboardType="default"
+            />
           </View>
+          <View style={styles.textInputView}>
+            <View style={styles.textInputSubView}>
+              {svg.manIcon(16, 18, Colors.imputborderColor)}
+            </View>
+            <TextInput
+              placeholderTextColor={Colors.imputborderColor}
+              placeholder="Enter your last name"
+              style={styles.textInputText}
+              onChangeText={text => {
+                setlastname(text);
+              }}
+              value={lastname}
+              maxLength={40}
+              keyboardType="default"
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <View style={styles.textInputSubView}>
+              {svg.email(16, 18, Colors.imputborderColor)}
+            </View>
+            <TextInput
+              placeholder="Enter your email address"
+              placeholderTextColor={Colors.imputborderColor}
+              style={styles.textInputText}
+              onChangeText={text => {
+                setemail(text);
+              }}
+              value={email}
+              maxLength={40}
+              keyboardType="email-address"
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <View style={styles.textInputSubView}>
+              {svg.lockIcon(16, 18, Colors.imputborderColor)}
+            </View>
+            <TextInput
+              placeholder="Enter your  Password"
+              placeholderTextColor={Colors.imputborderColor}
+              style={styles.textInputText}
+              onChangeText={text => {
+                setpassword(text);
+              }}
+              value={password}
+              keyboardType="default"
+            />
+          </View>
+          <View style={styles.textInputView}>
+            <View style={styles.textInputSubView}>
+              {svg.lockIcon(16, 18, Colors.imputborderColor)}
+            </View>
+            <TextInput
+              placeholder="Enter Confirm Password"
+              placeholderTextColor={Colors.imputborderColor}
+              style={styles.textInputText}
+              onChangeText={text => {
+                setConfirmPassword(text);
+              }}
+              value={ConfirmPassword}
+              keyboardType="default"
+            />
+          </View>
+          <View style={styles.privacyView}>
+            <TouchableOpacity
+              onPress={() => chexkBox()}
+              style={{ paddingRight: 5 }}>
+              <Image
+                source={
+                  mark
+                    ? require('../../assect/icon/yes.png')
+                    : require('../../assect/icon/check.png')
+                }
+                style={styles.checkbox}
+                resizeMode="cover"
+              />
+            </TouchableOpacity>
+              <Text style={styles.checkBoxText}>I agree to
+              <Text style={styles.checkBoxText2}> Terms of Services </Text>and 
+              <Text style={styles.checkBoxText2}> Privacy Policy</Text>
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              Signin_Validators();
+            }}
+            style={styles.signupButton}>
+            <Text style={styles.signupButtonText}>SIGNUP</Text>
+          </TouchableOpacity>
 
           {/* {/ Register text /} */}
           <View style={styles.signinView}>

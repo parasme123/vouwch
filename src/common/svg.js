@@ -151,3 +151,130 @@ export const addReview = (width, height, color) => {
         </Svg>
     )
 }
+
+
+export const doctorIcon = (width, height, color) => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 26 26">
+            <Path id="Path_115" data-name="Path 115" d="M3.85,2.605A7.675,7.675,0,0,0,9.363,4.939a7.677,7.677,0,0,0,3.02-.617" transform="translate(0.295 0.185)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Circle id="Ellipse_27" data-name="Ellipse 27" cx="4.624" cy="4.624" r="4.624" transform="translate(3.492 0.5)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Path id="P_116" data-name="P 116" d="M11.924,11.52A7.616,7.616,0,0,0,.5,18.116V19.2h9.792" transform="translate(0 0.88)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Rect id="Rectangle_32" data-name="Rectangle 32" width="13" height="9" rx="1" transform="translate(12.5 16.5)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Path id="Path_117" data-name="Path 117" d="M20.44,18.4a.272.272,0,0,0-.272-.272h-1.36v-1.36a.272.272,0,0,0-.272-.272H16.9a.272.272,0,0,0-.272.272v1.36h-1.36A.272.272,0,0,0,15,18.4v1.632a.272.272,0,0,0,.272.272h1.36v1.36a.272.272,0,0,0,.272.272h1.632a.272.272,0,0,0,.272-.272v-1.36h1.36a.272.272,0,0,0,.272-.272Z" transform="translate(1.276 1.408)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Path id="Path_118" data-name="Path 118" d="M15.5,14.676V13.588A1.088,1.088,0,0,1,16.588,12.5h2.176a1.088,1.088,0,0,1,1.088,1.088v1.088" transform="translate(1.32 1.056)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Line id="Line_20" data-name="Line 20" y2="3.619" transform="translate(4.852 12.113)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Ellipse id="Ellipse_28" data-name="Ellipse 28" cx="1" cy="0.5" rx="1" ry="0.5" transform="translate(3.5 16.5)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Line id="Line_21" data-name="Line 21" y2="9" transform="translate(8.5 11.5)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Line id="Line_22" data-name="Line 22" y2="1.702" transform="translate(11.924 12.398)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <Path id="Path_119" data-name="Path 119" d="M11.676,13.095A1.632,1.632,0,0,0,11.132,13h0A1.632,1.632,0,0,0,9.5,14.632v2.176" transform="translate(0.792 1.1)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+        </Svg>
+    )
+}
+
+
+
+
+
+export const manIcon = (width, height, color) => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width="15.206" height="20.013" viewBox="0 0 23.601 25.543">
+            <G id="_6391520041543238940_1_" data-name="6391520041543238940 (1)" transform="translate(-3 -2.466)">
+                <Path id="Path_114" data-name="Path 114" d="M25.6,23.1V20.4A5.4,5.4,0,0,0,20.2,15H9.4A5.4,5.4,0,0,0,4,20.4v2.7" transform="translate(0 3.908)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                <Circle id="Ellipse_26" data-name="Ellipse 26" cx="4.882" cy="4.882" r="4.882" transform="translate(9.918 3.466)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </G>
+        </Svg>
+
+    )
+}
+
+export const lockIcon = (width, height, color) => {
+    return (
+<Svg xmlns="http://www.w3.org/2000/svg" width="15.206" height="20.013" viewBox="0 0 15.206 20.013">
+  <G id="Layer_2" data-name="Layer 2" transform="translate(0 0.013)">
+    <G id="lock" transform="translate(0 -0.013)">
+      <Path id="Path_121" data-name="Path 121" d="M12.865,8.4h-.06v-3.2a5.2,5.2,0,0,0-5.438-5.2A5.31,5.31,0,0,0,2.4,5.354v.84a1,1,0,0,0,2,0V5.322A3.285,3.285,0,0,1,7.395,1.993a3.2,3.2,0,0,1,3.409,3.2V8.4H2.341A2.341,2.341,0,0,0,0,10.736v6.923A2.341,2.341,0,0,0,2.341,20H12.865a2.341,2.341,0,0,0,2.341-2.341V10.736A2.341,2.341,0,0,0,12.865,8.4Zm.34,9.264a.34.34,0,0,1-.34.34H2.341a.34.34,0,0,1-.34-.34V10.736a.34.34,0,0,1,.34-.34H12.865a.34.34,0,0,1,.34.34Z" transform="translate(0 0.013)" fill={color}/>
+      <Rect id="Rectangle_38" data-name="Rectangle 38" width="2.001" height="3.601" rx="1" transform="translate(6.603 12.41)" fill={color}/>
+    </G>
+  </G>
+</Svg>
+
+    )
+}
+
+
+export const fbIcon = (width, height) => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 83 56">
+            <G id="Group_112" data-name="Group 112" transform="translate(-174 -653)">
+
+                <G id="_2729684421556105319" data-name="2729684421556105319" transform="translate(203 667)">
+                    <Path id="Path_123" data-name="Path 123" d="M0,14A14,14,0,1,1,14,28,14,14,0,0,1,0,14Z" fill="#3b5998" />
+                    <Path id="Path_124" data-name="Path 124" d="M23.126,27.232V19.615h2.1l.279-2.625H23.126l0-1.314c0-.685.065-1.051,1.048-1.051h1.314V12h-2.1c-2.526,0-3.415,1.273-3.415,3.415V16.99H18.4v2.625h1.574v7.616Z" transform="translate(-7.667 -5)" fill="#fff" />
+                </G>
+            </G>
+        </Svg>
+
+
+    )
+}
+
+
+
+export const twiterIcon = (width, height) => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 83 56">
+            <G id="Group_113" data-name="Group 113" transform="translate(-287 -653)">
+
+                <G id="_17998766861556105338" data-name="17998766861556105338" transform="translate(315 667)">
+                    <Path id="Path_125" data-name="Path 125" d="M0,14A14,14,0,1,1,14,28,14,14,0,0,1,0,14Z" fill="#55acee" />
+                    <Path id="Path_126" data-name="Path 126" d="M18.581,17.379l.029.484-.49-.059a7.965,7.965,0,0,1-4.661-2.294l-.646-.643-.166.475a2.853,2.853,0,0,0,.607,2.926c.392.415.3.475-.372.227a1.156,1.156,0,0,0-.46-.109,3.543,3.543,0,0,0,.353,1.325,3.162,3.162,0,0,0,1.342,1.265l.48.227-.568.01c-.548,0-.568.01-.509.217a2.96,2.96,0,0,0,1.831,1.621l.607.208-.529.316a5.513,5.513,0,0,1-2.624.732,2.9,2.9,0,0,0-.8.079,7.449,7.449,0,0,0,1.89.87,8.272,8.272,0,0,0,6.424-.732,8.6,8.6,0,0,0,3.261-3.836,10.2,10.2,0,0,0,.666-2.966c0-.455.029-.514.578-1.058a6.468,6.468,0,0,0,.686-.761c.1-.188.088-.188-.411-.02-.832.3-.95.257-.539-.188a2.876,2.876,0,0,0,.666-1.058c0-.03-.147.02-.313.109a5.462,5.462,0,0,1-.862.336l-.529.168-.48-.326a3.985,3.985,0,0,0-.832-.435,3.345,3.345,0,0,0-1.714.04A2.83,2.83,0,0,0,18.581,17.379Z" transform="translate(-5 -6)" fill="#fff" />
+                </G>
+            </G>
+        </Svg>
+
+    )
+}
+
+
+
+export const googleIcon = (width, height) => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 83 56">
+            <G id="Group_111" data-name="Group 111" transform="translate(-61 -653)">
+                <G id="Page-1" transform="translate(90.786 668.467)">
+                    <G id="Social-Icons---Isolated" transform="translate(0.214 0.533)">
+                        <G id="Google" transform="translate(0 0)">
+                            <Path id="Fill-1" d="M5.124,18.914a7.089,7.089,0,0,1,.36-2.225L1.445,13.6a12.068,12.068,0,0,0,0,10.616L5.48,21.129a7.092,7.092,0,0,1-.356-2.215" transform="translate(-0.214 -6.928)" fill="#fbbc05" fill-rule="evenodd" />
+                            <Path id="Fill-2" d="M13.4,5.437a6.945,6.945,0,0,1,4.419,1.58L21.307,3.53A12,12,0,0,0,2.623,7.21l4.04,3.085A7.074,7.074,0,0,1,13.4,5.437" transform="translate(-1.393 -0.533)" fill="#ea4335" fill-rule="evenodd" />
+                            <Path id="Fill-3" d="M13.4,33.214a7.074,7.074,0,0,1-6.733-4.858l-4.04,3.084A11.967,11.967,0,0,0,13.4,38.117a11.439,11.439,0,0,0,7.821-2.987l-3.834-2.964A7.424,7.424,0,0,1,13.4,33.214" transform="translate(-1.393 -14.145)" fill="#34a853" fill-rule="evenodd" />
+                            <Path id="Fill-4" d="M35.171,21.913a9.932,9.932,0,0,0-.273-2.179H23.714v4.631h6.438A5.4,5.4,0,0,1,27.7,27.947l3.834,2.964a11.921,11.921,0,0,0,3.637-9" transform="translate(-11.71 -9.927)" fill="#4285f4" fill-rule="evenodd" />
+                        </G>
+                    </G>
+                </G>
+            </G>
+        </Svg>
+
+
+    )
+}
+
+
+
+
+
+export const businessIcon = (width, height, color) => {
+    return (
+<Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 20.5 19">
+  <G id="_15953164891594941301" data-name="15953164891594941301" transform="translate(-2.5 -3.5)">
+    <Path id="Path_141" data-name="Path 141" d="M22,20.6v3.3a1.5,1.5,0,0,1-1.5,1.5H5.5A1.5,1.5,0,0,1,4,23.9V20.6" transform="translate(-0.25 -4.15)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <Path id="Path_142" data-name="Path 142" d="M15.5,22.75h0a1.5,1.5,0,0,1-1.5-1.5V19h3v2.25A1.5,1.5,0,0,1,15.5,22.75Z" transform="translate(-2.75 -3.75)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <Path id="Path_143" data-name="Path 143" d="M11.25,18.5H6a3.009,3.009,0,0,1-3-3v-6A1.5,1.5,0,0,1,4.5,8H21a1.5,1.5,0,0,1,1.5,1.5v6a3.009,3.009,0,0,1-3,3H14.25" transform="translate(0 -1)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <Path id="Path_144" data-name="Path 144" d="M18,7H12V5.5A1.5,1.5,0,0,1,13.5,4h3A1.5,1.5,0,0,1,18,5.5Z" transform="translate(-2.25)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <Line id="Line_32" data-name="Line 32" y1="1" transform="translate(5.75 21)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <Line id="Line_33" data-name="Line 33" y1="1" transform="translate(19.75 21)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </G>
+</Svg>
+
+
+    )
+}

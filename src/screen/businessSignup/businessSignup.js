@@ -10,7 +10,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import { Colors, Fontsize, Fonts } from "@common";
+import { Colors, Fontsize, Fonts, svg } from "@common";
 import { AsyncStorageHelper, Constants, SortUrl, ApiCall, Validators, CustomLoader } from '@lib';
 import Imagepath from '../../common/imagepath';
 import RNPickerSelect from 'react-native-picker-select';
@@ -18,10 +18,10 @@ import Toast from 'react-native-simple-toast';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { postRegister } from '../../reduxStore/action/doctorAction';
+import { postRegister, getCategories } from '../../reduxStore/action/doctorAction';
 import { handleNavigation } from '../../navigator/Navigator';
-
-const BusinessSignup = (props,{ navigation }) => {
+import { useNavigation } from '@react-navigation/native';
+const BusinessSignup = (props) => {
   const [mark, setMark] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const [firstname, setfirstname] = useState('');
@@ -32,7 +32,7 @@ const BusinessSignup = (props,{ navigation }) => {
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const [CateList, setCateList] = useState([]);
   const [CateId, setCateId] = useState();
-
+  const navigation = useNavigation();
   const chexkBox = () => {
     setMark(!mark);
   };
@@ -86,12 +86,11 @@ const BusinessSignup = (props,{ navigation }) => {
       device_token: 'Business',
       category_id: CateId,
     };
-    actions.postRegister(apiData, setloaderVisible, (res) => PageNavigation(res));
+    actions.postRegister(apiData, setloaderVisible, () => PageNavigation());
     setloaderVisible(true);
-    console.log("hii-----------res---------",res);
   };
 
-  const PageNavigation = (res) => {
+  const PageNavigation = () => {
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
@@ -112,13 +111,10 @@ const BusinessSignup = (props,{ navigation }) => {
           <View style={styles.ImputView}>
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
-                <Image
-                  source={Imagepath.user}
-                  resizeMode="contain"
-                  style={styles.textInputIcoon}
-                />
+                {svg.manIcon(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
+                placeholderTextColor={Colors.imputborderColor}
                 placeholder="Enter your first name"
                 style={styles.textInput}
                 onChangeText={text => {
@@ -131,13 +127,10 @@ const BusinessSignup = (props,{ navigation }) => {
             </View>
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
-                <Image
-                  source={Imagepath.user}
-                  resizeMode="contain"
-                  style={styles.textInputIcoon}
-                />
+                {svg.manIcon(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
+                placeholderTextColor={Colors.imputborderColor}
                 placeholder="Enter your last name"
                 style={styles.textInput}
                 onChangeText={text => {
@@ -150,13 +143,10 @@ const BusinessSignup = (props,{ navigation }) => {
             </View>
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
-                <Image
-                  source={Imagepath.email}
-                  resizeMode="contain"
-                  style={styles.textInputIcoon}
-                />
+                {svg.email(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
+                placeholderTextColor={Colors.imputborderColor}
                 placeholder="Enter your email address"
                 style={styles.textInput}
                 onChangeText={text => {
@@ -169,13 +159,10 @@ const BusinessSignup = (props,{ navigation }) => {
             </View>
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
-                <Image
-                  source={Imagepath.business}
-                  resizeMode="contain"
-                  style={styles.textInputIcoon}
-                />
+                {svg.businessIcon(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
+                placeholderTextColor={Colors.imputborderColor}
                 placeholder="Enter your  business name"
                 style={styles.textInput}
                 onChangeText={text => {
@@ -188,13 +175,10 @@ const BusinessSignup = (props,{ navigation }) => {
 
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
-                <Image
-                  source={Imagepath.lock}
-                  resizeMode="contain"
-                  style={styles.textInputIcoon}
-                />
+                {svg.lockIcon(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
+                placeholderTextColor={Colors.imputborderColor}
                 placeholder="Enter your password"
                 style={styles.textInput}
                 onChangeText={text => {
@@ -216,6 +200,7 @@ const BusinessSignup = (props,{ navigation }) => {
                 borderRadius: 30,
               }}>
               <RNPickerSelect
+                placeholderTextColor={Colors.imputborderColor}
                 placeholder={{ label: 'Select Categroy', value: null }}
                 onValueChange={value => setCateId(value)}
                 // onClose={(value) =>setCateId(value)}
@@ -224,31 +209,25 @@ const BusinessSignup = (props,{ navigation }) => {
               />
             </View>
 
-            <View style={styles.checkBoxView}>
-              <TouchableOpacity
-                onPress={() => chexkBox()}
-                style={{ paddingRight: 5 }}>
-                <Image
-                  source={
-                    mark
-                      ? require('../../assect/icon/yes.png')
-                      : require('../../assect/icon/check.png')
-                  }
-                  style={styles.checkBoxViewIcon}
-                  resizeMode="cover"
-                />
-              </TouchableOpacity>
-
-              <Text style={styles.checkBoxText}>I agree to </Text>
-              <TouchableOpacity>
-                <Text style={styles.checkBoxText2}>Terms of Services </Text>
-              </TouchableOpacity>
-              <Text style={styles.checkBoxText}>and </Text>
-              <TouchableOpacity>
-                <Text style={styles.checkBoxText2}>Privacy Policy</Text>
-              </TouchableOpacity>
-            </View>
-
+            <View style={styles.privacyView}>
+            <TouchableOpacity
+              onPress={() => chexkBox()}
+              style={{ paddingRight: 5 }}>
+              <Image
+                source={
+                  mark
+                    ? require('../../assect/icon/yes.png')
+                    : require('../../assect/icon/check.png')
+                }
+                style={styles.checkbox}
+                resizeMode="cover"
+              />
+            </TouchableOpacity>
+              <Text style={styles.checkBoxText}>I agree to
+              <Text style={styles.checkBoxText2}> Terms of Services </Text>and 
+              <Text style={styles.checkBoxText2}> Privacy Policy</Text>
+            </Text>
+          </View>
             <TouchableOpacity
               onPress={() => {
                 Signin_Validators();
@@ -256,6 +235,7 @@ const BusinessSignup = (props,{ navigation }) => {
               style={styles.continuebtn}>
               <Text style={styles.continuebtnText}>CONTINUE</Text>
             </TouchableOpacity>
+
             <View style={styles.detailbutton}>
               <Text style={styles.detailbuttonText1}>
                 Already have an account?{' '}
@@ -267,6 +247,7 @@ const BusinessSignup = (props,{ navigation }) => {
                 <Text style={styles.sigininTextButton}> Sign in</Text>
               </TouchableOpacity>
             </View>
+
           </View>
         </View>
       </ScrollView>
@@ -278,10 +259,12 @@ const BusinessSignup = (props,{ navigation }) => {
 
 const mapStateToProps = state => ({
   allRegisterData: state.doctor.allRegisterData,
+  allCategories: state.doctor.allCategories,
 });
 
 const ActionCreators = Object.assign(
-  { postRegister }
+  { postRegister },
+  { getCategories }
 );
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),

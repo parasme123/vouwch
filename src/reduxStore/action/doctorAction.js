@@ -139,7 +139,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
         }).catch(err => {
             console.log("postLogin", err);
             setloaderVisible(false);
-            Toast.show(response.message);
+            Toast.show("something went wrong");
         })
     }
 };
@@ -167,7 +167,32 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
         }).catch(err => {
             console.log("postRegister", err);
             setloaderVisible(false);
-            Toast.show(response.message);
+            Toast.show("something went wrong");
         })
     }
+};
+
+
+
+export const getCategories = () => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${URL.getCategoury}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+            }
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(saveBravoCard(response.data.categories))
+        }).catch(err => {
+            console.log("getBravoCardData", err);
+        })
+    }
+};
+
+export const saveCategories = (data) => {
+    return ({
+        type: CATEGORIES,
+        payload: data
+    })
 };
