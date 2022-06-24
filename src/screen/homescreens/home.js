@@ -22,6 +22,7 @@ import {
   CustomLoader,
   Constants,
   AsyncStorageHelper,
+  Helper
 } from '@lib';
 import Comments from '../../modal/Comments';
 import Message from '../../modal/Message';
@@ -30,6 +31,7 @@ import { Bravocard, DoctorCard } from '@component';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getHomeData, postFollow } from '../../reduxStore/action/doctorAction';
+
 const Home = (props) => {
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
   const [modalVisible, setModalVisible] = useState();
@@ -40,15 +42,30 @@ const Home = (props) => {
   const [Follows, setFollow] = useState([]);
   const [followDetails, setFollowDetails] = useState();
   const [msgDocId, setmsgDocId] = useState();
-  const [userType, setuserType] = useState();
-  const [userToken, setuserToken] = useState();
+  const [userType, setuserType] = useState(null);
+  const [userToken, setuserToken] = useState(null);
   // const userTypeOne = () => { userToken && userType.user_type == 1 };
- 
+
+  useEffect(() => {
+    Call_CategouryApi();
+    AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
+      if (value !== null) {
+        setuserToken(value);
+      }
+      // console.log('UserToken------------', userToken);
+    });
+    AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+      if (value !== null) {
+        setuserType(value);
+      }
+      // console.log('setuserType-------', userType);
+    });
+  }, []);
 
   const MessagepropPage = DataCardiList => {
     setmsgDocId(DataCardiList);
     if (!userType) {
-      alert('Please Login');
+      Helper.loginPopUp(props.navigation);
     } else if (userType?.user_type !== 1) {
       alert('please login with personal account');
     } else {
@@ -59,7 +76,7 @@ const Home = (props) => {
 
   const CommentpropPage = () => {
     if (!userType) {
-      alert('Please Login');
+      Helper.loginPopUp(props.navigation);
     } else if (userType?.user_type !== 1) {
       alert('please login with personal account');
     } else {
@@ -67,22 +84,6 @@ const Home = (props) => {
       setModalVisibleComment(!modalVisibleComment);
     }
   };
-
-  useEffect(() => {
-    Call_CategouryApi();
-    AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
-      if (value !== null) {
-      }
-      setuserToken(value);
-      // console.log('UserToken------------', userToken);
-    });
-    AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
-      if (value !== null) {
-      }
-      setuserType(value);
-      // console.log('setuserType-------', userType);
-    });
-  }, []);
 
   const navigation = useNavigation();
   // share module
@@ -128,20 +129,20 @@ const Home = (props) => {
     setFollow(follows1);
   };
 
-const Call_FollowApi = (id) => {
-  let { actions } = props;
-  let apiData = {
-    business_id: id,
-  }
-  // console.log("apiData------------------------",apiData);
-  actions.postFollow(apiData);
+  const Call_FollowApi = (id) => {
+    let { actions } = props;
+    let apiData = {
+      business_id: id,
+    }
+    // console.log("apiData------------------------",apiData);
+    actions.postFollow(apiData);
 
-};
+  };
 
-const Follow_api = (id) => {
-      Call_FollowApi(id);
-      FollowButton(id);
-};
+  const Follow_api = (id) => {
+    Call_FollowApi(id);
+    FollowButton(id);
+  };
 
 
   // Search API
@@ -173,17 +174,17 @@ const Follow_api = (id) => {
   };
 
   // api   Profile
-  const Call_ProfileApi = () => {
-    setloaderVisible(true);
-    ApiCall.ApiMethod(SortUrl.Profile, 'GET').then(response => {
-      if (response.status == true) {
+  const handleProfile = () => {
+    // setloaderVisible(true);
+    // ApiCall.ApiMethod(SortUrl.Profile, 'GET').then(response => {
+    //   if (response.status == true) {
         navigation.navigate('profilepage', { isBackTrue: true });
-        setloaderVisible(false);
-      } else {
-        setloaderVisible(false);
-        Toast.show(response.message);
-      }
-    });
+    //     setloaderVisible(false);
+    //   } else {
+    //     setloaderVisible(false);
+    //     Toast.show(response.message);
+    //   }
+    // });
   };
 
   const categoriesItemData = ({ item, index }) => {
@@ -201,7 +202,7 @@ const Follow_api = (id) => {
     navigation.navigate('Doctordetails', { person: true, doctorId: item });
   };
 
- 
+
 
   // Card DATA Content   && Bravo card
   const Card = ({ item, index }) => {
@@ -244,6 +245,10 @@ const Follow_api = (id) => {
     );
   };
 
+  const handleLogin = () => {
+    Helper.loginPopUp(props.navigation);
+  }
+
   return (
     <ImageBackground
       source={Imagepath.homebg}
@@ -282,7 +287,7 @@ const Follow_api = (id) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => Call_ProfileApi()}
+                onPress={() => userType && userToken ? handleProfile() : handleLogin()}
                 style={styles.profileButton}>
                 <Image
                   source={Imagepath.profile}
@@ -333,7 +338,7 @@ const Follow_api = (id) => {
         <View style={styles.featuredView}>
           <Text style={styles.bravoCategouryText}>Bravo Card</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Hospotalbravocard')} style={{alignItems:'center'}}>
+            onPress={() => navigation.navigate('Hospotalbravocard')} style={{ alignItems: 'center' }}>
             <Text style={styles.bravoCategouryButtonText}>See All</Text>
           </TouchableOpacity>
         </View>
