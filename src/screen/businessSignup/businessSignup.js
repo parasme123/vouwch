@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -10,7 +10,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import {  Colors, Fontsize, Fonts } from "@common";
+import { Colors, Fontsize, Fonts } from "@common";
 import { AsyncStorageHelper, Constants, SortUrl, ApiCall, Validators, CustomLoader } from '@lib';
 import Imagepath from '../../common/imagepath';
 import RNPickerSelect from 'react-native-picker-select';
@@ -18,9 +18,10 @@ import Toast from 'react-native-simple-toast';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {  postRegister } from '../../reduxStore/action/doctorAction';
- 
-const BusinessSignup = ({navigation}) => {
+import { postRegister } from '../../reduxStore/action/doctorAction';
+import { handleNavigation } from '../../navigator/Navigator';
+
+const BusinessSignup = (props,{ navigation }) => {
   const [mark, setMark] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const [firstname, setfirstname] = useState('');
@@ -45,8 +46,8 @@ const BusinessSignup = ({navigation}) => {
       if (response.status == true) {
         let arr = [];
         response.data.categories.map((item, label) => {
-          arr.push({label: item.name, value: item.id});
-          console.log('arr====>>>', arr);
+          arr.push({ label: item.name, value: item.id });
+          // console.log('arr====>>>', arr);
         });
         setCateList(arr);
       } else {
@@ -71,8 +72,9 @@ const BusinessSignup = ({navigation}) => {
     }
   };
 
-  Signin_CallApi = () => {
-    let Data = {
+  const Signin_CallApi = () => {
+    let { actions } = props;
+    let apiData = {
       user_type: 'Business',
       first_name: firstname,
       last_name: lastname,
@@ -84,26 +86,24 @@ const BusinessSignup = ({navigation}) => {
       device_token: 'Business',
       category_id: CateId,
     };
-
+    actions.postRegister(apiData, setloaderVisible, (res) => PageNavigation(res));
     setloaderVisible(true);
-
-    ApiCall.ApiMethod(SortUrl.Register, Constants.POST, Data)
-      .then(response => {
-        setloaderVisible(false);
-        if (response.status == Constants.Success) {
-          navigation.navigate('login');
-        } else {
-          Toast.show(response.message);
-        }
-      })
-      .catch(err => {
-        setloaderVisible(false);
-      });
+    console.log("hii-----------res---------",res);
   };
-  // console.log('categories============CateId', CateId);
+
+  const PageNavigation = (res) => {
+    handleNavigation({
+      type: 'setRoot',
+      page: 'bottomtab',
+      navigation: navigation,
+    });
+  }
+
+
+
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
-      <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
+    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <View style={styles.container}>
           <Text style={styles.header}>Business sign up </Text>
           <Text style={styles.headerText}>
@@ -216,7 +216,7 @@ const BusinessSignup = ({navigation}) => {
                 borderRadius: 30,
               }}>
               <RNPickerSelect
-                placeholder={{label: 'Select Categroy', value: null}}
+                placeholder={{ label: 'Select Categroy', value: null }}
                 onValueChange={value => setCateId(value)}
                 // onClose={(value) =>setCateId(value)}
                 items={CateList}
@@ -227,7 +227,7 @@ const BusinessSignup = ({navigation}) => {
             <View style={styles.checkBoxView}>
               <TouchableOpacity
                 onPress={() => chexkBox()}
-                style={{paddingRight: 5}}>
+                style={{ paddingRight: 5 }}>
                 <Image
                   source={
                     mark
@@ -262,7 +262,7 @@ const BusinessSignup = ({navigation}) => {
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('login', {UserType: 'BUSINESS'});
+                  navigation.navigate('login', { UserType: 'BUSINESS' });
                 }}>
                 <Text style={styles.sigininTextButton}> Sign in</Text>
               </TouchableOpacity>
