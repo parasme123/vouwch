@@ -1,33 +1,42 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
   ScrollView,
   ImageBackground,
   Image,
-  TextInput,
-  Modal,
 } from 'react-native';
 // import { TextInput } from 'react-native-gesture-handler';
-import LinearGradient from 'react-native-linear-gradient';
 import Imagepath from '../../common/imagepath';
-import ImagePicker from 'react-native-image-crop-picker';
-import String from '../../common/String';
-import {Header} from '@common';
-import Fonts from '../../common/Fonts';
-import Helper from '../../Lib/Helper';
-import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
-import {handleNavigation} from '../../navigator/Navigator';
-import Constants from '../../Lib/Constants';
+import { Header, Fonts, String } from '@common';
+
+import { Helper, Constants, AsyncStorageHelper } from '@lib';
+
+import { handleNavigation } from '../../navigator/Navigator';
 import Colors from '../../common/Colors';
 // import styles from './styles';
 // const { width, height } = Dimensions.get("window");
-export default Menu = ({navigation}) => {
-  const [modalVisible, setModalVisible] = useState(false);
+export default Menu = ({ navigation }) => {
+  const [userType, setuserType] = useState(null);
+  const [userToken, setuserToken] = useState(null);
+
+  useEffect(() => {
+    AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
+      if (value !== null) {
+        setuserToken(value);
+      }
+      // console.log('UserToken------------', userToken);
+    });
+    AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+      if (value !== null) {
+        setuserType(value);
+      }
+      // console.log('setuserType-------', userType);
+    });
+  }, []);
+
   const SignOut = () => {
     Helper.confirmPopUp('Are you sure, you want to logout ?', status => {
       if (status) {
@@ -52,7 +61,7 @@ export default Menu = ({navigation}) => {
       <Header title={String.menu} isback={'bottomtab'} />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container1}>
           <TouchableOpacity style={styles.pageButton}>
             <Image
@@ -86,18 +95,22 @@ export default Menu = ({navigation}) => {
             />
             <Text style={styles.pageButtonText}>Privacy Policy</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.pageButton}
-            onPress={() => {
-              SignOut();
-            }}>
-            <Image
-              style={styles.pageButtonIcon}
-              resizeMode="contain"
-              source={Imagepath.help}
-            />
-            <Text style={styles.pageButtonText}>Sign out</Text>
-          </TouchableOpacity>
+          {
+            userType && userToken ? (
+              <TouchableOpacity
+                style={styles.pageButton}
+                onPress={() => {
+                  SignOut();
+                }}>
+                <Image
+                  style={styles.pageButtonIcon}
+                  resizeMode="contain"
+                  source={Imagepath.help}
+                />
+                <Text style={styles.pageButtonText}>Sign out</Text>
+              </TouchableOpacity>
+            ) : null
+          }
         </View>
       </ScrollView>
     </ImageBackground>
@@ -105,8 +118,8 @@ export default Menu = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  imagebg: {flex: 1},
-  containerView: {height: 65, width: '100%', backgroundColor: Colors.appcolor},
+  imagebg: { flex: 1 },
+  containerView: { height: 65, width: '100%', backgroundColor: Colors.appcolor },
   arrowiconView: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -114,7 +127,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
-  arrowicon: {height: 21, width: 31},
+  arrowicon: { height: 21, width: 31 },
   headerView: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -135,8 +148,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 10,
   },
-  pageButton: {flexDirection: 'row', alignItems: 'center', width: '60%'},
-  pageButtonIcon: {height: 30, width: 30},
+  pageButton: { flexDirection: 'row', alignItems: 'center', width: '60%' },
+  pageButtonIcon: { height: 30, width: 30 },
   pageButtonText: {
     color: '#000',
     fontSize: 18,

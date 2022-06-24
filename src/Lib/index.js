@@ -13,7 +13,7 @@ export const Constants = _Constants;
 import _CustomLoder from './CustomLoader';
 export const CustomLoader = _CustomLoder;
 
-import _Helper from './Helper';
+import * as _Helper from './Helper';
 export const Helper = _Helper;
 
 import _SortUrl from './SortUrl';

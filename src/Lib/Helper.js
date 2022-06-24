@@ -1,33 +1,52 @@
 import * as React from 'react';
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 import Constants from './Constants';
 
+import { handleNavigation } from '../navigator/Navigator';
 // import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
-export default class Helper extends React.Component {
-  static device_token = 'Andriod';
-  static device_type = '123456';
-
-  static confirmPopUp(alertMessage, cb) {
-    Alert.alert(
-      Constants.AppName,
-      alertMessage,
-      [
-        {
-          text: 'YES',
-          onPress: () => {
-            if (cb) cb(true);
-            console.log('OK Pressed');
-          },
+export const confirmPopUp = (alertMessage, cb) => {
+  Alert.alert(
+    Constants.AppName,
+    alertMessage,
+    [
+      {
+        text: 'YES',
+        onPress: () => {
+          if (cb) cb(true);
+          console.log('OK Pressed');
         },
-        {
-          text: 'NO',
-          onPress: () => {
-            if (cb) cb(false);
-          },
-          style: 'cancel',
+      },
+      {
+        text: 'NO',
+        onPress: () => {
+          if (cb) cb(false);
         },
-      ],
-      {cancelable: false},
-    );
-  }
+        style: 'cancel',
+      },
+    ],
+    { cancelable: false },
+  );
 }
+
+export const loginPopUp = (navigation) => {
+  Alert.alert(
+    Constants.AppName,
+    "Please Login First",
+    [
+      {
+        text: 'Cancel',
+        onPress: () => console.log("Login Cancel"),
+      },
+      {
+        text: 'Login',
+        onPress: () => handleNavigation({
+          type: 'push',
+          page: 'welcome',
+          navigation: navigation,
+        }),
+      },
+    ],
+    { cancelable: false },
+  );
+}
+
