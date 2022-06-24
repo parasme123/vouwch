@@ -7,3 +7,5 @@ export const BRAVOCARD = "BRAVOCARD";
 export const FOLLOW = "FOLLOW";
 
 export const CATEGORIES = "CATEGORIES";
+
+export const NOTIFICATION = "NOTIFICATION";

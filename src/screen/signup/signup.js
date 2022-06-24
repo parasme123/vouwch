@@ -4,7 +4,7 @@ import {
   Image,
   Text,
   ImageBackground,
-  StyleSheet,
+  Linking,
   TouchableOpacity,
   TextInput,
   ScrollView,
@@ -15,7 +15,6 @@ import { CustomLoader, Validators } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
 import styles from './css';
 import { svg, Colors, imagepath } from "@common";
-
 import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -174,7 +173,7 @@ const Signup = (props) => {
             </TouchableOpacity>
               <Text style={styles.checkBoxText}>I agree to
               <Text style={styles.checkBoxText2}> Terms of Services </Text>and 
-              <Text style={styles.checkBoxText2}> Privacy Policy</Text>
+              <Text  onPress={() => {Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app')}} style={styles.checkBoxText2}> Privacy Policy</Text>
             </Text>
           </View>
 

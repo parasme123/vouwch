@@ -71,7 +71,7 @@ export default function OtpPage({navigation, route}) {
 
   return (
     <ImageBackground source={Imagepath.background} style={{flex: 1}}>
-      <Header title={String.Verification} isback={true} />
+      <Header  isback={true} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}

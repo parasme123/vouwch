@@ -47,7 +47,7 @@ const Home = (props) => {
   // const userTypeOne = () => { userToken && userType.user_type == 1 };
 
   useEffect(() => {
-    Call_CategouryApi();
+    handelHomeData();
     AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
       if (value !== null) {
         setuserToken(value);
@@ -108,7 +108,7 @@ const Home = (props) => {
   };
 
   // api  Home Page
-  const Call_CategouryApi = () => {
+  const handelHomeData = () => {
     let { actions } = props;
     actions.getHomeData();
   };

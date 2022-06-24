@@ -4,7 +4,7 @@ import {
   Image,
   Text,
   ImageBackground,
-  StyleSheet,
+  Linking,
   TouchableOpacity,
   TextInput,
   ScrollView,
@@ -39,21 +39,30 @@ const BusinessSignup = (props) => {
 
   useEffect(() => {
     Get_Categroy();
+    Call_CategouryApis();
   }, []);
+  // handelCategories
+  const Call_CategouryApis = ( ) => {
+    let { actions } = props;
+    actions.getCategories();
+    // console.log("getCategoriesljsalfja---------------", props.allCategories);
 
-  const Get_Categroy = () => {
-    ApiCall.ApiMethod(SortUrl.Get_categories, 'GET').then(response => {
-      if (response.status == true) {
-        let arr = [];
-        response.data.categories.map((item, label) => {
-          arr.push({ label: item.name, value: item.id });
-          // console.log('arr====>>>', arr);
-        });
-        setCateList(arr);
-      } else {
-      }
-    });
   };
+  const Get_Categroy = () => {
+    let { actions } = props;
+    actions.getCategories();
+  };
+
+  useEffect(()=>{
+    if (props.allCategories.status == true) {
+      let arr = [];
+      props.allCategories.data.categories.map((item, label) => {
+        arr.push({ label: item.name, value: item.id });
+        console.log('arr== categories in signup==>>>', arr);
+      });
+      setCateList(arr);
+    }  
+  }, [props.allCategories])
 
   const Signin_Validators = () => {
     if (
@@ -97,8 +106,6 @@ const BusinessSignup = (props) => {
       navigation: navigation,
     });
   }
-
-
 
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
@@ -210,24 +217,24 @@ const BusinessSignup = (props) => {
             </View>
 
             <View style={styles.privacyView}>
-            <TouchableOpacity
-              onPress={() => chexkBox()}
-              style={{ paddingRight: 5 }}>
-              <Image
-                source={
-                  mark
-                    ? require('../../assect/icon/yes.png')
-                    : require('../../assect/icon/check.png')
-                }
-                style={styles.checkbox}
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => chexkBox()}
+                style={{ paddingRight: 5 }}>
+                <Image
+                  source={
+                    mark
+                      ? require('../../assect/icon/yes.png')
+                      : require('../../assect/icon/check.png')
+                  }
+                  style={styles.checkbox}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
               <Text style={styles.checkBoxText}>I agree to
-              <Text style={styles.checkBoxText2}> Terms of Services </Text>and 
-              <Text style={styles.checkBoxText2}> Privacy Policy</Text>
-            </Text>
-          </View>
+                <Text style={styles.checkBoxText2}> Terms of Services </Text>and
+                <Text  onPress={() => {Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app')}} style={styles.checkBoxText2}> Privacy Policy</Text>
+              </Text>
+            </View>
             <TouchableOpacity
               onPress={() => {
                 Signin_Validators();

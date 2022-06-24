@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   textInputText: {
     alignSelf: 'center',
-    fontSize: 15,
+    fontSize:Fontsize.fontFifteen,
     paddingLeft: 15,
     color:Colors.black,
     fontFamily: Fonts.ProximaNovaLight,

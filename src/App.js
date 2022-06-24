@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SafeAreaView, Text, LogBox} from 'react-native';
+import {SafeAreaView, StatusBar, LogBox} from 'react-native';
 import Navigator from './navigator/Navigator';
 import {Provider} from 'react-redux';
 import configureStore from './reduxStore/store/configureStore';
@@ -12,6 +12,10 @@ export default function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Provider store={store}>
+      {/* <StatusBar
+         backgroundColor="transparent"
+         barStyle={"light-content"}
+         translucent={true} /> */}
         <Navigator />
       </Provider>
     </SafeAreaView>
