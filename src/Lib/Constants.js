@@ -1,5 +1,5 @@
 const Constants = {
-  AppName: "Doctor",
+  AppName: "Vouwch",
   Base_Url: "https://apponedemo.top/vouwch/",
   Image_Url: "https://apponedemo.top/vouwch/",
   Video_Url: "https://apponedemo.top/vouwch/",
