@@ -4,27 +4,28 @@ import {Header} from '@common';
 import Imagepath from '../../common/imagepath';
 import String from '../../common/String';
 import styles from './NotificationStyle';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { handelNotification } from '../../reduxStore/action/doctorAction';
+
 const {width, height} = Dimensions.get('window');
 
-const Notification = ({navigation, route}) => {
+const Notification = (props,{navigation, route}) => {
   // const [isback , setIsback] = useState(true);
   const [NotificationList, setNotificationList] = useState([1, 2, 3, 4]);
-  const isTrue = route.params ? route.params.isTrue : false;
+  const isTrue = props.route.params ? props.route.params.isTrue : false;
+ 
 
-  // api all Data list
-  const Call_CategouryApi = () => {
-    ApiCall.ApiMethod(SortUrl.Productlilst, 'GET').then(response => {
-      // alert(JSON.stringify(response))
-      console.log('Response==========', response);
-      if (response.status == true) {
-        setdataList(response.data);
-        // console.log("Child  of appliances  are", response);
-      } else {
-        alert('Something went wrong');
-        // ToastMessage("Error in fetching child categories");
-      }
-    });
+  useEffect(()=>{
+    NotificationApi();
+    console.log("allNotification===================",props.allNotification);
+  },[])
+  const NotificationApi = () => {
+    let { actions } = props;
+    actions.handelNotification();
   };
+
+
   const NotificationItem = ({item, index}) => {
     return (
       <View
@@ -84,4 +85,16 @@ const Notification = ({navigation, route}) => {
   );
 };
 
-export default Notification;
+const mapStateToProps = state => ({
+  allNotification: state.doctor.allNotification,
+});
+
+const ActionCreators = Object.assign(
+  { handelNotification },
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);

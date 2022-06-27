@@ -14,13 +14,13 @@ import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-simple-toast';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
+// import { handleNavigation } from '../../navigator/navigator';
 import { handleNavigation } from '../../navigator/Navigator';
-import { AsyncStorageHelper, Constants, SortUrl, ApiCall, CustomLoader, } from '@lib';
-import { Validators } from '../../Lib/Validators';
+import { svg, Colors } from "@common";
+import { Validators, Constants, SortUrl, ApiCall, CustomLoader, } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { postLogin } from '../../reduxStore/action/doctorAction';
-
 const Login = (props, { route }) => {
   const navigation = useNavigation();
   const [securepasswordIcon, setSecurepassworddIcon] = useState(true);
@@ -86,119 +86,111 @@ const Login = (props, { route }) => {
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flex: 1 }}>
-        <KeyboardAvoidingView behavior="padding" style={{ flexGrow: 1 }}>
-          <View style={styles.container}>
-            {/* Heading */}
-            {/* <View style={{ justifyContent: "center", width: "100%", alignSelf: "center" }}> */}
-            <Text style={styles.header}>Login Account</Text>
-            {/* sub heading */}
-            <Text style={styles.subHeader}>
-              Hello, Welcome back to our {'\n'}account
-            </Text>
-            {/* </View> */}
+        contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.container}>
+          {/* Heading */}
+          <Text style={styles.header}>Login Account</Text>
+          {/* sub heading */}
+          <Text style={styles.subHeader}>
+            Hello, Welcome back to our {'\n'}account
+          </Text>
 
-            {/* container  */}
-            <View style={styles.textInputMainView}>
-              {/* textInput usernsme */}
-              <View style={styles.textinputUsernameView}>
-                <View style={styles.textinputpasswordView}>
-                  <Image
-                    source={Imagepath.user}
-                    resizeMode="contain"
-                    style={styles.usernameIcon}
-                  />
-                </View>
-                <TextInput
-                  placeholder="Enter Username"
-                  style={styles.textInputname}
-                  onChangeText={text => {
-                    setEmail(text);
-                  }}
-                  value={Email}
-                  maxLength={40}
-                  keyboardType="email-address"
+          {/* container  */}
+          <View style={styles.textInputMainView}>
+            {/* textInput usernsme */}
+            <View style={styles.textinputUsernameView}>
+              <View style={styles.textinputpasswordView}>
+                {svg.manIcon(16, 18, Colors.imputborderColor)}
+              </View>
+              <TextInput
+                placeholder="Enter Username"
+                placeholderTextColor={Colors.imputborderColor}
+                style={styles.textInputname}
+                onChangeText={text => {
+                  setEmail(text);
+                }}
+                value={Email}
+                maxLength={40}
+                keyboardType="email-address"
+
+              />
+            </View>
+            {/* textInput password */}
+            <View style={styles.textInputPasswordView}>
+              <View style={styles.textinputpasswordView}>
+                {svg.lockIcon(16, 18, Colors.imputborderColor)}
+              </View>
+              <TextInput
+                placeholder="Enter Password"
+                style={styles.textinputPassword}
+                placeholderTextColor={Colors.imputborderColor}
+
+                keyboardType="default"
+                onChangeText={text => {
+                  setPassword(text);
+                }}
+                value={Password}
+                maxLength={20}
+                blurOnSubmit={false}
+                secureTextEntry={securepasswordIcon ? true : false}
+              // ref={one}
+              />
+              <TouchableOpacity onPress={() => securepassworddIcon()}>
+                <Image
+                  source={
+                    securepasswordIcon ? Imagepath.eyehide : Imagepath.eye
+                  }
+                  tintColor={Colors.imputborderColor}
+                  style={{ width: 25, height: 25 }}
                 />
-              </View>
-              {/* textInput password */}
-              <View style={styles.textInputPasswordView}>
-                <View style={styles.textinputpasswordView}>
-                  <Image
-                    source={Imagepath.lock}
-                    resizeMode="contain"
-                    style={styles.passwordIcon}
-                  />
-                </View>
-                <TextInput
-                  placeholder="Enter Password"
-                  style={styles.textinputPassword}
-                  keyboardType="default"
-                  onChangeText={text => {
-                    setPassword(text);
-                  }}
-                  value={Password}
-                  maxLength={20}
-                  blurOnSubmit={false}
-                  secureTextEntry={securepasswordIcon ? true : false}
-                // ref={one}
-                />
-                <TouchableOpacity onPress={() => securepassworddIcon()}>
-                  <Image
-                    source={
-                      securepasswordIcon ? Imagepath.eyehide : Imagepath.eye
-                    }
-                    tintColor="#CCC"
-                    style={{ width: 25, height: 25 }}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              {/* Forgot password */}
-              <TouchableOpacity
-                style={styles.forgotButton}
-                onPress={() => navigation.navigate('forgotpassword')}>
-                <Text style={styles.forgotButtontext}>Forgot password?</Text>
-              </TouchableOpacity>
-              {/* Login Button */}
-              <TouchableOpacity
-                onPress={() => Signin_Validators()}
-                style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>LOGIN</Text>
-              </TouchableOpacity>
-            </View>
-            {/* Or line */}
-            <View style={styles.orLineView}>
-              <View style={styles.subView} />
-              <View>
-                <Text style={styles.orText}>or continue with</Text>
-              </View>
-              <View style={styles.subView} />
-            </View>
-            {/* social button */}
-            <View style={styles.socialButtonView}>
-              <TouchableOpacity style={styles.googleButton}>
-                <Image style={styles.googleIcon} source={Imagepath.google} />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.fbButton}>
-                <Image style={styles.fbIcon} source={Imagepath.fb} />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.twiterButton}>
-                <Image style={styles.twiterIcon} source={Imagepath.twitter} />
               </TouchableOpacity>
             </View>
 
-            {/* Register text */}
-            <View style={styles.registerview}>
-              <Text style={styles.registerText}>Not a member? </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  Registernow();
-                }}>
-                <Text style={styles.registerButtonText}> Register now</Text>
-              </TouchableOpacity>
-            </View>
+            {/* Forgot password */}
+            <TouchableOpacity
+              style={styles.forgotButton}
+              onPress={() => navigation.navigate('forgotpassword')}>
+              <Text style={styles.forgotButtontext}>Forgot password?</Text>
+            </TouchableOpacity>
+            {/* Login Button */}
+            <TouchableOpacity
+              onPress={() => Signin_Validators()}
+              style={styles.loginButton}>
+              <Text style={styles.loginButtonText}>LOGIN</Text>
+            </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
+          {/* Or line */}
+          <View style={styles.orLineView}>
+            <View style={styles.subView} />
+            <View>
+              <Text style={styles.orText}>or continue with</Text>
+            </View>
+            <View style={styles.subView} />
+          </View>
+          {/* social button */}
+          <View style={styles.socialButtonView}>
+            <TouchableOpacity style={styles.googleButton}>
+              {svg.googleIcon(90, 55)}
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.fbButton}>
+              {svg.fbIcon(90, 55)}
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.twiterButton}>
+              {svg.twiterIcon(90, 55)}
+            </TouchableOpacity>
+          </View>
+
+          {/* Register text */}
+          <View style={styles.registerview}>
+            <Text style={styles.registerText}>Not a member? </Text>
+            <TouchableOpacity
+              onPress={() => {
+                Registernow();
+              }}>
+              <Text style={styles.registerButtonText}> Register now</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
       <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>

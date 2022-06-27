@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW } from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES,NOTIFICATION } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -139,7 +139,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
         }).catch(err => {
             console.log("postLogin", err);
             setloaderVisible(false);
-            Toast.show(response.message);
+            Toast.show("something went wrong");
         })
     }
 };
@@ -167,7 +167,156 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
         }).catch(err => {
             console.log("postRegister", err);
             setloaderVisible(false);
-            Toast.show(response.message);
+            Toast.show("something went wrong");
         })
     }
 };
+
+
+
+export const getCategories = (setloaderVisible) => {
+    return async dispatch => {
+        // setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.getCategoury}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Token": `Bearer ${global.token}`
+            }
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(saveCategories(response))
+            // console.log("res===", response);           //console remove after use 
+            // setloaderVisible(false);
+        }).catch(err => {
+            console.log("getCategories", err);
+            // setloaderVisible(false);
+        })
+    }
+};
+
+export const saveCategories = (data) => {
+    return ({
+        type: CATEGORIES,
+        payload: data
+    })
+};
+
+
+
+export const postForgot = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.postForgotapi}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            if (response.status) {
+                PageNavigation(response)
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postRegister", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+
+// export const postForgot = (data, setloaderVisible, PageNavigation) => {
+//     return async dispatch => {
+//         setloaderVisible(true);
+//         await fetch(`${URL.baseUrl}${URL.postForgotapi}`, {
+//             method: "POST",
+//             headers: {
+//                 "Content-type": "application/json"
+//             },
+//             body: JSON.stringify(data)
+//         }).then(async (res) => {
+//             let response = await res.json();
+//             setloaderVisible(false);
+//             if (response.status) {
+//                 PageNavigation(response)
+//             } else {
+//                 setloaderVisible(false);
+//                 Toast.show(response.message);
+//             }
+//         }).catch(err => {
+//             console.log("postRegister", err);
+//             setloaderVisible(false);
+//             Toast.show("something went wrong");
+//         })
+//     }
+// };
+
+
+
+
+export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        console.log("response=====data=======handelresetPassword", data);
+        await fetch(`${URL.baseUrl}${URL.ResetPassword}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            console.log("response=====ressponsre=======handelresetPassword", response);
+            if (response.status) {
+                PageNavigation()
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postRegister", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+
+
+
+
+
+export const handelNotification = (setloaderVisible) => {
+    return async dispatch => {
+        // setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.getCategoury}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+            }
+            
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(saveNotification(response))
+            // console.log("res===", response);           //console remove after use 
+            // setloaderVisible(false);
+        }).catch(err => {
+            console.log("getCategories", err);
+            // setloaderVisible(false);
+        })
+    }
+};
+
+export const saveNotification = (data) => {
+    return ({
+        type: NOTIFICATION,
+        payload: data
+    })
+};
+
+

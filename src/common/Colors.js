@@ -17,7 +17,13 @@ const Colors = {
     lightPink: "#FBEBE2",
     red: "#EC2232",
     transparentBlack: "#00000090",
-    registor_gray_color: "#8F8B8B"
+    registor_gray_color: "#8F8B8B",
+    mediumskyblue:"#AAE3FF",
+    darkBlue:'#19428b',
+    imputborderColor:'#CCC',
+    checkboxColor:'#707070',
+
+
 
 }
 export default Colors 

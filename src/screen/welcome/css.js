@@ -1,107 +1,100 @@
-import {StyleSheet} from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { StyleSheet } from 'react-native';
 import Fonts from '../../common/Fonts';
 import Colors from '../../common/Colors';
+import Fontsize from '../../common/Fontsize';
 // Welcome css
 const styles = StyleSheet.create({
-  backgroundimg: {flex: 1},
+  backgroundimg: { flex: 1 },
   headerTextView: {
-    flex: 0.15,
     justifyContent: 'center',
-    width: '85%',
     alignSelf: 'center',
   },
   headerText: {
-    fontSize: 34,
+    fontSize: Fontsize.fontThirtyfour,
     fontFamily: Fonts.ProximaNovaBold,
-    color: '#000000',
-    marginTop: '15%',
+    color: Colors.black,
+    marginTop: 40,
+    marginHorizontal: 24,
+    textAlign: "center"
   },
-  headersubTextView: {flex: 0.1, width: '85%', alignSelf: 'center'},
   headersubText: {
-    fontSize: 15,
-    color: '#737373',
+    fontSize: Fontsize.fontFifteen,
+    color: Colors.black,
     fontFamily: Fonts.ProximaNovaRegular,
+    lineHeight: 23,
+    marginTop: 12,
+    marginHorizontal: 24,
+    textAlign: "center",
+    opacity:0.4
+
   },
   categouryButton: {
-    flex: 0.25,
-    alignItems: 'center',
+    marginTop: 63,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '85%',
-    alignSelf: 'center',
+    justifyContent: "space-between",
+    marginHorizontal: 24
   },
   touchablePersonalButton: {
-    height: 135,
-    width: 148,
+    flex:1,
+    marginRight:10,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
+
   },
-  personIconText: {fontSize: 16, fontFamily: Fonts.ProximaNovaMedium},
+  personIconText: { fontSize: Fontsize.fontSixteen,
+     fontFamily: Fonts.ProximaNovaMedium },
   personIconView: {
-    height: 58,
-    width: 58,
+    padding:20,
     marginBottom: 10,
     borderRadius: 80,
     justifyContent: 'center',
     alignItems: 'center',
+
   },
-  personicon: {height: 35, width: 35},
-  doctorIconTextSub: {fontSize: 8, fontFamily: Fonts.ProximaNovaMedium},
-  doctorIconTexthead: {fontSize: 16, fontFamily: Fonts.ProximaNovaMboldedium},
-  doctorIcon: {height: 35, width: 35},
+  doctorIconTextSub: { fontSize: Fontsize.Verysmall, 
+    fontFamily: Fonts.ProximaNovaMedium },
+  doctorIconTexthead: { fontSize: Fontsize.fontSixteen, 
+    fontFamily: Fonts.ProximaNovaMboldedium 
+  },
   doctorIconbtn: {
-    height: 135,
-    width: 148,
+    flex:1,
+    marginLeft:10,
+    paddingVertical:30,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
   },
   loginText: {
     color: Colors.appcolor,
-    fontSize: 16,
+    fontSize: Fontsize.fontSixteen,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
   loginButton: {
     borderColor: Colors.appcolor,
-    height: 45,
-    justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
     borderRadius: 20,
     borderWidth: 1,
+    marginTop: 48,
+    marginHorizontal: 24,
+    paddingVertical: 14
   },
-  loginBtnView: {
-    flex: 0.075,
-    width: '85%',
-    alignSelf: 'center',
-    marginVertical: 15,
-  },
-  signupViewButton: {
-    flex: 0.075,
-    width: '85%',
-    alignSelf: 'center',
-    justifyContent: 'flex-end',
-  },
+
   signupButton: {
     backgroundColor: Colors.appcolor,
-    height: 45,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
     borderRadius: 20,
+    marginVertical: 40,
+    marginHorizontal: 24,
+    paddingVertical: 14,
+    marginBottom:80
   },
   signupButtonText: {
-    color: '#ffffff',
+    color: Colors.white,
     fontSize: 16,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
-  bottomImage: {flex: 0.35, justifyContent: 'flex-end'},
-  bottomImageIcon: {width: '100%', height: 300, alignSelf: 'center'},
 });
 
 export default styles;

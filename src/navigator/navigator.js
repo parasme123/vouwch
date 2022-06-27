@@ -1,6 +1,6 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Splash from '../screen/splash/splash';
 import Welcome from '../screen/welcome/welcome';
@@ -35,13 +35,13 @@ const Navigator = () => {
     <NavigationContainer>
       <MainStack.Navigator
         initialRouteName="splash"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{ headerShown: false }}>
         <MainStack.Screen name="splash" component={Splash} />
         <MainStack.Screen name="welcome" component={Welcome} />
         <MainStack.Screen name="login" component={Login} />
         <MainStack.Screen name="signup" component={Signup} />
         <MainStack.Screen name="business" component={BusinessSignup} />
-        <MainStack.Screen name="home" component={Home} />
+        {/* <MainStack.Screen name="home" component={Home} /> */}
         <MainStack.Screen name="bottomtab" component={Bottomtab} />
         <MainStack.Screen name="Doctordetails" component={Doctordetails} />
         <MainStack.Screen name="Bravocard" component={Bravocard} />
@@ -53,10 +53,7 @@ const Navigator = () => {
         <MainStack.Screen name="menue" component={menu} />
         <MainStack.Screen name="hospital" component={addhospital} />
         <MainStack.Screen name="search" component={Searchresult} />
-        <MainStack.Screen
-          name="myprofliecomment"
-          component={myprofilecomment}
-        />
+        <MainStack.Screen name="myprofliecomment" component={myprofilecomment} />
         <MainStack.Screen name="edit" component={Editprofile} />
         <MainStack.Screen name="forgotpassword" component={ForgotPassword} />
         <MainStack.Screen name="otppage" component={OtpPage} />
@@ -79,7 +76,7 @@ export function handleNavigation(nav) {
       nav.navigation.navigate(nav.page, nav.passProps);
       break;
     case 'setRoot':
-      nav.navigation.reset({index: 0, routes: [{name: nav.page}]});
+      nav.navigation.reset({ index: 0, routes: [{ name: nav.page }] });
       break;
     case 'pop':
       nav.navigation.goBack();
