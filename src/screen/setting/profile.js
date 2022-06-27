@@ -1,5 +1,5 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useState, useEffect} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -15,16 +15,28 @@ import { Rating } from 'react-native-ratings';
 import { Colors, imagepath, svg } from '@common';
 import Imagepath from '../../common/imagepath';
 import ToggleSwitch from 'toggle-switch-react-native';
-import {Header,Fonts,String,Fontsize} from '@common';
-import {useNavigation} from '@react-navigation/native';
-export default Profile = (props,{route}) => {
+import { Header, Fonts, String, Fontsize } from '@common';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
+import Constants from '../../Lib/Constants';
+export default Profile = (props, { route }) => {
   const [rating, setRating] = useState();
   const [isTrue, setisTrue] = useState(false);
+  const [userData, setuserData] = useState(null);
   const isBackTrue = props.route.params ? props.route.params.isBackTrue : false;
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+      if (value !== null) {
+        setuserData(value);
+      }
+      console.log('setuserData-------', userData);
+    });
+  }, []);
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
+    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
 
@@ -32,60 +44,80 @@ export default Profile = (props,{route}) => {
         <View
           style={{
             height: 115,
-            width: '100%',
+            flex: 1,
             backgroundColor: Colors.appcolor,
           }}></View>
 
         <View style={styles.container}>
           {/* params */}
-          <Image style={styles.profileIcon} source={Imagepath.doctors} />
+          <ImageBackground
+           source={Imagepath.doctor}
+           imageStyle={{borderRadius:60}}
+           style={styles.profileIcon} 
+          >
+          <Image style={styles.profileIcon} 
+          source={{uri: userData?.profile_picture}}
+         
+           />
+           </ImageBackground>
           {/* Button of Share , Comment and Mesage */}
 
-          <Text style={styles.doctorname}>Dr. Darren Elder</Text>
-          <Text style={styles.field}>Medicine & Heart Spelist</Text>
-          <Text style={styles.organization}>
-            Good Health Clinic, MBBS, FCPS
-          </Text>
+          <Text style={styles.doctorname}>{userData?.full_name}</Text>
+          {
+            userData?.user_type !== 1 ? (
+              <>
+                <Text style={styles.field}>{userData?.business?.about_us}</Text>
 
-           {/* Red Star Line */}
-        <View style={styles.ratingViewRed}>
-          <View style={styles.ratingViewmain}>
-            <Rating
-              type="custom"
-              max={5}
-              readonly="true"
-              ratingColor={Colors.red}
-              ratingBackgroundColor={Colors.white}
-              startingValue={props.ClinicianReview_Value}
-              imageSize={10}
-              iconWidth={10}
-              iconHeight={10}
-            />
-          </View>
-          <Text style={styles.ratingText}>
-            {props.Clinician_Rating}
-            <Text style={styles.clinicianReview}> Clinician's Review</Text>
-          </Text>
-        </View>
+                {/* no data availablefor this  */}
 
-        {/* yellow Star Line */}
-        <View style={styles.yellowstarview}>
-          <View style={styles.ratingViewmain}>
-            <Rating
-              max={5}
-              readonly="true"
-              startingValue={props.startingValue}
-              imageSize={10}
-              iconWidth={10}
-              iconHeight={10}
-            />
-          </View>
-          <Text style={styles.ratingText}>
-            {props.patient_Rating}
-            <Text style={styles.clinicianReview}> Patient Review</Text>
-          </Text>
-        </View>
-       
+                {/* <Text style={styles.organization}>
+                  Good Health Clinic, MBBS, FCPS
+                </Text> */}
+
+                {/* Red Star Line */}
+
+                <View style={styles.ratingViewRed}>
+                  <View style={styles.ratingViewmain}>
+                    <Rating
+                      type="custom"
+                      max={5}
+                      readonly="true"
+                      ratingColor={Colors.red}
+                      ratingBackgroundColor={Colors.white}
+                      startingValue={userData?.business.clinical_rate}
+                      imageSize={10}
+                      iconWidth={10}
+                      iconHeight={10}
+                    />
+                  </View>
+                  <Text style={styles.ratingText}>  {userData?.business?.clinical_rate}
+                    {/* {props.Clinician_Rating} */}
+                    <Text style={styles.clinicianReview}> Clinician's Review</Text>
+                  </Text>
+                </View>
+
+
+                {/* yellow Star Line */}
+                <View style={styles.yellowstarview}>
+                  <View style={styles.ratingViewmain}>
+                    <Rating
+                      max={5}
+                      readonly="true"
+                      startingValue={userData?.business?.patient_rate}
+                      imageSize={10}
+                      iconWidth={10}
+                      iconHeight={10}
+                    />
+                  </View>
+                  <Text style={styles.ratingText}>
+                    {/* {props.patient_Rating} */}  {userData?.business?.patient_rate}
+                    <Text style={styles.clinicianReview}> Patient Review</Text>
+                  </Text>
+                </View>
+
+              </>) : null
+          }
+
         </View>
 
         <View style={styles.container1}>
@@ -111,10 +143,10 @@ export default Profile = (props,{route}) => {
           </TouchableOpacity>
           <View
             style={[
-              {justifyContent: 'space-between', alignContent: 'center'},
+              { justifyContent: 'space-between', alignContent: 'center', marginBottom: 40 },
               styles.pageButton,
             ]}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image
                 style={styles.pageButtonIcon}
                 resizeMode="contain"
@@ -138,35 +170,24 @@ export default Profile = (props,{route}) => {
 };
 
 const styles = StyleSheet.create({
-  // button: {
-  //   height: 40,
-  //   width: 168,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   borderRadius: 20,
-  // // },
-  // shadowProp: {
-  //   shadowColor: '#171717',
-  //   shadowOffset: {width: 0, height: 3},
-  //   shadowOpacity: 0.4,
-  //   shadowRadius: 2,
-  // },
+
   container: {
-    width: '90%',
-    alignSelf: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    backgroundColor: '#ffffff',
+    // position: 'absolute',
+    backgroundColor: Colors.white,
     marginTop: 65,
     borderRadius: 20,
-    elevation:5,
+    elevation: 5,
+    paddingBottom: 65,
+    paddingVertical: 15,
     flex: 1,
-    paddingVertical: 20,
+    marginHorizontal: 24,
+    marginTop: -100
   },
- 
-  container1: {width: '90%', alignSelf: 'center', marginTop: 250},
-  
-  profileIcon: {height: 120, width: 120, borderRadius: 100, marginBottom: 20},
+
+  container1: { marginTop: 25, justifyContent: "space-between", marginHorizontal: 24, flex: 1 },
+
+  profileIcon: { height: 120, width: 120, borderRadius: 100, marginBottom: 20 },
   doctorname: {
     color: Colors.appcolor,
     fontSize: Fontsize.fontTwentyfive,
@@ -183,20 +204,23 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 10,
     alignItems: 'center',
+    // backgroundColor:"red"
   },
   ratingViewmain: {
     backgroundColor: Colors.white,
     flexDirection: 'row',
     borderRadius: 10,
-    flex: 1,
-    justifyContent:"center"
+    // flex: 1,
+    justifyContent: "flex-end",
+    // backgroundColor:"green"
   },
   ratingText: {
     color: Colors.black,
     fontSize: Fontsize.fontEighteen,
     lineHeight: 24,
     fontFamily: Fonts.ProximaNovaMedium,
-    flex: 1,
+    // flex: 1,
+    // backgroundColor:"red"
   },
   clinicianReview: {
     color: Colors.darkGrey,
@@ -213,8 +237,8 @@ const styles = StyleSheet.create({
     fontSize: Fontsize.fontFourteen,
     fontFamily: Fonts.ProximaNovaRegular,
   },
-  pageButton: {flexDirection: 'row', alignItems: 'center'},
-  pageButtonIcon: {height: 30, width: 30},
+  pageButton: { flexDirection: 'row', alignItems: 'center' },
+  pageButtonIcon: { height: 30, width: 30 },
   pageButtonText: {
     color: Colors.black,
     fontSize: Fontsize.fontEighteen,

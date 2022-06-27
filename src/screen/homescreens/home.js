@@ -52,7 +52,7 @@ const Home = (props) => {
       if (value !== null) {
         setuserToken(value);
       }
-      // console.log('UserToken------------', userToken);
+      console.log('UserToken------------', userToken);
     });
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {

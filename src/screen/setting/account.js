@@ -1,5 +1,5 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useState, useEffect} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,31 +16,27 @@ import {
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
-import String from '../../common/String';
-import {Header} from '@common';
-import Fonts from '../../common/Fonts';
+import { Header, Colors, Fonts, String } from '@common';
 import Imagepath from '../../common/imagepath';
-import CustomDropDown from '../../common/CustomDropDown';
-import Colors from '../../common/Colors';
-import ApiCall from '../../Lib/ApiCall';
-import RNPickerSelect from 'react-native-picker-select';
-import SortUrl from '../../Lib/SortUrl';
-import Constants from '../../Lib/Constants';
-import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
-const {width, height} = Dimensions.get('window');
-const Account = ({navigation}) => {
+import { Constants, SortUrl, AsyncStorageHelper, ApiCall } from '@lib';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { postAccountSetting } from '../../reduxStore/action/doctorAction';
+const { width, height } = Dimensions.get('window');
+const Account = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [DropDownSec, setDropDownSec] = useState(false);
   const [selectvalue, setselectvalue] = useState('Select');
   const [image, setImage] = useState();
-  const [userName, setuserName] = useState();
+  const [firstName, setfirstName] = useState();
+  const [lastName, setlastName] = useState();
   const [mailAddress, setmailAddress] = useState();
   const [password, setpassword] = useState();
   const [Profilepic, setProfilepic] = useState('');
   const [loaderVisible, setloaderVisible] = useState(false);
   const [CateList, setCateList] = useState([]);
   const [CateId, setCateId] = useState();
-
+  const [editText, seteditText] = useState(false);
   const camera = async () => {
     ImagePicker.openCamera({
       width: 300,
@@ -64,72 +60,20 @@ const Account = ({navigation}) => {
     });
   };
 
-  // const onChangesecond = (value) => {
-  //     setDropDownSec(!DropDownSec)
-  //     setselectvalue(value)
-  // }
 
-  // const onPickersecond = () => {
-  //     setDropDownSec(!DropDownSec)
-  // }
+  const HandelAccountsetting = () => {
+    let { actions } = props;
+    let apiData = {
+      user_fname: id,
+      user_lname: id,
+      email: id,
+      password: id,
 
-  // Api
+    }
+    // console.log("apiData------------------------",apiData);
+    actions.postAccountSetting(apiData);
 
-  // const Signin_Validators=()=>{
-  //     if(
-  //       Validators.checkNotNull("service_mailAddress", mailAddress)&&
-  //       Validators.checkNotNull("service_location", mailAddress)&&
-  //       Validators.checkNotNull("about_us", mailAddress)
-
-  //       ) {
-  //         Account_SettingApi()
-  //     }
-  //  }
-
-  useEffect(() => {
-    Get_Categroy();
-  }, []);
-
-  const Get_Categroy = () => {
-    ApiCall.ApiMethod(SortUrl.Get_categories, 'GET').then(response => {
-      if (response.status == true) {
-        let arr = [];
-        response.data.categories.map((item, label) => {
-          arr.push({label: item.name, value: item.id});
-          console.log('arr====>>>', arr);
-        });
-        setCateList(arr);
-      } else {
-      }
-    });
   };
-
-  const Account_SettingApi = () => {
-    let data = {
-      services: CateId,
-      service_mailAddress: mailAddress,
-      service_location: userName,
-      about_us: password,
-      profile_picture: image,
-    };
-    setloaderVisible(true);
-    ApiCall.ApiMethod(SortUrl.SetDoctorAccount, Constants.POST, data)
-      .then(response => {
-        setloaderVisible(false);
-        if (response.status == Constants.Success) {
-          AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
-          AsyncStorageHelper.setData(Constants.TOKEN, response.token);
-          // handleNavigation({ type: 'setRoot', page: 'bottomtab', navigation: navigation, });
-        } else {
-          setloaderVisible(false);
-          Toast.show(response.message);
-        }
-      })
-      .catch(err => {
-        setloaderVisible(false);
-      });
-  };
-  // console.log(CateList, "asd*****Catelist");
 
   return (
     <ImageBackground source={Imagepath.background} style={styles.imagebg}>
@@ -137,7 +81,10 @@ const Account = ({navigation}) => {
       <Header title={String.AccountSetting} isback={'bottomtab'} />
 
       <View style={styles.headerView2}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          // seteditText=true
+          onPress={() => seteditText(true)}
+        >
           <Image
             style={styles.headerbuttonIcon}
             source={Imagepath.Edit}
@@ -148,12 +95,12 @@ const Account = ({navigation}) => {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, paddingBottom: 90}}>
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}>
         {/* container */}
         <View style={styles.profileImageview}>
           <Image
             style={styles.ProfileImage}
-            source={image ? {uri: image} : Imagepath.doctors}
+            source={image ? { uri: image } : Imagepath.doctors}
             resizeMode="contain"
           />
           <TouchableOpacity
@@ -170,14 +117,27 @@ const Account = ({navigation}) => {
 
         {/* details */}
 
-        <Text style={styles.textInputHeader}>User Name</Text>
+        <Text style={styles.textInputHeader}>First Name</Text>
         <TextInput
           style={styles.textInput}
           keyboardType="default"
           placeholder="User Name"
           placeholderTextColor={'#737373'}
+          editable={editText}
           onChangeText={text => {
-            setuserName(text);
+            setfirstName(text);
+          }}
+        />
+
+        <Text style={styles.textInputHeader}>Last Name</Text>
+        <TextInput
+          style={styles.textInput}
+          keyboardType="default"
+          placeholder="User Name"
+          placeholderTextColor={'#737373'}
+          editable={editText}
+          onChangeText={text => {
+            setlastName(text);
           }}
         />
         <Text style={styles.textInputHeader}>Email address</Text>
@@ -186,16 +146,19 @@ const Account = ({navigation}) => {
           keyboardType="email-address"
           placeholder="Email address"
           placeholderTextColor={'#737373'}
+          editable={editText}
           onChangeText={text => {
             setmailAddress(text);
           }}
         />
-        <Text style={styles.textInputHeader}>About Us</Text>
+        <Text style={styles.textInputHeader}>password</Text>
         <TextInput
           style={styles.textInput}
           keyboardType="default"
+          secureTextEntry={true}
           placeholder="********"
           placeholderTextColor={'#737373'}
+          editable={editText}
           onChangeText={text => {
             setpassword(text);
           }}
@@ -215,7 +178,7 @@ const Account = ({navigation}) => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
           <View
             style={{
               paddingVertical: 20,
@@ -224,13 +187,13 @@ const Account = ({navigation}) => {
               backgroundColor: Colors.appcolor,
             }}>
             <TouchableOpacity
-              hitSlop={{top: 30, bottom: 30, right: 30, left: 30}}
+              hitSlop={{ top: 30, bottom: 30, right: 30, left: 30 }}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}
-              style={{position: 'absolute', top: 10, right: 20}}>
+              style={{ position: 'absolute', top: 10, right: 20 }}>
               <Image
-                style={[styles.CancleArrow, {tintColor: '#fff'}]}
+                style={[styles.CancleArrow, { tintColor: '#fff' }]}
                 source={Imagepath.crose}
                 resizeMode="contain"
               />
@@ -257,7 +220,7 @@ const Account = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  imagebg: {flex: 1},
+  imagebg: { flex: 1 },
   containerView: {
     height: 65,
     width: '100%',
@@ -270,7 +233,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
-  arrowicon: {height: 21, width: 31},
+  arrowicon: { height: 21, width: 31 },
   headerView: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -280,11 +243,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     paddingTop: 20,
   },
-  headerView2: {position: 'absolute', top: 15, right: 10},
-  profileImageview: {alignItems: 'center', position: 'relative', marginTop: 20},
-  ProfileImage: {height: 120, width: 120, borderRadius: 100},
-  CameraButton: {position: 'absolute', paddingLeft: 100, paddingTop: 20},
-  CameraImage: {height: 28, width: 28},
+  headerView2: { position: 'absolute', top: 15, right: 10 },
+  profileImageview: { alignItems: 'center', position: 'relative', marginTop: 20 },
+  ProfileImage: { height: 120, width: 120, borderRadius: 100 },
+  CameraButton: { position: 'absolute', paddingLeft: 100, paddingTop: 20 },
+  CameraImage: { height: 28, width: 28 },
   dropdownView: {
     borderWidth: 1,
     borderColor: '#CECECE',
@@ -298,9 +261,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  dropdownText: {fontSize: 16, fontFamily: Fonts.ProximaNovaMedium},
-  downArrow: {height: 8, width: 12, paddingRight: 50},
-  headerbuttonIcon: {height: 30, width: 30},
+  dropdownText: { fontSize: 16, fontFamily: Fonts.ProximaNovaMedium },
+  downArrow: { height: 8, width: 12, paddingRight: 50 },
+  headerbuttonIcon: { height: 30, width: 30 },
   headerText: {
     color: '#ffffff',
     paddingLeft: 35,
@@ -356,7 +319,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  buttonClose: {backgroundColor: '#38C348', width: '40%'},
+  buttonClose: { backgroundColor: '#38C348', width: '40%' },
   textStyle: {
     fontSize: 18,
     fontFamily: Fonts.ProximaNovaRegular,
@@ -369,7 +332,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
-  CancleArrow: {height: 15, width: 15},
+  CancleArrow: { height: 15, width: 15 },
   DropDownView: {
     width: '90%',
     zIndex: 5,
@@ -382,4 +345,19 @@ const styles = StyleSheet.create({
     top: height / 3.3,
   },
 });
-export default Account;
+
+
+const mapStateToProps = state => ({
+  allHomeData: state.doctor.allHomeData,
+});
+
+const ActionCreators = Object.assign(
+  { postAccountSetting }
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Account);
+
