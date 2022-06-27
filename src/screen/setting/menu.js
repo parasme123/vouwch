@@ -8,7 +8,6 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-// import { TextInput } from 'react-native-gesture-handler';
 import Imagepath from '../../common/imagepath';
 import { Header, Fonts, String } from '@common';
 
@@ -16,7 +15,6 @@ import { Helper, Constants, AsyncStorageHelper } from '@lib';
 
 import { handleNavigation } from '../../navigator/Navigator';
 import Colors from '../../common/Colors';
-// import styles from './styles';
 // const { width, height } = Dimensions.get("window");
 export default Menu = ({ navigation }) => {
   const [userType, setuserType] = useState(null);
@@ -110,7 +108,7 @@ export default Menu = ({ navigation }) => {
                 <Text style={styles.pageButtonText}>Sign out</Text>
               </TouchableOpacity>
             ) : null
-          }
+          } 
         </View>
       </ScrollView>
     </ImageBackground>
