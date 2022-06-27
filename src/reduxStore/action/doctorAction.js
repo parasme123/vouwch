@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, } from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES,NOTIFICATION } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"

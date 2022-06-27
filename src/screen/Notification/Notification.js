@@ -10,11 +10,16 @@ import { handelNotification } from '../../reduxStore/action/doctorAction';
 
 const {width, height} = Dimensions.get('window');
 
-const Notification = ({navigation, route}) => {
+const Notification = (props,{navigation, route}) => {
   // const [isback , setIsback] = useState(true);
   const [NotificationList, setNotificationList] = useState([1, 2, 3, 4]);
-  const isTrue = route.params ? route.params.isTrue : false;
+  const isTrue = props.route.params ? props.route.params.isTrue : false;
  
+
+  useEffect(()=>{
+    NotificationApi();
+    console.log("allNotification===================",props.allNotification);
+  },[])
   const NotificationApi = () => {
     let { actions } = props;
     actions.handelNotification();
@@ -81,12 +86,11 @@ const Notification = ({navigation, route}) => {
 };
 
 const mapStateToProps = state => ({
-  allHomeData: state.doctor.allHomeData,
-  allFollowPost: state.doctor.allFollowPost,
+  allNotification: state.doctor.allNotification,
 });
 
 const ActionCreators = Object.assign(
-  { getHomeData },
+  { handelNotification },
 );
 
 const mapDispatchToProps = dispatch => ({

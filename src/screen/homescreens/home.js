@@ -30,8 +30,8 @@ import styles from './homecss';
 import { Bravocard, DoctorCard } from '@component';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+// import { getHomeData, postFollow } from '../../reduxStore/action/doctorAction';
 import { getHomeData, postFollow } from '../../reduxStore/action/doctorAction';
-
 const Home = (props) => {
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
   const [modalVisible, setModalVisible] = useState();
@@ -178,7 +178,7 @@ const Home = (props) => {
     // setloaderVisible(true);
     // ApiCall.ApiMethod(SortUrl.Profile, 'GET').then(response => {
     //   if (response.status == true) {
-        navigation.navigate('profilepage', { isBackTrue: true });
+    navigation.navigate('profilepage', { isBackTrue: true });
     //     setloaderVisible(false);
     //   } else {
     //     setloaderVisible(false);

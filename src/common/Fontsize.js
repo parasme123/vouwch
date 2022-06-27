@@ -12,6 +12,7 @@ const Fontsize = StyleSheet.create({
     fontTwenty: 20,
     fontTwentytwo: 22,
     fontTwentyfour: 24,
+    fontTwentyfive:25,
     fontTwentysix: 26,
     fontTwentyeight: 28,
     fontThirty: 30,
