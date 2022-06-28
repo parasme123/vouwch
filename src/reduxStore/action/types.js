@@ -9,3 +9,6 @@ export const FOLLOW = "FOLLOW";
 export const CATEGORIES = "CATEGORIES";
 
 export const NOTIFICATION = "NOTIFICATION";
+
+export const ACCOUNTSETTING = "ACCOUNTSETTING";
+

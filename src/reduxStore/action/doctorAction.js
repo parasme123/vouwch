@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES,NOTIFICATION } from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES,NOTIFICATION ,ACCOUNTSETTING} from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -319,4 +319,33 @@ export const saveNotification = (data) => {
     })
 };
 
+
+
+
+
+export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.accountsetting}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            if (response.status) {
+                PageNavigation(response)
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postRegister", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
 
