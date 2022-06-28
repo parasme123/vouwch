@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
   // Doctor Cards
   addBravoCardBtn: {
     backgroundColor: Colors.appcolor,
-    flex: 1,
+    marginTop:16,
+    // flex: 1,
     // marginLeft: 2,
     padding: 5,
     borderRadius: 10,
@@ -25,17 +26,15 @@ const styles = StyleSheet.create({
   },
   doctorCardContainer: {
     borderRadius: 10,
-    padding: 15,
-    margin: 10,
-    marginBottom:40,
-    paddingVertical:26,
-    width: SCREEN_WIDTH / 2 + 50,
+    padding: 16,
+    margin: 24,
+    // marginBottom:40,
   },
   doctorCardIconVIew: {
     height: 100,
     width: 100,
     backgroundColor: Colors.white,
-    borderRadius: 100,
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -43,12 +42,12 @@ const styles = StyleSheet.create({
   doctorCardIcon: {
     height: 100,
     width: 100,
-    borderRadius: 100,
+    borderRadius: 50,
     alignSelf: 'center',
   },
   DoctorCardShareView: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     marginTop: 24,
     marginBottom:10
   },
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaRegular,
     marginTop: 10,
   },
-  doctorDetails: {},
+  doctorDetails: {flex:4, marginLeft:24},
   doctorname: {
     color: Colors.black,
     fontSize: Fontsize.fontFifteen,

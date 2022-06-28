@@ -7,7 +7,6 @@ import Welcome from '../screen/welcome/welcome';
 import Login from '../screen/login/login';
 import Signup from '../screen/signup/signup';
 import BusinessSignup from '../screen/businessSignup/businessSignup';
-import Home from '../screen/homescreens/home';
 import Bottomtab from './Bottomtab';
 import Doctordetails from '../screen/homescreens/doctor/doctordetails';
 import Bravocard from '../screen/Bravocard/Bravocard';

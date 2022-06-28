@@ -9,7 +9,7 @@ import { Colors, imagepath, svg } from '@common';
 export default Bravocard = (props) => {
     return (
         <View key={props.index}
-            style={[styles.cardContainer, { backgroundColor: props.index % 2 == 0 ? Colors.lightBlue : Colors.skinColor }]}>
+            style={[styles.cardContainer, props.index % 2 == 0 ? { backgroundColor: Colors.lightBlue } : { backgroundColor: Colors.skinColor }]}>
             <View style={styles.cardIconView} >
                 <Image style={styles.cardIcon} source={imagepath.Bravo} />
             </View>
