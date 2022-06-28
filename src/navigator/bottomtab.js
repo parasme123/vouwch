@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Animated,
   StyleSheet,
@@ -6,18 +6,30 @@ import {
   View,
   Image,
 } from 'react-native';
-import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
+import { useIsFocused } from '@react-navigation/native';
+import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
 import Imagepath from '../common/imagepath';
 import Reviewmodal from '../modal/Reviewmodal';
 import Home from '../screen/homescreens/home';
 import Notification from '../screen/Notification/Notification';
-import Account from '../screen/setting/account';
 import Profile from '../screen/setting/profile';
 import Welcome from '../screen/welcome/welcome';
+import Menu from '../screen/setting/menu';
+import { Constants, AsyncStorageHelper } from '@lib';
 
 export const Bottomtab = props => {
-  const [Position_Center, setPosition_Center] = useState(false);
+  const [userData, setuserData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if(isFocused){
+      AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+        if (value !== null) {
+          setuserData(value);
+        }
+      });
+      }
+  }, [isFocused]);
   // useEffect(()=>{},[])
   const _renderIcon = (routeName, selectedTab) => {
     // console.log('routeName',routeName)
@@ -52,8 +64,13 @@ export const Bottomtab = props => {
       </View>
     );
   };
-  const renderTabBar = ({routeName, selectedTab, navigate}) => {
-    // console.log('routeName===>>>>>',routeName, selectedTab, navigate)
+  const renderTabBar = ({ routeName, selectedTab, navigate }) => {
+    // console.log('Before routeName===>>>>>',routeName)
+    // if(routeName == "Account"){
+    //   routeName = "Welcome";
+    // }
+    // console.log('After routeName===>>>>>',routeName)
+    // console.log("selectedTab : ", selectedTab);
     return (
       <TouchableOpacity
         onPress={() => navigate(routeName)}
@@ -68,7 +85,7 @@ export const Bottomtab = props => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <CurvedBottomBar.Navigator
         style={styles.bottomBar}
         strokeWidth={0.5}
@@ -78,23 +95,24 @@ export const Bottomtab = props => {
         initialRouteName="Home"
         borderTopLeftRight
         swipeEnabled={false}
-        renderCircle={({selectedTab, navigate}) => (
+        renderCircle={({ selectedTab, navigate }) => (
           <Animated.View
-            style={[styles.btnCircle, {backgroundColor: '#245FC7'}]}>
+            style={[styles.btnCircle, { backgroundColor: '#245FC7' }]}>
             <TouchableOpacity
-              style={{flex: 1, justifyContent: 'center'}}
+              style={{ flex: 1, justifyContent: 'center' }}
               onPress={() => setModalVisible(true)}>
               <View>
                 <Image
                   resizeMode="contain"
-                  style={{height: 20, width: 20, tintColor: '#fff'}}
+                  style={{ height: 20, width: 20, tintColor: '#fff' }}
                   source={Imagepath.plus}
                 />
               </View>
             </TouchableOpacity>
           </Animated.View>
         )}
-        tabBar={renderTabBar}>
+        tabBar={renderTabBar}
+        >
         <CurvedBottomBar.Screen
           name="Home"
           position="left"
@@ -102,23 +120,23 @@ export const Bottomtab = props => {
         />
         <CurvedBottomBar.Screen
           name="Account"
-          component={() => <Welcome />}
+          component={() => userData ? <Menu {...props} /> : <Welcome />}
           position="left"
         />
 
         <CurvedBottomBar.Screen
           name="Notification"
-          component={() => <Notification {...props} />}
+          component={() => userData ? <Notification {...props} /> : <Welcome />}
           position="right"
         />
 
         <CurvedBottomBar.Screen
           name="Settingprofile"
-          component={() => <Profile {...props} />}
+          component={() => userData ? <Profile {...props} /> : <Welcome />}
           position="right"
         />
       </CurvedBottomBar.Navigator>
-      <View style={{position: 'absolute'}}>
+      <View style={{ position: 'absolute' }}>
         <Reviewmodal
           modalVisible={modalVisible}
           Hidemodal={() => {
@@ -229,8 +247,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
   },
-  headerText: {color: '#fff', fontSize: 15},
-  headerIcon: {height: 30, width: 30},
+  headerText: { color: '#fff', fontSize: 15 },
+  headerIcon: { height: 30, width: 30 },
   buttonView: {
     justifyContent: 'space-around',
     flexDirection: 'row',
@@ -256,6 +274,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonTwoText: {color: '#fff', fontSize: 15, marginLeft: 5},
+  buttonTwoText: { color: '#fff', fontSize: 15, marginLeft: 5 },
 });
 export default Bottomtab;
