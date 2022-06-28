@@ -31,10 +31,6 @@ export default Doctorcard = props => {
             props.onpress_Comment(props.item.id);
           }}>
           {svg.commentCircle(30, 30, Colors.appcolor)}
-          {/* <Image
-            style={styles.DoctorCardShareButtonIcon}
-            source={imagepath.commenticon}
-          /> */}
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
             Comment
           </Text>
@@ -45,10 +41,6 @@ export default Doctorcard = props => {
             props.onpress_Message(props.item.id);
           }}>
           {svg.messageCircle(30, 30, Colors.appcolor)}
-          {/* <Image
-            style={styles.DoctorCardShareButtonIcon}
-            source={imagepath.Messageicon}
-          /> */}
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
             Message
           </Text>
@@ -58,15 +50,8 @@ export default Doctorcard = props => {
           onPress={() => {
             props.onpress_DoctorCard_Follow(props.item.id);
           }}>
-          {svg.followCircle(30, 30, Colors.black, Colors.white)}
-          {/* <Image
-            style={styles.DoctorCardShareButtonIcon}
-            source={
-              props.Follows?.includes(props.item.id)
-                ? imagepath.following
-                : imagepath.Followicon
-            }
-          /> */}
+          {svg.followCircle(30, 30, props.Follows?.includes(props.item.id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor:Colors.white)}
+
           {props.Follows?.includes(props.item.id) ? (
             <Text style={styles.DoctorCardShareButtonText}>Following</Text>
           ) : (
@@ -81,10 +66,6 @@ export default Doctorcard = props => {
             props.onpress_Share(props.item.id);
           }}>
           {svg.shareCircle(30, 30, Colors.black, Colors.white)}
-          {/* <Image
-            style={styles.DoctorCardShareButtonIcon}
-            source={imagepath.Share}
-          /> */}
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
             share
           </Text>
@@ -93,12 +74,12 @@ export default Doctorcard = props => {
 
       <View style={{ flex: 1, flexDirection: 'row', marginVertical: 15 }}>
         <TouchableOpacity
-          style={[styles.addBravoCardBtn, {marginRight:2}]}>
+          style={[styles.addBravoCardBtn, { marginRight: 2 }]}>
           {svg.addBravo(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.addBravoCardBtn, {marginLeft:2}]}>
+          style={[styles.addBravoCardBtn, { marginLeft: 2 }]}>
           {svg.addReview(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add A Review</Text>
         </TouchableOpacity>

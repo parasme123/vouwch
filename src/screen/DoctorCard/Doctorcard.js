@@ -21,6 +21,7 @@ const Doctor_Card = (props, { route }) => {
     const [ReviewModalPopup, setReviewModalPopup] = useState()
     const [commentModalPopup, setcommentModalPopup] = useState()
     const [searchComponent, setsearchComponent] = useState(false);
+    const [offset, setOffset] = useState(1);
 
     const MessagepropPage = (item, Index) => {
         setReviewModalPopup(!modalVisible)
@@ -155,9 +156,6 @@ const Doctor_Card = (props, { route }) => {
 
                 <Searchresult />
             }
-
-
-
             <CustomLoader loaderVisible={loaderVisible} />
         </ImageBackground>
 

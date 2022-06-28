@@ -133,10 +133,8 @@ export default DoctorcardList = props => {
             props.onpress_Share(props.item.id);
           }}>
           {svg.shareCircle(30, 30, Colors.black, Colors.white)}
-          {/* <Image
-            style={styles.DoctorCardShareButtonIcon}
-            source={imagepath.Share}
-          /> */}
+
+          
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
             share
           </Text>
