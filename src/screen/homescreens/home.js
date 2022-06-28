@@ -13,8 +13,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Toast from 'react-native-simple-toast';
-import Colors from '../../common/Colors';
 import Imagepath from '../../common/imagepath';
 import {
   ApiCall,

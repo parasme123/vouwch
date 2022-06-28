@@ -4,7 +4,7 @@ import styles from './doctorcardcCss';
 
 import { Header, String, imagepath } from "@common";
 import { CustomLoader } from '@lib';
-import { DoctorCard, Searchresult } from "@component";
+import { DoctorCardList, Searchresult } from "@component";
 import { getDoctorData, postDoctorSearch } from '../../reduxStore/action/doctorAction';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
@@ -15,14 +15,11 @@ const Doctor_Card = (props, { route }) => {
     const searchProps = props.route?.params ? props.route?.params?.searchProps : null;
 
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
-    const [modalVisibleMessage, setModalVisibleMessage] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-    const [DoctorCardList, setDoctorCardList] = useState();
     const [loaderVisible, setloaderVisible] = useState(false);
     const [Follows, setFollow] = useState([]);
     const [ReviewModalPopup, setReviewModalPopup] = useState()
     const [commentModalPopup, setcommentModalPopup] = useState()
-    const [followDetails, setFollowDetails] = useState();
     const [searchComponent, setsearchComponent] = useState(false);
 
     const MessagepropPage = (item, Index) => {
@@ -101,7 +98,7 @@ const Doctor_Card = (props, { route }) => {
     const DoctorCard_Cards = ({ item, index }) => {
         return (
 
-            <DoctorCard
+            <DoctorCardList
                 onpress_Comment={CommentpropPage}
                 onpress_Message={MessagepropPage}
                 onpress_Share={onShare}
@@ -130,14 +127,13 @@ const Doctor_Card = (props, { route }) => {
 
             {/* Header */}
 
-            < FlatList
+            <FlatList
                 data={props.doctorList}
                 style={{ flex: 1 }}
                 renderItem={DoctorCard_Cards}
                 // numColumns={2}
                 keyExtractor={(item, index) => item.key}
                 showsVerticalScrollIndicator={false}
-
             />
 
 

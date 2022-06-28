@@ -1,7 +1,14 @@
-import {LogBox, StyleSheet} from 'react-native';
+import { LogBox, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  bg: {justifyContent: 'center', alignItems: 'center', flex: 1},
-  logo: {alignSelf: 'center', height: 320, width: 320},
+  bg: { 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flex: 1
+  },
+  logo: { 
+    height: 320, 
+    width: '100%' 
+  },
 });
 export default styles;

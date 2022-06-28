@@ -1,13 +1,13 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Fonts, Colors, Fontsize } from "@common";
-const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   cardContainer: {
     borderRadius: 10,
     padding: 15,
     margin: 10,
-    width: SCREEN_WIDTH / 2,
+    width: SCREEN_WIDTH / 2 - 20,
   },
   cardIconView: {
     height: 100,
@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  cardIcon: {height: 78, width: 78, borderRadius: 100, alignSelf: 'center'},
-  shareCardView: {flexDirection: 'row', marginTop: 10},
-  shareButton: {alignItems: 'center', flex: 1},
-  shareButtonImage: {height: 30, width: 30},
+  cardIcon: { height: 78, width: 78, borderRadius: 100, alignSelf: 'center' },
+  shareCardView: { flexDirection: 'row', marginTop: 10 },
+  shareButton: { alignItems: 'center', flex: 1 },
+  shareButtonImage: { height: 30, width: 30 },
   shareButtonText: {
     color: Colors.grey,
     fontSize: Fontsize.small,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginLeft: 5,
   },
-  cardPhotoImage: {height: 11.5, width: 13},
+  cardPhotoImage: { height: 11.5, width: 13 },
   cardVideoText: {
     color: Colors.lightGrey,
   },
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaRegular,
     paddingLeft: 5,
   },
-  cardVideoIcon: {height: 11.5, width: 13},
+  cardVideoIcon: { height: 11.5, width: 13 },
   // Doctor Cards
   doctorCardContainer: {
     justifyContent: 'center',
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginVertical: 10,
   },
-  DoctorCardShareButton: {alignItems: 'center', flex: 1},
-  DoctorCardShareButtonIcon: {height: 30, width: 30},
+  DoctorCardShareButton: { alignItems: 'center', flex: 1 },
+  DoctorCardShareButtonIcon: { height: 30, width: 30 },
   //
   DoctorCardShareButtonText: {
     color: Colors.grey,
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 5,
   },
-  star: {height: 9, width: 9},
+  star: { height: 9, width: 9 },
   ratingText: {
     color: Colors.black,
     fontSize: Fontsize.fontTwelve,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     lineHeight: 15,
     fontFamily: Fonts.ProximaNovaRegular,
   },
-  yellowstarview: {flexDirection: 'row', alignItems: 'center'},
+  yellowstarview: { flexDirection: 'row', alignItems: 'center' },
   searchName: {
     fontSize: Fontsize.fontTwenty,
     lineHeight: 25,

@@ -8,17 +8,18 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import Imagepath from '../../common/imagepath';
 import { Header, Fonts, String } from '@common';
-
 import { Helper, Constants, AsyncStorageHelper } from '@lib';
-
 import { handleNavigation } from '../../navigator/Navigator';
 import Colors from '../../common/Colors';
+
 // const { width, height } = Dimensions.get("window");
 export default Menu = ({ navigation }) => {
   const [userType, setuserType] = useState(null);
   const [userToken, setuserToken] = useState(null);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
@@ -33,7 +34,7 @@ export default Menu = ({ navigation }) => {
       }
       // console.log('setuserType-------', userType);
     });
-  }, []);
+  }, [isFocused]);
 
   const SignOut = () => {
     Helper.confirmPopUp('Are you sure, you want to logout ?', status => {
