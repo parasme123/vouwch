@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   addBravoCardBtn: {
     backgroundColor: Colors.appcolor,
     marginTop:16,
-    // flex: 1,
+    flex: 1,
     // marginLeft: 2,
     padding: 5,
     borderRadius: 10,
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   doctorCardIcon: {
-    height: 100,
-    width: 100,
+    height: 80,
+    width: 70,
     borderRadius: 50,
     alignSelf: 'center',
   },
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaRegular,
     marginTop: 10,
   },
-  doctorDetails: {flex:4, marginLeft:24},
+  doctorDetails: {flex:3, marginLeft:24},
   doctorname: {
     color: Colors.black,
     fontSize: Fontsize.fontFifteen,
