@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // marginLeft: 2,
     padding: 5,
-    borderRadius: 10,
+    borderRadius: 20,
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center'
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   doctorCardIcon: {
     height: 80,
-    width: 70,
+    width: 80,
     borderRadius: 50,
     alignSelf: 'center',
   },

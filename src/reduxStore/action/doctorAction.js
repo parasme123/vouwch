@@ -97,16 +97,19 @@ export const getBravoCardData = () => {
 };
 
 export const postFollow = (data) => {
+    console.log("global.token : ", global.token);
     return async dispatch => {
         await fetch(`${URL.baseUrl}${URL.postFollow}`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
             dispatch(saveFollowPost(response.data))
+            console.log("responese===================", response);
         }).catch(err => {
             console.log("postFollow", err);
         })
@@ -171,8 +174,6 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
         })
     }
 };
-
-
 
 export const getCategories = (setloaderVisible) => {
     return async dispatch => {
@@ -256,13 +257,10 @@ export const postForgot = (data, setloaderVisible, PageNavigation) => {
 //     }
 // };
 
-
-
-
 export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
-        console.log("response=====data=======handelresetPassword", data);
+        // console.log("response=====data=======handelresetPassword", data);
         await fetch(`${URL.baseUrl}${URL.ResetPassword}`, {
             method: "POST",
             headers: {
@@ -272,7 +270,7 @@ export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-            console.log("response=====ressponsre=======handelresetPassword", response);
+            // console.log("response=====ressponsre=======handelresetPassword", response);
             if (response.status) {
                 PageNavigation()
             } else {
@@ -286,10 +284,6 @@ export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
         })
     }
 };
-
-
-
-
 
 export const handelNotification = (setloaderVisible) => {
     return async dispatch => {

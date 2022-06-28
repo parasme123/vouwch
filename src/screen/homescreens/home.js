@@ -50,7 +50,7 @@ const Home = (props) => {
       if (value !== null) {
         setuserToken(value);
       }
-      console.log('UserToken------------', userToken);
+      // console.log('UserToken------------', userToken);
     });
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
@@ -138,8 +138,14 @@ const Home = (props) => {
   };
 
   const Follow_api = (id) => {
-    Call_FollowApi(id);
-    FollowButton(id);
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
+    } else if (userType?.user_type !== 1) {
+      alert('please login with personal account');
+    } else {
+      Call_FollowApi(id);
+      FollowButton(id);
+    }   
   };
 
 
@@ -173,16 +179,9 @@ const Home = (props) => {
 
   // api   Profile
   const handleProfile = () => {
-    // setloaderVisible(true);
-    // ApiCall.ApiMethod(SortUrl.Profile, 'GET').then(response => {
-    //   if (response.status == true) {
+
     navigation.navigate('profilepage', { isBackTrue: true });
-    //     setloaderVisible(false);
-    //   } else {
-    //     setloaderVisible(false);
-    //     Toast.show(response.message);
-    //   }
-    // });
+
   };
 
   const categoriesItemData = ({ item, index }) => {

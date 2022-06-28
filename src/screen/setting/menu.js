@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Linking,
   Image,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
@@ -62,7 +63,9 @@ export default Menu = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container1}>
-          <TouchableOpacity style={styles.pageButton}>
+          <TouchableOpacity
+            onPress={()=>{Linking.openURL('https://apponedemo.top/vouwch/api/contact-us-app')}}
+            style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
               resizeMode="contain"
@@ -70,7 +73,9 @@ export default Menu = ({ navigation }) => {
             />
             <Text style={styles.pageButtonText}>contact us</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.pageButton}>
+          <TouchableOpacity
+            onPress={()=>{Linking.openURL('https://apponedemo.top/vouwch/api/help-support-app')}}
+            style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
               resizeMode="contain"
@@ -78,41 +83,45 @@ export default Menu = ({ navigation }) => {
             />
             <Text style={styles.pageButtonText}>Help & support</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.pageButton}>
-            <Image
-              style={styles.pageButtonIcon}
-              resizeMode="contain"
-              source={Imagepath.i}
-            />
-            <Text style={styles.pageButtonText}>About us</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.pageButton}>
-            <Image
-              style={styles.pageButtonIcon}
-              resizeMode="contain"
-              source={Imagepath.privacy}
-            />
-            <Text style={styles.pageButtonText}>Privacy Policy</Text>
-          </TouchableOpacity>
-          {
-            userType && userToken ? (
-              <TouchableOpacity
-                style={styles.pageButton}
-                onPress={() => {
-                  SignOut();
-                }}>
-                <Image
-                  style={styles.pageButtonIcon}
-                  resizeMode="contain"
-                  source={Imagepath.help}
-                />
-                <Text style={styles.pageButtonText}>Sign out</Text>
-              </TouchableOpacity>
-            ) : null
-          } 
-        </View>
-      </ScrollView>
-    </ImageBackground>
+          <TouchableOpacity
+            onPress={()=> { Linking.openURL('https://apponedemo.top/vouwch/api/about-us-app') }}
+          style={styles.pageButton}>
+          <Image
+            style={styles.pageButtonIcon}
+            resizeMode="contain"
+            source={Imagepath.i}
+          />
+          <Text style={styles.pageButtonText}>About us</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => { Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app') }}
+          style={styles.pageButton}>
+          <Image
+            style={styles.pageButtonIcon}
+            resizeMode="contain"
+            source={Imagepath.privacy}
+          />
+          <Text style={styles.pageButtonText}>Privacy Policy</Text>
+        </TouchableOpacity>
+        {
+          userType && userToken ? (
+            <TouchableOpacity
+              style={styles.pageButton}
+              onPress={() => {
+                SignOut();
+              }}>
+              <Image
+                style={styles.pageButtonIcon}
+                resizeMode="contain"
+                source={Imagepath.help}
+              />
+              <Text style={styles.pageButtonText}>Sign out</Text>
+            </TouchableOpacity>
+          ) : null
+        }
+      </View>
+    </ScrollView>
+    </ImageBackground >
   );
 };
 
