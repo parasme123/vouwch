@@ -2,16 +2,12 @@ import React, {useState} from 'react';
 import {View, ScrollView, Text, Image} from 'react-native';
 import Colors from '../../common/Colors';
 import CoustomButton from '../../common/CommanBotton';
-import {Header} from '@common';
-import Imagepath from '../../common/imagepath';
-import InputCommon from '../../common/InputCommon';
-import String from '../../common/String';
+import {String, InputCommon, imagepath, Header} from '@common';
 import styles from './Brovo_Styles';
-import {Headerback} from '../../common/Headerback';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-crop-picker';
 
-const Bravocard = props => {
+const Bravocard = (props) => {
   const [Photos, setPhotos] = useState();
   const [Videos, setVideos] = useState();
   const PhotosButton = () => {
@@ -44,7 +40,6 @@ const Bravocard = props => {
   return (
     <View style={{flex: 1}}>
       <Header title={String.Bravo_Head_title} isback="asjdfla" />
-
       <View style={styles.hightView}></View>
       <View style={styles.mainView}>
         <ScrollView
@@ -66,7 +61,7 @@ const Bravocard = props => {
                       styles.Imageicon,
                     ]}
                     resizeMode="contain"
-                    source={Imagepath.Photos}
+                    source={imagepath.Photos}
                   />
                   <Text
                     style={[
@@ -89,7 +84,7 @@ const Bravocard = props => {
                       styles.Imageicon,
                     ]}
                     resizeMode="contain"
-                    source={Imagepath.Videoicon}
+                    source={imagepath.Videoicon}
                   />
                   <Text
                     style={[

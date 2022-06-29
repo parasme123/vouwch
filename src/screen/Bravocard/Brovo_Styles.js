@@ -1,9 +1,5 @@
-import {StyleSheet, Dimensions} from 'react-native';
-import {Fontsize, Colors} from '@common';
-import Fonts from '../../common/Fonts';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import { StyleSheet, Dimensions } from 'react-native';
+import { Fonts, Fontsize, Colors } from '@common';
 
 const Brovo_Styles = StyleSheet.create({
   mainView: {

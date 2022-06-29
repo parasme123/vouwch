@@ -1,13 +1,7 @@
 import { StyleSheet } from "react-native";
-import Fonts from '../../common/Fonts';
-import Colors from '../../common/Colors';
-import Fontsize from "../../common/Fontsize";
-
-
+import { Fonts, Colors, Fontsize } from '@common';
 
 const styles = StyleSheet.create({
-
-
   container: { marginHorizontal: 24, flex: 1 },
   header: {
     color: Colors.black,

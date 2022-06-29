@@ -1,22 +1,19 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
-  Image,
   Text,
   ImageBackground,
-  StyleSheet,
   TouchableOpacity,
   TextInput,
   ScrollView,
-  KeyboardAvoidingView,
 } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import { useNavigation } from '@react-navigation/native';
-import {CustomLoader,Constants,SortUrl,ApiCall,Validators, } from '@lib';
-import {Header, svg,Colors,String,Fonts} from '@common';
+import { CustomLoader, Validators, } from '@lib';
+import { svg, Colors } from '@common';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { postForgot,  } from '../../reduxStore/action/doctorAction';
+import { postForgot, } from '../../reduxStore/action/doctorAction';
 import styles from './forgotpasswordcss';
 function ForgotPassword(props) {
   const [loaderVisible, setloaderVisible] = useState(false);
@@ -33,62 +30,62 @@ function ForgotPassword(props) {
     let apiData = {
       email: Email,
     }
-    actions.postForgot(apiData,  setloaderVisible, () => PageNavigation());
+    actions.postForgot(apiData, setloaderVisible, () => PageNavigation());
     // setloaderVisible(true);
 
   };
   const PageNavigation = () => {
-    navigation.navigate('otppage', {Email: Email})
+    navigation.navigate('otppage', { Email: Email })
   }
 
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
+    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
-          <View style={styles.container}>
-            {/* Heading */}
-            <Text style={styles.header}>Forgot Password</Text>
-            <Text style={styles.headersubText}>Please enter your email address to reset your password </Text>
-            {/* container  */}
-            <View style={styles.textInputMainView}>
-              {/* textInput usernsme */}
-              <View style={styles.textInputView}>
-            <View style={styles.textInputSubView}>
-              {svg.email(16, 18, Colors.imputborderColor)}
-            </View>
-            <TextInput
-              placeholder="Enter your email address"
-              placeholderTextColor={Colors.imputborderColor}
-              style={styles.textInputText}
-              onChangeText={text => {
-                setEmail(text);
-              }}
-              value={Email}
-              maxLength={40}
-              keyboardType="email-address"
-            />
-          </View>
-
-              {/* Login Button */}
-              <TouchableOpacity
-                onPress={() => Signin_Validators()}
-                style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Next</Text>
-              </TouchableOpacity>
+        contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.container}>
+          {/* Heading */}
+          <Text style={styles.header}>Forgot Password</Text>
+          <Text style={styles.headersubText}>Please enter your email address to reset your password </Text>
+          {/* container  */}
+          <View style={styles.textInputMainView}>
+            {/* textInput usernsme */}
+            <View style={styles.textInputView}>
+              <View style={styles.textInputSubView}>
+                {svg.email(16, 18, Colors.imputborderColor)}
+              </View>
+              <TextInput
+                placeholder="Enter your email address"
+                placeholderTextColor={Colors.imputborderColor}
+                style={styles.textInputText}
+                onChangeText={text => {
+                  setEmail(text);
+                }}
+                value={Email}
+                maxLength={40}
+                keyboardType="email-address"
+              />
             </View>
 
-            {/* Register text */}
-            <View style={styles.registerview}>
-              <Text style={styles.registerText}>Already have an account? </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('login');
-                }}>
-                <Text style={styles.registerButtonText}> Sign in</Text>
-              </TouchableOpacity>
-            </View>
+            {/* Login Button */}
+            <TouchableOpacity
+              onPress={() => Signin_Validators()}
+              style={styles.loginButton}>
+              <Text style={styles.loginButtonText}>Next</Text>
+            </TouchableOpacity>
           </View>
+
+          {/* Register text */}
+          <View style={styles.registerview}>
+            <Text style={styles.registerText}>Already have an account? </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('login');
+              }}>
+              <Text style={styles.registerButtonText}> Sign in</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
       <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>

@@ -1,13 +1,10 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { Fonts, Colors, Fontsize } from "@common";
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  // Doctor Cards
   addBravoCardBtn: {
     backgroundColor: Colors.appcolor,
     flex: 1,
-    // marginLeft: 2,
     padding: 5,
     borderRadius: 20,
     flexDirection:'row',
@@ -29,7 +26,7 @@ const styles = StyleSheet.create({
     margin: 10,
     marginBottom:40,
     paddingVertical:26,
-    width: 280,
+    width: 250,
   },
   doctorCardIconVIew: {
     height: 100,

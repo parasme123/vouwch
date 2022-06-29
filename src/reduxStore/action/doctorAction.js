@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES,NOTIFICATION ,ACCOUNTSETTING} from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, ACCOUNTSETTING } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -46,7 +46,7 @@ export const getDoctorData = () => {
     }
 };
 
-export const postDoctorSearch = (data) => {
+export const postDoctorSearch = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         await fetch(`${URL.baseUrl}${URL.postDoctorSearch}`, {
             method: "POST",
@@ -57,12 +57,16 @@ export const postDoctorSearch = (data) => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(saveDoctorData(response.data.data))
+            setloaderVisible(false);
         }).catch(err => {
             console.log("postDoctorSearch", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
         })
 
     }
 };
+
 
 export const getHomeData = () => {
     return async dispatch => {
@@ -293,7 +297,7 @@ export const handelNotification = (setloaderVisible) => {
             headers: {
                 "Content-type": "application/json",
             }
-            
+
         }).then(async (res) => {
             let response = await res.json();
             dispatch(saveNotification(response))

@@ -8,11 +8,9 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  KeyboardAvoidingView,
 } from 'react-native';
-import { Colors, Fontsize, Fonts, svg } from "@common";
-import { AsyncStorageHelper, Constants, SortUrl, ApiCall, Validators, CustomLoader } from '@lib';
-import Imagepath from '../../common/imagepath';
+import { imagepath, Colors, svg } from "@common";
+import { Validators, CustomLoader } from '@lib';
 import RNPickerSelect from 'react-native-picker-select';
 import Toast from 'react-native-simple-toast';
 import styles from './css';
@@ -42,7 +40,7 @@ const BusinessSignup = (props) => {
     Call_CategouryApis();
   }, []);
   // handelCategories
-  const Call_CategouryApis = ( ) => {
+  const Call_CategouryApis = () => {
     let { actions } = props;
     actions.getCategories();
     // console.log("getCategoriesljsalfja---------------", props.allCategories);
@@ -53,7 +51,7 @@ const BusinessSignup = (props) => {
     actions.getCategories();
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (props.allCategories.status == true) {
       let arr = [];
       props.allCategories.data.categories.map((item, label) => {
@@ -61,7 +59,7 @@ const BusinessSignup = (props) => {
         console.log('arr== categories in signup==>>>', arr);
       });
       setCateList(arr);
-    }  
+    }
   }, [props.allCategories])
 
   const Signin_Validators = () => {
@@ -108,7 +106,7 @@ const BusinessSignup = (props) => {
   }
 
   return (
-    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
+    <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <View style={styles.container}>
           <Text style={styles.header}>Business sign up </Text>
@@ -232,7 +230,7 @@ const BusinessSignup = (props) => {
               </TouchableOpacity>
               <Text style={styles.checkBoxText}>I agree to
                 <Text style={styles.checkBoxText2}> Terms of Services </Text>and
-                <Text  onPress={() => {Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app')}} style={styles.checkBoxText2}> Privacy Policy</Text>
+                <Text onPress={() => { Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app') }} style={styles.checkBoxText2}> Privacy Policy</Text>
               </Text>
             </View>
             <TouchableOpacity
