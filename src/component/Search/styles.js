@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {Fonts, Colors, Fontsize, Header, String} from '@common';
 
 const styles = StyleSheet.create({
-  imagebg: {flex: 1},
+  imagebg: {flex: 1, justifyContent:'center'},
   imageHospital: {
     height: 196,
     width: 216,

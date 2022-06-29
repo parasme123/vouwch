@@ -1,18 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Header } from '@common';
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import Fonts from '../../common/Fonts';
-import { Validators } from '../../Lib/Validators';
-import ApiCall from '../../Lib/ApiCall';
-import SortUrl from '../../Lib/SortUrl';
-import Constants from '../../Lib/Constants';
-import CustomLoader from '../../Lib/CustomLoader';
-import String from '../../common/String';
-import Colors from '../../common/Colors';
-import Fontsize from "../../common/Fontsize";
+import { Fonts, Colors, Fontsize } from '@common';
 
 const styles = StyleSheet.create({
     container: {

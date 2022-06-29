@@ -11,19 +11,17 @@ import Comments from '../../modal/Comments';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-const Doctor_Card = (props, { route }) => {
+const Doctor_Card = (props) => {
     const searchProps = props.route?.params ? props.route?.params?.searchProps : null;
 
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [loaderVisible, setloaderVisible] = useState(false);
     const [Follows, setFollow] = useState([]);
-    const [ReviewModalPopup, setReviewModalPopup] = useState()
-    const [commentModalPopup, setcommentModalPopup] = useState()
-    const [searchComponent, setsearchComponent] = useState(false);
-    const [offset, setOffset] = useState(1);
+    const [ReviewModalPopup, setReviewModalPopup] = useState();
+    const [commentModalPopup, setcommentModalPopup] = useState();
 
-    const MessagepropPage = (item, Index) => {
+    const MessagepropPage = () => {
         setReviewModalPopup(!modalVisible)
         setModalVisible(!modalVisible)
     }
@@ -31,10 +29,6 @@ const Doctor_Card = (props, { route }) => {
         setcommentModalPopup(!commentModalPopup)
         setModalVisibleComment(!modalVisibleComment)
         // console.log("item", item)
-    }
-
-    const Component_search = () => {
-        setsearchComponent(!searchComponent)
     }
 
     const FollowButton = (item) => {
@@ -91,14 +85,12 @@ const Doctor_Card = (props, { route }) => {
         let apiData = {
             keyword: searchProps,
         }
-        actions.postDoctorSearch(apiData);
-
+        actions.postDoctorSearch(apiData, setloaderVisible);
     };
 
     // Doctor CARDS
     const DoctorCard_Cards = ({ item, index }) => {
         return (
-
             <DoctorCardList
                 onpress_Comment={CommentpropPage}
                 onpress_Message={MessagepropPage}
@@ -128,17 +120,6 @@ const Doctor_Card = (props, { route }) => {
 
             {/* Header */}
 
-            <FlatList
-                data={props.doctorList}
-                style={{ flex: 1 }}
-                renderItem={DoctorCard_Cards}
-                // numColumns={2}
-                keyExtractor={(item, index) => item.key}
-                showsVerticalScrollIndicator={false}
-            />
-
-
-
             {ReviewModalPopup &&
                 <Message
                     modalVisible={modalVisible}
@@ -151,10 +132,17 @@ const Doctor_Card = (props, { route }) => {
                     Hidemodal={CommentpropPage}
                 />
             }
-
-            {searchComponent &&
-
-                <Searchresult />
+            {
+                props.doctorList.length > 0 ? (
+                    <FlatList
+                        data={props.doctorList}
+                        style={{ flex: 1 }}
+                        renderItem={DoctorCard_Cards}
+                        // numColumns={2}
+                        keyExtractor={(item, index) => item.key}
+                        showsVerticalScrollIndicator={false}
+                    />
+                ) : <Searchresult />
             }
             <CustomLoader loaderVisible={loaderVisible} />
         </ImageBackground>

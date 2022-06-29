@@ -151,7 +151,10 @@ const Home = (props) => {
 
   // Search API
 
-  const Call_SearchApi = searchProps => {
+  const Call_SearchApi = (searchProps) => {
+    if (!searchProps && searchProps == "") {
+      return;
+    }
     navigation.navigate('DoctorCard', { searchProps });
   };
 
