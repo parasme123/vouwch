@@ -1,11 +1,11 @@
-import { BRAVOCARD, DOCTORRECORD, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES } from '../action/types';
+import { BRAVOCARD, DOCTORRECORD, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES ,} from '../action/types';
 const initialState = {
     doctorList: [],
     allHomeData: {},
     allBravoCardDataLIst: [],
     allFollowPost: {},
     allCategories: {},
-    allNotification: {}
+    allNotification: {},
 };
 
 const ChangeTheNumber = (state = initialState, action) => {

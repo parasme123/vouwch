@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Image,
@@ -10,19 +10,15 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import Imagepath from '../../common/imagepath';
-import {Validators} from '../../Lib/Validators';
-import ApiCall from '../../Lib/ApiCall';
-import SortUrl from '../../Lib/SortUrl';
-import Constants from '../../Lib/Constants';
-import CustomLoader from '../../Lib/CustomLoader';
+import { imagepath } from '@common';
+import { CustomLoader } from '@lib';
 import Toast from 'react-native-simple-toast';
 import styles from './otpcss';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { postForgot,  } from '../../reduxStore/action/doctorAction';
+import { Handelotp, } from '../../reduxStore/action/doctorAction';
 
-const OtpPage=({navigation, route}) =>{
+const OtpPage = (props, { navigation, route }) => {
   const [loaderVisible, setloaderVisible] = useState(false);
   const firstInput = useRef();
   const secondInput = useRef();
@@ -34,50 +30,36 @@ const OtpPage=({navigation, route}) =>{
   const [otp4, setOtp4] = useState('');
 
   const Signin_Validators = () => {
-    if (otp1 == '' && otp2 == '' && otp3 == '' && otp4 == '') {
-      Toast.show('please slect otp');
+    if (otp1 == '' || otp2 == '' || otp3 == '' || otp4 == '') {
+      Toast.show('please otp');
     } else {
       Signin_CallApi();
     }
   };
 
   const Signin_CallApi = () => {
-    let data = {
-      email: route.params.Email,
-      otp: otp1 + otp2 + otp3 + otp4,
+    let { actions } = props;
+    let apiData = {
+      email: props.route.params.Email,
+      otp: parseInt(otp1 + otp2 + otp3 + otp4),
     };
-    setloaderVisible(true);
+    console.log("apiData------------------------",apiData);
+    actions.Handelotp(apiData,setloaderVisible);
 
-    ApiCall.ApiMethod(SortUrl.VarifyOTP, Constants.POST, data)
-      .then(response => {
-        setloaderVisible(false);
-        if (response.status == Constants.Success) {
-          navigation.navigate('Confirmpassword', {Email: route.params.Email});
-          //    Toast.show(response.message);
-          console.log(" route.params.Email",  route.params.Email);
-        } else {
-          Toast.show(response.message);
-          navigation.navigate('Confirmpassword', {Email: route.params.Email});
-          console.log(" route.params.Email",  route.params.Email);
-
-        }
-      })
-      .catch(err => {
-        setloaderVisible(false);
-      });
   };
 
+
   const PageNavigation = () => {
-    navigation.navigate('otppage', {Email: Email})
+    navigation.navigate('otppage', { Email: Email })
   }
 
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
+    <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
-        <KeyboardAvoidingView behavior="padding" style={{flexGrow: 1}}>
+        contentContainerStyle={{ flexGrow: 1 }}>
+        <KeyboardAvoidingView behavior="padding" style={{ flexGrow: 1 }}>
           <View style={styles.container}>
             {/* Heading */}
             <Text style={styles.header}>Confirm OTP</Text>
@@ -162,11 +144,11 @@ const OtpPage=({navigation, route}) =>{
 
 
 const mapStateToProps = state => ({
-  allLoginRegister: state.doctor.allLoginRegister,
+  // allLoginRegister: state.doctor.allLoginRegister,
 });
 
 const ActionCreators = Object.assign(
-  { postForgot },
+  { Handelotp },
 );
 
 const mapDispatchToProps = dispatch => ({

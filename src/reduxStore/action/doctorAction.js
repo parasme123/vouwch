@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, ACCOUNTSETTING } from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, ACCOUNTSETTING ,BRAVODATA} from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -46,7 +46,7 @@ export const getDoctorData = () => {
     }
 };
 
-export const postDoctorSearch = (data, setloaderVisible, PageNavigation) => {
+export const postDoctorSearch = (data) => {
     return async dispatch => {
         await fetch(`${URL.baseUrl}${URL.postDoctorSearch}`, {
             method: "POST",
@@ -57,16 +57,12 @@ export const postDoctorSearch = (data, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(saveDoctorData(response.data.data))
-            setloaderVisible(false);
         }).catch(err => {
             console.log("postDoctorSearch", err);
-            setloaderVisible(false);
-            Toast.show("something went wrong");
         })
 
     }
 };
-
 
 export const getHomeData = () => {
     return async dispatch => {
@@ -235,31 +231,35 @@ export const postForgot = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
-// export const postForgot = (data, setloaderVisible, PageNavigation) => {
-//     return async dispatch => {
-//         setloaderVisible(true);
-//         await fetch(`${URL.baseUrl}${URL.postForgotapi}`, {
-//             method: "POST",
-//             headers: {
-//                 "Content-type": "application/json"
-//             },
-//             body: JSON.stringify(data)
-//         }).then(async (res) => {
-//             let response = await res.json();
-//             setloaderVisible(false);
-//             if (response.status) {
-//                 PageNavigation(response)
-//             } else {
-//                 setloaderVisible(false);
-//                 Toast.show(response.message);
-//             }
-//         }).catch(err => {
-//             console.log("postRegister", err);
-//             setloaderVisible(false);
-//             Toast.show("something went wrong");
-//         })
-//     }
-// };
+export const Handelotp = (data, setloaderVisible) => {
+    return async dispatch => {
+        // setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.postotp}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            console.log("apiData-------------dTa-----------", data);
+            setloaderVisible(false);
+            if (response.status) {
+                // PageNavigation(response)
+                alert("hiii")
+            } else {
+                setloaderVisible(false);
+                alert('hello')
+                Toast.show(response.message);
+            }
+            console.log("response", res);
+        }).catch(err => {
+            console.log("Handelotp", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
 
 export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
@@ -346,4 +346,36 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
         })
     }
 };
+
+
+
+
+export const handelAddDoctor = (data, setloaderVisible,PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        console.log("data", data);
+        await fetch(`${URL.baseUrl}${URL.addDoctor}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            console.log("reasponse",response);
+            if (response.status) {
+                PageNavigation(response)
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postRegister", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+
 

@@ -145,16 +145,13 @@ const Home = (props) => {
     } else {
       Call_FollowApi(id);
       FollowButton(id);
-    }   
+    }
   };
 
 
   // Search API
 
-  const Call_SearchApi = (searchProps) => {
-    if (!searchProps && searchProps == "") {
-      return;
-    }
+  const Call_SearchApi = searchProps => {
     navigation.navigate('DoctorCard', { searchProps });
   };
 

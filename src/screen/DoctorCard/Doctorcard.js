@@ -133,7 +133,7 @@ const Doctor_Card = (props) => {
                 />
             }
             {
-                props.doctorList.length > 0 ? (
+                props.doctorList?.length > 0 ? (
                     <FlatList
                         data={props.doctorList}
                         style={{ flex: 1 }}

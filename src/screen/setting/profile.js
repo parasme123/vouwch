@@ -57,7 +57,6 @@ export default Profile = (props, { route }) => {
           >
           <Image style={styles.profileIcon} 
           source={{uri: userData?.profile_picture}}
-         
            />
            </ImageBackground>
           {/* Button of Share , Comment and Mesage */}
