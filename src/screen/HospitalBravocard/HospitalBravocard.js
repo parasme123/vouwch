@@ -122,7 +122,7 @@ const Hospotalbravocard = (props) => {
     setloaderVisible(true);
     ApiCall.ApiMethod(SortUrl.AllCards, 'Get').then(response => {
       setloaderVisible(false);
-      console.log('Response==========', response);
+      // console.log('Response==========', response);
       if (response.status == true) {
         setloaderVisible(false);
         setDataCardList(response.data.cards);

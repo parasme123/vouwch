@@ -19,7 +19,10 @@ import { Header, Fonts, String, Fontsize } from '@common';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
 import Constants from '../../Lib/Constants';
-export default Profile = (props, { route }) => {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setUserData } from '../../reduxStore/action/doctorAction';
+const Profile = (props, { route }) => {
   const [rating, setRating] = useState();
   const [isTrue, setisTrue] = useState(false);
   const [userData, setuserData] = useState(null);
@@ -28,13 +31,23 @@ export default Profile = (props, { route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
+    handelHomeData();
+    console.log('setuserData---api redux----', props.setData);
+    // console.log("userDAtaa=======",  props.setData?.first_name);
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
         setuserData(value);
       }
-      console.log('setuserData-------', userData);
+      // console.log('setuserData-------', userData);
     });
   }, []);
+
+  // user data
+  const handelHomeData = () => {
+    let { actions } = props;
+    actions.setUserData();
+  };
+
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -51,14 +64,14 @@ export default Profile = (props, { route }) => {
         <View style={styles.container}>
           {/* params */}
           <ImageBackground
-           source={Imagepath.doctor}
-           imageStyle={{borderRadius:60}}
-           style={styles.profileIcon} 
+            source={Imagepath.doctor}
+            imageStyle={{ borderRadius: 60 }}
+            style={styles.profileIcon}
           >
-          <Image style={styles.profileIcon} 
-          source={{uri: userData?.profile_picture}}
-           />
-           </ImageBackground>
+            <Image style={styles.profileIcon}
+              source={{ uri: userData?.profile_picture }}
+            />
+          </ImageBackground>
           {/* Button of Share , Comment and Mesage */}
 
           <Text style={styles.doctorname}>{userData?.full_name}</Text>
@@ -69,51 +82,51 @@ export default Profile = (props, { route }) => {
 
                 {/* no data availablefor this  */}
 
-                {/* <Text style={styles.organization}>
-                  Good Health Clinic, MBBS, FCPS
-                </Text> */}
+                <Text style={styles.organization}>
+                  {userData?.business?.category?.name}
+                </Text>
 
-                {/* Red Star Line */}
-
-                <View style={styles.ratingViewRed}>
-                  <View style={styles.ratingViewmain}>
-                    <Rating
-                      type="custom"
-                      max={5}
-                      readonly="true"
-                      ratingColor={Colors.red}
-                      ratingBackgroundColor={Colors.white}
-                      startingValue={userData?.business.clinical_rate}
-                      imageSize={10}
-                      iconWidth={10}
-                      iconHeight={10}
-                    />
+                {/* Red Star  */}
+                <View>
+                  <View style={styles.ratingViewRed}>
+                    <View style={styles.ratingViewmain}>
+                      <Rating
+                        type="custom"
+                        max={5}
+                        readonly="true"
+                        ratingColor={Colors.red}
+                        ratingBackgroundColor={Colors.white}
+                        startingValue={userData?.business.clinical_rate}
+                        imageSize={10}
+                        iconWidth={10}
+                        iconHeight={10}
+                      />
+                    </View>
+                    <Text style={styles.ratingText}>  {userData?.business?.clinical_rate}
+                      {/* {props.Clinician_Rating} */}
+                      <Text style={styles.clinicianReview}> Clinician's Review</Text>
+                    </Text>
                   </View>
-                  <Text style={styles.ratingText}>  {userData?.business?.clinical_rate}
-                    {/* {props.Clinician_Rating} */}
-                    <Text style={styles.clinicianReview}> Clinician's Review</Text>
-                  </Text>
-                </View>
 
 
-                {/* yellow Star Line */}
-                <View style={styles.yellowstarview}>
-                  <View style={styles.ratingViewmain}>
-                    <Rating
-                      max={5}
-                      readonly="true"
-                      startingValue={userData?.business?.patient_rate}
-                      imageSize={10}
-                      iconWidth={10}
-                      iconHeight={10}
-                    />
+                  {/* yellow Star Line */}
+                  <View style={styles.yellowstarview}>
+                    <View style={styles.ratingViewmain}>
+                      <Rating
+                        max={5}
+                        readonly="true"
+                        startingValue={userData?.business?.patient_rate}
+                        imageSize={10}
+                        iconWidth={10}
+                        iconHeight={10}
+                      />
+                    </View>
+                    <Text style={styles.ratingText}>
+                      {/* {props.patient_Rating} */}  {userData?.business?.patient_rate}
+                      <Text style={styles.clinicianReview}> Patient Review</Text>
+                    </Text>
                   </View>
-                  <Text style={styles.ratingText}>
-                    {/* {props.patient_Rating} */}  {userData?.business?.patient_rate}
-                    <Text style={styles.clinicianReview}> Patient Review</Text>
-                  </Text>
                 </View>
-
               </>) : null
           }
 
@@ -130,16 +143,21 @@ export default Profile = (props, { route }) => {
             />
             <Text style={styles.pageButtonText}>Account setting</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('edit')}
-            style={styles.pageButton}>
-            <Image
-              style={styles.pageButtonIcon}
-              resizeMode="contain"
-              source={Imagepath.Profilesetting}
-            />
-            <Text style={styles.pageButtonText}>Profile setting</Text>
-          </TouchableOpacity>
+          {
+            userData?.user_type !== 1 ? (
+              <>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('edit')}
+                  style={styles.pageButton}>
+                  <Image
+                    style={styles.pageButtonIcon}
+                    resizeMode="contain"
+                    source={Imagepath.Profilesetting}
+                  />
+                  <Text style={styles.pageButtonText}>Profile setting</Text>
+                </TouchableOpacity>
+              </>) : null
+          }
           <View
             style={[
               { justifyContent: 'space-between', alignContent: 'center', marginBottom: 40 },
@@ -247,3 +265,19 @@ const styles = StyleSheet.create({
   },
 
 });
+
+
+
+const mapStateToProps = state => ({
+  setData: state.doctor.setData,
+});
+
+const ActionCreators = Object.assign(
+  { setUserData },
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

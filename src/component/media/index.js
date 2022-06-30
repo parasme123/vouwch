@@ -13,16 +13,13 @@ export function VideoImage() {
   }
   return (
     <View style={styles.centeredView}>
-     
           <Flatelist
             //  data={}
             horizontal={true}
             style={{}}
             renderItem={Module}
             keyExtractor={items => items}
-
           />
-     
     </View>
   )
 };

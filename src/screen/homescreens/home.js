@@ -28,7 +28,6 @@ import styles from './homecss';
 import { Bravocard, DoctorCard } from '@component';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { getHomeData, postFollow } from '../../reduxStore/action/doctorAction';
 import { getHomeData, postFollow } from '../../reduxStore/action/doctorAction';
 const Home = (props) => {
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
@@ -367,6 +366,7 @@ const Home = (props) => {
           <FlatList
             data={props.allHomeData.reviews}
             // data={DoctorCardList}
+            style={{width:"100%"}}
             renderItem={Doctor_Card}
             keyExtractor={(item, index) => String(index)}
             horizontal={true}

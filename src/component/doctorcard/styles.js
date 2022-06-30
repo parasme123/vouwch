@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     margin: 10,
     marginBottom:40,
     paddingVertical:26,
-    width: 250,
+    flex:1,
+    width: 280,
   },
   doctorCardIconVIew: {
     height: 100,

@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, ACCOUNTSETTING ,BRAVODATA} from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, ACCOUNTSETTING ,USERDATA} from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -109,7 +109,7 @@ export const postFollow = (data) => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(saveFollowPost(response.data))
-            console.log("responese===================", response);
+            // console.log("responese===================", response);
         }).catch(err => {
             console.log("postFollow", err);
         })
@@ -130,11 +130,12 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
+                console.log("response",response);
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token
                 PageNavigation(response)
-                console.log("hello")
+            dispatch(setUserData(response.data))
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -145,6 +146,13 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             Toast.show("something went wrong");
         })
     }
+};
+
+export const setUserData = (data) => {
+    return ({
+        type: USERDATA,
+        payload: data
+    })
 };
 
 export const postRegister = (data, setloaderVisible, PageNavigation) => {
@@ -224,7 +232,7 @@ export const postForgot = (data, setloaderVisible, PageNavigation) => {
                 Toast.show(response.message);
             }
         }).catch(err => {
-            console.log("postRegister", err);
+            console.log("postForgot", err);
             setloaderVisible(false);
             Toast.show("something went wrong");
         })
@@ -242,7 +250,7 @@ export const Handelotp = (data, setloaderVisible) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            console.log("apiData-------------dTa-----------", data);
+            // console.log("apiData-------------dTa-----------", data);
             setloaderVisible(false);
             if (response.status) {
                 // PageNavigation(response)
@@ -274,7 +282,6 @@ export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-            // console.log("response=====ressponsre=======handelresetPassword", response);
             if (response.status) {
                 PageNavigation()
             } else {
@@ -282,7 +289,7 @@ export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
                 Toast.show(response.message);
             }
         }).catch(err => {
-            console.log("postRegister", err);
+            console.log("handelresetPassword", err);
             setloaderVisible(false);
             Toast.show("something went wrong");
         })
@@ -321,26 +328,30 @@ export const saveNotification = (data) => {
 
 
 
-export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
+export const postAccountSetting = (data, setloaderVisible,PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
+        console.log("data", data);
         await fetch(`${URL.baseUrl}${URL.accountsetting}`, {
             method: "POST",
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
-            let response = await res.json();
+        // console.log("data--=-=-response==-=",res);
+        let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
+                alert("hii i am a account")
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
             }
         }).catch(err => {
-            console.log("postRegister", err);
+            console.log("postAccountSetting", err);
             setloaderVisible(false);
             Toast.show("something went wrong");
         })
@@ -353,7 +364,6 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
 export const handelAddDoctor = (data, setloaderVisible,PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
-        console.log("data", data);
         await fetch(`${URL.baseUrl}${URL.addDoctor}`, {
             method: "POST",
             headers: {
@@ -371,7 +381,7 @@ export const handelAddDoctor = (data, setloaderVisible,PageNavigation) => {
                 Toast.show(response.message);
             }
         }).catch(err => {
-            console.log("postRegister", err);
+            console.log("handelAddDoctor", err);
             setloaderVisible(false);
             Toast.show("something went wrong");
         })
@@ -379,3 +389,30 @@ export const handelAddDoctor = (data, setloaderVisible,PageNavigation) => {
 };
 
 
+export const HandlDocProfil = (data, setloaderVisible,PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.DocProfile}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            console.log("reasponse",response);
+            if (response.status) {
+                PageNavigation(response)
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("HandlDocProfil", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
