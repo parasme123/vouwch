@@ -332,6 +332,8 @@ export const postAccountSetting = (data, setloaderVisible,PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
         console.log("data", data);
+        console.log(data,"data");             // hi remove please
+
         await fetch(`${URL.baseUrl}${URL.accountsetting}`, {
             method: "POST",
             headers: {
@@ -340,12 +342,13 @@ export const postAccountSetting = (data, setloaderVisible,PageNavigation) => {
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
-        // console.log("data--=-=-response==-=",res);
-        let response = await res.json();
+            console.log(res,"res");             // hi remove please
+            let response = await res.json();
+            console.log(response,"response");             // hi remove please
+
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
-                alert("hii i am a account")
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);

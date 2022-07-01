@@ -21,7 +21,7 @@ import { handleNavigation } from '../../navigator/Navigator';
 import { bindActionCreators } from 'redux';
 import { postAccountSetting } from '../../reduxStore/action/doctorAction';
 const { width, height } = Dimensions.get('window');
-const Account = (props, { navigation }) => {
+const Account = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [DropDownSec, setDropDownSec] = useState(false);
   const [selectvalue, setselectvalue] = useState('Select');
@@ -104,7 +104,7 @@ const Account = (props, { navigation }) => {
       email: mailAddress,
       password: password,
     }
-    // console.log("apiData------------------------", apiData);
+    console.log("image------------------------", image);
     actions.postAccountSetting(apiData, () => setloaderVisible(), () => PageNavigation());
 
   };
@@ -112,7 +112,7 @@ const Account = (props, { navigation }) => {
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
-      navigation: navigation,
+      navigation: props.navigation,
     });
   }
 

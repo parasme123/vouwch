@@ -23,6 +23,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { HandlDocProfil, getCategories } from '../../reduxStore/action/doctorAction';
 import { handleNavigation } from '../../navigator/Navigator';
+import Picker from '../../modal/picker';
+import Fontsize from '../../common/Fontsize';
 
 
 const { width, height } = Dimensions.get('window');
@@ -33,10 +35,37 @@ const Editprofile = (props) => {
   const [loaderVisible, setloaderVisible] = useState(false);
   const [CateList, setCateList] = useState([]);
   const [CateId, setCateId] = useState();
+  const [ReviewModalPopup, setReviewModalPopup] = useState();
+  const [modalVisible, setModalVisible] = useState();
   const navigation = useNavigation();
+  const [editText, seteditText] = useState(false);
+  const [mark, setMark] = useState([]);
+  // console.log(mark,"mark");
+  const chexkBox = (item) => {
+    let follows1 = [...mark];
+    if (!follows1.includes(item)) {
+      //checking weather array contain the id
+      follows1.push(item); //adding to array because value doesnt exists
+      // Call_FollowApi(id);
+    } else {
+      follows1.splice(follows1.indexOf(item), 1); //deleting
+      // Call_FollowApi(id);
+    }
+    setMark(follows1);
+    // console.log(mark, "mark");
+  };
+
+
   useEffect(() => {
     Get_Categroy();
   }, []);
+
+  const ListModal = () => {
+
+    setReviewModalPopup(!modalVisible);
+    setModalVisible(!modalVisible);
+  };
+
 
   const Get_Categroy = () => {
     let { actions } = props;
@@ -66,7 +95,7 @@ const Editprofile = (props) => {
   const Signin_Validators = () => {
     let { actions } = props;
     let apiData = {
-      bussiness_services: CateId,
+      bussiness_services: JSON.stringify(mark),
       bussiness_hours: Hours,
       location: Location,
       about_us: Aboutus,
@@ -87,7 +116,7 @@ const Editprofile = (props) => {
       <Header title={String.ProfileSetting} isback={'bottomtab'} />
 
       <View style={styles.headerView2}>
-        <TouchableOpacity>
+        <TouchableOpacity   onPress={() => seteditText(true)} >
           <Image
             style={styles.headerbuttonIcon}
             source={imagepath.Edit}
@@ -103,50 +132,61 @@ const Editprofile = (props) => {
 
         {/* details */}
         <Text style={styles.textInputHeader}>Services</Text>
-
-        <View
+        {/*      placeholderTextColor={Colors.imputborderColor} */}
+        <TouchableOpacity
+          onPress={() => ListModal()}
           style={{
             marginHorizontal: 20,
-            borderColor: '#CECECE',
+            borderColor: Colors.imputborderColor,
             borderWidth: 1,
             borderRadius: 10,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: 45,
+            paddingHorizontal: 10
           }}>
-          <RNPickerSelect
+          {/* <RNPickerSelect
             placeholder={{ label: 'Select Categroy', value: null }}
             onValueChange={value => setCateId(value)}
             // onClose={(value) =>setCateId(value)}
             items={CateList}
             style={styles}
-          />
-        </View>
+          /> */}
+          <Text style={styles.serviceText}>Select Services</Text>
+          <Image style={styles.arrowDown} source={imagepath.plus} />
+        </TouchableOpacity>
 
         <Text style={styles.textInputHeader}>Service Location</Text>
         <TextInput
+          editable={editText}
           style={styles.textInput}
           keyboardType="default"
           placeholder="Serivice Location"
-          placeholderTextColor={'#737373'}
+          placeholderTextColor={Colors.imputborderColor}
           onChangeText={text => {
             setLocation(text);
           }}
         />
         <Text style={styles.textInputHeader}>Business Hours</Text>
         <TextInput
+          editable={editText}
           style={styles.textInput}
           keyboardType="default"
           placeholder="hours"
-          placeholderTextColor={'#737373'}
+          placeholderTextColor={Colors.imputborderColor}
           onChangeText={text => {
             setHours(text);
           }}
         />
         <Text style={styles.textInputHeader}>About Us</Text>
         <TextInput
+          editable={editText}
           style={styles.textInputAbout}
           keyboardType="default"
           placeholder="Message"
           multiline={true}
-          placeholderTextColor={'#737373'}
+          placeholderTextColor={Colors.imputborderColor}
           onChangeText={text => {
             setAboutus(text);
           }}
@@ -158,72 +198,35 @@ const Editprofile = (props) => {
           <Text style={styles.textButton}>Submit</Text>
         </TouchableOpacity>
       </ScrollView>
+      {ReviewModalPopup && (
+        <Picker
+          modalVisible={modalVisible}
+          Hidemodal={ListModal}
+          data={props.allCategories.data.categories}
+          slectData={mark}
+          chexkBoxFnc={chexkBox}
+        />
+      )}
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   imagebg: { flex: 1 },
-  containerView: {
-    height: 65,
-    width: '100%',
-    backgroundColor: Colors.appcolor,
-  },
-  arrowiconView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 20,
-    width: '90%',
-    alignSelf: 'center',
-  },
-  arrowicon: { height: 21, width: 31 },
-  headerView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '90%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    paddingTop: 20,
-  },
+
   headerView2: { position: 'absolute', top: 15, right: 10 },
-  profileImageview: { alignItems: 'center', position: 'relative', marginTop: 20 },
-  ProfileImage: { height: 120, width: 120, borderRadius: 100 },
-  CameraButton: { position: 'absolute', paddingLeft: 100, paddingTop: 20 },
-  CameraImage: { height: 28, width: 28 },
-  dropdownView: {
-    borderWidth: 1,
-    borderColor: '#CECECE',
-    fontSize: 15,
-    borderRadius: 10,
-    marginHorizontal: 20,
-    paddingLeft: 10,
-    fontWeight: '600',
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dropdownText: { fontSize: 16, fontFamily: Fonts.ProximaNovaMedium },
-  downArrow: { height: 8, width: 12, paddingRight: 50 },
   headerbuttonIcon: { height: 30, width: 30 },
-  headerText: {
-    color: '#ffffff',
-    paddingLeft: 35,
-    fontSize: 20,
-    fontWeight: '500',
-  },
   textInputHeader: {
-    color: '#000',
-    fontSize: 16,
+    color: Colors.black,
+    fontSize: Fontsize.fontSixteen,
     marginHorizontal: 20,
     fontFamily: Fonts.ProximaNovaBold,
     marginVertical: 15,
   },
   textInput: {
     borderWidth: 1,
-    borderColor: '#CECECE',
-    fontSize: 16,
+    borderColor: Colors.imputborderColor,
+    fontSize: Fontsize.fontSixteen,
     borderRadius: 10,
     marginHorizontal: 20,
     paddingLeft: 10,
@@ -232,7 +235,7 @@ const styles = StyleSheet.create({
   },
   textInputAbout: {
     borderWidth: 1,
-    borderColor: '#CECECE',
+    borderColor: Colors.imputborderColor,
     borderRadius: 10,
     marginHorizontal: 20,
     paddingLeft: 10,
@@ -249,55 +252,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     marginVertical: 15,
-    marginBottom: 0,
   },
   textButton: {
-    color: '#fff',
-    fontSize: 16,
+    color: Colors.white,
+    fontSize: Fontsize.fontSixteen,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
-  modalView: {
-    borderRadius: 20,
-    paddingVertical: 20,
-    marginHorizontal: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonClose: { backgroundColor: '#38C348', width: '40%' },
-  textStyle: {
-    fontSize: 18,
-    fontFamily: Fonts.ProximaNovaRegular,
-    color: 'white',
-    textAlign: 'center',
-  },
-  SelecttextStyle: {
-    fontSize: 20,
-    fontFamily: Fonts.ProximaNovaMedium,
-    color: 'white',
-    textAlign: 'center',
-  },
-  CancleArrow: { height: 15, width: 15 },
-  DropDownView: {
-    width: '90%',
-    zIndex: 5,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    position: 'absolute',
-    top: height / 3.3,
-  },
+  arrowDown: {
+    tintColor: Colors.imputborderColor,
+    height: 15,
+    width: 15,
+
+  }
 });
 
 const mapStateToProps = state => ({
   setData: state.doctor.setData,
   allCategories: state.doctor.allCategories,
+
 });
 
 const ActionCreators = Object.assign(
   { HandlDocProfil },
-  { getCategories }
+  { getCategories },
 );
 
 const mapDispatchToProps = dispatch => ({
