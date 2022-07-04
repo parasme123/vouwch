@@ -45,7 +45,7 @@ const Navigator = () => {
         <MainStack.Screen name="Doctordetails" component={Doctordetails} />
         <MainStack.Screen name="Bravocard" component={Bravocard} />
         <MainStack.Screen name="Notification" component={Notification} />
-        <MainStack.Screen name="rate" component={Rate} />
+        <MainStack.Screen name="review" component={Rate} />
         <MainStack.Screen name="profile" component={settingprofile} />
         <MainStack.Screen name="profilepage" component={profile} />
         <MainStack.Screen name="asscounsetting" component={account} />

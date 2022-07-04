@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 import { Rating } from 'react-native-ratings';
 import { Colors, imagepath, svg } from '@common';
-
+import { useNavigation } from '@react-navigation/native';
 export default Doctorcard = props => {
-
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       key={props.index}
@@ -50,7 +50,7 @@ export default Doctorcard = props => {
           onPress={() => {
             props.onpress_DoctorCard_Follow(props.item.id);
           }}>
-          {svg.followCircle(30, 30, props.Follows?.includes(props.item.id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor:Colors.white)}
+          {svg.followCircle(30, 30, props.Follows?.includes(props.item.id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor : Colors.white)}
 
           {props.Follows?.includes(props.item.id) ? (
             <Text style={styles.DoctorCardShareButtonText}>Following</Text>
@@ -74,11 +74,13 @@ export default Doctorcard = props => {
 
       <View style={{ flex: 1, flexDirection: 'row', marginVertical: 15 }}>
         <TouchableOpacity
+          onPress={() => navigation.navigate('Bravocard',{doctorid:props.item.id})}
           style={[styles.addBravoCardBtn, { marginRight: 2 }]}>
           {svg.addBravo(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => navigation.navigate('review')}
           style={[styles.addBravoCardBtn, { marginLeft: 2 }]}>
           {svg.addReview(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add A Review</Text>

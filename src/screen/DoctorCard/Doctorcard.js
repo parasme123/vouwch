@@ -5,11 +5,14 @@ import styles from './doctorcardcCss';
 import { Header, String, imagepath } from "@common";
 import { CustomLoader } from '@lib';
 import { DoctorCardList, Searchresult } from "@component";
-import { getDoctorData, postDoctorSearch } from '../../reduxStore/action/doctorAction';
+import { getDoctorData, postDoctorSearch, postMessge, postComment, postFollow } from '../../reduxStore/action/doctorAction';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
+import Constants from '../../Lib/Constants';
+import { handleNavigation } from '../../navigator/Navigator';
 
 const Doctor_Card = (props) => {
     const searchProps = props.route?.params ? props.route?.params?.searchProps : null;
@@ -17,33 +20,127 @@ const Doctor_Card = (props) => {
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [loaderVisible, setloaderVisible] = useState(false);
-    const [Follows, setFollow] = useState([]);
     const [ReviewModalPopup, setReviewModalPopup] = useState();
     const [commentModalPopup, setcommentModalPopup] = useState();
+    const [messageText, setmessage] = useState();
+    const [commentText, setcommentText] = useState();
+    const [msgDocId, setmsgDocId] = useState();
+    const [Follows, setFollow] = useState([]);
+    const [userType, setuserType] = useState(null);
+    const [userToken, setuserToken] = useState(null);
 
-    const MessagepropPage = () => {
-        setReviewModalPopup(!modalVisible)
-        setModalVisible(!modalVisible)
-    }
-    const CommentpropPage = (item) => {
-        setcommentModalPopup(!commentModalPopup)
-        setModalVisibleComment(!modalVisibleComment)
-        // console.log("item", item)
-    }
 
-    const FollowButton = (item) => {
-        let follows1 = [...Follows];
-        if (!follows1.includes(item)) {          //checking weather array contain the id
-            follows1.push(item);               //adding to array because value doesnt exists
+    // Button condition
+    const MessagepropPage = DataCardiList => {
+        setmsgDocId(DataCardiList);
+        if (!userType) {
+            Helper.loginPopUp(props.navigation);
+        } else if (userType?.user_type !== 1) {
+            alert('please login with personal account');
         } else {
-            follows1.splice(follows1.indexOf(item), 1);  //deleting
+            setReviewModalPopup(!modalVisible);
+            setModalVisible(!modalVisible);
         }
-        console.log('hello', follows1)
-        setFollow(follows1)
+    };
+
+    // Message API
+    const Call_MEssage_Api = () => {
+        let { actions } = props;
+        const apiData = {
+            doctor_id: msgDocId,
+            detail: messageText,
+        };
+        console.log(apiData, "apiData");
+        actions.postMessge(apiData, setloaderVisible, () => PageNavigation());
+    };
+
+    // ?Commet api
+    const CommentpropPage = DataCardiList => {
+        setmsgDocId(DataCardiList)
+        if (!userType) {
+            Helper.loginPopUp(props.navigation);
+        } else if (userType?.user_type !== 1) {
+            alert('please login with personal account');
+        } else {
+            setcommentModalPopup(!commentModalPopup);
+            setModalVisibleComment(!modalVisibleComment);
+        }
+    };
+
+    const Call_Commet_Api = () => {
+        let { actions } = props;
+        const apiData = {
+            doctor_id: msgDocId,
+            detail: commentText,
+        };
+        console.log(apiData, "apiData");
+        actions.postComment(apiData, setloaderVisible, () => PageNavigation());
+    };
+
+    const PageNavigation = () => {
+        handleNavigation({
+            type: 'setRoot',
+            page: 'bottomtab',
+            navigation: props.navigation,
+        });
     }
+
+
+  // Follow API
+
+  const FollowButton = item => {
+    let follows1 = [...Follows];
+    if (!follows1.includes(item)) {
+      //checking weather array contain the id
+      follows1.push(item); //adding to array because value doesnt exists
+      // Call_FollowApi(id);
+    } else {
+      follows1.splice(follows1.indexOf(item), 1); //deleting
+      // Call_FollowApi(id);
+    }
+    setFollow(follows1);
+  };
+
+  const Call_FollowApi = (id) => {
+    let { actions } = props;
+    let apiData = {
+      business_id: id,
+    }
+    // console.log("apiData------------------------",apiData);
+    actions.postFollow(apiData);
+
+  };
+
+  const Follow_api = (id) => {
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
+    } else if (userType?.user_type !== 1) {
+      alert('please login with personal account');
+    } else {
+      Call_FollowApi(id);
+      FollowButton(id);
+    }
+  };
+    useEffect(() => {
+        AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
+            if (value !== null) {
+                setuserToken(value);
+            }
+            // console.log('UserToken------------', userToken);
+        });
+        AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+            if (value !== null) {
+                setuserType(value);
+            }
+            //
+        });
+        // console.log('msgDocId------------', props.allHomeData.cards);
+    }, []);
+
+
 
     useEffect(() => {
-        console.log(searchProps, "searchProps----------------------");
+        // console.log(searchProps, "searchProps----------------------");
         if (searchProps == null) {
             Call_CategouryApi();
         }
@@ -92,12 +189,13 @@ const Doctor_Card = (props) => {
     const DoctorCard_Cards = ({ item, index }) => {
         return (
             <DoctorCardList
+                onpress_DoctorCard={DoctorNavigation}
                 onpress_Comment={CommentpropPage}
                 onpress_Message={MessagepropPage}
                 onpress_Share={onShare}
-                // user_Type={userType}
-                // Follows={Follows}
-                // onpress_DoctorCard_Follow={Follow_api}
+                user_Type={userType}
+                Follows={Follows}
+                onpress_DoctorCard_Follow={Follow_api}
                 item={item}
                 index={index}
                 Doctor_business_name={item?.business_name}
@@ -110,6 +208,11 @@ const Doctor_Card = (props) => {
             />
         )
     }
+    const DoctorNavigation = item => {
+        props.navigation.navigate('Doctordetails', { person: true, doctorId: item });
+    };
+
+
 
     return (
         <ImageBackground
@@ -120,25 +223,29 @@ const Doctor_Card = (props) => {
 
             {/* Header */}
 
-            {ReviewModalPopup &&
+
+            {ReviewModalPopup && (
                 <Message
                     modalVisible={modalVisible}
                     Hidemodal={MessagepropPage}
+                    Message_Button={Call_MEssage_Api}
+                    messageText={setmessage}
                 />
-            }
-            {commentModalPopup &&
+            )}
+            {commentModalPopup && (
                 <Comments
                     modalVisible={modalVisibleComment}
                     Hidemodal={CommentpropPage}
+                    Message_Button={Call_Commet_Api}
+                    CmmentText={setcommentText}
                 />
-            }
+            )}
             {
                 props.doctorList?.length > 0 ? (
                     <FlatList
                         data={props.doctorList}
                         style={{ flex: 1 }}
                         renderItem={DoctorCard_Cards}
-                        // numColumns={2}
                         keyExtractor={(item, index) => item.key}
                         showsVerticalScrollIndicator={false}
                     />
@@ -156,7 +263,10 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
     { getDoctorData },
-    { postDoctorSearch }
+    { postDoctorSearch },
+    { postMessge },
+    { postComment },
+    { postFollow }
 );
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(ActionCreators, dispatch),

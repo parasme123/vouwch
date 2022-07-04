@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, ACCOUNTSETTING ,USERDATA} from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, ACCOUNTSETTING, USERDATA } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -130,12 +130,12 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
-                console.log("response",response);
+                console.log("response", response);
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token
                 PageNavigation(response)
-            dispatch(setUserData(response.data))
+                dispatch(setUserData(response.data))
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -328,11 +328,11 @@ export const saveNotification = (data) => {
 
 
 
-export const postAccountSetting = (data, setloaderVisible,PageNavigation) => {
+export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
         console.log("data", data);
-        console.log(data,"data");             // hi remove please
+        console.log(data, "data");             // hi remove please
 
         await fetch(`${URL.baseUrl}${URL.accountsetting}`, {
             method: "POST",
@@ -342,9 +342,9 @@ export const postAccountSetting = (data, setloaderVisible,PageNavigation) => {
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
-            console.log(res,"res");             // hi remove please
+            console.log(res, "res");             // hi remove please
             let response = await res.json();
-            console.log(response,"response");             // hi remove please
+            console.log(response, "response");             // hi remove please
 
             setloaderVisible(false);
             if (response.status) {
@@ -364,7 +364,7 @@ export const postAccountSetting = (data, setloaderVisible,PageNavigation) => {
 
 
 
-export const handelAddDoctor = (data, setloaderVisible,PageNavigation) => {
+export const handelAddDoctor = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.addDoctor}`, {
@@ -376,7 +376,7 @@ export const handelAddDoctor = (data, setloaderVisible,PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-            console.log("reasponse",response);
+            console.log("reasponse", response);
             if (response.status) {
                 PageNavigation(response)
             } else {
@@ -392,7 +392,7 @@ export const handelAddDoctor = (data, setloaderVisible,PageNavigation) => {
 };
 
 
-export const HandlDocProfil = (data, setloaderVisible,PageNavigation) => {
+export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.DocProfile}`, {
@@ -405,7 +405,7 @@ export const HandlDocProfil = (data, setloaderVisible,PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-            console.log("reasponse",response);
+            console.log("reasponse", response);
             if (response.status) {
                 PageNavigation(response)
             } else {
@@ -419,3 +419,125 @@ export const HandlDocProfil = (data, setloaderVisible,PageNavigation) => {
         })
     }
 };
+
+export const postMessge = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+
+        await fetch(`${URL.baseUrl}${URL.messageApi}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+
+            setloaderVisible(false);
+            if (response.status) {
+                PageNavigation(response)
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postComment", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+
+
+export const postComment = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.commetApi}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            if (response.status) {
+                PageNavigation(response)
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postComment", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+
+
+// 
+export const getdoctordetails = (setloaderVisible) => {
+    return async dispatch => {
+        // setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.doctorDetails}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Token": `Bearer ${global.token}`
+            }
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(savedoctordetails(response.data))
+            // console.log("res===", response);           //console remove after use 
+            // setloaderVisible(false);
+        }).catch(err => {
+            console.log("getdoctordetails", err);
+            // setloaderVisible(false);
+        })
+    }
+};
+
+export const savedoctordetails = (data) => {
+    return ({
+        type: DOCTORDETAILS,
+        payload: data
+    })
+};
+
+
+
+
+
+export const postBravo = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        console.log("data", data);           //hiiiiiiiiiiii 
+        await fetch(`${URL.baseUrl}${URL.bravoApi}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Token": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            console.log("res", res);           //hiiiiiiiiiiii 
+            let response = await res.json();
+            console.log("response", response);           //hiiiiiiiiiiii 
+            setloaderVisible(false);
+            if (response.status) {
+                PageNavigation(response)
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postBravo", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+

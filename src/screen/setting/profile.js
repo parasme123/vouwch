@@ -32,7 +32,7 @@ const Profile = (props, { route }) => {
 
   useEffect(() => {
     handelHomeData();
-    console.log('setuserData---api redux----', props.setData);
+    // console.log('setuserData---api redux----', props.setData);
     // console.log("userDAtaa=======",  props.setData?.first_name);
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {

@@ -108,17 +108,10 @@ export default DoctorcardList = props => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_DoctorCard_Follow();
+            props.onpress_DoctorCard_Follow(props.item.id);
           }}>
-          {svg.followCircle(30, 30, Colors.black, Colors.white)}
-          {/* <Image
-            style={styles.DoctorCardShareButtonIcon}
-            source={
-              props.Follows?.includes(props.item.id)
-                ? imagepath.following
-                : imagepath.Followicon
-            }
-          /> */}
+          {svg.followCircle(30, 30, props.Follows?.includes(props.item.id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor : Colors.white)}
+
           {props.Follows?.includes(props.item.id) ? (
             <Text style={styles.DoctorCardShareButtonText}>Following</Text>
           ) : (

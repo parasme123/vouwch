@@ -23,12 +23,13 @@ import {
   Helper
 } from '@lib';
 import Comments from '../../modal/Comments';
+import { handleNavigation } from '../../navigator/Navigator';
 import Message from '../../modal/Message';
 import styles from './homecss';
 import { Bravocard, DoctorCard } from '@component';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getHomeData, postFollow } from '../../reduxStore/action/doctorAction';
+import { getHomeData, postFollow, postMessge, postComment } from '../../reduxStore/action/doctorAction';
 const Home = (props) => {
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
   const [modalVisible, setModalVisible] = useState();
@@ -41,6 +42,8 @@ const Home = (props) => {
   const [msgDocId, setmsgDocId] = useState();
   const [userType, setuserType] = useState(null);
   const [userToken, setuserToken] = useState(null);
+  const [messageText, setmessage] = useState();
+  const [commentText, setcommentText] = useState();
   // const userTypeOne = () => { userToken && userType.user_type == 1 };
 
   useEffect(() => {
@@ -55,32 +58,11 @@ const Home = (props) => {
       if (value !== null) {
         setuserType(value);
       }
-      // console.log('setuserType-------', userType);
+      //
     });
+    // console.log('msgDocId------------', props.allHomeData.cards);
   }, []);
 
-  const MessagepropPage = DataCardiList => {
-    setmsgDocId(DataCardiList);
-    if (!userType) {
-      Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
-    } else {
-      setReviewModalPopup(!modalVisible);
-      setModalVisible(!modalVisible);
-    }
-  };
-
-  const CommentpropPage = () => {
-    if (!userType) {
-      Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
-    } else {
-      setcommentModalPopup(!commentModalPopup);
-      setModalVisibleComment(!modalVisibleComment);
-    }
-  };
 
   const navigation = useNavigation();
   // share module
@@ -88,7 +70,7 @@ const Home = (props) => {
     try {
       const result = await Share.share({
         message:
-          'React Native | A framework for building native apps using React',
+          'https://apponedemo.top/vouwch/',
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -153,28 +135,62 @@ const Home = (props) => {
   const Call_SearchApi = searchProps => {
     navigation.navigate('DoctorCard', { searchProps });
   };
+  // Button condition
+  const MessagepropPage = DataCardiList => {
+    setmsgDocId(DataCardiList);
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
+    } else if (userType?.user_type !== 1) {
+      alert('please login with personal account');
+    } else {
+      setReviewModalPopup(!modalVisible);
+      setModalVisible(!modalVisible);
+    }
+  };
 
   // Message API
-  const Call_MEssage_Api = message_Text => {
-    setloaderVisible(true);
-    const data = {
+  const Call_MEssage_Api = () => {
+    let { actions } = props;
+    const apiData = {
       doctor_id: msgDocId,
-      detail: message_Text,
+      detail: messageText,
     };
-    // console.log("message_Text------------------------",data);
-    ApiCall.ApiMethod(SortUrl.Message, 'POST', data).then(response => {
-      // console.log("response=-------", response);
-
-      if (response?.data?.detail?.length > 0) {
-        setloaderVisible(false);
-        // props.Hidemodal()
-        alert('Message sent sucessfully');
-      } else {
-        setloaderVisible(false);
-        alert('hii');
-      }
-    });
+    console.log(apiData, "apiData");
+    actions.postMessge(apiData, setloaderVisible, () => PageNavigation());
   };
+
+  // ?Commet api
+  const CommentpropPage = DataCardiList => {
+    setmsgDocId(DataCardiList)
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
+    } else if (userType?.user_type !== 1) {
+      alert('please login with personal account');
+    } else {
+      setcommentModalPopup(!commentModalPopup);
+      setModalVisibleComment(!modalVisibleComment);
+    }
+  };
+
+  const Call_Commet_Api = () => {
+    let { actions } = props;
+    const apiData = {
+      doctor_id: msgDocId,
+      detail: commentText,
+    };
+    console.log(apiData, "apiData");
+    actions.postComment(apiData, setloaderVisible, () => PageNavigation());
+  };
+
+  const PageNavigation = () => {
+    handleNavigation({
+      type: 'setRoot',
+      page: 'bottomtab',
+      navigation: navigation,
+    });
+  }
+
+
 
   // api   Profile
   const handleProfile = () => {
@@ -210,7 +226,6 @@ const Home = (props) => {
         onpress_Message={MessagepropPage}
         onpress_Share={onShare}
         item={item}
-        // key={}
         index={index}
       // onpress_Photo={}
       // onpress_Video={}
@@ -366,7 +381,7 @@ const Home = (props) => {
           <FlatList
             data={props.allHomeData.reviews}
             // data={DoctorCardList}
-            style={{width:"100%"}}
+            style={{ width: "100%" }}
             renderItem={Doctor_Card}
             keyExtractor={(item, index) => String(index)}
             horizontal={true}
@@ -379,13 +394,15 @@ const Home = (props) => {
             modalVisible={modalVisible}
             Hidemodal={MessagepropPage}
             Message_Button={Call_MEssage_Api}
+            messageText={setmessage}
           />
         )}
         {commentModalPopup && (
           <Comments
             modalVisible={modalVisibleComment}
             Hidemodal={CommentpropPage}
-            Message_Button={Call_MEssage_Api}
+            Message_Button={Call_Commet_Api}
+            CmmentText={setcommentText}
           />
         )}
       </ScrollView>
@@ -401,7 +418,9 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
   { getHomeData },
-  { postFollow }
+  { postFollow },
+  { postMessge },
+  { postComment }
 );
 
 const mapDispatchToProps = dispatch => ({
