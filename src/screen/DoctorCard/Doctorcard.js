@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ImageBackground, FlatList, Share } from 'react-native';
 import styles from './doctorcardcCss';
 
-import { Header, String, imagepath } from "@common";
+import { Header, imagepath } from "@common";
 import { CustomLoader } from '@lib';
 import { DoctorCardList, Searchresult } from "@component";
 import { getDoctorData, postDoctorSearch, postMessge, postComment, postFollow } from '../../reduxStore/action/doctorAction';
@@ -137,8 +137,6 @@ const Doctor_Card = (props) => {
         // console.log('msgDocId------------', props.allHomeData.cards);
     }, []);
 
-
-
     useEffect(() => {
         // console.log(searchProps, "searchProps----------------------");
         if (searchProps == null) {
@@ -219,7 +217,7 @@ const Doctor_Card = (props) => {
             source={imagepath.homebg}
             resizeMode='cover'
             style={styles.image} >
-            <Header title={String.doctorcard} isback={true} />
+            <Header title={"Doctor Card"} isback={true} />
 
             {/* Header */}
 
@@ -246,7 +244,7 @@ const Doctor_Card = (props) => {
                         data={props.doctorList}
                         style={{ flex: 1 }}
                         renderItem={DoctorCard_Cards}
-                        keyExtractor={(item, index) => item.key}
+                        keyExtractor={(item, index) => String(index)}
                         showsVerticalScrollIndicator={false}
                     />
                 ) : <Searchresult />

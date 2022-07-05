@@ -511,12 +511,12 @@ export const savedoctordetails = (data) => {
 
 
 
-export const postBravo = (data, setloaderVisible, PageNavigation) => {
+export const postBravo12 = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
         console.log("data", data);           //hiiiiiiiiiiii 
         await fetch(`${URL.baseUrl}${URL.bravoApi}`, {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-type": "application/json",
                 "Token": `Bearer ${global.token}`
@@ -541,3 +541,34 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
+
+
+export const postBravo = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        console.log("data=================================--------------------------------", data);           //hiiiiiiiiiiii 
+        await fetch(`${URL.baseUrl}${URL.bravoApi}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            console.log("res", res);           //hiiiiiiiiiiii 
+            setloaderVisible(false);
+            if (response.status) {
+                console.log("response", response);           //hiiiiiiiiiiii 
+                PageNavigation(response)
+            } else {
+                setloaderVisible(false);
+                Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postBravo", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};

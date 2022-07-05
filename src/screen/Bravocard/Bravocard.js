@@ -23,7 +23,7 @@ const Bravocard = (props) => {
   const [detail, setdetail] = useState();
   const [files, setfiles] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
-  const doctorId = props.route.params ? props.route.params.doctorId : null;
+  const doctorId = props.route.params ? props.route.params.doctorid : null;
   const PhotosButton = () => {
     Gallery();
   };
@@ -76,7 +76,7 @@ const Bravocard = (props) => {
       city: city,
       state: state,
       detail: detail,
-      files: Photos,
+      files: [Photos,Videos]
     };
     console.log(apiData, "apiData");
     actions.postBravo(apiData, setloaderVisible, () => PageNavigation());
@@ -86,7 +86,7 @@ const Bravocard = (props) => {
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
-      navigation: navigation,
+      navigation: props.navigation,
     });
   }
   useEffect(() => {

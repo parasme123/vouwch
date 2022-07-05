@@ -8,8 +8,9 @@ import {
 } from 'react-native';
 import { Rating } from 'react-native-ratings';
 import { Colors, imagepath, svg } from '@common';
-
-export default DoctorcardList = props => {
+import { useNavigation } from '@react-navigation/native';
+export default DoctorcardList = (props) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       key={props.index}
@@ -133,6 +134,7 @@ export default DoctorcardList = props => {
       </View>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
+          onPress={() => navigation.navigate('Bravocard', { doctorid: props.item.id })}
           style={[styles.addBravoCardBtn, { marginRight: 5 }]}>
           {svg.addBravo(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
