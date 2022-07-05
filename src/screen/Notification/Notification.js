@@ -18,7 +18,7 @@ const Notification = (props,{navigation, route}) => {
 
   useEffect(()=>{
     NotificationApi();
-    console.log("allNotification===================",props.allNotification);
+    // console.log("allNotification===================",props.allNotification);
   },[])
   const NotificationApi = () => {
     let { actions } = props;

@@ -1,11 +1,12 @@
-import { BRAVOCARD, DOCTORRECORD, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES } from '../action/types';
+import { BRAVOCARD, DOCTORRECORD, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES ,USERDATA} from '../action/types';
 const initialState = {
     doctorList: [],
     allHomeData: {},
     allBravoCardDataLIst: [],
     allFollowPost: {},
     allCategories: {},
-    allNotification: {}
+    allNotification: {},
+    setData:{}
 };
 
 const ChangeTheNumber = (state = initialState, action) => {
@@ -22,6 +23,8 @@ const ChangeTheNumber = (state = initialState, action) => {
             return { ...state, allCategories: action.payload };
         case NOTIFICATION:
             return { ...state, allNotification: action.payload };
+            case USERDATA:
+            return { ...state, setData: action.payload };
         default:
             return state;
     }

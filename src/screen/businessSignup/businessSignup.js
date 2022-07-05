@@ -56,7 +56,7 @@ const BusinessSignup = (props) => {
       let arr = [];
       props.allCategories.data.categories.map((item, label) => {
         arr.push({ label: item.name, value: item.id });
-        console.log('arr== categories in signup==>>>', arr);
+        // console.log('arr== categories in signup==>>>', arr);
       });
       setCateList(arr);
     }

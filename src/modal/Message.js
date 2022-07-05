@@ -1,6 +1,6 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {useNavigation} from '@react-navigation/native';
-import React, {useState, useEffect} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,44 +14,16 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import {Fontsize, Colors} from '@common';
+import { Fontsize, Colors } from '@common';
 
-import {TextInput} from 'react-native-gesture-handler';
+import { TextInput } from 'react-native-gesture-handler';
 import Imagepath from '../common/imagepath';
-import ApiCall from '../Lib/ApiCall';
-import SortUrl from '../Lib/SortUrl';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { postMessge } from '../reduxStore/action/doctorAction';
+import CustomLoader from '../Lib/CustomLoader';
 
-export default function Message(props) {
-  const [message_Text, setmessage_Text] = useState();
-  const navigation = useNavigation();
-  const [loaderVisible, setloaderVisible] = useState(false);
-  const [detailId, setdetailId] = useState();
-
-  // const id_Doctor = route.params? route.params.id_Doctor : null;
-  // Message API
-  // const Call_MEssageApi = (props) => {
-  //     setloaderVisible(true)
-  //     const data = {
-  //         doctor_id:5 ,
-  //         detail: message_Text,
-
-  //     }
-  //     ApiCall.ApiMethod(SortUrl.Message, 'POST', data).then(
-  //         (response) => {
-  //             console.log("response=-------", response);
-
-  //             if (response?.data?.detail?.length > 0) {
-  //                 setloaderVisible(false);
-  //                 props.Hidemodal()
-  //             } else {
-  //                 setloaderVisible(false)
-  //                 alert("hii")
-  //             }
-  //         }
-  //     );
-  // };
-  // setdetailId(props.id_Docto)
-  // console.log("doctor_ID", props.doctorId_id?.doctorId_id);
+const Message = (props) => {
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -80,10 +52,10 @@ export default function Message(props) {
               style={styles.textInput}
               placeholder="Enter Messages"
               keyboardType="default"
-              onChangeText={text => setmessage_Text(text)}
+              onChangeText={(text) => props.messageText(text)}
             />
             <TouchableOpacity
-              onPress={() => props.Message_Button(message_Text)}
+              onPress={() => props.Message_Button()}
               style={styles.messageButton}>
               <Text style={styles.messageButtonText}>Send Messages</Text>
             </TouchableOpacity>
@@ -176,3 +148,14 @@ const styles = StyleSheet.create({
     fontSize: Fontsize.fontFifteen,
   },
 });
+
+
+const ActionCreators = Object.assign(
+  { postMessge }
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapDispatchToProps)(Message);

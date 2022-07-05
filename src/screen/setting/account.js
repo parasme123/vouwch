@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -13,17 +12,16 @@ import {
   Modal,
   PermissionsAndroid,
 } from 'react-native';
-import Toast from 'react-native-simple-toast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import { Header, Colors, Fonts, String } from '@common';
 import Imagepath from '../../common/imagepath';
-import { Constants, SortUrl, AsyncStorageHelper, ApiCall } from '@lib';
+import { Constants, SortUrl, AsyncStorageHelper, ApiCall, Validators } from '@lib';
 import { connect } from 'react-redux';
+import { handleNavigation } from '../../navigator/Navigator';
 import { bindActionCreators } from 'redux';
 import { postAccountSetting } from '../../reduxStore/action/doctorAction';
 const { width, height } = Dimensions.get('window');
-const Account = ({ navigation }) => {
+const Account = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [DropDownSec, setDropDownSec] = useState(false);
   const [selectvalue, setselectvalue] = useState('Select');
@@ -37,6 +35,32 @@ const Account = ({ navigation }) => {
   const [CateList, setCateList] = useState([]);
   const [CateId, setCateId] = useState();
   const [editText, seteditText] = useState(false);
+
+
+  const requestCamera = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "Cool Photo App Camera Permission",
+          message:
+            "Cool Photo App needs access to your camera " +
+            "so you can take awesome pictures.",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        camera(!modalVisible)
+      } else {
+        console.log("Camera permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   const camera = async () => {
     ImagePicker.openCamera({
       width: 300,
@@ -60,20 +84,37 @@ const Account = ({ navigation }) => {
     });
   };
 
-
   const HandelAccountsetting = () => {
+    if (
+      Validators.checkNotNull('First Name', 2, 60, firstName) &&
+      Validators.checkNotNull('Last Name', 2, 60, lastName) &&
+      Validators.checkNotNull('Email Address', 2, 60, mailAddress) &&
+      Validators.checkNotNull('Password', 2, 60, password)
+    ) {
+      Account_SettingApi();
+    }
+  }
+
+  const Account_SettingApi = () => {
     let { actions } = props;
     let apiData = {
-      user_fname: id,
-      user_lname: id,
-      email: id,
-      password: id,
-
+      profile_picture: image,
+      user_fname: firstName,
+      user_lname: lastName,
+      email: mailAddress,
+      password: password,
     }
-    // console.log("apiData------------------------",apiData);
-    actions.postAccountSetting(apiData);
+    console.log("image------------------------", image);
+    actions.postAccountSetting(apiData, () => setloaderVisible(), () => PageNavigation());
 
   };
+  const PageNavigation = () => {
+    handleNavigation({
+      type: 'setRoot',
+      page: 'bottomtab',
+      navigation: props.navigation,
+    });
+  }
 
   return (
     <ImageBackground source={Imagepath.background} style={styles.imagebg}>
@@ -133,7 +174,7 @@ const Account = ({ navigation }) => {
         <TextInput
           style={styles.textInput}
           keyboardType="default"
-          placeholder="User Name"
+          placeholder="Last Name"
           placeholderTextColor={'#737373'}
           editable={editText}
           onChangeText={text => {
@@ -165,7 +206,7 @@ const Account = ({ navigation }) => {
         />
 
         <TouchableOpacity
-          onPress={() => Account_SettingApi()}
+          onPress={() => HandelAccountsetting()}
           style={styles.button}>
           <Text style={styles.textButton}>Submit</Text>
         </TouchableOpacity>
@@ -203,7 +244,7 @@ const Account = ({ navigation }) => {
             <View style={styles.modalView}>
               <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => camera(!modalVisible)}>
+                onPress={() => { requestCamera() }}>
                 <Text style={styles.textStyle}>Camera</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -348,7 +389,7 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
-  allHomeData: state.doctor.allHomeData,
+  setData: state.doctor.setData,
 });
 
 const ActionCreators = Object.assign(

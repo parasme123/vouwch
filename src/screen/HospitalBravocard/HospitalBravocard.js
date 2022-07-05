@@ -1,5 +1,5 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useState, useEffect} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,24 +16,27 @@ import {
   Share,
 } from 'react-native';
 import styles from './hospitalecss';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Imagepath from '../../common/imagepath';
-import {Header} from '@common';
-import String from '../../common/String';
+import { Header } from '@common';
+// import String from '../../common/String';
+import { handleNavigation } from '../../navigator/Navigator';
 import Message from '../../modal/Message';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Comments from '../../modal/Comments';
-import {Bravocard} from '@component';
+import { Bravocard } from '@component';
 import {
   ApiCall,
   SortUrl,
   CustomLoader,
   Constants,
   AsyncStorageHelper,
+  Helper
 } from '@lib';
+import { bindActionCreators } from 'redux';
+import { getBravoCardData, postMessge, postComment } from '../../reduxStore/action/doctorAction';
 
-export default Hospotalbravocard = props => {
+const Hospotalbravocard = (props) => {
   const [loaderVisible, setloaderVisible] = useState(false);
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
   const [modalVisibleMessage, setModalVisibleMessage] = useState(false);
@@ -43,11 +46,14 @@ export default Hospotalbravocard = props => {
   const [commentModalPopup, setcommentModalPopup] = useState();
   const [userType, setuserType] = useState();
   const [userToken, setuserToken] = useState();
+  const [msgDocId, setmsgDocId] = useState();
+  const [messageText, setmessage] = useState();
+  const [commentText, setcommentText] = useState();
 
-  const MessagepropPage = () => {
-    // setmsgDocId(DataCardiList)
+  const MessagepropPage = DataCardiList => {
+    setmsgDocId(DataCardiList);
     if (!userType) {
-      alert('Please Login');
+      Helper.loginPopUp(props.navigation);
     } else if (userType?.user_type !== 1) {
       alert('please login with personal account');
     } else {
@@ -56,9 +62,20 @@ export default Hospotalbravocard = props => {
     }
   };
 
-  const CommentpropPage = () => {
+  // Message API
+  const Call_MEssage_Api = () => {
+    let { actions } = props;
+    const apiData = {
+      doctor_id: msgDocId,
+      detail: messageText,
+    };
+    console.log(apiData, "apiData");
+    actions.postMessge(apiData, setloaderVisible, () => PageNavigation());
+  };
+  const CommentpropPage = DataCardiList => {
+    setmsgDocId(DataCardiList)
     if (!userType) {
-      alert('Please Login');
+      Helper.loginPopUp(props.navigation);
     } else if (userType?.user_type !== 1) {
       alert('please login with personal account');
     } else {
@@ -67,27 +84,41 @@ export default Hospotalbravocard = props => {
     }
   };
 
-  // useEffect(() => {
-  //     Call_DataCardApi();
-  //     for (let count = 0; count <= 100; count++) {
-  //         count % 2 == 0 ? console.log(`${count} is even`) : console.log(`${count} is odd`);
-  //         ;
-  //     }
-  // }, []);
+  const Call_Commet_Api = () => {
+    let { actions } = props;
+    const apiData = {
+      doctor_id: msgDocId,
+      detail: commentText,
+    };
+    console.log(apiData, "apiData");
+    actions.postComment(apiData, setloaderVisible, () => PageNavigation());
+  };
+
+  const PageNavigation = () => {
+    handleNavigation({
+      type: 'setRoot',
+      page: 'bottomtab',
+      navigation: navigation,
+    });
+  }
+
+
 
   useEffect(() => {
     Call_DataCardApi();
+    // console.log("props.getBravoCardData.name", props?.allBravoCardDataLIst.name);
+
     AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
       if (value !== null) {
       }
       setuserToken(value);
-      console.log('UserToken------------', userToken);
+      // console.log('UserToken------------', userToken);
     });
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
       }
       setuserType(value);
-      console.log('setuserType-------', userType);
+      // console.log('setuserType-------', userType);
     });
   }, []);
   const navigation = useNavigation();
@@ -112,23 +143,15 @@ export default Hospotalbravocard = props => {
     }
   };
 
-  // DataCardApi
+  // DAta
   const Call_DataCardApi = () => {
-    setloaderVisible(true);
-    ApiCall.ApiMethod(SortUrl.AllCards, 'Get').then(response => {
-      setloaderVisible(false);
-      console.log('Response==========', response);
-      if (response.status == true) {
-        setloaderVisible(false);
-        setDataCardList(response.data.cards);
-      } else {
-        setloaderVisible(false);
-      }
-    });
+    let { actions } = props;
+    actions.getBravoCardData();
   };
 
+
   // Card DATA Content
-  const Card = ({item, index}) => {
+  const Card = ({ item, index }) => {
     return (
       <Bravocard
         bravo_Card_name={item.name}
@@ -137,9 +160,10 @@ export default Hospotalbravocard = props => {
         onpress_Message={MessagepropPage}
         onpress_Share={onShare}
         item={item}
+        // key={}
         index={index}
-        // onpress_Photo={}
-        // onpress_Video={}
+      // onpress_Photo={}
+      // onpress_Video={}
       />
     );
   };
@@ -149,32 +173,51 @@ export default Hospotalbravocard = props => {
       source={Imagepath.homebg}
       resizeMode="cover"
       style={styles.image}>
-      <Header title={String.Bravocard} isback={true} />
-      <ScrollView
+      <Header title={"Bravo Card"} isback={true} />
+      {/* Card of hospitals */}
+      <FlatList
+        data={props?.allBravoCardDataLIst}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
-        {/* Card of hospitals */}
-        <FlatList
-          data={DataCardList}
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          // horizontal={true}
-          style={{}}
-          renderItem={Card}
-          keyExtractor={items => items}
-        />
+        numColumns={2}
+        style={{}}
+        renderItem={Card}
+        keyExtractor={(item, index) => String(index)}
+      />
 
-        {ReviewModalPopup && (
-          <Message modalVisible={modalVisible} Hidemodal={MessagepropPage} />
-        )}
-        {commentModalPopup && (
-          <Comments
-            modalVisible={modalVisibleComment}
-            Hidemodal={CommentpropPage}
-          />
-        )}
-      </ScrollView>
+      {ReviewModalPopup && (
+        <Message
+          modalVisible={modalVisible}
+          Hidemodal={MessagepropPage}
+          Message_Button={Call_MEssage_Api}
+          messageText={setmessage}
+        />
+      )}
+      {commentModalPopup && (
+        <Comments
+          modalVisible={modalVisibleComment}
+          Hidemodal={CommentpropPage}
+          Message_Button={Call_Commet_Api}
+          CmmentText={setcommentText}
+        />
+      )}
       <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>
   );
 };
+
+
+const mapStateToProps = state => ({
+  allBravoCardDataLIst: state.doctor.allBravoCardDataLIst,
+});
+
+const ActionCreators = Object.assign(
+  { getBravoCardData },
+  { postMessge },
+  { postComment }
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Hospotalbravocard);

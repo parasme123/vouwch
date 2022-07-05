@@ -21,17 +21,12 @@ export default Comments = props => {
   // const [modalVisibleComment, setModalVisibleComment] = useState();
   return (
     <View style={{flex: 1}}>
-      {/* cOMMENT MODULE */}
-
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
           transparent={true}
           visible={props.modalVisibleComment}
-          // visible={visibile}
           onRequestClose={() => {
-            // Alert.alert("Modal has been closed.");
-            // setModalVisibleComment(!modalVisibleComment);
             props.Hidemodal();
           }}>
           <View style={styles.centeredView1}>
@@ -53,10 +48,10 @@ export default Comments = props => {
                 style={styles.textInput}
                 placeholder="Enter Comment"
                 keyboardType="default"
-                onChangeText={text => setmessage_Text(text)}
+                onChangeText={text => props.CmmentText(text)}
               />
               <TouchableOpacity
-                onPress={() => props.Message_Button(message_Text)}
+                onPress={() => props.Message_Button()}
                 style={styles.messageButton}>
                 <Text style={styles.messageButtonText}>Send Comment</Text>
               </TouchableOpacity>

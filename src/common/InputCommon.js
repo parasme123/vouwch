@@ -33,6 +33,7 @@ export default class InputCommon extends React.Component {
                         fontWeight={this.props.fontWeight}
                         blurOnSubmit={this.props.blurOnSubmit}
                         maxLength={this.props.maxLength}
+                        multiline={this.props.multiline}
                     />
                 </View>
             </View>
@@ -41,7 +42,7 @@ export default class InputCommon extends React.Component {
 };
 
 const styles = StyleSheet.create({
-    textValue: { color: Colors.darkgreydark, top: Platform.OS == 'ios' ? 0 : 0, paddingLeft: 10, fontSize: 16, fontFamily: Fonts.ProximaNovaLight },
+    textValue: { color: Colors.black, top: Platform.OS == 'ios' ? 0 : 0, paddingLeft: 10, fontSize: 16, fontFamily: Fonts.ProximaNovaLight },
     inputViewStyles: { borderRadius: 10, borderColor: '#e2e6ea', borderWidth: 1, },
     TextStyles: { fontSize: 16, color: "#000", fontFamily: Fonts.ProximaNovaBold },
     TextView: { paddingVertical: 15 }

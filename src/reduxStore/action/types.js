@@ -12,3 +12,5 @@ export const NOTIFICATION = "NOTIFICATION";
 
 export const ACCOUNTSETTING = "ACCOUNTSETTING";
 
+export const USERDATA = "USERDATA";
+

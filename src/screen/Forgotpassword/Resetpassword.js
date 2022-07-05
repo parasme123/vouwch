@@ -126,7 +126,7 @@ const Resetpassword = (props) => {
 
 
 const mapStateToProps = state => ({
-  allFollowPost: state.doctor.allFollowPost,
+  // allFollowPost: state.doctor.allFollowPost,
 });
 
 const ActionCreators = Object.assign(

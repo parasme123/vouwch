@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Image,
@@ -12,8 +12,8 @@ import {
   Alert,
 } from 'react-native';
 import Imagepath from '../../../common/imagepath';
-import {useNavigation} from '@react-navigation/native';
-import {Rating, AirbnbRating} from 'react-native-ratings';
+import { useNavigation } from '@react-navigation/native';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 import {
   widthPercentageToDP as wp,
@@ -36,7 +36,7 @@ import {
 import Colors from '../../../common/Colors';
 import Fontsize from '../../../common/Fontsize';
 
-const Doctordetails = ({route}) => {
+const Doctordetails = ({ route }) => {
   const navigation = useNavigation();
 
   const person = route.params ? route.params.person : false;
@@ -89,19 +89,18 @@ const Doctordetails = ({route}) => {
   };
   const AddReview = () => {
     if (userType !== 2) {
-      navigation.navigate('rate', {detail: doctorId});
+      navigation.navigate('rate', { detail: doctorId });
     } else {
       alert('you are not able to give a review');
     }
   };
 
   useEffect(() => {
-    console.log('anil______doctorId_______________++++++++++++++', doctorId);
     Call_CategouryApi();
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
         // We have data!!of user
-        console.log('AsyncStorageHelper : ', value);
+        // console.log('AsyncStorageHelper : ', value);
       }
       setuserType(value?.user_type);
       // console.log("anil______doctorId_______________++++++++++++++",doctorId);
@@ -112,7 +111,7 @@ const Doctordetails = ({route}) => {
     const data = {
       id: doctorId,
     };
-    console.log('doctorId data======', doctorId);
+    // console.log('doctorId data======', doctorId);
     // setloaderVisible(true)
     ApiCall.ApiMethod(SortUrl.DoctorDetail, 'POST', data).then(response => {
       if (response.status == true) {
@@ -129,7 +128,7 @@ const Doctordetails = ({route}) => {
   // console.log(DoctorCardDetails,"response+++++++++++++++------------********////////")
 
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
+    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView>
         <View style={styles.container}>
           <Image
@@ -152,8 +151,8 @@ const Doctordetails = ({route}) => {
             <Text style={styles.doctorSpacilist}>
               {DoctorCardDetails?.category?.name}
             </Text>
-            <View style={{flexDirection: 'row'}}>
-              <View style={{flex: 1}}>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1 }}>
                 <View style={styles.ratingViewRed}>
                   <View style={styles.ratingViewmain}>
                     <Rating
@@ -196,7 +195,7 @@ const Doctordetails = ({route}) => {
                   </Text>
                 </View>
               </View>
-              <View style={{flexDirection: 'column-reverse'}}>
+              <View style={{ flexDirection: 'column-reverse' }}>
                 <TouchableOpacity
                   onPress={() => {
                     AddReview();
@@ -333,7 +332,7 @@ const Doctordetails = ({route}) => {
             {About && (
               <Abouappt
                 name={doctorId?.name}
-                // aboutDetail={DoctorCardDetails.about_us}
+              // aboutDetail={DoctorCardDetails.about_us}
               />
             )}
             {Service && <ServicesPage name={doctorId?.name} />}
@@ -357,10 +356,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 12,
   },
-  container: {marginBottom: 10},
-  ImageTop: {height: hp('45%'), width: '100%'},
-  backButton: {position: 'absolute', marginTop: 20, marginLeft: 15},
-  backIcon: {height: 21, width: 32},
+  container: { marginBottom: 10 },
+  ImageTop: { height: hp('45%'), width: '100%' },
+  backButton: { position: 'absolute', marginTop: 20, marginLeft: 15 },
+  backIcon: { height: 21, width: 32 },
   DoctordetailsCard: {
     backgroundColor: '#E7F6FC',
     width: '90%',
@@ -383,7 +382,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaMedium,
     marginBottom: 5,
   },
-  redstarView: {width: '85%', flexDirection: 'row', marginVertical: 5},
+  redstarView: { width: '85%', flexDirection: 'row', marginVertical: 5 },
   ratingView: {
     height: 15,
     width: 45,
@@ -394,7 +393,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 5,
   },
-  star: {height: 6, width: 6},
+  star: { height: 6, width: 6 },
   ratingNumber: {
     color: '#000000',
     fontSize: 11,
@@ -422,14 +421,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 20,
   },
-  yellowStarSubviewIcon: {height: 12, width: 12},
+  yellowStarSubviewIcon: { height: 12, width: 12 },
   yellowStarSubviewIconTExt: {
     color: '#ffffff',
     fontSize: 10,
     paddingLeft: 10,
     fontFamily: Fonts.ProximaNovaMedium,
   },
-  yellowStarview: {width: '100%', flexDirection: 'row', alignItems: 'center'},
+  yellowStarview: { width: '100%', flexDirection: 'row', alignItems: 'center' },
   tabviewDetails: {
     width: '90%',
     backgroundColor: '#ffffff',
