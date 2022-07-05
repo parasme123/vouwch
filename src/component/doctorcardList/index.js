@@ -140,6 +140,7 @@ export default DoctorcardList = (props) => {
           <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => navigation.navigate('review', { doctorid: props.item.id })}
           style={[styles.addBravoCardBtn, { marginLeft: 5 }]}>
           {svg.addReview(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add A Review</Text>

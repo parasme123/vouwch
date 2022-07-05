@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,147 +6,98 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {Header,imagepath,Fonts,String} from '@common';
+import { Header, imagepath, Fonts, String, Colors } from '@common';
 import Clinic from './clinic';
 import Patient from './patient';
-// import styles from './styles';
-const Rate = ({navigation, route}) => {
-  // const [mark, setMark] = useState();
-  const [clinice, setclinic] = useState();
-  const [patient, setpatient] = useState();
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { postBravo } from '../../../reduxStore/action/doctorAction';
+
+const Rate = ({ navigation, route }) => {
+  const [cliniceReview, setcliniceReview] = useState();
+  const [patientReview, setpatientReview] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const doctorId = route.params ? route.params.doctorId : 0;
-  // const  doctorId  = route.params?route.params.doctorId:0;
   const detail = route.params ? route.params.detail : 0;
 
-  // const chexkBox = () => {
-  //     setMark(!mark)
-  // }
   const ClinicianPage = () => {
-    setclinic(true);
-    setpatient(false);
+    setcliniceReview(true);
+    setpatientReview(false);
   };
 
   const PasientPage = () => {
-    setclinic(false);
-    setpatient(true);
+    setcliniceReview(false);
+    setpatientReview(true);
   };
-  useEffect(async () => {
+  useEffect(() => {
     ClinicianPage();
-    // const userData = await AsyncStorageHelper.getData(Constants.USER_DATA);
-    // console.log(userData, 'userData------');
+
   }, []);
 
-  // const RateReview_CallApi = () => {
-  //   let data = {
-  //     id: doctorId.id,
-  //     review_type: ClinicianPage()?.PasientPage(),
-  //     rate: onChangesecond(),
-  //     review: Email,
-  //     is_anonym: Email,
-  //     is_recommend: Email,
-  //     wait_period: Email,
-  //     friendness_rate: Email,
-  //     treatment_rate: Email,
-  //     wait_rate: Email,
-  //     experience_rate: Email,
-  //     money_rate: Email,
-  //   };
-  //   console.log(review_type);
-  //   setloaderVisible(true);
-  //   ApiCall.ApiMethod(SortUrl.UserLogin, Constants.POST, data)
-  //     .then(response => {
-  //       setloaderVisible(false);
-  //       if (response.status == Constants.Success) {
-  //         AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
-  //         AsyncStorageHelper.setData(Constants.TOKEN, response.token);
-  //         handleNavigation({
-  //           type: 'setRoot',
-  //           page: 'bottomtab',
-  //           navigation: navigation,
-  //         });
-  //       } else {
-  //         setloaderVisible(false);
-  //         Toast.show(response.message);
-  //       }
-  //     })
-  //     .catch(err => {
-  //       setloaderVisible(false);
-  //     });
-  // };
 
-  // const Registernow = () => {
-  //   if (route.params.UserType == 'PERSONAL') {
-  //     navigation.navigate('signup');
-  //   } else {
-  //     navigation.navigate('business');
-  //   }
-  // };
 
-  // const loginApiColl = () => {
-  //   if (
-  //     validators.checkEmail('Email', Email) &&
-  //     validators.checkNotNull('Password', 2, 20, Password) &&
-  //     validators.checkTickRequire(securepassword)
-  //   ) {
-  //     Call_LoginApi();
-  //   }
-  // };
+  const Review_Validators = () => {
+    if (
+      Validators.checkNotNull('Name', 2, 20, name) &&
+      Validators.checkNotNull('Department', 2, 20, department) &&
+      Validators.checkNotNull('hospital', 2, 20, hospital) &&
+      Validators.checkNotNull('City', 2, 20, city) &&
+      Validators.checkNotNull('State', 2, 20, state) &&
+      Validators.checkNotNull('Detail', 2, 200, detail)
+    ) {
+      Review();
+    }
+  };
 
-  // const Call_LoginApi = () => {
-  //   let data = {
-  //     id: doctorId.id,
-  //     review_type: ClinicianPage()?.PasientPage(),
-  //     rate: onChangesecond(),
-  //     review: Email,
-  //     is_anonym: Email,
-  //     is_recommend: Email,
-  //     wait_period: Email,
-  //     friendness_rate: Email,
-  //     treatment_rate: Email,
-  //     wait_rate: Email,
-  //     experience_rate: Email,
-  //     money_rate: Email,
-  //   };
-  //   // alert("message")
+  const Review = () => {
+    let { actions } = props;
+    let apiData = {
+      business_id: doctorId,
+      review_type: name,
+      rate: department,
+      review: hospital,
+      is_anonym: city,
+      friendness_rate: state,
+      treatment_rate: detail,
+      wait_rate: doctorId,
+      experience_rate: name,
+      money_rate: department,
+      wait_period: hospital,
+      is_recommend: city
+    };
+    console.log(apiData, "apiData");
+    // actions.postBravo(apiData, setloaderVisible, () => PageNavigation());
+  };
 
-  //   ApiCall.ApiMethod(SortUrl.Login, 'POST', data).then(response => {
-  //     // alert(JSON.stringify(response))
-  //     console.log('Child  of appliances  are', response);
-  //     if (response.status == true) {
-  //       navigation.navigate('BottomTap');
-  //       AsyncStorageHelper.setData('Userdata'.response.data);
+  const PageNavigation = () => {
+    handleNavigation({
+      type: 'setRoot',
+      page: 'bottomtab',
+      navigation: props.navigation,
+    });
+  }
 
-  //       console.log('Child  of appliances  are', response);
-  //     } else {
-  //       alert('Please write correct Email or Password');
-  //       // ToastMessage("Error in fetching child categories");
-  //     }
-  //   });
-  // };
 
   return (
-    <ImageBackground source={imagepath.background} style={{flex: 1}}>
-      <View style={{height: 115, width: '100%', backgroundColor: '#245FC7'}}>
+    <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
+      <View style={{ height: 115, width: '100%', backgroundColor: Colors.appcolor }}>
         <Header title={String.RateAndReview} isback={'bottomtab'} />
         <View
           style={{
             flexDirection: 'row',
-            width: '85%',
+            width: '90%',
             justifyContent: 'space-between',
             alignItems: 'center',
             alignSelf: 'center',
             fontFamily: Fonts.ProximaNovaSemibold,
           }}>
           <TouchableOpacity
-            onPress={() => {
-              [ClinicianPage(), {detail: doctorId}];
-            }}
+            onPress={() => { ClinicianPage(), { detail: doctorId } }}
             style={[
-              {backgroundColor: clinice ? '#19428A' : null},
+              { backgroundColor: cliniceReview ? '#19428A' : null },
               styles.button,
             ]}>
-            <Text style={{color: '#ffffff', fontSize: 13}}>
+            <Text style={{ color: Colors.white, fontSize: 13 }}>
               Clinician Review
             </Text>
           </TouchableOpacity>
@@ -156,18 +107,18 @@ const Rate = ({navigation, route}) => {
             }}
             style={[
               {
-                backgroundColor: patient ? '#19428A' : null,
+                backgroundColor: patientReview ? '#19428A' : null,
                 fontFamily: Fonts.ProximaNovaSemibold,
               },
               styles.button,
             ]}>
-            <Text style={{color: '#ffffff', fontSize: 13}}>Patient Review</Text>
+            <Text style={{ color: Colors.white, fontSize: 13 }}>Patient Review</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      {clinice && <Clinic />}
-      {patient && <Patient />}
+      {cliniceReview && <Clinic />}
+      {patientReview && <Patient />}
     </ImageBackground>
   );
 };
@@ -182,4 +133,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Rate;
+
+const mapStateToProps = state => ({
+});
+
+const ActionCreators = Object.assign(
+  { postBravo }
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rate);

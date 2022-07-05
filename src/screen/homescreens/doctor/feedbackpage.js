@@ -7,15 +7,15 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Imagepath from '../../../common/imagepath';
 // import { Header } from '../../../common/Header';
 // import String from '../../../common/String';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Fonts from '../../../common/Fonts';
 import Colors from '../../../common/Colors';
 
-export default Feedbackpage = () => {
+export default Feedbackpage = (props) => {
   const navigation = useNavigation();
 
   const Card = [
@@ -29,10 +29,10 @@ export default Feedbackpage = () => {
       NameFeedback: 'Dr. jenny wilson',
     },
   ];
-  const Feedback = ({item, index}) => {
+  const Feedback = ({ item, index }) => {
     return (
       <View
-        style={{borderBottomWidth: 0.5, borderColor: '#929397', width: '100%'}} key={index}>
+        style={{ borderBottomWidth: 0.5, borderColor: '#929397', width: '100%', paddingVertical: 10 }} key={index}>
         <View
           style={{
             flexDirection: 'row',
@@ -41,12 +41,12 @@ export default Feedbackpage = () => {
           }}>
           {/* doctor Image */}
           <Image
-            style={{height: 49, width: 49, borderRadius: 100}}
+            style={{ height: 49, width: 49, borderRadius: 100 }}
             source={Imagepath.doctors}
           />
           {/* Doctor Details */}
-          <View style={{flexDirection: 'column', marginLeft: '1.5%'}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'column', marginLeft: 15 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text
                 style={{
                   fontSize: 12,
@@ -56,7 +56,7 @@ export default Feedbackpage = () => {
                 {item.NameFeedback}
               </Text>
               <Image
-                style={{height: 11, width: 11, marginLeft: 10}}
+                style={{ height: 11, width: 11, marginLeft: 10 }}
                 source={Imagepath.bluetick}
               />
             </View>
@@ -75,7 +75,7 @@ export default Feedbackpage = () => {
                 justifyContent: 'space-between',
                 width: '80%',
               }}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -87,7 +87,7 @@ export default Feedbackpage = () => {
                     justifyContent: 'center',
                   }}>
                   <Image
-                    style={{height: 8, width: 8, paddingRight: 3}}
+                    style={{ height: 8, width: 8, paddingRight: 3 }}
                     source={Imagepath.yellowstar}
                   />
                   <Text
@@ -112,9 +112,9 @@ export default Feedbackpage = () => {
               </View>
               <TouchableOpacity
                 onPress={() => navigation.navigate('profile')}
-                style={{flexDirection: 'row', alignItems: 'center'}}>
+                style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image
-                  style={{height: 14, width: 14}}
+                  style={{ height: 14, width: 14 }}
                   source={Imagepath.likeicon}
                 />
                 <Text
@@ -162,7 +162,7 @@ export default Feedbackpage = () => {
 
       <FlatList
         data={Card}
-        style={{padding: '4%'}}
+        style={{ padding: '4%' }}
         renderItem={Feedback}
         keyExtractor={item => item}
       />
