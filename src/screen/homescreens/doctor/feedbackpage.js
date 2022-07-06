@@ -7,13 +7,9 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Imagepath from '../../../common/imagepath';
-// import { Header } from '../../../common/Header';
-// import String from '../../../common/String';
 import { useNavigation } from '@react-navigation/native';
-import Fonts from '../../../common/Fonts';
-import Colors from '../../../common/Colors';
+import {Colors, Fonts} from '@common';
 
 export default Feedbackpage = (props) => {
   const navigation = useNavigation();
@@ -42,7 +38,7 @@ export default Feedbackpage = (props) => {
           {/* doctor Image */}
           <Image
             style={{ height: 49, width: 49, borderRadius: 100 }}
-            source={Imagepath.doctors}
+            source={{ uri: item.users.profile_picture }}
           />
           {/* Doctor Details */}
           <View style={{ flexDirection: 'column', marginLeft: 15 }}>
@@ -67,7 +63,7 @@ export default Feedbackpage = (props) => {
                 paddingVertical: 3,
                 fontFamily: Fonts.ProximaNovaRegular,
               }}>
-              Heart Surgeon
+              {item.users.full_name}
             </Text>
             <View
               style={{
@@ -97,7 +93,7 @@ export default Feedbackpage = (props) => {
                       fontFamily: Fonts.ProximaNovaBold,
                       paddingLeft: 3,
                     }}>
-                    3.2
+                    {item.rate}
                   </Text>
                 </View>
                 <Text
@@ -107,11 +103,11 @@ export default Feedbackpage = (props) => {
                     paddingLeft: 5,
                     fontFamily: Fonts.ProximaNovaRegular,
                   }}>
-                  200 Reviews
+                  Reviews
                 </Text>
               </View>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('profile')}
+              <View
+                // onPress={() => navigation.navigate('profile')}
                 style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image
                   style={{ height: 14, width: 14 }}
@@ -124,9 +120,9 @@ export default Feedbackpage = (props) => {
                     marginLeft: 5,
                     fontFamily: Fonts.ProximaNovaRegular,
                   }}>
-                  I Recommeded this doctor
+                  {item.is_recommend == 1 ? "I recommended this doctor" : "Not recommended this doctor"}
                 </Text>
-              </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -138,8 +134,7 @@ export default Feedbackpage = (props) => {
             paddingVertical: 5,
             fontFamily: Fonts.ProximaNovaLight,
           }}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
+          {item.review}
         </Text>
       </View>
     );
@@ -161,8 +156,14 @@ export default Feedbackpage = (props) => {
       {/* Card of Feedback */}
 
       <FlatList
-        data={Card}
-        style={{ padding: '4%' }}
+        data={props.data?.clinical_reviews.data}
+        style={{ paddingHorizontal: 8 }}
+        renderItem={Feedback}
+        keyExtractor={item => item}
+      />
+      <FlatList
+        data={props.data?.patient_reviews.data}
+        style={{ paddingHorizontal: 8 }}
         renderItem={Feedback}
         keyExtractor={item => item}
       />
