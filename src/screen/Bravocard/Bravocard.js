@@ -34,7 +34,6 @@ const Bravocard = (props) => {
     ImagePicker.openPicker({
       mediaType: 'video',
     }).then(video => {
-      console.log(video);
       setVideos(true);
     });
   };
@@ -46,7 +45,6 @@ const Bravocard = (props) => {
       cropping: true,
     }).then(image => {
       setPhotos(image.path);
-      console.log(image);
       setPhotos(true);
     });
   };
@@ -78,7 +76,6 @@ const Bravocard = (props) => {
       detail: detail,
       files: [Photos,Videos]
     };
-    console.log(apiData, "apiData");
     actions.postBravo(apiData, setloaderVisible, () => PageNavigation());
   };
 
@@ -89,9 +86,9 @@ const Bravocard = (props) => {
       navigation: props.navigation,
     });
   }
-  useEffect(() => {
-   console.log(doctorId);
-  }, []);
+  // useEffect(() => {
+  //  console.log(doctorId);
+  // }, []);
   return (
     <View style={{ flex: 1 }}>
       <Header title={String.Bravo_Head_title} isback="asjdfla" />

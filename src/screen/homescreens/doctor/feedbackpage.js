@@ -156,13 +156,13 @@ export default Feedbackpage = (props) => {
       {/* Card of Feedback */}
 
       <FlatList
-        data={props.data?.clinical_reviews.data}
+        data={props.data?.clinical_reviews?.data}
         style={{ paddingHorizontal: 8 }}
         renderItem={Feedback}
         keyExtractor={item => item}
       />
       <FlatList
-        data={props.data?.patient_reviews.data}
+        data={props.data?.patient_reviews?.data}
         style={{ paddingHorizontal: 8 }}
         renderItem={Feedback}
         keyExtractor={item => item}

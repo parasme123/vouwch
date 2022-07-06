@@ -20,7 +20,6 @@ export default Splash = ({ navigation }) => {
                 }
                 else {
                     AsyncStorageHelper.getData(Constants.USER_DATA).then((responseData) => {
-                        console.log('responseData=====>>>>>', responseData)
                         if (responseData) {
                             AsyncStorageHelper.setData(Constants.USER_DATA, responseData.data)
                             AsyncStorageHelper.setData(Constants.TOKEN, responseData.token)
