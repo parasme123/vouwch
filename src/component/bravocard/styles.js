@@ -3,6 +3,39 @@ import { Fonts, Colors, Fontsize } from "@common";
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+  centeredView1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.transparentBlack,
+    opacity: 5,
+  },
+  centeredView2: {
+    width: '92%',
+    // height: 255,
+    borderRadius: 15,
+    alignSelf: 'center',
+    backgroundColor: Colors.white,
+    elevation: 1,
+  },
+  headerView: {
+    height: 50,
+    backgroundColor: Colors.bottonColors,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  headerText: {
+    color: Colors.white,
+    fontSize: Fontsize.fontFifteen,
+  },
+  headerIcon: {
+    height: 30,
+    width: 30,
+  },
   cardContainer: {
     borderRadius: 10,
     padding: 15,
