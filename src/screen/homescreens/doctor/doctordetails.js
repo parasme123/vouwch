@@ -110,9 +110,6 @@ const Doctordetails = (props, { route }) => {
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView>
         <View style={styles.container}>
-          {
-            console.log(props.allDetailsDoc?.business?.business_profile ? ">>>>>>>>>>>>>>>>>>>>>>>" : "......................")
-          }
           <Image
             source={props.allDetailsDoc?.business?.business_profile ? { uri: props.allDetailsDoc?.business?.business_profile } : 
             Imagepath.doctor}
