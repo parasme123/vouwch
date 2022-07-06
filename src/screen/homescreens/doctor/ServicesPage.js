@@ -8,19 +8,19 @@ import {
   StatusBar,
   FlatList,
 } from 'react-native';
-import Unorderedlist from 'react-native-unordered-list';
-import Imagepath from '../../../common/imagepath';
+// import Unorderedlist from 'react-native-unordered-list';
 
-import Fonts from '../../../common/Fonts';
-import { useLinkProps } from '@react-navigation/native';
+import { Fonts, imagepath, Colors, Fontsize } from '@common';
+// import { useLinkProps } from '@react-navigation/native';
 
 export default ServicesPage = (props) => {
   const DoctorService = ({ item, index }) => {
+    console.log("item?.service_detail?.name",item);
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }} key={index}>
         <Image
-          style={{ height: 10, width: 10, tintColor: 'black' }}
-          source={require('../../../assect/icon/dot.png')}
+          style={{ height: 10, width: 10, tintColor: Colors.black }}
+          source={imagepath.dot}
         />
         <Text
           style={{
@@ -29,7 +29,7 @@ export default ServicesPage = (props) => {
             paddingVertical: 7,
             fontFamily: Fonts.ProximaNovaRegular,
           }}>
-        {item?.service_detail?.name}
+          {item?.service_detail?.name}
         </Text>
       </View>
     );
@@ -39,8 +39,8 @@ export default ServicesPage = (props) => {
       <View style={{ padding: 15 }}>
         <Text
           style={{
-            fontSize: 16,
-            color: '#000',
+            fontSize: Fontsize.fontSixteen,
+            color: Colors.black,
             paddingBottom: 5,
             fontFamily: Fonts.ProximaNovaBold,
           }}>

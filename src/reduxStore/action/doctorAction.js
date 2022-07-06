@@ -482,6 +482,7 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
 export const getdoctordetails = (data, setloaderVisible) => {
     return async dispatch => {
         setloaderVisible(true);
+        // consloe.log("data", data)
         await fetch(`${URL.baseUrl}${URL.doctorDetails}`, {
             method: "POST",
             headers: {
@@ -490,7 +491,7 @@ export const getdoctordetails = (data, setloaderVisible) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            // console.log("res", res);           //hiiiiiiiiiiii 
+            console.log("res", res);           //hiiiiiiiiiiii 
             setloaderVisible(false);
             if (response.status) {
                 console.log("response", response);           //hiiiiiiiiiiii 
