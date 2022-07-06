@@ -8,14 +8,14 @@ import {
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
-import Imagepath from '../common/imagepath';
+import {imagepath} from '@common';
 import Reviewmodal from '../modal/Reviewmodal';
 import Home from '../screen/homescreens/home';
 import Notification from '../screen/Notification/Notification';
 import Profile from '../screen/setting/profile';
 import Welcome from '../screen/welcome/welcome';
 import Menu from '../screen/setting/menu';
-import { Constants, AsyncStorageHelper } from '@lib';
+import { Constants, AsyncStorageHelper, Helper } from '@lib';
 
 export const Bottomtab = props => {
   const [userData, setuserData] = useState(null);
@@ -37,16 +37,16 @@ export const Bottomtab = props => {
 
     switch (routeName) {
       case 'Home':
-        icon = Imagepath.homeicon;
+        icon = imagepath.homeicon;
         break;
       case 'Settingprofile':
-        icon = Imagepath.setting_icon;
+        icon = imagepath.setting_icon;
         break;
       case 'Notification':
-        icon = Imagepath.Notfication_icon;
+        icon = imagepath.Notfication_icon;
         break;
       case 'Account':
-        icon = Imagepath.User_Icon;
+        icon = imagepath.User_Icon;
         break;
     }
 
@@ -84,6 +84,16 @@ export const Bottomtab = props => {
     );
   };
 
+  const handlePlusTabIcon = () => {
+    if (!userData) {
+      Helper.loginPopUp(props.navigation);
+    } else if (userData?.user_type !== 1) {
+      alert('please login with personal account');
+    } else {
+    setModalVisible(true)
+    }
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <CurvedBottomBar.Navigator
@@ -100,12 +110,12 @@ export const Bottomtab = props => {
             style={[styles.btnCircle, { backgroundColor: '#245FC7' }]}>
             <TouchableOpacity
               style={{ flex: 1, justifyContent: 'center' }}
-              onPress={() => setModalVisible(true)}>
+              onPress={() => handlePlusTabIcon()}>
               <View>
                 <Image
                   resizeMode="contain"
                   style={{ height: 20, width: 20, tintColor: '#fff' }}
-                  source={Imagepath.plus}
+                  source={imagepath.plus}
                 />
               </View>
             </TouchableOpacity>
