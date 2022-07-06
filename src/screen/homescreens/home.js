@@ -233,6 +233,14 @@ const Home = (props) => {
     );
   };
 
+  const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
+    } else {
+      navigation.navigate(navigationFor, { doctorid })
+    }
+  }
+
   /* // Doctor CARDS */
   const Doctor_Card = ({ item, index }) => {
     return (
@@ -252,6 +260,7 @@ const Home = (props) => {
         patient_Rating={item?.patient_rate}
         startingValue={item?.patient_rate}
         ClinicianReview_Value={item?.clinical_rate}
+        handleAddBravoCardOrReview={handleAddBravoCardOrReview}
       />
     );
   };
@@ -288,7 +297,7 @@ const Home = (props) => {
             {/* profile Notification */}
             <View style={styles.profileView}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Reply', { isBack: true })}
+                onPress={() => userType && userToken ? navigation.navigate('Reply', { isBack: true }) : handleLogin()}
                 style={styles.notificationbutton}>
                 <Image
                   source={Imagepath.massege}
