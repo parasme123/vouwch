@@ -86,7 +86,7 @@ const Editprofile = (props) => {
     if (
       Validators.checkNotNull('Service Location', 1, 60, Hours) &&
       Validators.checkNotNull('Location', 3, 15, Location) &&
-      Validators.checkNotNull('Aboutus', 2, 60, Aboutus)
+      Validators.checkNotNull('Aboutus', 2, 200, Aboutus)
     ) {
       Signin_Validators();
     }

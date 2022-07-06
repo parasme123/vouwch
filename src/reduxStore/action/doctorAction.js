@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA } from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -130,7 +130,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
-                console.log("response", response);
+                console.log("response======================================login==========================", response);
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token
@@ -147,6 +147,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
         })
     }
 };
+
 
 export const setUserData = (data) => {
     return ({
@@ -332,7 +333,7 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
         console.log("data", data);
-        console.log(data, "data");             // hi remove please
+        // console.log(data, "data");             // hi remove please
 
         await fetch(`${URL.baseUrl}${URL.accountsetting}`, {
             method: "POST",
@@ -342,12 +343,13 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
-            console.log(res, "res");             // hi remove please
+            // console.log(res, "res");             // hi remove please
             let response = await res.json();
-            console.log(response, "response");             // hi remove please
+            // console.log(response, "response");             // hi remove please
 
             setloaderVisible(false);
             if (response.status) {
+                AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);
@@ -407,6 +409,7 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             console.log("reasponse", response);
             if (response.status) {
+                AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);
@@ -482,7 +485,6 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
 export const getdoctordetails = (data, setloaderVisible) => {
     return async dispatch => {
         setloaderVisible(true);
-        // consloe.log("data", data)
         await fetch(`${URL.baseUrl}${URL.doctorDetails}`, {
             method: "POST",
             headers: {
@@ -491,10 +493,8 @@ export const getdoctordetails = (data, setloaderVisible) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            console.log("res", res);           //hiiiiiiiiiiii 
             setloaderVisible(false);
             if (response.status) {
-                console.log("response", response);           //hiiiiiiiiiiii 
                 dispatch(savedoctordetails(response.data))
             } else {
                 setloaderVisible(false);
@@ -542,4 +542,35 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
             Toast.show("something went wrong");
         })
     }
+};
+
+
+
+
+export const getDoctorList = (setloaderVisible) => {
+    return async dispatch => {
+        // setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.getCategoury}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Token": `Bearer ${global.token}`
+            }
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(savedoctorList(response))
+            // console.log("res===", response);           //console remove after use 
+            // setloaderVisible(false);
+        }).catch(err => {
+            console.log("getDoctorList", err);
+            // setloaderVisible(false);
+        })
+    }
+};
+
+export const savedoctorList = (data) => {
+    return ({
+        type: DOCTORLIST,
+        payload: data
+    })
 };

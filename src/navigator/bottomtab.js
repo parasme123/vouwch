@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
-import {imagepath} from '@common';
+import { imagepath } from '@common';
 import Reviewmodal from '../modal/Reviewmodal';
 import Home from '../screen/homescreens/home';
 import Notification from '../screen/Notification/Notification';
@@ -22,13 +22,18 @@ export const Bottomtab = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const isFocused = useIsFocused();
   useEffect(() => {
-    if(isFocused){
+    if (isFocused) {
       AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
         if (value !== null) {
           setuserData(value);
         }
       });
-      }
+      AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
+        if (value !== null) {
+          global.token=value;
+        }
+      });
+    }
   }, [isFocused]);
   // useEffect(()=>{},[])
   const _renderIcon = (routeName, selectedTab) => {
@@ -90,7 +95,7 @@ export const Bottomtab = props => {
     } else if (userData?.user_type !== 1) {
       alert('please login with personal account');
     } else {
-    setModalVisible(true)
+      setModalVisible(true)
     }
   }
 
@@ -122,7 +127,7 @@ export const Bottomtab = props => {
           </Animated.View>
         )}
         tabBar={renderTabBar}
-        >
+      >
         <CurvedBottomBar.Screen
           name="Home"
           position="left"

@@ -22,9 +22,9 @@ import { TextInput } from 'react-native-gesture-handler';
 import Imagepath from '../../../common/imagepath';
 import { useNavigation } from '@react-navigation/native';
 import CustomDropDown from '../../../common/CustomDropDown';
-import { Header, imagepath, Fonts, String,Colors, Fontsize } from '@common';
+import { Header, imagepath, Fonts, String, Colors, Fontsize } from '@common';
 const { width, height } = Dimensions.get('window');
-export default Clinic = ({ }) => {
+export default Clinic = (props) => {
   const navigation = useNavigation();
   const [mark, setMark] = useState();
   const [DropDownSec, setDropDownSec] = useState(false);
@@ -53,25 +53,9 @@ export default Clinic = ({ }) => {
   //   console.log(UserData, 'anil_____________________++++++++++++++');
   // }, []);
 
-  const Call_ClinicialApi = () => {
-    let data = {
-      id: 5,
-      review_type: 'Clinical',
-      // rate: ,
-      review: recomendation,
-      is_anonym: 1,
-    };
-    // alert("message")
-
-    ApiCall.ApiMethod(SortUrl.Login, 'POST', data).then(response => {
-      // alert(JSON.stringify(response))
-      if (response.status == true) {
-        // navigation.navigate("BottomTap")
-      } else {
-        ToastMessage('Error in fetching child categories');
-      }
-    });
-  };
+  useEffect(() => {
+    console.log("hsdflsdlf;===============", props.doctorList);
+  }, []);
 
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
@@ -222,7 +206,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 20,
     paddingLeft: 10,
-    paddingVertical:15,
+    paddingVertical: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -232,7 +216,7 @@ const styles = StyleSheet.create({
   downArrow: { height: 8, width: 12, paddingRight: 50 },
   DropDownView: {
     elevation: 5,
-    width:"90%",
+    width: "90%",
     zIndex: 5,
     justifyContent: 'center',
     paddingHorizontal: 10,
@@ -240,6 +224,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     position: 'absolute',
     top: height / 5.1,
-    alignSelf:"center"
+    alignSelf: "center"
   },
 });

@@ -11,14 +11,14 @@ import Clinic from './clinic';
 import Patient from './patient';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { postBravo } from '../../../reduxStore/action/doctorAction';
+import { postBravo, getDoctorList } from '../../../reduxStore/action/doctorAction';
 
-const Rate = ({ navigation, route }) => {
+const Rate = (props,{ navigation, route }) => {
   const [cliniceReview, setcliniceReview] = useState();
   const [patientReview, setpatientReview] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  const doctorId = route.params ? route.params.doctorId : 0;
-  const detail = route.params ? route.params.detail : 0;
+  const doctorId = props.route.params ? props.route.params.doctorId : 0;
+  const detail = props.route.params ? props.route.params.detail : 0;
 
   const ClinicianPage = () => {
     setcliniceReview(true);
@@ -31,7 +31,7 @@ const Rate = ({ navigation, route }) => {
   };
   useEffect(() => {
     ClinicianPage();
-
+    handelDoctorList();
   }, []);
 
 
@@ -77,6 +77,13 @@ const Rate = ({ navigation, route }) => {
     });
   }
 
+  // doctor list data
+
+  const handelDoctorList = () => {
+    let { actions } = props;
+    actions.getDoctorList();
+  };
+
 
   return (
     <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
@@ -117,8 +124,18 @@ const Rate = ({ navigation, route }) => {
         </View>
       </View>
 
-      {cliniceReview && <Clinic />}
-      {patientReview && <Patient />}
+      {
+        cliniceReview &&
+        <Clinic
+          doctorList={props.allDoctorlist}
+        />
+      }
+      {
+        patientReview &&
+        <Patient
+          doctorList={props.allDoctorlist}
+        />
+      }
     </ImageBackground>
   );
 };
@@ -135,10 +152,12 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
+  allDoctorlist: state.doctor.allDoctorlist
 });
 
 const ActionCreators = Object.assign(
-  { postBravo }
+  { postBravo },
+  { getDoctorList }
 );
 
 const mapDispatchToProps = dispatch => ({
