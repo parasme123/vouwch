@@ -99,7 +99,7 @@ const Doctordetails = (props, { route }) => {
 
   useEffect(() => {
     Call_Details_Api();
-    Aboutus();
+    Feedbackfun();
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
       }
