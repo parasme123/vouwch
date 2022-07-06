@@ -146,13 +146,6 @@ const Editprofile = (props) => {
             height: 45,
             paddingHorizontal: 10
           }}>
-          {/* <RNPickerSelect
-            placeholder={{ label: 'Select Categroy', value: null }}
-            onValueChange={value => setCateId(value)}
-            // onClose={(value) =>setCateId(value)}
-            items={CateList}
-            style={styles}
-          /> */}
           <Text style={styles.serviceText}>Select Services</Text>
           <Image style={styles.arrowDown} source={imagepath.plus} />
         </TouchableOpacity>

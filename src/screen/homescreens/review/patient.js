@@ -1,5 +1,5 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useState} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -11,17 +11,18 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import { TextInput } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Imagepath from '../../../common/imagepath';
 // import styles from './styles';
 // const { width, height } = Dimensions.get("window");
 // import Rating from 'react-native-easy-rating';
-import {useNavigation} from '@react-navigation/native';
+import { Validators } from '@lib';
+import { useNavigation } from '@react-navigation/native';
 import Fonts from '../../../common/Fonts';
-import {Rating, AirbnbRating} from 'react-native-ratings';
-export default Patient = ({}) => {
-  const [mark, setMark] = useState();
+import { Rating, AirbnbRating } from 'react-native-ratings';
+export default Patient = ({ }) => {
+  const [mark, setMark] = useState(0);
   const navigation = useNavigation();
 
   const [click, setclick] = useState();
@@ -72,9 +73,34 @@ export default Patient = ({}) => {
   };
   const [rating, setRating] = useState();
 
+
+  const Call_ClinicialApi = () => {
+    let apiData = {
+      business_id: doctId.id,
+      review_type: "Clinical",
+      // rate: selectvalue,
+      // review: recomendation,
+      is_recommend: city,
+      wait_period: hospital,
+      friendness_rate: state,
+      treatment_rate: detail,  
+       wait_rate: doctorId,
+      experience_rate: name,
+      money_rate: department,
+      is_anonym: mark ? 1 : 0,
+    }
+    if (
+      Validators.checkNotNull('Doctor Id', 1, 20, doctId.id) &&
+      Validators.checkNotNull('Recommendation', 2, 20, recomendation)
+    ) {
+      props.Review_Validators(apiData)
+    }
+  }
+
+
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
-      <ScrollView style={{flex: 1}}>
+    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
         {/* Text Recomended */}
         <Text
           style={{
@@ -111,7 +137,7 @@ export default Patient = ({}) => {
             ]}>
             <Text
               style={[
-                {color: click ? '#ffffff' : '#000000'},
+                { color: click ? '#ffffff' : '#000000' },
                 styles.buttonText,
               ]}>
               yes
@@ -131,7 +157,7 @@ export default Patient = ({}) => {
             ]}>
             <Text
               style={[
-                {color: text ? '#ffffff' : '#000000'},
+                { color: text ? '#ffffff' : '#000000' },
                 styles.buttonText,
               ]}>
               No
@@ -168,7 +194,7 @@ export default Patient = ({}) => {
             {/* style={[{ backgroundColor: text ? "#19428A" : null, borderWidth: text ? null : 1, marginLeft: 10 }, styles.button]} */}
             <Image
               style={[
-                {tintColor: one ? '#245FC7' : '#929397'},
+                { tintColor: one ? '#245FC7' : '#929397' },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -177,7 +203,7 @@ export default Patient = ({}) => {
           </TouchableOpacity>
           <Text
             style={[
-              {color: two ? '#245FC7' : '#929397'},
+              { color: two ? '#245FC7' : '#929397' },
               styles.progressButtonText,
             ]}>
             ---------------
@@ -189,7 +215,7 @@ export default Patient = ({}) => {
             style={styles.progressButton}>
             <Image
               style={[
-                {tintColor: two ? '#245FC7' : '#929397'},
+                { tintColor: two ? '#245FC7' : '#929397' },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -198,7 +224,7 @@ export default Patient = ({}) => {
           </TouchableOpacity>
           <Text
             style={[
-              {color: three ? '#245FC7' : '#929397'},
+              { color: three ? '#245FC7' : '#929397' },
               styles.progressButtonText,
             ]}>
             ---------------
@@ -210,7 +236,7 @@ export default Patient = ({}) => {
             style={styles.progressButton}>
             <Image
               style={[
-                {tintColor: three ? '#245FC7' : '#929397'},
+                { tintColor: three ? '#245FC7' : '#929397' },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -219,7 +245,7 @@ export default Patient = ({}) => {
           </TouchableOpacity>
           <Text
             style={[
-              {color: four ? '#245FC7' : '#929397'},
+              { color: four ? '#245FC7' : '#929397' },
               styles.progressButtonText,
             ]}>
             ---------------
@@ -231,7 +257,7 @@ export default Patient = ({}) => {
             style={styles.progressButton}>
             <Image
               style={[
-                {tintColor: four ? '#245FC7' : '#929397'},
+                { tintColor: four ? '#245FC7' : '#929397' },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -254,7 +280,7 @@ export default Patient = ({}) => {
             }}>
             <Text
               style={[
-                {color: one ? '#245FC7' : '#929397', paddingHorizontal: 18},
+                { color: one ? '#245FC7' : '#929397', paddingHorizontal: 18 },
                 styles.progressButtonTexttime,
               ]}>
               0To15
@@ -266,7 +292,7 @@ export default Patient = ({}) => {
             }}>
             <Text
               style={[
-                {color: two ? '#245FC7' : '#929397'},
+                { color: two ? '#245FC7' : '#929397' },
                 styles.progressButtonTexttime,
               ]}>
               15To30
@@ -278,7 +304,7 @@ export default Patient = ({}) => {
             }}>
             <Text
               style={[
-                {color: three ? '#245FC7' : '#929397', paddingLeft: 25},
+                { color: three ? '#245FC7' : '#929397', paddingLeft: 25 },
                 styles.progressButtonTexttime,
               ]}>
               30To1hr
@@ -290,7 +316,7 @@ export default Patient = ({}) => {
             }}>
             <Text
               style={[
-                {color: four ? '#245FC7' : '#929397'},
+                { color: four ? '#245FC7' : '#929397' },
                 styles.progressButtonTexttime,
               ]}>
               More than hr
@@ -298,7 +324,7 @@ export default Patient = ({}) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{width: '90%', alignSelf: 'center'}}>
+        <View style={{ width: '90%', alignSelf: 'center' }}>
           <View
             style={{
               flexDirection: 'row',
@@ -466,7 +492,7 @@ export default Patient = ({}) => {
           }}>
           <TouchableOpacity
             onPress={() => chexkBox()}
-            style={{paddingRight: '2%'}}>
+            style={{ paddingRight: '2%' }}>
             <Image
               source={mark ? Imagepath.yes : Imagepath.check}
               style={{
@@ -523,9 +549,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#CECECE',
   },
-  buttonText: {fontSize: 13, fontFamily: Fonts.ProximaNovaSemibold},
-  progressButton: {alignItems: 'center', height: 15, width: 15},
-  progressButtonText: {fontSize: 17, width: 74},
-  dotImage: {height: 15, width: 15},
-  progressButtonTexttime: {fontFamily: Fonts.ProximaNovaRegular, fontSize: 13},
+  buttonText: { fontSize: 13, fontFamily: Fonts.ProximaNovaSemibold },
+  progressButton: { alignItems: 'center', height: 15, width: 15 },
+  progressButtonText: { fontSize: 17, width: 74 },
+  dotImage: { height: 15, width: 15 },
+  progressButtonTexttime: { fontFamily: Fonts.ProximaNovaRegular, fontSize: 13 },
 });

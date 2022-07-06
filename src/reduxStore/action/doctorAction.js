@@ -523,7 +523,7 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                // Toast.show(response.message);
             }
         }).catch(err => {
             console.log("postBravo", err);
@@ -539,7 +539,7 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
 export const getDoctorList = (setloaderVisible) => {
     return async dispatch => {
         // setloaderVisible(true);
-        await fetch(`${URL.baseUrl}${URL.getCategoury}`, {
+        await fetch(`${URL.baseUrl}${URL.doctorlist}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -548,7 +548,6 @@ export const getDoctorList = (setloaderVisible) => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(savedoctorList(response))
-            // console.log("res===", response);           //console remove after use 
             // setloaderVisible(false);
         }).catch(err => {
             console.log("getDoctorList", err);
@@ -563,3 +562,32 @@ export const savedoctorList = (data) => {
         payload: data
     })
 };
+
+
+export const postReview = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.addReview}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            console.log("success", response);
+            if (response.status) {
+                // PageNavigation(response)
+            } else {
+                // Toast.show(response.message);
+            }
+        }).catch(err => {
+            console.log("postReview", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+

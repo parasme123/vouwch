@@ -21,15 +21,25 @@ import {
 import { TextInput } from 'react-native-gesture-handler';
 import Imagepath from '../../../common/imagepath';
 import { useNavigation } from '@react-navigation/native';
-import CustomDropDown from '../../../common/CustomDropDown';
-import { Header, imagepath, Fonts, String, Colors, Fontsize } from '@common';
+import { CustomDropDown,Header, imagepath, Fonts, String, Colors, Fontsize } from '@common';
+import { Validators } from '@lib';
+import DoctorList from '../../../modal/DoctorList';
 const { width, height } = Dimensions.get('window');
-export default Clinic = (props) => {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { postBravo, getDoctorList } from '../../../reduxStore/action/doctorAction';
+
+
+
+const Clinic = (props) => {
   const navigation = useNavigation();
-  const [mark, setMark] = useState();
   const [DropDownSec, setDropDownSec] = useState(false);
   const [selectvalue, setselectvalue] = useState('Select');
   const [recomendation, setRecomendation] = useState();
+  const [docPicList, setdocPicList] = useState();
+  const [modalVisible, setModalVisible] = useState();
+  const [mark, setMark] = useState(false);
+  const [doctId, setdoctId] = useState();
   const onChangesecond = value => {
     setDropDownSec(!DropDownSec);
     setselectvalue(value);
@@ -48,37 +58,72 @@ export default Clinic = (props) => {
     { label: 'Emergency only', value: '1 Star' },
   ];
 
-  // useEffect(async () => {
-  //   const UserData = await AsyncStorageHelper.getData(Constants.USER_DATA);
-  //   console.log(UserData, 'anil_____________________++++++++++++++');
-  // }, []);
+  const ListModal = () => {
+    setdocPicList(!modalVisible);
+    setModalVisible(!modalVisible);
+  };
+
+  const ServiceData = (item) => {
+    setdoctId(item)
+    setModalVisible(!modalVisible);
+  };
 
   useEffect(() => {
-    console.log("hsdflsdlf;===============", props.doctorList);
   }, []);
+
+  const Call_ClinicialApi = () => {
+    let apiData = {
+      business_id: doctId.id,
+      review_type: "Clinical",
+      rate: selectvalue,
+      review: recomendation,
+      is_anonym:mark ? 1 : 0 ,
+      // friendness_rate: state,
+      // treatment_rate: detail,
+      // wait_rate: doctorId,
+      // experience_rate: name,
+      // money_rate: department,
+      // wait_period: hospital,
+      // is_recommend: city
+    }
+    if (
+      Validators.checkNotNull('Doctor Id', 1, 20, doctId.id) &&
+      Validators.checkNotNull('Recommendation', 2, 20, recomendation) 
+    ) {
+      props.Review_Validators(apiData)
+    }
+  }
 
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <Text
-        style={{
-          textAlign: 'center',
-          paddingVertical: 22,
-          color: '#000000',
-          fontSize: 15,
-          marginHorizontal: 24,
-
-          fontFamily: Fonts.ProximaNovaSemibold,
-        }}>
+        style={styles.headerText}>
         Should you, your family or friends seek care at this provider, what is
         your recommendation?
       </Text>
-      <Text
-        style={{
-          color: '#000000',
-          marginHorizontal: 24,
 
-          fontFamily: Fonts.ProximaNovaSemibold,
-        }}>
+      {/* {props.docId == null ?
+        <> */}
+          <Text
+            style={styles.imputHeader}>
+            Select Doctors List
+          </Text>
+
+          <TouchableOpacity
+            onPress={() => ListModal()}
+            style={[styles.dropdownView, { marginBottom: 15 }]}>
+            <Text style={styles.dropdownText}>{doctId != null ? doctId.business_name : "Select Doctors"}</Text>
+            <Image
+              style={styles.downArrow}
+              source={Imagepath.down}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        {/* </> : null
+      } */}
+
+      <Text
+        style={styles.imputHeader}>
         Slect your recommendation
       </Text>
 
@@ -110,14 +155,14 @@ export default Clinic = (props) => {
       )}
       <Text
         style={{
-          color: '#000000',
+          color: Colors.black,
           marginHorizontal: 24,
 
           marginTop: 28,
-          fontSize: 15,
+          fontSize: Fontsize.fontFifteen,
           fontFamily: Fonts.ProximaNovaSemibold,
         }}>
-        Slect your recommendation
+       Share your experience
       </Text>
       <TextInput
         placeholder="Share your experiance"
@@ -128,18 +173,16 @@ export default Clinic = (props) => {
           borderColor: 'CECECE',
           borderWidth: 0.5,
           marginHorizontal: 24,
-
           borderRadius: 10,
           marginTop: 10,
           textAlign: 'center',
           fontFamily: Fonts.ProximaNovaSemibold,
         }}
         keyboardType="default"
-        numberOfLines={20}
+        multiline={true}
         onChangeText={text => {
           setRecomendation(text);
         }}
-      // onChangeText={(text) => { setemail(text) }}
       />
 
       <View
@@ -165,8 +208,8 @@ export default Clinic = (props) => {
         </TouchableOpacity>
         <Text
           style={{
-            fontSize: 15,
-            color: '#000000',
+            fontSize: Fontsize.fontFifteen,
+            color: Colors.black,
             fontFamily: Fonts.ProximaNovaRegular,
           }}>
           Keep this feedback publicity anonymous
@@ -182,23 +225,46 @@ export default Clinic = (props) => {
           alignItems: 'center',
           borderRadius: 10,
           marginHorizontal: 24,
-
           marginVertical: 10,
         }}>
         <Text
           style={{
-            fontSize: 16,
-            color: '#FFFFFF',
+            fontSize: Fontsize.fontSixteen,
+            color: Colors.white,
             fontFamily: Fonts.ProximaNovaSemibold,
           }}>
           SUBMIT
         </Text>
       </TouchableOpacity>
+
+      {docPicList && (
+        <DoctorList
+          modalVisible={modalVisible}
+          Hidemodal={ListModal}
+          data={props.doctorList}
+          slectData={mark}
+          chexkBoxFnc={ServiceData}
+        />
+      )}
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  headerText: {
+    textAlign: 'center',
+    paddingVertical: 22,
+    color: Colors.black,
+    fontSize: Fontsize.fontFifteen,
+    marginHorizontal: 24,
+
+    fontFamily: Fonts.ProximaNovaSemibold,
+  },
+  imputHeader: {
+    color: Colors.black,
+    marginHorizontal: 24,
+    fontFamily: Fonts.ProximaNovaSemibold,
+  },
   dropdownView: {
     borderWidth: 1,
     borderColor: '#CECECE',
@@ -226,4 +292,26 @@ const styles = StyleSheet.create({
     top: height / 5.1,
     alignSelf: "center"
   },
+  arrowDown: {
+    tintColor: Colors.imputborderColor,
+    height: 15,
+    width: 15,
+
+  },
 });
+
+
+const mapStateToProps = state => ({
+  allDoctorlist: state.doctor.allDoctorlist
+});
+
+const ActionCreators = Object.assign(
+  { postBravo },
+  { getDoctorList }
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Clinic);

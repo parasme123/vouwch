@@ -1,13 +1,13 @@
-import { 
-    BRAVOCARD, 
-    DOCTORRECORD, 
-    HOMEDATA, 
-    FOLLOW, 
-    NOTIFICATION, 
+import {
+    BRAVOCARD,
+    DOCTORRECORD,
+    HOMEDATA,
+    FOLLOW,
+    NOTIFICATION,
     CATEGORIES,
-     USERDATA, 
-     DOCTORDETAILS,
-     DOCTORLIST
+    USERDATA,
+    DOCTORDETAILS,
+    DOCTORLIST
 
 } from '../action/types';
 const initialState = {
@@ -19,8 +19,7 @@ const initialState = {
     allNotification: {},
     setData: {},
     allDetailsDoc: {},
-    allDoctorlist:{}
-
+    allDoctorlist: {}
 };
 
 const ChangeTheNumber = (state = initialState, action) => {
