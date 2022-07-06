@@ -137,10 +137,10 @@ const Doctordetails = (props, { route }) => {
           {/* Doctor detail Card */}
           <View style={styles.DoctordetailsCard}>
             <Text style={styles.dactorName}>
-              {props.allDetailsDoc?.business.business_name}
+              {props.allDetailsDoc?.business?.business_name}
             </Text>
             <Text style={styles.doctorSpacilist}>
-              {props.allDetailsDoc?.business.category?.name}
+              {props.allDetailsDoc?.business?.category?.name}
             </Text>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 1 }}>
@@ -152,14 +152,14 @@ const Doctordetails = (props, { route }) => {
                       readonly="true"
                       ratingColor={Colors.red}
                       ratingBackgroundColor={Colors.white}
-                      startingValue={props.allDetailsDoc?.clinical_rate}
+                      startingValue={props.allDetailsDoc?.business?.clinical_rate}
                       imageSize={10}
                       iconWidth={10}
                       iconHeight={10}
                     />
                   </View>
                   <Text style={styles.ratingText}>
-                    {props.allDetailsDoc?.clinical_rate}
+                    {props.allDetailsDoc?.business?.clinical_rate}
                     <Text style={styles.clinicianReview}>
                       {' '}
                       Clinician's Review
@@ -169,19 +169,18 @@ const Doctordetails = (props, { route }) => {
 
                 {/* yellow Star Line */}
                 <View style={styles.yellowstarview}>
-                  {/* onPress={() => navigation.navigate('Doctordetails', { personRed: true })} */}
                   <View style={styles.ratingViewmain}>
                     <Rating
                       max={5}
                       readonly="true"
-                      startingValue={props.allDetailsDoc?.patient_rate}
+                      startingValue={props.allDetailsDoc?.business?.patient_rate}
                       imageSize={10}
                       iconWidth={10}
                       iconHeight={10}
                     />
                   </View>
                   <Text style={styles.ratingText}>
-                    {props.allDetailsDoc?.patient_rate}
+                    {props.allDetailsDoc?.business?.patient_rate}
                     <Text style={styles.clinicianReview}> Patient Review</Text>
                   </Text>
                 </View>
