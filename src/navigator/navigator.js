@@ -27,7 +27,6 @@ import Doctorcard from '../screen/DoctorCard/Doctorcard';
 import Resetpassword from '../screen/Forgotpassword/Resetpassword';
 import Reply from '../screen/Message/Reply';
 import MessageBox from '../common/MessegeBox';
-// import { Doctor_Card } from '../screen/DoctorCard/Doctorcard';
 const MainStack = createStackNavigator();
 const Navigator = () => {
   return (
