@@ -10,8 +10,7 @@ import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
-import Constants from '../../Lib/Constants';
+import { AsyncStorageHelper, Constants, Helper } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
 
 const Doctor_Card = (props) => {
@@ -86,41 +85,41 @@ const Doctor_Card = (props) => {
     }
 
 
-  // Follow API
+    // Follow API
 
-  const FollowButton = item => {
-    let follows1 = [...Follows];
-    if (!follows1.includes(item)) {
-      //checking weather array contain the id
-      follows1.push(item); //adding to array because value doesnt exists
-      // Call_FollowApi(id);
-    } else {
-      follows1.splice(follows1.indexOf(item), 1); //deleting
-      // Call_FollowApi(id);
-    }
-    setFollow(follows1);
-  };
+    const FollowButton = item => {
+        let follows1 = [...Follows];
+        if (!follows1.includes(item)) {
+            //checking weather array contain the id
+            follows1.push(item); //adding to array because value doesnt exists
+            // Call_FollowApi(id);
+        } else {
+            follows1.splice(follows1.indexOf(item), 1); //deleting
+            // Call_FollowApi(id);
+        }
+        setFollow(follows1);
+    };
 
-  const Call_FollowApi = (id) => {
-    let { actions } = props;
-    let apiData = {
-      business_id: id,
-    }
-    // console.log("apiData------------------------",apiData);
-    actions.postFollow(apiData);
+    const Call_FollowApi = (id) => {
+        let { actions } = props;
+        let apiData = {
+            business_id: id,
+        }
+        // console.log("apiData------------------------",apiData);
+        actions.postFollow(apiData);
 
-  };
+    };
 
-  const Follow_api = (id) => {
-    if (!userType) {
-      Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
-    } else {
-      Call_FollowApi(id);
-      FollowButton(id);
-    }
-  };
+    const Follow_api = (id) => {
+        if (!userType) {
+            Helper.loginPopUp(props.navigation);
+        } else if (userType?.user_type !== 1) {
+            alert('please login with personal account');
+        } else {
+            Call_FollowApi(id);
+            FollowButton(id);
+        }
+    };
     useEffect(() => {
         AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
             if (value !== null) {
@@ -183,6 +182,14 @@ const Doctor_Card = (props) => {
         actions.postDoctorSearch(apiData, setloaderVisible);
     };
 
+    const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
+        if (!userType) {
+            Helper.loginPopUp(props.navigation);
+        } else {
+            navigation.navigate(navigationFor, { doctorid })
+        }
+    }
+
     // Doctor CARDS
     const DoctorCard_Cards = ({ item, index }) => {
         return (
@@ -202,7 +209,7 @@ const Doctor_Card = (props) => {
                 ClinicianReview_Value={item?.clinical_rate}
                 patient_Rating={item?.patient_rate}
                 startingValue={item?.patient_rate}
-
+                handleAddBravoCardOrReview={handleAddBravoCardOrReview}
             />
         )
     }

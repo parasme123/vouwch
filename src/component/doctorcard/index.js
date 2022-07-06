@@ -74,13 +74,13 @@ export default Doctorcard = props => {
 
       <View style={{ flex: 1, flexDirection: 'row', marginVertical: 15 }}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Bravocard',{doctorid:props.item.id})}
+          onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'Bravocard')}
           style={[styles.addBravoCardBtn, { marginRight: 2 }]}>
           {svg.addBravo(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('review')}
+          onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'review')}
           style={[styles.addBravoCardBtn, { marginLeft: 2 }]}>
           {svg.addReview(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add A Review</Text>
