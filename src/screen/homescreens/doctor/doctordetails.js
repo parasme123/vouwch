@@ -40,55 +40,47 @@ import { getdoctordetails } from '../../../reduxStore/action/doctorAction';
 const Doctordetails = (props, { route }) => {
   const navigation = useNavigation();
 
-  // const person = route.params ? route.params.person : false;
-  // const personRed = route.params ? route.params.personRed : false;
   const doctorId = props.route.params ? props.route.params.doctorId : null;
-
-  const [About, setAbout] = useState();
-  const [Service, setService] = useState();
-  const [Location, setLocation] = useState();
-  const [Business, setBusiness] = useState();
   const [loaderVisible, setloaderVisible] = useState();
-  const [Feedback, setFeedback] = useState();
-  // const [ DoctorCardDetails, setDoctorCardDetails] = useState();
+  const [activeTab, setActiveTab] = useState("about")
   const [userType, setuserType] = useState();
 
 
-  const Aboutus = () => {
-    setAbout(true);
-    setService(false);
-    setLocation(false);
-    setBusiness(false);
-    setFeedback(false);
-  };
-  const Serviceus = () => {
-    setAbout(false);
-    setService(true);
-    setLocation(false);
-    setBusiness(false);
-    setFeedback(false);
-  };
-  const ServiceLocation = () => {
-    setAbout(false);
-    setService(false);
-    setLocation(true);
-    setBusiness(false);
-    setFeedback(false);
-  };
-  const Businessis = () => {
-    setAbout(false);
-    setService(false);
-    setLocation(false);
-    setBusiness(true);
-    setFeedback(false);
-  };
-  const Feedbackfun = () => {
-    setAbout(false);
-    setService(false);
-    setLocation(false);
-    setBusiness(false);
-    setFeedback(true);
-  };
+  // const Aboutus = () => {
+  //   setAbout(true);
+  //   setService(false);
+  //   setLocation(false);
+  //   setBusiness(false);
+  //   setFeedback(false);
+  // };
+  // const Serviceus = () => {
+  //   setAbout(false);
+  //   setService(true);
+  //   setLocation(false);
+  //   setBusiness(false);
+  //   setFeedback(false);
+  // };
+  // const ServiceLocation = () => {
+  //   setAbout(false);
+  //   setService(false);
+  //   setLocation(true);
+  //   setBusiness(false);
+  //   setFeedback(false);
+  // };
+  // const Businessis = () => {
+  //   setAbout(false);
+  //   setService(false);
+  //   setLocation(false);
+  //   setBusiness(true);
+  //   setFeedback(false);
+  // };
+  // const Feedbackfun = () => {
+  //   setAbout(false);
+  //   setService(false);
+  //   setLocation(false);
+  //   setBusiness(false);
+  //   setFeedback(true);
+  // };
   const AddReview = () => {
     if (userType !== 2) {
       navigation.navigate('review', { detail: doctorId });
@@ -99,7 +91,6 @@ const Doctordetails = (props, { route }) => {
 
   useEffect(() => {
     Call_Details_Api();
-    Feedbackfun();
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
       }
@@ -112,18 +103,19 @@ const Doctordetails = (props, { route }) => {
     const apiData = {
       id: doctorId,
     };
-    console.log("dataaa", apiData);
     actions.getdoctordetails(apiData, setloaderVisible);
   };
-
-  // console.log("anil______doctorId_______________++++++++++++++", props.allDetailsDoc);
 
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView>
         <View style={styles.container}>
+          {
+            console.log(props.allDetailsDoc?.business?.business_profile ? ">>>>>>>>>>>>>>>>>>>>>>>" : "......................")
+          }
           <Image
-            source={Imagepath.doctor}
+            source={props.allDetailsDoc?.business?.business_profile ? { uri: props.allDetailsDoc?.business?.business_profile } : 
+            Imagepath.doctor}
             resizeMode="stretch"
             style={styles.ImageTop}
           />
@@ -219,12 +211,12 @@ const Doctordetails = (props, { route }) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                Aboutus(props.allDetailsDoc);
+                setActiveTab("about");
               }}
               style={[
                 {
-                  backgroundColor: About ? Colors.appcolor : Colors.white,
-                  paddingHorizontal: About ? 12 : 12,
+                  backgroundColor: activeTab == "about" ? Colors.appcolor : Colors.white,
+                  paddingHorizontal: activeTab == "about" ? 12 : 12,
                 },
                 styles.button,
               ]}>
@@ -232,19 +224,19 @@ const Doctordetails = (props, { route }) => {
                 style={{
                   fontSize: 10,
                   fontFamily: Fonts.ProximaNovaMedium,
-                  color: About ? '#fff' : '#000',
+                  color: activeTab == "about" ? '#fff' : '#000',
                 }}>
                 About us
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                Serviceus();
+                setActiveTab("services");
               }}
               style={[
                 {
-                  backgroundColor: Service ? Colors.appcolor : Colors.white,
-                  paddingHorizontal: Service ? 12 : 0,
+                  backgroundColor: activeTab == "services" ? Colors.appcolor : Colors.white,
+                  paddingHorizontal: activeTab == "services" ? 12 : 0,
                 },
                 styles.button,
               ]}>
@@ -252,19 +244,19 @@ const Doctordetails = (props, { route }) => {
                 style={{
                   fontSize: 10,
                   fontFamily: Fonts.ProximaNovaMedium,
-                  color: Service ? '#fff' : '#000',
+                  color: activeTab == "services" ? '#fff' : '#000',
                 }}>
                 Services
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                ServiceLocation();
+                setActiveTab("location");
               }}
               style={[
                 {
-                  backgroundColor: Location ? Colors.appcolor : Colors.white,
-                  paddingHorizontal: Location ? 12 : 0,
+                  backgroundColor: activeTab == "location" ? Colors.appcolor : Colors.white,
+                  paddingHorizontal: activeTab == "location" ? 12 : 0,
                 },
                 styles.button,
               ]}>
@@ -272,19 +264,19 @@ const Doctordetails = (props, { route }) => {
                 style={{
                   fontSize: 10,
                   fontFamily: Fonts.ProximaNovaMedium,
-                  color: Location ? '#fff' : '#000',
+                  color: activeTab == "location" ? '#fff' : '#000',
                 }}>
                 Services Location
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                Businessis();
+                setActiveTab("business");
               }}
               style={[
                 {
-                  backgroundColor: Business ? Colors.appcolor : Colors.white,
-                  paddingHorizontal: Business ? 12 : 0,
+                  backgroundColor: activeTab == "business" ? Colors.appcolor : Colors.white,
+                  paddingHorizontal: activeTab == "business" ? 12 : 0,
                 },
                 styles.button,
               ]}>
@@ -292,19 +284,19 @@ const Doctordetails = (props, { route }) => {
                 style={{
                   fontSize: 10,
                   fontFamily: Fonts.ProximaNovaMedium,
-                  color: Business ? '#fff' : '#000',
+                  color: activeTab == "business" ? '#fff' : '#000',
                 }}>
                 Business Hours
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                Feedbackfun();
+                setActiveTab("feedback");
               }}
               style={[
                 {
-                  backgroundColor: Feedback ? Colors.appcolor : Colors.white,
-                  paddingHorizontal: Feedback ? 12 : 12,
+                  backgroundColor: activeTab == "feedback" ? Colors.appcolor : Colors.white,
+                  paddingHorizontal: activeTab == "feedback" ? 12 : 12,
                 },
                 styles.button,
               ]}>
@@ -312,30 +304,30 @@ const Doctordetails = (props, { route }) => {
                 style={{
                   fontSize: 10,
                   fontFamily: Fonts.ProximaNovaMedium,
-                  color: Feedback ? '#fff' : Colors.black,
+                  color: activeTab == "feedback" ? '#fff' : Colors.black,
                 }}>
                 Feedback
               </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.tabviewDetails}>
-            {About && (
+            {activeTab == "about" && (
               <Abouappt
                 name={doctorId?.name}
                 data={props.allDetailsDoc}
               // aboutDetail={ props.allDetailsDoc.about_us}
               />
             )}
-            {Service && <ServicesPage name={doctorId?.name}
+            {activeTab == "services" && <ServicesPage name={doctorId?.name}
               data={props.allDetailsDoc}
             />}
-            {Location && <Locationn
+            {activeTab == "location" && <Locationn
               data={props.allDetailsDoc}
             />}
-            {Business && <Businesses
+            {activeTab == "business" && <Businesses
               data={props.allDetailsDoc}
             />}
-            {Feedback && <Feedbackpage
+            {activeTab == "feedback" && <Feedbackpage
               data={props.allDetailsDoc}
             />}
           </View>

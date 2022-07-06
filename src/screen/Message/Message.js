@@ -38,7 +38,6 @@ const Message = ({navigation, index}) => {
     setloaderVisible(true);
     ApiCall.ApiMethod(SortUrl.AllServices, 'Get').then(response => {
       setloaderVisible(false);
-      console.log('Response==========', JSON.stringify(response));
       if (response.status == true) {
         setloaderVisible(false);
         setDataCardList(response.data.services);

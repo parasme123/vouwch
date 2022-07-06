@@ -97,7 +97,6 @@ export const getBravoCardData = () => {
 };
 
 export const postFollow = (data) => {
-    console.log("global.token : ", global.token);
     return async dispatch => {
         await fetch(`${URL.baseUrl}${URL.postFollow}`, {
             method: "POST",
@@ -130,7 +129,6 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
-                console.log("response======================================login==========================", response);
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token
@@ -261,7 +259,6 @@ export const Handelotp = (data, setloaderVisible) => {
                 alert('hello')
                 Toast.show(response.message);
             }
-            console.log("response", res);
         }).catch(err => {
             console.log("Handelotp", err);
             setloaderVisible(false);
@@ -332,9 +329,6 @@ export const saveNotification = (data) => {
 export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
-        console.log("data", data);
-        // console.log(data, "data");             // hi remove please
-
         await fetch(`${URL.baseUrl}${URL.accountsetting}`, {
             method: "POST",
             headers: {
@@ -343,10 +337,7 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
-            // console.log(res, "res");             // hi remove please
             let response = await res.json();
-            // console.log(response, "response");             // hi remove please
-
             setloaderVisible(false);
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
@@ -378,7 +369,6 @@ export const handelAddDoctor = (data, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-            console.log("reasponse", response);
             if (response.status) {
                 PageNavigation(response)
             } else {
@@ -407,7 +397,6 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-            console.log("reasponse", response);
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)

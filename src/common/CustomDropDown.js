@@ -15,7 +15,6 @@ export default class CustomDropDown extends React.Component {
     }
 
     render() {
-        console.log(this.props.isDropDownSec)
         return (
             <View style={{ marginVertical: this.props.marginVertical, }}>
                 <TouchableOpacity

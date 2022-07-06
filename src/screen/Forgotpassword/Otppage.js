@@ -43,7 +43,6 @@ const OtpPage = (props, { navigation, route }) => {
       email: props.route.params.Email,
       otp: parseInt(otp1 + otp2 + otp3 + otp4),
     };
-    console.log("apiData------------------------",apiData);
     actions.Handelotp(apiData,setloaderVisible);
 
   };

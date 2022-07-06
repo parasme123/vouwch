@@ -68,7 +68,6 @@ const Account = (props) => {
       cropping: true,
     }).then(image => {
       setImage(image.path);
-      console.log(image);
       setModalVisible(!modalVisible);
     });
   };
@@ -79,7 +78,6 @@ const Account = (props) => {
       cropping: true,
     }).then(image => {
       setImage(image.path);
-      console.log(image);
       setModalVisible(!modalVisible);
     });
   };
@@ -104,7 +102,6 @@ const Account = (props) => {
       email: mailAddress,
       password: password,
     }
-    console.log("image------------------------", image);
     actions.postAccountSetting(apiData, () => setloaderVisible(), () => PageNavigation());
 
   };

@@ -49,7 +49,6 @@ const Doctor_Card = (props) => {
             doctor_id: msgDocId,
             detail: messageText,
         };
-        console.log(apiData, "apiData");
         actions.postMessge(apiData, setloaderVisible, () => PageNavigation());
     };
 
@@ -72,7 +71,6 @@ const Doctor_Card = (props) => {
             doctor_id: msgDocId,
             detail: commentText,
         };
-        console.log(apiData, "apiData");
         actions.postComment(apiData, setloaderVisible, () => PageNavigation());
     };
 

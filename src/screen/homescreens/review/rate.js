@@ -65,7 +65,6 @@ const Rate = (props,{ navigation, route }) => {
       wait_period: hospital,
       is_recommend: city
     };
-    console.log(apiData, "apiData");
     // actions.postBravo(apiData, setloaderVisible, () => PageNavigation());
   };
 
