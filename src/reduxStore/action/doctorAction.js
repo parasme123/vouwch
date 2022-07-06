@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, ACCOUNTSETTING, USERDATA } from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -478,57 +478,23 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
 };
 
 
-// 
-export const getdoctordetails = (setloaderVisible) => {
-    return async dispatch => {
-        // setloaderVisible(true);
-        await fetch(`${URL.baseUrl}${URL.doctorDetails}`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                "Token": `Bearer ${global.token}`
-            }
-        }).then(async (res) => {
-            let response = await res.json();
-            dispatch(savedoctordetails(response.data))
-            // console.log("res===", response);           //console remove after use 
-            // setloaderVisible(false);
-        }).catch(err => {
-            console.log("getdoctordetails", err);
-            // setloaderVisible(false);
-        })
-    }
-};
 
-export const savedoctordetails = (data) => {
-    return ({
-        type: DOCTORDETAILS,
-        payload: data
-    })
-};
-
-
-
-
-
-export const postBravo12 = (data, setloaderVisible, PageNavigation) => {
+export const getdoctordetails = (data, setloaderVisible) => {
     return async dispatch => {
         setloaderVisible(true);
-        console.log("data", data);           //hiiiiiiiiiiii 
-        await fetch(`${URL.baseUrl}${URL.bravoApi}`, {
+        await fetch(`${URL.baseUrl}${URL.doctorDetails}`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
-                "Token": `Bearer ${global.token}`
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
-            console.log("res", res);           //hiiiiiiiiiiii 
             let response = await res.json();
-            console.log("response", response);           //hiiiiiiiiiiii 
+            // console.log("res", res);           //hiiiiiiiiiiii 
             setloaderVisible(false);
             if (response.status) {
-                PageNavigation(response)
+                console.log("response", response);           //hiiiiiiiiiiii 
+                dispatch(savedoctordetails(response.data))
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -542,11 +508,17 @@ export const postBravo12 = (data, setloaderVisible, PageNavigation) => {
 };
 
 
+export const savedoctordetails = (data) => {
+    return ({
+        type: DOCTORDETAILS,
+        payload: data
+    })
+};
+
 
 export const postBravo = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
-        console.log("data=================================--------------------------------", data);           //hiiiiiiiiiiii 
         await fetch(`${URL.baseUrl}${URL.bravoApi}`, {
             method: "POST",
             headers: {
@@ -556,10 +528,8 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            console.log("res", res);           //hiiiiiiiiiiii 
             setloaderVisible(false);
             if (response.status) {
-                console.log("response", response);           //hiiiiiiiiiiii 
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);

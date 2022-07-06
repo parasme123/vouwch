@@ -18,7 +18,7 @@ export default class CustomDropDown extends React.Component {
         console.log(this.props.isDropDownSec)
         return (
             <View style={{ marginVertical: this.props.marginVertical, }}>
-                {/* <TouchableOpacity
+                <TouchableOpacity
                     onPress={this.props.onOpen}
                     style={[styles.viewOfDropdown, {}]}>
                     <Text style={[styles.dropDownText, {top:-1, color: this.props.colour, }]}>{this.props.placeholder}</Text>
@@ -28,8 +28,8 @@ export default class CustomDropDown extends React.Component {
                             style={[styles.downarrowIcon, {tintColor:'grey',top:2, transform: [{ rotate: !this.props.isDropDownSec ? "0deg" : "180deg" }] }]}
                             source={this.props.ImagePath} />
                     </View>
-                </TouchableOpacity> */}
-                {/* {this.props.isDropDownSec ?
+                </TouchableOpacity>
+                {this.props.isDropDownSec ?
                     <FlatList
                         nestedScrollEnabled={true}
                         data={this.props.items}
@@ -51,7 +51,7 @@ export default class CustomDropDown extends React.Component {
                             );
                         }} />
                     : null
-                } */}
+                }
             </View>
         );
     }
