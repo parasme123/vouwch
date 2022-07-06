@@ -143,7 +143,7 @@ export const Bottomtab = props => {
             setModalVisible(!modalVisible);
           }}
           AddReview={() => {
-            setModalVisible(!modalVisible), props.navigation.navigate('rate');
+            setModalVisible(!modalVisible), props.navigation.navigate('review');
           }}
           AddBravoCard={() => {
             setModalVisible(!modalVisible),

@@ -10,10 +10,10 @@ import {
 
 import Fonts from '../../../common/Fonts';
 
-export default Locationn = () => {
+export default Locationn = (props) => {
   return (
     <SafeAreaView>
-      <View style={{padding: 15}}>
+      <View style={{ padding: 15 }}>
         <Text
           style={{
             fontSize: 16,
@@ -21,26 +21,12 @@ export default Locationn = () => {
             paddingBottom: 5,
             fontFamily: Fonts.ProximaNovaBold,
           }}>
-          Dr. jenny wilson
+          {props.data.business.business_name}
         </Text>
-
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image
-            style={{height: 10, width: 10, tintColor: 'black'}}
-            source={require('../../../assect/icon/dot.png')}
-          />
-          <Text
-            style={{
-              color: '#929397',
-              paddingLeft: 15,
-              fontFamily: Fonts.ProximaNovaRegular,
-            }}>
-            Anesthesiology
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image
-            style={{height: 10, width: 10, tintColor: 'black'}}
+            style={{ height: 10, width: 10, tintColor: 'black' }}
             source={require('../../../assect/icon/dot.png')}
           />
           <Text
@@ -50,36 +36,7 @@ export default Locationn = () => {
               paddingVertical: 7,
               fontFamily: Fonts.ProximaNovaRegular,
             }}>
-            General Physicians:
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image
-            style={{height: 10, width: 10, tintColor: 'black'}}
-            source={require('../../../assect/icon/dot.png')}
-          />
-          <Text
-            style={{
-              color: '#929397',
-              paddingLeft: 15,
-              fontFamily: Fonts.ProximaNovaRegular,
-            }}>
-            General Physicians:
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image
-            style={{height: 10, width: 10, tintColor: 'black'}}
-            source={require('../../../assect/icon/dot.png')}
-          />
-          <Text
-            style={{
-              color: '#929397',
-              paddingLeft: 15,
-              paddingVertical: 7,
-              fontFamily: Fonts.ProximaNovaRegular,
-            }}>
-            Pediatricians:
+            {props.data.business.service_location}
           </Text>
         </View>
       </View>

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Imagepath from '../../../common/imagepath';
 import { useNavigation } from '@react-navigation/native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
 
 import {
   widthPercentageToDP as wp,
@@ -24,7 +24,6 @@ import Locationn from './Locationn';
 import Abouappt from './about';
 import Businesses from './Businesses';
 import Feedbackpage from './feedbackpage';
-// import { useNavigation } from '@react-navigation/native';
 import Fonts from '../../../common/Fonts';
 import {
   ApiCall,
@@ -33,24 +32,27 @@ import {
   Constants,
   AsyncStorageHelper,
 } from '@lib';
-import Colors from '../../../common/Colors';
-import Fontsize from '../../../common/Fontsize';
+import { Colors, Fontsize } from '@common';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getdoctordetails } from '../../../reduxStore/action/doctorAction';
 
-const Doctordetails = ({ route }) => {
+const Doctordetails = (props, { route }) => {
   const navigation = useNavigation();
 
-  const person = route.params ? route.params.person : false;
-  const personRed = route.params ? route.params.personRed : false;
-  const doctorId = route.params ? route.params.doctorId : null;
+  // const person = route.params ? route.params.person : false;
+  // const personRed = route.params ? route.params.personRed : false;
+  const doctorId = props.route.params ? props.route.params.doctorId : null;
 
-  const [About, setAbout] = useState(person);
+  const [About, setAbout] = useState();
   const [Service, setService] = useState();
   const [Location, setLocation] = useState();
   const [Business, setBusiness] = useState();
   const [loaderVisible, setloaderVisible] = useState();
-  const [Feedback, setFeedback] = useState(personRed);
-  const [DoctorCardDetails, setDoctorCardDetails] = useState();
+  const [Feedback, setFeedback] = useState();
+  // const [ DoctorCardDetails, setDoctorCardDetails] = useState();
   const [userType, setuserType] = useState();
+
 
   const Aboutus = () => {
     setAbout(true);
@@ -89,43 +91,32 @@ const Doctordetails = ({ route }) => {
   };
   const AddReview = () => {
     if (userType !== 2) {
-      navigation.navigate('rate', { detail: doctorId });
+      navigation.navigate('review', { detail: doctorId });
     } else {
       alert('you are not able to give a review');
     }
   };
 
   useEffect(() => {
-    Call_CategouryApi();
+    Call_Details_Api();
+    Aboutus();
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
-        // We have data!!of user
-        // console.log('AsyncStorageHelper : ', value);
       }
       setuserType(value?.user_type);
-      // console.log("anil______doctorId_______________++++++++++++++",doctorId);
     });
   }, []);
 
-  const Call_CategouryApi = () => {
-    const data = {
+  const Call_Details_Api = () => {
+    let { actions } = props;
+    const apiData = {
       id: doctorId,
     };
-    // console.log('doctorId data======', doctorId);
-    // setloaderVisible(true)
-    ApiCall.ApiMethod(SortUrl.DoctorDetail, 'POST', data).then(response => {
-      if (response.status == true) {
-        // setloaderVisible(false)
-        setDoctorCardDetails(response.data?.business);
-        // console.log(DoctorCardDetails,"response===========")
-        // setCall(response.data.cards)
-      } else {
-        // setloaderVisible(false)
-        Alert.alert('something went wrong');
-      }
-    });
+    console.log("dataaa", apiData);
+    actions.getdoctordetails(apiData, setloaderVisible);
   };
-  // console.log(DoctorCardDetails,"response+++++++++++++++------------********////////")
+
+  // console.log("anil______doctorId_______________++++++++++++++", props.allDetailsDoc);
 
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
@@ -146,10 +137,10 @@ const Doctordetails = ({ route }) => {
           {/* Doctor detail Card */}
           <View style={styles.DoctordetailsCard}>
             <Text style={styles.dactorName}>
-              {DoctorCardDetails?.business_name}{' '}
+              {props.allDetailsDoc?.business.business_name}
             </Text>
             <Text style={styles.doctorSpacilist}>
-              {DoctorCardDetails?.category?.name}
+              {props.allDetailsDoc?.business.category?.name}
             </Text>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 1 }}>
@@ -161,14 +152,14 @@ const Doctordetails = ({ route }) => {
                       readonly="true"
                       ratingColor={Colors.red}
                       ratingBackgroundColor={Colors.white}
-                      startingValue={DoctorCardDetails?.clinical_rate}
+                      startingValue={props.allDetailsDoc?.clinical_rate}
                       imageSize={10}
                       iconWidth={10}
                       iconHeight={10}
                     />
                   </View>
                   <Text style={styles.ratingText}>
-                    {DoctorCardDetails?.clinical_rate}
+                    {props.allDetailsDoc?.clinical_rate}
                     <Text style={styles.clinicianReview}>
                       {' '}
                       Clinician's Review
@@ -183,14 +174,14 @@ const Doctordetails = ({ route }) => {
                     <Rating
                       max={5}
                       readonly="true"
-                      startingValue={DoctorCardDetails?.patient_rate}
+                      startingValue={props.allDetailsDoc?.patient_rate}
                       imageSize={10}
                       iconWidth={10}
                       iconHeight={10}
                     />
                   </View>
                   <Text style={styles.ratingText}>
-                    {DoctorCardDetails?.patient_rate}
+                    {props.allDetailsDoc?.patient_rate}
                     <Text style={styles.clinicianReview}> Patient Review</Text>
                   </Text>
                 </View>
@@ -229,11 +220,11 @@ const Doctordetails = ({ route }) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                Aboutus();
+                Aboutus(props.allDetailsDoc);
               }}
               style={[
                 {
-                  backgroundColor: About ? Colors.appcolor : '#ffffff',
+                  backgroundColor: About ? Colors.appcolor : Colors.white,
                   paddingHorizontal: About ? 12 : 12,
                 },
                 styles.button,
@@ -253,7 +244,7 @@ const Doctordetails = ({ route }) => {
               }}
               style={[
                 {
-                  backgroundColor: Service ? Colors.appcolor : '#ffffff',
+                  backgroundColor: Service ? Colors.appcolor : Colors.white,
                   paddingHorizontal: Service ? 12 : 0,
                 },
                 styles.button,
@@ -273,7 +264,7 @@ const Doctordetails = ({ route }) => {
               }}
               style={[
                 {
-                  backgroundColor: Location ? Colors.appcolor : '#ffffff',
+                  backgroundColor: Location ? Colors.appcolor : Colors.white,
                   paddingHorizontal: Location ? 12 : 0,
                 },
                 styles.button,
@@ -293,7 +284,7 @@ const Doctordetails = ({ route }) => {
               }}
               style={[
                 {
-                  backgroundColor: Business ? Colors.appcolor : '#ffffff',
+                  backgroundColor: Business ? Colors.appcolor : Colors.white,
                   paddingHorizontal: Business ? 12 : 0,
                 },
                 styles.button,
@@ -313,7 +304,7 @@ const Doctordetails = ({ route }) => {
               }}
               style={[
                 {
-                  backgroundColor: Feedback ? Colors.appcolor : '#ffffff',
+                  backgroundColor: Feedback ? Colors.appcolor : Colors.white,
                   paddingHorizontal: Feedback ? 12 : 12,
                 },
                 styles.button,
@@ -322,7 +313,7 @@ const Doctordetails = ({ route }) => {
                 style={{
                   fontSize: 10,
                   fontFamily: Fonts.ProximaNovaMedium,
-                  color: Feedback ? '#fff' : '#000000',
+                  color: Feedback ? '#fff' : Colors.black,
                 }}>
                 Feedback
               </Text>
@@ -332,13 +323,22 @@ const Doctordetails = ({ route }) => {
             {About && (
               <Abouappt
                 name={doctorId?.name}
-              // aboutDetail={DoctorCardDetails.about_us}
+                data={props.allDetailsDoc}
+              // aboutDetail={ props.allDetailsDoc.about_us}
               />
             )}
-            {Service && <ServicesPage name={doctorId?.name} />}
-            {Location && <Locationn />}
-            {Business && <Businesses />}
-            {Feedback && <Feedbackpage />}
+            {Service && <ServicesPage name={doctorId?.name}
+              data={props.allDetailsDoc}
+            />}
+            {Location && <Locationn
+              data={props.allDetailsDoc}
+            />}
+            {Business && <Businesses
+              data={props.allDetailsDoc}
+            />}
+            {Feedback && <Feedbackpage
+              data={props.allDetailsDoc}
+            />}
           </View>
         </View>
       </ScrollView>
@@ -347,7 +347,6 @@ const Doctordetails = ({ route }) => {
   );
 };
 
-export default Doctordetails;
 
 const styles = StyleSheet.create({
   button: {
@@ -356,10 +355,22 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 12,
   },
-  container: { marginBottom: 10 },
-  ImageTop: { height: hp('45%'), width: '100%' },
-  backButton: { position: 'absolute', marginTop: 20, marginLeft: 15 },
-  backIcon: { height: 21, width: 32 },
+  container: {
+    marginBottom: 10
+  },
+  ImageTop: {
+    height: hp('45%'),
+    width: '100%'
+  },
+  backButton: {
+    position: 'absolute',
+    marginTop: 20,
+    marginLeft: 15
+  },
+  backIcon: {
+    height: 21,
+    width: 32
+  },
   DoctordetailsCard: {
     backgroundColor: '#E7F6FC',
     width: '90%',
@@ -371,7 +382,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   dactorName: {
-    color: '#000000',
+    color: Colors.black,
     fontSize: 20,
     fontFamily: Fonts.ProximaNovaBold,
     marginBottom: 5,
@@ -386,7 +397,7 @@ const styles = StyleSheet.create({
   ratingView: {
     height: 15,
     width: 45,
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.white,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -395,7 +406,7 @@ const styles = StyleSheet.create({
   },
   star: { height: 6, width: 6 },
   ratingNumber: {
-    color: '#000000',
+    color: Colors.black,
     fontSize: 11,
     fontFamily: Fonts.ProximaNovaMedium,
     marginLeft: 10,
@@ -421,23 +432,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 20,
   },
-  yellowStarSubviewIcon: { height: 12, width: 12 },
+  yellowStarSubviewIcon: {
+    height: 12,
+    width: 12
+  },
   yellowStarSubviewIconTExt: {
-    color: '#ffffff',
+    color: Colors.white,
     fontSize: 10,
     paddingLeft: 10,
     fontFamily: Fonts.ProximaNovaMedium,
   },
-  yellowStarview: { width: '100%', flexDirection: 'row', alignItems: 'center' },
+  yellowStarview: {
+    width: '100%', flexDirection: 'row',
+    alignItems: 'center'
+  },
   tabviewDetails: {
     width: '90%',
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.white,
     alignSelf: 'center',
     marginTop: 15,
     borderRadius: 10,
     elevation: 5,
   },
-
   ratingViewRed: {
     flexDirection: 'row',
     marginVertical: 10,
@@ -472,3 +488,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mapStateToProps = state => ({
+  allDetailsDoc: state.doctor.allDetailsDoc,
+});
+
+const ActionCreators = Object.assign(
+  { getdoctordetails }
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Doctordetails);
+
+

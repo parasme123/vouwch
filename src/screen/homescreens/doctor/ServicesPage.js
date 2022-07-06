@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -12,15 +12,14 @@ import Unorderedlist from 'react-native-unordered-list';
 import Imagepath from '../../../common/imagepath';
 
 import Fonts from '../../../common/Fonts';
-import {useLinkProps} from '@react-navigation/native';
+import { useLinkProps } from '@react-navigation/native';
 
-export default ServicesPage = props => {
-  const [DoctorServiceList, setDoctorServiceList] = useState([1, 2, 3, 4]);
-  const DoctorService = ({item, index}) => {
+export default ServicesPage = (props) => {
+  const DoctorService = ({ item, index }) => {
     return (
-      <View style={{flexDirection: 'row', alignItems: 'center'}} key={index}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }} key={index}>
         <Image
-          style={{height: 10, width: 10, tintColor: 'black'}}
+          style={{ height: 10, width: 10, tintColor: 'black' }}
           source={require('../../../assect/icon/dot.png')}
         />
         <Text
@@ -30,14 +29,14 @@ export default ServicesPage = props => {
             paddingVertical: 7,
             fontFamily: Fonts.ProximaNovaRegular,
           }}>
-          General Physicians:
+        {item?.service_detail?.name}
         </Text>
       </View>
     );
   };
   return (
     <SafeAreaView>
-      <View style={{padding: 15}}>
+      <View style={{ padding: 15 }}>
         <Text
           style={{
             fontSize: 16,
@@ -45,14 +44,12 @@ export default ServicesPage = props => {
             paddingBottom: 5,
             fontFamily: Fonts.ProximaNovaBold,
           }}>
-          {props.name}
+          {props.data.business.business_name}
         </Text>
         <FlatList
-          data={DoctorServiceList}
-          // style={{ padding: "4%" ,alignSelf:"center"}}
+          data={props.data?.business?.services}
           renderItem={DoctorService}
-          // numColumns={2}
-          keyExtractor={item => item}
+          keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
         />
       </View>
