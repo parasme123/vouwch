@@ -34,7 +34,6 @@ export default function OtpPage({navigation, route}) {
   const [otp3, setOtp3] = useState('');
   const [otp4, setOtp4] = useState('');
 
-  console.log('Otp', route.params.Otp);
   const Signin_Validators = () => {
     let OTP = otp1 + otp2 + otp3 + otp4;
     if (OTP.length < 4) {

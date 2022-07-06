@@ -15,7 +15,6 @@ import { Fonts, imagepath, Colors, Fontsize } from '@common';
 
 export default ServicesPage = (props) => {
   const DoctorService = ({ item, index }) => {
-    console.log("item?.service_detail?.name",item);
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }} key={index}>
         <Image
