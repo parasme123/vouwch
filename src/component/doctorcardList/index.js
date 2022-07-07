@@ -14,7 +14,6 @@ export default DoctorcardList = (props) => {
   return (
     <TouchableOpacity
       key={props.index}
-      // onPress={() => { userType?.user_token && userType?.user_type == 1 ? navigation.navigate('Doctordetails', { person: true }) : alert("Please login with Personal Account") }}
       onPress={() => {
         props.onpress_DoctorCard(props.item.id);
       }}

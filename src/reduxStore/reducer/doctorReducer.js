@@ -1,4 +1,4 @@
-import { BRAVOCARD, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES, USERDATA, DOCTORDETAILS } from '../action/types';
+import { BRAVOCARD, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES, USERDATA, DOCTORDETAILS, DOCTORLIST } from '../action/types';
 const initialState = {
     doctorList: [],
     allHomeData: {},
@@ -8,7 +8,8 @@ const initialState = {
     allNotification: {},
     setData: {},
     allDetailsDoc: {},
-    lastPage: 1
+    lastPage: 1,
+    allDoctorlist: []
 };
 
 const ChangeTheNumber = (state = initialState, action) => {
@@ -31,6 +32,8 @@ const ChangeTheNumber = (state = initialState, action) => {
             return { ...state, setData: action.payload };
         case DOCTORDETAILS:
             return { ...state, allDetailsDoc: action.payload };
+        case DOCTORLIST:
+            return { ...state, allDoctorlist: action.payload };
         default:
             return state;
     }

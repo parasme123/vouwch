@@ -86,7 +86,7 @@ const Editprofile = (props) => {
     if (
       Validators.checkNotNull('Service Location', 1, 60, Hours) &&
       Validators.checkNotNull('Location', 3, 15, Location) &&
-      Validators.checkNotNull('Aboutus', 2, 60, Aboutus)
+      Validators.checkNotNull('Aboutus', 2, 200, Aboutus)
     ) {
       Signin_Validators();
     }
@@ -146,13 +146,6 @@ const Editprofile = (props) => {
             height: 45,
             paddingHorizontal: 10
           }}>
-          {/* <RNPickerSelect
-            placeholder={{ label: 'Select Categroy', value: null }}
-            onValueChange={value => setCateId(value)}
-            // onClose={(value) =>setCateId(value)}
-            items={CateList}
-            style={styles}
-          /> */}
           <Text style={styles.serviceText}>Select Services</Text>
           <Image style={styles.arrowDown} source={imagepath.plus} />
         </TouchableOpacity>

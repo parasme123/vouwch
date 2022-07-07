@@ -32,13 +32,13 @@ const Profile = (props, { route }) => {
 
   useEffect(() => {
     handelHomeData();
-    // console.log('setuserData---api redux----', props.setData);
-    // console.log("userDAtaa=======",  props.setData?.first_name);
+    console.log('setuserData---api redux----', props.setData);
+    console.log("userDAtaa=======",  props.setData?.first_name);
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
         setuserData(value);
       }
-      // console.log('setuserData-------', userData);
+      // console.log('  global.userData=====================-------',   global.userData);
     });
   }, []);
 
@@ -96,7 +96,7 @@ const Profile = (props, { route }) => {
                         readonly="true"
                         ratingColor={Colors.red}
                         ratingBackgroundColor={Colors.white}
-                        startingValue={userData?.business.clinical_rate}
+                        startingValue={userData?.business?.clinical_rate}
                         imageSize={10}
                         iconWidth={10}
                         iconHeight={10}

@@ -17,3 +17,5 @@ export const ACCOUNTSETTING = "ACCOUNTSETTING";
 export const USERDATA = "USERDATA";
 
 export const DOCTORDETAILS = "DOCTORDETAILS";
+
+export const DOCTORLIST = "DOCTORLIST";
