@@ -43,7 +43,6 @@ const Imagepath = {
   dot: require('../assect/icon/dot.png'),
   bluetick: require('../assect/icon/bluetick.png'),
   likeicon: require('../assect/icon/likeicon.png'),
-  homeicon: require('../assect/icon/homeicon.png'),
   setting_icon: require('../assect/icon/setting-icon.png'),
   Notfication_icon: require('../assect/icon/Notfication-icon.png'),
   User_Icon: require('../assect/icon/User-icon.png'),

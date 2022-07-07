@@ -62,6 +62,7 @@ const Account = (props) => {
   };
 
   const camera = async () => {
+    console.log("camera Open")
     ImagePicker.openCamera({
       width: 300,
       height: 400,
@@ -69,6 +70,8 @@ const Account = (props) => {
     }).then(image => {
       setImage(image.path);
       setModalVisible(!modalVisible);
+    }).catch((err) => {
+      console.log("Error in OPen Camera : ", err)
     });
   };
   const Gallery = async () => {
