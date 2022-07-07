@@ -1,5 +1,7 @@
 export const DOCTORRECORD = 'DOCTORRECORD';
 
+export const DOCTORRECORDCONCATE = 'DOCTORRECORDCONCATE';
+
 export const HOMEDATA = 'HOMEDATA';
 
 export const BRAVOCARD = "BRAVOCARD";

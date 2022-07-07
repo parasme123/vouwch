@@ -1,10 +1,17 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST } from './types';
+import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
 export const saveDoctorData = (data) => {
     return ({
         type: DOCTORRECORD,
+        payload: data
+    })
+};
+
+export const saveDoctorDataWithConcate = (data) => {
+    return ({
+        type: DOCTORRECORDCONCATE,
         payload: data
     })
 };
@@ -30,36 +37,45 @@ export const saveFollowPost = (data) => {
     })
 };
 
-export const getDoctorData = () => {
-    return async dispatch => {
-        await fetch(`${URL.baseUrl}${URL.getAllDoctors}`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-            }
-        }).then(async (res) => {
-            let response = await res.json();
-            dispatch(saveDoctorData(response.data.data))
-        }).catch(err => {
-            console.log("getDoctorData", err);
-        })
-    }
-};
+// export const getDoctorData = () => {
+//     return async dispatch => {
+//         await fetch(`${URL.baseUrl}${URL.getAllDoctors}`, {
+//             method: "GET",
+//             headers: {
+//                 "Content-type": "application/json",
+//             }
+//         }).then(async (res) => {
+//             let response = await res.json();
+//             dispatch(saveDoctorData(response.data.data))
+//         }).catch(err => {
+//             console.log("getDoctorData", err);
+//         })
+//     }
+// };
 
-export const postDoctorSearch = (data) => {
+export const postDoctorSearch = (data, pageNo = 1) => {
     return async dispatch => {
-        await fetch(`${URL.baseUrl}${URL.postDoctorSearch}`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify(data)
-        }).then(async (res) => {
-            let response = await res.json();
-            dispatch(saveDoctorData(response.data.data))
-        }).catch(err => {
-            console.log("postDoctorSearch", err);
-        })
+        if (pageNo == 1) {
+            dispatch(saveDoctorData([]))
+        }
+        await fetch(`${URL.baseUrl}${data.keyword == null ? URL.getAllDoctors : URL.postDoctorSearch}?page=${pageNo}`,
+            data.keyword == null ? {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                },
+            } : {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify(data)
+            }).then(async (res) => {
+                let response = await res.json();
+                dispatch(saveDoctorDataWithConcate(response.data))
+            }).catch(err => {
+                console.log("postDoctorSearch", err);
+            })
 
     }
 };

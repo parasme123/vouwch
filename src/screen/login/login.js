@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Toast from 'react-native-simple-toast';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
 // import { handleNavigation } from '../../navigator/navigator';
@@ -54,9 +53,6 @@ const Login = (props, { route }) => {
     actions.postLogin(apiData, Check_User(), setloaderVisible, () => PageNavigation());
   };
 
-
-
-
   const PageNavigation = () => {
     handleNavigation({
       type: 'setRoot',
@@ -72,7 +68,6 @@ const Login = (props, { route }) => {
       return "business"
     }
   };
-
 
   const Registernow = () => {
     if (props.route.params.UserType == 'PERSONAL') {
@@ -196,9 +191,6 @@ const Login = (props, { route }) => {
     </ImageBackground>
   );
 }
-
-
-
 
 const mapStateToProps = state => ({
   allLoginData: state.doctor.allLoginData,

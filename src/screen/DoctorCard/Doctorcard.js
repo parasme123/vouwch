@@ -5,7 +5,7 @@ import styles from './doctorcardcCss';
 import { Header, imagepath } from "@common";
 import { CustomLoader } from '@lib';
 import { DoctorCardList, Searchresult } from "@component";
-import { getDoctorData, postDoctorSearch, postMessge, postComment, postFollow } from '../../reduxStore/action/doctorAction';
+import { postDoctorSearch, postMessge, postComment, postFollow } from '../../reduxStore/action/doctorAction';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ const Doctor_Card = (props) => {
     const [Follows, setFollow] = useState([]);
     const [userType, setuserType] = useState(null);
     const [userToken, setuserToken] = useState(null);
-
+    const [pageNo, setPageNo] = useState(1)
 
     // Button condition
     const MessagepropPage = DataCardiList => {
@@ -130,49 +130,25 @@ const Doctor_Card = (props) => {
         });
     }, []);
 
-    useEffect(() => {
-        if (searchProps == null) {
-            Call_CategouryApi();
-        }
-        else {
-            Call_SearchApi();
-        }
-    }, []);
-
-    // share module
-    const onShare = async () => {
-        try {
-            const result = await Share.share({
-                message:
-                    'React Native | A framework for building native apps using React',
-            });
-            if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    // shared with activity type of result.activityType
-                } else {
-                    // shared
-                }
-            } else if (result.action === Share.dismissedAction) {
-                // dismissed
-            }
-        } catch (error) {
-            alert(error.message);
-        }
-    };
-
-    // api  of all Doctor Card
-    const Call_CategouryApi = () => {
-        let { actions } = props;
-        actions.getDoctorData();
+    const addRecordsInList = () => {
+        setPageNo(pageNo + 1)
     }
 
-    // Search API
-    const Call_SearchApi = () => {
-        let { actions } = props;
+    useEffect(() => {
+        let { actions, lastPage } = props;
         let apiData = {
             keyword: searchProps,
         }
-        actions.postDoctorSearch(apiData, setloaderVisible);
+        // console.log("pageNo : ", pageNo, "lastPage : ", lastPage)
+        if (pageNo <= lastPage) {
+            // console.log("apiData : ", apiData)
+            actions.postDoctorSearch(apiData, pageNo);
+        }
+    }, [pageNo]);
+
+    // share module
+    const onShare = () => {
+        Helper.onShare();
     };
 
     const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
@@ -246,6 +222,8 @@ const Doctor_Card = (props) => {
                         renderItem={DoctorCard_Cards}
                         keyExtractor={(item, index) => String(index)}
                         showsVerticalScrollIndicator={false}
+                        onEndReached={() => addRecordsInList()}
+                        onEndReachedThreshold={0.5}
                     />
                 ) : <Searchresult />
             }
@@ -257,10 +235,10 @@ const Doctor_Card = (props) => {
 
 const mapStateToProps = state => ({
     doctorList: state.doctor.doctorList,
+    lastPage: state.doctor.lastPage
 });
 
 const ActionCreators = Object.assign(
-    { getDoctorData },
     { postDoctorSearch },
     { postMessge },
     { postComment },
