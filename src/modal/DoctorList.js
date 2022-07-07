@@ -11,7 +11,6 @@ import { imagepath } from '@common';
 import styles from './pickercss';
 
 const DoctorList = (props) => {
-  console.log(props.data.data,"jsdjasdfj==");
 
   const Datalist = ({ item, index }) => {
     return (
@@ -47,7 +46,7 @@ const DoctorList = (props) => {
             </TouchableOpacity>
           </View>
           <FlatList
-            data={props.data?.data}
+            data={props.data}
             renderItem={Datalist}
             keyExtractor={(item, index) => String(index)}
             showsHorizontalScrollIndicator={false}

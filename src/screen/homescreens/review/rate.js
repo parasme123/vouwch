@@ -18,7 +18,7 @@ const Rate = (props, { navigation, route }) => {
   const [cliniceReview, setcliniceReview] = useState();
   const [patientReview, setpatientReview] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
-  const doctorId = props.route.params ? props.route.params.doctorid : 0;
+  const doctorId = props.route.params ? props.route.params.doctorid : null;
   const detail = props.route.params ? props.route.params.detail : 0;
 
   const ClinicianPage = () => {
@@ -31,14 +31,14 @@ const Rate = (props, { navigation, route }) => {
     setpatientReview(true);
   };
   useEffect(() => {
-    ClinicianPage();
+    PasientPage();
     handelDoctorList();
-  }, []);
 
+  }, []);
 
   const Review_Validators = (apiData) => {
     let { actions } = props;
-    console.log(apiData);
+    // console.log(apiData);
     actions.postReview(apiData, setloaderVisible, () => PageNavigation());
   };
 
@@ -109,6 +109,7 @@ const Rate = (props, { navigation, route }) => {
         patientReview &&
         <Patient
           doctorList={props.allDoctorlist}
+          docId={doctorId}
           Review_Validators={Review_Validators}
         />
       }

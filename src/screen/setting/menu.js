@@ -51,7 +51,7 @@ export default Menu = (props,{ navigation }) => {
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
-      navigation: navigation,
+      navigation: props.navigation,
     });
   };
 

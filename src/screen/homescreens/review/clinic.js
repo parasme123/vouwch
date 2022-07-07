@@ -21,18 +21,16 @@ import {
 import { TextInput } from 'react-native-gesture-handler';
 import Imagepath from '../../../common/imagepath';
 import { useNavigation } from '@react-navigation/native';
-import { CustomDropDown,Header, imagepath, Fonts, String, Colors, Fontsize } from '@common';
+import { CustomDropDown, Header, imagepath, Fonts, String, Colors, Fontsize } from '@common';
 import { Validators } from '@lib';
 import DoctorList from '../../../modal/DoctorList';
 const { width, height } = Dimensions.get('window');
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { postBravo, getDoctorList } from '../../../reduxStore/action/doctorAction';
 
 
 
 const Clinic = (props) => {
   const navigation = useNavigation();
+  const doctorId = props.docId;
   const [DropDownSec, setDropDownSec] = useState(false);
   const [selectvalue, setselectvalue] = useState('Select');
   const [recomendation, setRecomendation] = useState();
@@ -68,16 +66,13 @@ const Clinic = (props) => {
     setModalVisible(!modalVisible);
   };
 
-  useEffect(() => {
-  }, []);
-
   const Call_ClinicialApi = () => {
     let apiData = {
-      business_id: doctId.id,
+      business_id: doctorId ?? doctId.id,
       review_type: "Clinical",
       rate: selectvalue,
       review: recomendation,
-      is_anonym:mark ? 1 : 0 ,
+      is_anonym: mark ? 1 : 0,
       // friendness_rate: state,
       // treatment_rate: detail,
       // wait_rate: doctorId,
@@ -87,8 +82,8 @@ const Clinic = (props) => {
       // is_recommend: city
     }
     if (
-      Validators.checkNotNull('Doctor Id', 1, 20, doctId.id) &&
-      Validators.checkNotNull('Recommendation', 2, 20, recomendation) 
+      Validators.checkNotNull('Doctor Id', 1, 20, doctorId ?? doctId.id) &&
+      Validators.checkNotNull('Recommendation', 2, 2000, recomendation)
     ) {
       props.Review_Validators(apiData)
     }
@@ -101,26 +96,26 @@ const Clinic = (props) => {
         Should you, your family or friends seek care at this provider, what is
         your recommendation?
       </Text>
+      {
+        doctorId == null ?
+          <>
+            <Text
+              style={styles.imputHeader}>
+              Select Doctors List
+            </Text>
 
-      {/* {props.docId == null ?
-        <> */}
-          <Text
-            style={styles.imputHeader}>
-            Select Doctors List
-          </Text>
-
-          <TouchableOpacity
-            onPress={() => ListModal()}
-            style={[styles.dropdownView, { marginBottom: 15 }]}>
-            <Text style={styles.dropdownText}>{doctId != null ? doctId.business_name : "Select Doctors"}</Text>
-            <Image
-              style={styles.downArrow}
-              source={Imagepath.down}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        {/* </> : null
-      } */}
+            <TouchableOpacity
+              onPress={() => ListModal()}
+              style={[styles.dropdownView, { marginBottom: 15 }]}>
+              <Text style={styles.dropdownText}>{doctId != null ? doctId.business_name : "Select Doctors"}</Text>
+              <Image
+                style={styles.downArrow}
+                source={Imagepath.down}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </> : null
+      }
 
       <Text
         style={styles.imputHeader}>
@@ -162,7 +157,7 @@ const Clinic = (props) => {
           fontSize: Fontsize.fontFifteen,
           fontFamily: Fonts.ProximaNovaSemibold,
         }}>
-       Share your experience
+        Share your experience
       </Text>
       <TextInput
         placeholder="Share your experiance"
@@ -170,7 +165,7 @@ const Clinic = (props) => {
         style={{
           paddingLeft: 15,
           height: 120,
-          borderColor: 'CECECE',
+          borderColor: '#CECECE',
           borderWidth: 0.5,
           marginHorizontal: 24,
           borderRadius: 10,
@@ -301,17 +296,4 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStateToProps = state => ({
-  allDoctorlist: state.doctor.allDoctorlist
-});
-
-const ActionCreators = Object.assign(
-  { postBravo },
-  { getDoctorList }
-);
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(ActionCreators, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Clinic);
+export default Clinic;

@@ -536,7 +536,7 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
 
 
 
-export const getDoctorList = (setloaderVisible) => {
+export const getDoctorList = () => {
     return async dispatch => {
         // setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.doctorlist}`, {
@@ -547,8 +547,10 @@ export const getDoctorList = (setloaderVisible) => {
             }
         }).then(async (res) => {
             let response = await res.json();
-            dispatch(savedoctorList(response))
             // setloaderVisible(false);
+            if (response.status) {
+                dispatch(savedoctorList(response.data))
+            }
         }).catch(err => {
             console.log("getDoctorList", err);
             // setloaderVisible(false);
@@ -579,10 +581,10 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             console.log("success", response);
             if (response.status) {
-                // PageNavigation(response)
-            } else {
-                // Toast.show(response.message);
+                PageNavigation(response)
+
             }
+            Toast.show(response.message);
         }).catch(err => {
             console.log("postReview", err);
             setloaderVisible(false);

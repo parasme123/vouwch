@@ -19,7 +19,7 @@ const initialState = {
     allNotification: {},
     setData: {},
     allDetailsDoc: {},
-    allDoctorlist: {}
+    allDoctorlist: []
 };
 
 const ChangeTheNumber = (state = initialState, action) => {
