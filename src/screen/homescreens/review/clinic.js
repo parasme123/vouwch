@@ -37,7 +37,7 @@ const Clinic = (props) => {
   const [docPicList, setdocPicList] = useState();
   const [modalVisible, setModalVisible] = useState();
   const [mark, setMark] = useState(false);
-  const [doctId, setdoctId] = useState();
+  const [doctId, setdoctId] = useState({});
   const onChangesecond = value => {
     setDropDownSec(!DropDownSec);
     setselectvalue(value);

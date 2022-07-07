@@ -29,7 +29,7 @@ export default Patient = (props) => {
   const [waitTime, setWaitTime] = useState(0);
   const [modalVisible, setModalVisible] = useState();
   const [mark, setMark] = useState(false);
-  const [doctId, setdoctId] = useState();
+  const [doctId, setdoctId] = useState({});
   const [ratingDoc, setRatingDoc] = useState(1);
   const [ratingTreat, setRatingTreat] = useState(1);
   const [ratingWait, setRatingWait] = useState(1);

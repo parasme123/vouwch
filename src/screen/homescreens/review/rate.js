@@ -13,25 +13,22 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { postReview, getDoctorList } from '../../../reduxStore/action/doctorAction';
 import { handleNavigation } from '../../../navigator/Navigator';
+import { CustomLoader } from '@lib';
 
 const Rate = (props, { navigation, route }) => {
   const [cliniceReview, setcliniceReview] = useState();
-  const [patientReview, setpatientReview] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const doctorId = props.route.params ? props.route.params.doctorid : null;
-  const detail = props.route.params ? props.route.params.detail : 0;
 
   const ClinicianPage = () => {
     setcliniceReview(true);
-    setpatientReview(false);
   };
 
   const PasientPage = () => {
     setcliniceReview(false);
-    setpatientReview(true);
   };
   useEffect(() => {
-    PasientPage();
+    ClinicianPage();
     handelDoctorList();
 
   }, []);
@@ -87,7 +84,7 @@ const Rate = (props, { navigation, route }) => {
             }}
             style={[
               {
-                backgroundColor: patientReview ? '#19428A' : null,
+                backgroundColor: !cliniceReview ? '#19428A' : null,
                 fontFamily: Fonts.ProximaNovaSemibold,
               },
               styles.button,
@@ -106,13 +103,14 @@ const Rate = (props, { navigation, route }) => {
         />
       }
       {
-        patientReview &&
+        !cliniceReview &&
         <Patient
           doctorList={props.allDoctorlist}
           docId={doctorId}
           Review_Validators={Review_Validators}
         />
       }
+      <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>
   );
 };
