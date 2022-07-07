@@ -152,10 +152,11 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
                 dispatch(setUserData(response.data))
             } else {
                 setloaderVisible(false);
+                console.log(response);
                 Toast.show(response.message);
             }
         }).catch(err => {
-            console.log("postLogin", err);
+            // console.log("postLogin", err);              //...............log..........remove please
             setloaderVisible(false);
             Toast.show("something went wrong");
         })
@@ -183,6 +184,7 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
+                console.log(response, "response=============================");
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 PageNavigation(response)
@@ -359,6 +361,7 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
+                console.log(response);
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
                 Toast.show(response.message);
@@ -419,9 +422,10 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
+                console.log("response.data",response.data );
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
-                
+
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -542,10 +546,11 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
+            console.log(response);
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
-                Toast.show(response.message);
+                // Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 // Toast.show(response.message);
@@ -601,7 +606,7 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-          
+
             if (response.status) {
                 PageNavigation(response)
             }

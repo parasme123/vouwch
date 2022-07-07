@@ -84,9 +84,9 @@ const Editprofile = (props) => {
 
   const Account_SettingApi = () => {
     if (
-      Validators.checkNotNull('Service Location', 1, 60, Hours) &&
-      Validators.checkNotNull('Location', 3, 15, Location) &&
-      Validators.checkNotNull('Aboutus', 2, 200, Aboutus)
+      Validators.checkNull('Service Location', 1, Hours) &&
+      Validators.checkNull('Location', 3, Location) &&
+      Validators.checkNull('Aboutus', 2, Aboutus)
     ) {
       Signin_Validators();
     }
@@ -116,7 +116,7 @@ const Editprofile = (props) => {
       <Header title={String.ProfileSetting} isback={'bottomtab'} />
 
       <View style={styles.headerView2}>
-        <TouchableOpacity   onPress={() => seteditText(true)} >
+        <TouchableOpacity onPress={() => seteditText(true)} >
           <Image
             style={styles.headerbuttonIcon}
             source={imagepath.Edit}
@@ -146,7 +146,9 @@ const Editprofile = (props) => {
             height: 45,
             paddingHorizontal: 10
           }}>
+
           <Text style={styles.serviceText}>Select Services</Text>
+
           <Image style={styles.arrowDown} source={imagepath.plus} />
         </TouchableOpacity>
 
@@ -179,6 +181,7 @@ const Editprofile = (props) => {
           keyboardType="default"
           placeholder="Message"
           multiline={true}
+          numberOfLines={8}
           placeholderTextColor={Colors.imputborderColor}
           onChangeText={text => {
             setAboutus(text);
@@ -234,8 +237,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontFamily: Fonts.ProximaNovaMedium,
     textAlignVertical: "top",
-    height: 150,
-    justifyContent: "flex-start"
+
   },
   button: {
     marginHorizontal: 20,

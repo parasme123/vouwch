@@ -35,8 +35,8 @@ const Login = (props, { route }) => {
 
   const Signin_Validators = () => {
     if (
-      Validators.checkNotNull('Email', 2, 20, Email) &&
-      Validators.checkNotNull('Password', 2, 20, Password)
+      Validators.checkEmail('Email', Email) &&
+      Validators.checkNull('Password', 8, Password)
     ) {
       Call_LoginApi();
     }
@@ -105,7 +105,6 @@ const Login = (props, { route }) => {
                   setEmail(text);
                 }}
                 value={Email}
-                maxLength={40}
                 keyboardType="email-address"
 
               />
@@ -125,7 +124,6 @@ const Login = (props, { route }) => {
                   setPassword(text);
                 }}
                 value={Password}
-                maxLength={20}
                 blurOnSubmit={false}
                 secureTextEntry={securepasswordIcon ? true : false}
               // ref={one}

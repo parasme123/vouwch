@@ -35,6 +35,17 @@ const Account = (props) => {
   const [CateList, setCateList] = useState([]);
   const [CateId, setCateId] = useState();
   const [editText, seteditText] = useState(false);
+  const [userData, setuserData] = useState(null);
+
+  useEffect(() => {
+    AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+      if (value !== null) {
+        setuserData(value);
+      }
+      console.log('  global.userData=====================-------', userData);
+    });
+  }, []);
+
 
 
   const requestCamera = async () => {
@@ -51,6 +62,8 @@ const Account = (props) => {
           buttonPositive: "OK"
         }
       );
+      console.log("granted", granted);
+      console.log("PermissionsAndroid.RESULTS.GRANTED", PermissionsAndroid.RESULTS.GRANTED);
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         camera(!modalVisible)
       } else {
@@ -69,7 +82,9 @@ const Account = (props) => {
     }).then(image => {
       setImage(image.path);
       setModalVisible(!modalVisible);
-    });
+    }).catch((err) => {
+      console.log("Error in OPen Camera : ", err)
+    });;
   };
   const Gallery = async () => {
     ImagePicker.openPicker({
@@ -84,10 +99,8 @@ const Account = (props) => {
 
   const HandelAccountsetting = () => {
     if (
-      Validators.checkNotNull('First Name', 2, 60, firstName) &&
-      Validators.checkNotNull('Last Name', 2, 60, lastName) &&
-      Validators.checkNotNull('Email Address', 2, 60, mailAddress) &&
-      Validators.checkNotNull('Password', 2, 60, password)
+      Validators.checkNull('First Name', 2, firstName) &&
+      Validators.checkNull('Last Name', 2, lastName)
     ) {
       Account_SettingApi();
     }
@@ -99,8 +112,7 @@ const Account = (props) => {
       profile_picture: image,
       user_fname: firstName,
       user_lname: lastName,
-      email: mailAddress,
-      password: password,
+      email: userData?.email,
     }
     actions.postAccountSetting(apiData, () => setloaderVisible(), () => PageNavigation());
 
@@ -112,6 +124,7 @@ const Account = (props) => {
       navigation: props.navigation,
     });
   }
+
 
   return (
     <ImageBackground source={Imagepath.background} style={styles.imagebg}>
@@ -159,7 +172,7 @@ const Account = (props) => {
         <TextInput
           style={styles.textInput}
           keyboardType="default"
-          placeholder="User Name"
+          placeholder={userData?.first_name}
           placeholderTextColor={'#737373'}
           editable={editText}
           onChangeText={text => {
@@ -171,7 +184,7 @@ const Account = (props) => {
         <TextInput
           style={styles.textInput}
           keyboardType="default"
-          placeholder="Last Name"
+          placeholder={userData?.last_name}
           placeholderTextColor={'#737373'}
           editable={editText}
           onChangeText={text => {
@@ -182,14 +195,14 @@ const Account = (props) => {
         <TextInput
           style={styles.textInput}
           keyboardType="email-address"
-          placeholder="Email address"
+          placeholder={userData?.email}
           placeholderTextColor={'#737373'}
-          editable={editText}
+          editable={false}
           onChangeText={text => {
             setmailAddress(text);
           }}
         />
-        <Text style={styles.textInputHeader}>password</Text>
+        {/* <Text style={styles.textInputHeader}>password</Text>
         <TextInput
           style={styles.textInput}
           keyboardType="default"
@@ -200,7 +213,7 @@ const Account = (props) => {
           onChangeText={text => {
             setpassword(text);
           }}
-        />
+        /> */}
 
         <TouchableOpacity
           onPress={() => HandelAccountsetting()}

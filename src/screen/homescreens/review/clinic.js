@@ -107,7 +107,7 @@ const Clinic = (props) => {
             <TouchableOpacity
               onPress={() => ListModal()}
               style={[styles.dropdownView, { marginBottom: 15 }]}>
-              <Text style={styles.dropdownText}>{doctId != null ? doctId.business_name : "Select Doctors"}</Text>
+              <Text style={styles.dropdownText}>{doctId.id ? doctId.business_name : "Select Doctors"}</Text>
               <Image
                 style={styles.downArrow}
                 source={Imagepath.down}
