@@ -546,14 +546,13 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            console.log(response);
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
-                // Toast.show(response.message);
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
-                // Toast.show(response.message);
+                Toast.show(response.message);
             }
         }).catch(err => {
             console.log("postBravo", err);

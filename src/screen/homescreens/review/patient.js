@@ -89,7 +89,7 @@ export default Patient = (props) => {
 
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView  contentContainerStyle={{flexGrow:1}}>
         {
           doctorId == null ?
             <>
@@ -114,8 +114,6 @@ export default Patient = (props) => {
         <Text
           style={{
             color: Colors.black,
-            width: '90%',
-            alignSelf: 'center',
             fontSize: 15,
             paddingVertical: 10,
             fontFamily: Fonts.ProximaNovaSemibold,
@@ -547,14 +545,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#CECECE',
   },
-  buttonText: { fontSize: 13, fontFamily: Fonts.ProximaNovaSemibold },
+  buttonText: { fontSize: Fontsize.FontThirteen, fontFamily: Fonts.ProximaNovaSemibold },
   progressButton: { alignItems: 'center', height: 15, width: 15 },
   progressButtonText: { fontSize: 17, width: 74 },
   dotImage: { height: 15, width: 15 },
   progressButtonTexttime: { fontFamily: Fonts.ProximaNovaRegular, fontSize: 13 },
   imputHeader: {
     color: Colors.black,
-    marginHorizontal: 24,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
   dropdownView: {

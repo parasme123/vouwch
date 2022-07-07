@@ -79,12 +79,12 @@ const Bravocard = (props) => {
 
   const Signin_Validators = () => {
     if (
-      Validators.checkNotNull('Name', 2, 150, name) &&
-      Validators.checkNotNull('Department', 2, 150, department) &&
-      Validators.checkNotNull('hospital', 2, 150, hospital) &&
-      Validators.checkNotNull('City', 2, 150, city) &&
-      Validators.checkNotNull('State', 2, 150, state) &&
-      Validators.checkNotNull('Detail', 2, 200, detail)
+      Validators.checkNull('Name', 2, name) &&
+      Validators.checkNull('Department', 2, department) &&
+      Validators.checkNull('hospital', 2, hospital) &&
+      Validators.checkNull('City', 2, city) &&
+      Validators.checkNull('State', 2, state) &&
+      Validators.checkNull('Detail', 2, detail)
     ) {
       BravoCard();
     }
@@ -121,11 +121,7 @@ const Bravocard = (props) => {
       <Header title={String.Bravo_Head_title} isback="asjdfla" />
       <View style={styles.hightView}></View>
       <View style={styles.mainView}>
-        {
-          console.log(props.allDoctorlist, "==================")    // ................log.............remove please
-
-        }
-        <ScrollView
+         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.ScrollViewStyle}>
           <View style={styles.input_main}>

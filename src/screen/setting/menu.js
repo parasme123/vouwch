@@ -10,11 +10,9 @@ import {
   Image,
 } from 'react-native';
 import { useIsFocused, useLinkProps } from '@react-navigation/native';
-import Imagepath from '../../common/imagepath';
-import { Header, Fonts, String } from '@common';
+import { Header, Fonts, String,Colors,Fontsize ,imagepath  } from '@common';
 import { Helper, Constants, AsyncStorageHelper } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
-import Colors from '../../common/Colors';
 
 // const { width, height } = Dimensions.get("window");
 export default Menu = (props,{ navigation }) => {
@@ -27,13 +25,11 @@ export default Menu = (props,{ navigation }) => {
       if (value !== null) {
         setuserToken(value);
       }
-      // console.log('UserToken------------', userToken);
     });
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
         setuserType(value);
       }
-      // console.log('setuserType-------', userType);
     });
   }, [isFocused]);
 
@@ -56,7 +52,7 @@ export default Menu = (props,{ navigation }) => {
   };
 
   return (
-    <ImageBackground source={Imagepath.background} style={styles.imagebg}>
+    <ImageBackground source={imagepath.background} style={styles.imagebg}>
       {/*  Header*/}
       <Header title={String.menu} isback={'bottomtab'} />
       <ScrollView
@@ -70,7 +66,7 @@ export default Menu = (props,{ navigation }) => {
             <Image
               style={styles.pageButtonIcon}
               resizeMode="contain"
-              source={Imagepath.Contact}
+              source={imagepath.Contact}
             />
             <Text style={styles.pageButtonText}>contact us</Text>
           </TouchableOpacity>
@@ -80,7 +76,7 @@ export default Menu = (props,{ navigation }) => {
             <Image
               style={styles.pageButtonIcon}
               resizeMode="contain"
-              source={Imagepath.help}
+              source={imagepath.help}
             />
             <Text style={styles.pageButtonText}>Help & support</Text>
           </TouchableOpacity>
@@ -90,7 +86,7 @@ export default Menu = (props,{ navigation }) => {
           <Image
             style={styles.pageButtonIcon}
             resizeMode="contain"
-            source={Imagepath.i}
+            source={imagepath.i}
           />
           <Text style={styles.pageButtonText}>About us</Text>
         </TouchableOpacity>
@@ -100,21 +96,21 @@ export default Menu = (props,{ navigation }) => {
           <Image
             style={styles.pageButtonIcon}
             resizeMode="contain"
-            source={Imagepath.privacy}
+            source={imagepath.privacy}
           />
           <Text style={styles.pageButtonText}>Privacy Policy</Text>
         </TouchableOpacity>
         {
           userType && userToken ? (
             <TouchableOpacity
-              style={styles.pageButton}
+              style={[styles.pageButton,{marginBottom:50}]}
               onPress={() => {
                 SignOut();
               }}>
               <Image
                 style={styles.pageButtonIcon}
                 resizeMode="contain"
-                source={Imagepath.help}
+                source={imagepath.help}
               />
               <Text style={styles.pageButtonText}>Sign out</Text>
             </TouchableOpacity>
@@ -128,40 +124,15 @@ export default Menu = (props,{ navigation }) => {
 
 const styles = StyleSheet.create({
   imagebg: { flex: 1 },
-  containerView: { height: 65, width: '100%', backgroundColor: Colors.appcolor },
-  arrowiconView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 20,
-    width: '90%',
-    alignSelf: 'center',
-  },
-  arrowicon: { height: 21, width: 31 },
-  headerView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '90%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    paddingTop: 20,
-  },
-  headerText: {
-    color: '#ffffff',
-    paddingLeft: 35,
-    fontSize: 20,
-    fontWeight: '500',
-  },
   container1: {
-    width: '90%',
-    alignSelf: 'center',
+    marginHorizontal:24,
     marginTop: 10,
   },
-  pageButton: { flexDirection: 'row', alignItems: 'center', width: '60%' },
+  pageButton: { flexDirection: 'row', alignItems: 'center', },
   pageButtonIcon: { height: 30, width: 30 },
   pageButtonText: {
-    color: '#000',
-    fontSize: 18,
+    color:Colors.black,
+    fontSize: Fontsize.fontEighteen,
     marginHorizontal: 15,
     marginVertical: 20,
     fontFamily: Fonts.ProximaNovaMedium,
