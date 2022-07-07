@@ -186,6 +186,7 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 PageNavigation(response)
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -242,6 +243,7 @@ export const postForgot = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -298,6 +300,7 @@ export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation()
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -358,6 +361,7 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -387,6 +391,7 @@ export const handelAddDoctor = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -416,6 +421,7 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
+                
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -445,6 +451,7 @@ export const postMessge = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -473,6 +480,7 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -537,6 +545,7 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 // Toast.show(response.message);
@@ -548,9 +557,6 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
         })
     }
 };
-
-
-
 
 export const getDoctorList = () => {
     return async dispatch => {
@@ -595,10 +601,9 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-            console.log("success", response);
+          
             if (response.status) {
                 PageNavigation(response)
-
             }
             Toast.show(response.message);
         }).catch(err => {
