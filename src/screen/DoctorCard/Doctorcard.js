@@ -5,7 +5,7 @@ import styles from './doctorcardcCss';
 import { Header, imagepath } from "@common";
 import { CustomLoader } from '@lib';
 import { DoctorCardList, Searchresult } from "@component";
-import { getDoctorData, postDoctorSearch, postMessge, postComment, postFollow } from '../../reduxStore/action/doctorAction';
+import { postDoctorSearch, postMessge, postComment, postFollow } from '../../reduxStore/action/doctorAction';
 import Message from '../../modal/Message';
 import Comments from '../../modal/Comments';
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ const Doctor_Card = (props) => {
     const [Follows, setFollow] = useState([]);
     const [userType, setuserType] = useState(null);
     const [userToken, setuserToken] = useState(null);
-
+    const [pageNo, setPageNo] = useState(1)
 
     // Button condition
     const MessagepropPage = DataCardiList => {
@@ -134,34 +134,25 @@ const Doctor_Card = (props) => {
         // console.log('msgDocId------------', props.allHomeData.cards);
     }, []);
 
+    const addRecordsInList = () => {
+        setPageNo(pageNo + 1)
+    }
+
     useEffect(() => {
-        // console.log(searchProps, "searchProps----------------------");
-        if (searchProps == null) {
-            Call_CategouryApi();
+        let { actions, lastPage } = props;
+        let apiData = {
+            keyword: searchProps,
         }
-        else {
-            Call_SearchApi();
+        // console.log("pageNo : ", pageNo, "lastPage : ", lastPage)
+        if (pageNo <= lastPage) {
+            // console.log("apiData : ", apiData)
+            actions.postDoctorSearch(apiData, pageNo);
         }
-    }, []);
+    }, [pageNo]);
 
     // share module
     const onShare = () => {
         Helper.onShare();
-    };
-
-    // api  of all Doctor Card
-    const Call_CategouryApi = () => {
-        let { actions } = props;
-        actions.getDoctorData();
-    }
-
-    // Search API
-    const Call_SearchApi = () => {
-        let { actions } = props;
-        let apiData = {
-            keyword: searchProps,
-        }
-        actions.postDoctorSearch(apiData, setloaderVisible);
     };
 
     const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
@@ -235,6 +226,8 @@ const Doctor_Card = (props) => {
                         renderItem={DoctorCard_Cards}
                         keyExtractor={(item, index) => String(index)}
                         showsVerticalScrollIndicator={false}
+                        onEndReached={() => addRecordsInList()}
+                        onEndReachedThreshold={0.5}
                     />
                 ) : <Searchresult />
             }
@@ -246,10 +239,10 @@ const Doctor_Card = (props) => {
 
 const mapStateToProps = state => ({
     doctorList: state.doctor.doctorList,
+    lastPage: state.doctor.lastPage
 });
 
 const ActionCreators = Object.assign(
-    { getDoctorData },
     { postDoctorSearch },
     { postMessge },
     { postComment },
