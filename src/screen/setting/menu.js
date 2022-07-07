@@ -9,7 +9,7 @@ import {
   Linking,
   Image,
 } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useLinkProps } from '@react-navigation/native';
 import Imagepath from '../../common/imagepath';
 import { Header, Fonts, String } from '@common';
 import { Helper, Constants, AsyncStorageHelper } from '@lib';
@@ -17,7 +17,7 @@ import { handleNavigation } from '../../navigator/Navigator';
 import Colors from '../../common/Colors';
 
 // const { width, height } = Dimensions.get("window");
-export default Menu = ({ navigation }) => {
+export default Menu = (props,{ navigation }) => {
   const [userType, setuserType] = useState(null);
   const [userToken, setuserToken] = useState(null);
   const isFocused = useIsFocused();
@@ -51,7 +51,7 @@ export default Menu = ({ navigation }) => {
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
-      navigation: navigation,
+      navigation: props.navigation,
     });
   };
 
@@ -64,6 +64,7 @@ export default Menu = ({ navigation }) => {
         contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container1}>
           <TouchableOpacity
+            // onPress={()=>props.navigation.navigate("webView")}
             onPress={()=>{Linking.openURL('https://apponedemo.top/vouwch/api/contact-us-app')}}
             style={styles.pageButton}>
             <Image

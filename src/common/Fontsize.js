@@ -4,6 +4,7 @@ const Fontsize = StyleSheet.create({
     Verysmall: 8,
     small: 10,
     fontTwelve: 12,
+    fontThirteen: 13,
     fontFourteen: 14,
     fontFifteen: 15,
     fontSixteen: 16,

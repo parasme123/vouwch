@@ -1,4 +1,4 @@
-import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA } from './types';
+import { DOCTORRECORD, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -145,6 +145,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
         })
     }
 };
+
 
 export const setUserData = (data) => {
     return ({
@@ -339,6 +340,7 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
+                AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);
@@ -396,6 +398,7 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
+                AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);
@@ -471,7 +474,6 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
 export const getdoctordetails = (data, setloaderVisible) => {
     return async dispatch => {
         setloaderVisible(true);
-        // consloe.log("data", data)
         await fetch(`${URL.baseUrl}${URL.doctorDetails}`, {
             method: "POST",
             headers: {
@@ -521,7 +523,7 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                // Toast.show(response.message);
             }
         }).catch(err => {
             console.log("postBravo", err);
@@ -530,3 +532,64 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
         })
     }
 };
+
+
+
+
+export const getDoctorList = () => {
+    return async dispatch => {
+        // setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.doctorlist}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Token": `Bearer ${global.token}`
+            }
+        }).then(async (res) => {
+            let response = await res.json();
+            // setloaderVisible(false);
+            if (response.status) {
+                dispatch(savedoctorList(response.data))
+            }
+        }).catch(err => {
+            console.log("getDoctorList", err);
+            // setloaderVisible(false);
+        })
+    }
+};
+
+export const savedoctorList = (data) => {
+    return ({
+        type: DOCTORLIST,
+        payload: data
+    })
+};
+
+
+export const postReview = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.addReview}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            console.log("success", response);
+            if (response.status) {
+                PageNavigation(response)
+
+            }
+            Toast.show(response.message);
+        }).catch(err => {
+            console.log("postReview", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+

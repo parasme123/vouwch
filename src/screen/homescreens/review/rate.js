@@ -11,14 +11,15 @@ import Clinic from './clinic';
 import Patient from './patient';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { postBravo } from '../../../reduxStore/action/doctorAction';
+import { postReview, getDoctorList } from '../../../reduxStore/action/doctorAction';
+import { handleNavigation } from '../../../navigator/Navigator';
 
-const Rate = ({ navigation, route }) => {
+const Rate = (props, { navigation, route }) => {
   const [cliniceReview, setcliniceReview] = useState();
   const [patientReview, setpatientReview] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
-  const doctorId = route.params ? route.params.doctorId : 0;
-  const detail = route.params ? route.params.detail : 0;
+  const [loaderVisible, setloaderVisible] = useState(false);
+  const doctorId = props.route.params ? props.route.params.doctorid : null;
+  const detail = props.route.params ? props.route.params.detail : 0;
 
   const ClinicianPage = () => {
     setcliniceReview(true);
@@ -30,42 +31,15 @@ const Rate = ({ navigation, route }) => {
     setpatientReview(true);
   };
   useEffect(() => {
-    ClinicianPage();
+    PasientPage();
+    handelDoctorList();
 
   }, []);
 
-
-
-  const Review_Validators = () => {
-    if (
-      Validators.checkNotNull('Name', 2, 20, name) &&
-      Validators.checkNotNull('Department', 2, 20, department) &&
-      Validators.checkNotNull('hospital', 2, 20, hospital) &&
-      Validators.checkNotNull('City', 2, 20, city) &&
-      Validators.checkNotNull('State', 2, 20, state) &&
-      Validators.checkNotNull('Detail', 2, 200, detail)
-    ) {
-      Review();
-    }
-  };
-
-  const Review = () => {
+  const Review_Validators = (apiData) => {
     let { actions } = props;
-    let apiData = {
-      business_id: doctorId,
-      review_type: name,
-      rate: department,
-      review: hospital,
-      is_anonym: city,
-      friendness_rate: state,
-      treatment_rate: detail,
-      wait_rate: doctorId,
-      experience_rate: name,
-      money_rate: department,
-      wait_period: hospital,
-      is_recommend: city
-    };
-    // actions.postBravo(apiData, setloaderVisible, () => PageNavigation());
+    // console.log(apiData);
+    actions.postReview(apiData, setloaderVisible, () => PageNavigation());
   };
 
   const PageNavigation = () => {
@@ -75,6 +49,13 @@ const Rate = ({ navigation, route }) => {
       navigation: props.navigation,
     });
   }
+
+  // doctor list data
+
+  const handelDoctorList = () => {
+    let { actions } = props;
+    actions.getDoctorList();
+  };
 
 
   return (
@@ -91,7 +72,7 @@ const Rate = ({ navigation, route }) => {
             fontFamily: Fonts.ProximaNovaSemibold,
           }}>
           <TouchableOpacity
-            onPress={() => { ClinicianPage(), { detail: doctorId } }}
+            onPress={() => { ClinicianPage() }}
             style={[
               { backgroundColor: cliniceReview ? '#19428A' : null },
               styles.button,
@@ -116,8 +97,22 @@ const Rate = ({ navigation, route }) => {
         </View>
       </View>
 
-      {cliniceReview && <Clinic />}
-      {patientReview && <Patient />}
+      {
+        cliniceReview &&
+        <Clinic
+          doctorList={props.allDoctorlist}
+          docId={doctorId}
+          Review_Validators={Review_Validators}
+        />
+      }
+      {
+        patientReview &&
+        <Patient
+          doctorList={props.allDoctorlist}
+          docId={doctorId}
+          Review_Validators={Review_Validators}
+        />
+      }
     </ImageBackground>
   );
 };
@@ -134,10 +129,12 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
+  allDoctorlist: state.doctor.allDoctorlist
 });
 
 const ActionCreators = Object.assign(
-  { postBravo }
+  { postReview },
+  { getDoctorList }
 );
 
 const mapDispatchToProps = dispatch => ({

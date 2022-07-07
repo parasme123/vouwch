@@ -103,9 +103,7 @@ const Doctor_Card = (props) => {
         let apiData = {
             business_id: id,
         }
-        // console.log("apiData------------------------",apiData);
         actions.postFollow(apiData);
-
     };
 
     const Follow_api = (id) => {
@@ -123,7 +121,6 @@ const Doctor_Card = (props) => {
             if (value !== null) {
                 setuserToken(value);
             }
-            // console.log('UserToken------------', userToken);
         });
         AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
             if (value !== null) {
@@ -131,11 +128,9 @@ const Doctor_Card = (props) => {
             }
             //
         });
-        // console.log('msgDocId------------', props.allHomeData.cards);
     }, []);
 
     useEffect(() => {
-        // console.log(searchProps, "searchProps----------------------");
         if (searchProps == null) {
             Call_CategouryApi();
         }
@@ -184,7 +179,7 @@ const Doctor_Card = (props) => {
         if (!userType) {
             Helper.loginPopUp(props.navigation);
         } else {
-            navigation.navigate(navigationFor, { doctorid })
+            props.navigation.navigate(navigationFor, { doctorid })
         }
     }
 

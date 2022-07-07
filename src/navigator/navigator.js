@@ -27,6 +27,7 @@ import Doctorcard from '../screen/DoctorCard/Doctorcard';
 import Resetpassword from '../screen/Forgotpassword/Resetpassword';
 import Reply from '../screen/Message/Reply';
 import MessageBox from '../common/MessegeBox';
+import MyWebComponent from '../component/webVview/MyWebComponent';
 const MainStack = createStackNavigator();
 const Navigator = () => {
   return (
@@ -56,13 +57,11 @@ const Navigator = () => {
         <MainStack.Screen name="forgotpassword" component={ForgotPassword} />
         <MainStack.Screen name="otppage" component={OtpPage} />
         <MainStack.Screen name="DoctorCard" component={Doctorcard} />
-        <MainStack.Screen
-          name="Hospotalbravocard"
-          component={Hospotalbravocard}
-        />
+        <MainStack.Screen name="Hospotalbravocard" component={Hospotalbravocard} />
         <MainStack.Screen name="Confirmpassword" component={Resetpassword} />
         <MainStack.Screen name="Reply" component={Reply} />
         <MainStack.Screen name="Msg" component={MessageBox} />
+        <MainStack.Screen name="webView" component={MyWebComponent} />
       </MainStack.Navigator>
     </NavigationContainer>
   );
