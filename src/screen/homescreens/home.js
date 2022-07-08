@@ -416,7 +416,7 @@ const ActionCreators = Object.assign(
   { getHomeData },
   { postFollow },
   { postMessge },
-  { postComment }
+  { postComment },
 );
 
 const mapDispatchToProps = dispatch => ({

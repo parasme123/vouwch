@@ -9,12 +9,8 @@ import {
   ScrollView,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { Header } from '@common';
-import Imagepath from '../../common/imagepath';
-import String from '../../common/String';
-import Fonts from '../../common/Fonts';
+import { Header, Imagepath, String, Fonts, Colors } from '@common';
 import { useNavigation } from '@react-navigation/native';
-import Colors from '../../common/Colors';
 
 const Settingprofile = () => {
   const navigation = useNavigation();

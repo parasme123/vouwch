@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     paddingLeft: 10,
     fontFamily: Fonts.ProximaNovaMedium,
-    textAlignVertical: "top",
+    textAlign:"center"
 
   },
   button: {
