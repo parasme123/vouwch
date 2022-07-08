@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     opacity: 5,
   },
   centeredView2: {
-    width: '92%',
+    // width: '92%',
     // height: 255,
     borderRadius: 15,
     alignSelf: 'center',
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   headerView: {
-    height: 50,
+    // height: 50,
     backgroundColor: Colors.bottonColors,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     borderRadius: 10,
     flex: 1,
     paddingVertical: 5,

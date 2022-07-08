@@ -32,7 +32,7 @@ const MainStack = createStackNavigator();
 const Navigator = () => {
   return (
     <NavigationContainer>
-      <MainStack.Navigator
+      <MainStack.Navigator 
         initialRouteName="splash"
         screenOptions={{ headerShown: false }}>
         <MainStack.Screen name="splash" component={Splash} />

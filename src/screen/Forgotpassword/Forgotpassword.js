@@ -62,7 +62,6 @@ function ForgotPassword(props) {
                   setEmail(text);
                 }}
                 value={Email}
-                maxLength={40}
                 keyboardType="email-address"
               />
             </View>

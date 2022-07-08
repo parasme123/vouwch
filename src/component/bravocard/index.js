@@ -57,17 +57,14 @@ export default Bravocard = (props) => {
             <View style={styles.shareCardView}>
                 <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Comment(props.item.id) }}>
                     {svg.commentCircle(30, 30, Colors.appcolor)}
-                    {/* <Image style={styles.shareButtonImage} source={imagepath.commenticon} /> */}
                     <Text numberOfLines={1} style={styles.shareButtonText}>Comment</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Message(props.item.id) }}>
                     {svg.messageCircle(30, 30, Colors.appcolor)}
-                    {/* <Image style={styles.shareButtonImage} source={imagepath.Messageicon} /> */}
                     <Text numberOfLines={1} style={styles.shareButtonText}>Message</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.id) }}>
                     {svg.shareCircle(30, 30, Colors.black, Colors.white)}
-                    {/* <Image style={styles.shareButtonImage} source={imagepath.Share} /> */}
                     <Text numberOfLines={1} style={styles.shareButtonText}>share</Text>
                 </TouchableOpacity>
             </View>

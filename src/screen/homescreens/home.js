@@ -171,6 +171,7 @@ const Home = (props) => {
     });
   }
 
+  
 
 
   // api   Profile
@@ -303,7 +304,7 @@ const Home = (props) => {
           <View style={styles.searchView}>
             <TextInput
               style={styles.textInputStyles}
-              placeholder="Search for a doctor, hospitalls etc"
+              placeholder="Search for a doctor, hospital, City, State etc."
               placeholderTextColor={'white'}
               onChangeText={text => {
                 setsearch(text);

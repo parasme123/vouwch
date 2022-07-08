@@ -35,7 +35,7 @@ export const checkEmail = (name, value) => {
       return false;
     }
   } else {
-    Toast.show(`${name} is Required.`);
+    Toast.show(`${name} is Invalid.`);
     return false;
   }
   return true;
@@ -114,7 +114,7 @@ export const checkPhoneNumber = (name, min, max, value) => {
 
 export const checkNotNull = (name, min, max, value) => {
   var min = min || 2;
-  var max = max || 50;
+  var max = max || 2000;
   if (value) {
     if (value.length < min || value.length > max) {
       Toast.show(`${name} must be between ${min} to ${max} Characters.`);
@@ -125,6 +125,20 @@ export const checkNotNull = (name, min, max, value) => {
     Toast.show(`${name} is Required.`);
     return false;
   }
+}
+export const checkNull = (name, min, value) => {
+  if (value) {
+    if (value?.length < min) {
+    Toast.show(`${name} must be at least ${min} characters.`);
+    return false;
+  } else {
+    return true;
+  }
+ } else {
+  Toast.show(`${name} is Required.`);
+  return false;
+}
+  
 }
 
 export const checkOtp = (name, min, max, value) => {
@@ -181,8 +195,8 @@ export const checkPassword = (name, min, max, value) => {
 }
 
 export const checkMatch = (name, value, name2, value2) => {
-  var min = min || 5;
-  var max = max || 40;
+  // var min = min || 5;
+  // var max = max || 40;
   if (value == value2) {
     return true;
   } else {

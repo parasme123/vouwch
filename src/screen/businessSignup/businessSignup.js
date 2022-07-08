@@ -64,12 +64,11 @@ const BusinessSignup = (props) => {
 
   const Signin_Validators = () => {
     if (
-      Validators.checkNotNull('First Name', 2, 20, firstname) &&
-      Validators.checkNotNull('Last Name', 2, 20, lastname) &&
-      Validators.checkNotNull('Email', 2, 20, email) &&
-      Validators.checkNotNull('Business Name', 2, 20, BusinessName) &&
+      Validators.checkNull('First Name', 2, firstname) &&
+      Validators.checkNull('Last Name', 2, lastname) &&
+      Validators.checkNull('Business Name', 2, BusinessName) &&
       Validators.checkEmail('Email', email) &&
-      Validators.checkPassword('Password', 7, 15, password)
+      Validators.checkNull('Password', 7, password)
     ) {
       if (!mark) {
         Toast.show('Please Select Terms of Services and Privacy Policy');
@@ -126,7 +125,6 @@ const BusinessSignup = (props) => {
                   setfirstname(text);
                 }}
                 value={firstname}
-                maxLength={40}
                 keyboardType="default"
               />
             </View>
@@ -142,7 +140,6 @@ const BusinessSignup = (props) => {
                   setlastname(text);
                 }}
                 value={lastname}
-                maxLength={40}
                 keyboardType="default"
               />
             </View>
@@ -158,7 +155,6 @@ const BusinessSignup = (props) => {
                   setemail(text);
                 }}
                 value={email}
-                maxLength={40}
                 keyboardType="email-address"
               />
             </View>
@@ -190,7 +186,6 @@ const BusinessSignup = (props) => {
                   setpassword(text);
                 }}
                 value={password}
-                // maxLength={8}
                 keyboardType="default"
               />
             </View>

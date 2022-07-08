@@ -90,162 +90,160 @@ const Clinic = (props) => {
   }
 
   return (
-    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
-      <Text
-        style={styles.headerText}>
-        Should you, your family or friends seek care at this provider, what is
-        your recommendation?
-      </Text>
-      {
-        doctorId == null ?
-          <>
-            <Text
-              style={styles.imputHeader}>
-              Select Doctors List
-            </Text>
+    <ImageBackground source={Imagepath.background} style={styles.backgroundContainer}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Text
+          style={styles.headerText}>
+          Should you, your family or friends seek care at this provider, what is
+          your recommendation?
+        </Text>
+        {
+          doctorId == null ?
+            <>
+              <Text
+                style={styles.imputHeader}>
+                Select Doctors List
+              </Text>
 
-            <TouchableOpacity
-              onPress={() => ListModal()}
-              style={[styles.dropdownView, { marginBottom: 15 }]}>
-              <Text style={styles.dropdownText}>{doctId != null ? doctId.business_name : "Select Doctors"}</Text>
-              <Image
-                style={styles.downArrow}
-                source={Imagepath.down}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </> : null
-      }
+              <TouchableOpacity
+                onPress={() => ListModal()}
+                style={[styles.dropdownView, { marginBottom: 15 }]}>
+                <Text style={styles.dropdownText}>{doctId.id ? doctId.business_name : "Select Doctors"}</Text>
+                <Image
+                  style={styles.downArrow}
+                  source={Imagepath.down}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </> : null
+        }
 
-      <Text
-        style={styles.imputHeader}>
-        Slect your recommendation
-      </Text>
+        <Text
+          style={styles.imputHeader}>
+          Slect your recommendation
+        </Text>
 
-      <TouchableOpacity
-        onPress={() => {
-          onPickersecond();
-        }}
-        style={styles.dropdownView}>
-        <Text style={styles.dropdownText}>{selectvalue}</Text>
-        <Image
-          style={styles.downArrow}
-          source={Imagepath.down}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
-      {DropDownSec && (
-        <View style={styles.DropDownView}>
-          <CustomDropDown
-            marginVertical={5}
-            items={DishesData}
-            placeholder={selectvalue}
-            onChangeItem={item => onChangesecond(item.label)}
-            onOpen={() => onPickersecond()}
-            ImagePath={Imagepath.downArrow}
-            colour={Colors.bottonColors}
-            isDropDownSec={DropDownSec}
-          />
-        </View>
-      )}
-      <Text
-        style={{
-          color: Colors.black,
-          marginHorizontal: 24,
-
-          marginTop: 28,
-          fontSize: Fontsize.fontFifteen,
-          fontFamily: Fonts.ProximaNovaSemibold,
-        }}>
-        Share your experience
-      </Text>
-      <TextInput
-        placeholder="Share your experiance"
-        placeholderTextColor="#929397"
-        style={{
-          paddingLeft: 15,
-          height: 120,
-          borderColor: '#CECECE',
-          borderWidth: 0.5,
-          marginHorizontal: 24,
-          borderRadius: 10,
-          marginTop: 10,
-          textAlign: 'center',
-          fontFamily: Fonts.ProximaNovaSemibold,
-        }}
-        keyboardType="default"
-        multiline={true}
-        onChangeText={text => {
-          setRecomendation(text);
-        }}
-      />
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginHorizontal: 15,
-          marginVertical: 15,
-        }}>
         <TouchableOpacity
-          onPress={() => chexkBox()}
-          style={{ paddingRight: '2%' }}>
+          onPress={() => {
+            onPickersecond();
+          }}
+          style={styles.dropdownView}>
+          <Text style={styles.dropdownText}>{selectvalue}</Text>
           <Image
-            source={mark ? Imagepath.yes : Imagepath.check}
-            style={{
-              height: 30,
-              width: 30,
-              borderRadius: 5,
-              tintColor: '#707070',
-            }}
-            resizeMode="cover"
+            style={styles.downArrow}
+            source={Imagepath.down}
+            resizeMode="contain"
           />
         </TouchableOpacity>
+        {DropDownSec && (
+          <View style={styles.DropDownView}>
+            <CustomDropDown
+              marginVertical={5}
+              items={DishesData}
+              placeholder={selectvalue}
+              onChangeItem={item => onChangesecond(item.label)}
+              onOpen={() => onPickersecond()}
+              ImagePath={Imagepath.downArrow}
+              colour={Colors.bottonColors}
+              isDropDownSec={DropDownSec}
+            />
+          </View>
+        )}
         <Text
           style={{
-            fontSize: Fontsize.fontFifteen,
             color: Colors.black,
-            fontFamily: Fonts.ProximaNovaRegular,
-          }}>
-          Keep this feedback publicity anonymous
-        </Text>
-      </View>
-
-      <TouchableOpacity
-        onPress={() => Call_ClinicialApi()}
-        style={{
-          backgroundColor: '#245FC7',
-          paddingVertical: 15,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 10,
-          marginHorizontal: 24,
-          marginVertical: 10,
-        }}>
-        <Text
-          style={{
-            fontSize: Fontsize.fontSixteen,
-            color: Colors.white,
+            marginTop: 28,
+            fontSize: Fontsize.fontFifteen,
             fontFamily: Fonts.ProximaNovaSemibold,
           }}>
-          SUBMIT
+          Share your experience
         </Text>
-      </TouchableOpacity>
-
-      {docPicList && (
-        <DoctorList
-          modalVisible={modalVisible}
-          Hidemodal={ListModal}
-          data={props.doctorList}
-          slectData={mark}
-          chexkBoxFnc={ServiceData}
+        <TextInput
+          placeholder="Share your experiance"
+          placeholderTextColor="#929397"
+          style={{
+            paddingLeft: 15,
+            height: 120,
+            borderColor: '#CECECE',
+            borderWidth: 0.5,
+            borderRadius: 10,
+            marginTop: 10,
+            textAlign: 'center',
+            fontFamily: Fonts.ProximaNovaSemibold,
+          }}
+          keyboardType="default"
+          multiline={true}
+          onChangeText={text => {
+            setRecomendation(text);
+          }}
         />
-      )}
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 15,
+          }}>
+          <TouchableOpacity
+            onPress={() => chexkBox()}
+            style={{ paddingRight: 15 }}>
+            <Image
+              source={mark ? Imagepath.yes : Imagepath.check}
+              style={{
+                height: 30,
+                width: 30,
+                borderRadius: 5,
+                tintColor: '#707070',
+              }}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: Fontsize.fontFifteen,
+              color: Colors.black,
+              fontFamily: Fonts.ProximaNovaRegular,
+            }}>
+            Keep this feedback publicity anonymous
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          onPress={() => Call_ClinicialApi()}
+          style={{
+            backgroundColor: '#245FC7',
+            paddingVertical: 15,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 10,
+            marginVertical: 10,
+          }}>
+          <Text
+            style={{
+              fontSize: Fontsize.fontSixteen,
+              color: Colors.white,
+              fontFamily: Fonts.ProximaNovaSemibold,
+            }}>
+            SUBMIT
+          </Text>
+        </TouchableOpacity>
+
+        {docPicList && (
+          <DoctorList
+            modalVisible={modalVisible}
+            Hidemodal={ListModal}
+            data={props.doctorList}
+            slectData={mark}
+            chexkBoxFnc={ServiceData}
+          />
+        )}
+      </ScrollView>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundContainer:{ flex: 1, paddingHorizontal:24 },
   headerText: {
     textAlign: 'center',
     paddingVertical: 22,
@@ -257,7 +255,7 @@ const styles = StyleSheet.create({
   },
   imputHeader: {
     color: Colors.black,
-    marginHorizontal: 24,
+    // marginHorizontal: 24,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
   dropdownView: {
@@ -265,7 +263,7 @@ const styles = StyleSheet.create({
     borderColor: '#CECECE',
     fontSize: Fontsize.fontFifteen,
     borderRadius: 10,
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
     paddingLeft: 10,
     paddingVertical: 15,
     flexDirection: 'row',

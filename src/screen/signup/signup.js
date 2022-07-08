@@ -35,11 +35,11 @@ const Signup = (props) => {
 
   const Signin_Validators = () => {
     if (
-      Validators.checkNotNull('First Name', 2, 20, firstname) &&
-      Validators.checkNotNull('Last Name', 2, 20, lastname) &&
-      Validators.checkNotNull('Email', 2, 40, email) &&
-      Validators.checkPassword('Password', 7, 15, password) &&
-      Validators.checkNotNull('Confirm Password', 2, 20, ConfirmPassword) &&
+      Validators.checkNull('First Name', 2, firstname) &&
+      Validators.checkNull('Last Name', 2,  lastname) &&
+      Validators.checkEmail('Email', email) &&
+      Validators.checkNull('Password', 8,  password) &&
+      Validators.checkNull('Confirm Password', 8,  ConfirmPassword) &&
       Validators.checkMatch('Password', password, 'Confirm Password', ConfirmPassword,)
     ) {
       if (!mark) {
@@ -91,7 +91,6 @@ const Signup = (props) => {
                 setfirstname(text);
               }}
               value={firstname}
-              maxLength={40}
               keyboardType="default"
             />
           </View>
@@ -107,7 +106,7 @@ const Signup = (props) => {
                 setlastname(text);
               }}
               value={lastname}
-              maxLength={40}
+
               keyboardType="default"
             />
           </View>
@@ -123,7 +122,6 @@ const Signup = (props) => {
                 setemail(text);
               }}
               value={email}
-              maxLength={40}
               keyboardType="email-address"
             />
           </View>
@@ -171,9 +169,9 @@ const Signup = (props) => {
                 resizeMode="cover"
               />
             </TouchableOpacity>
-              <Text style={styles.checkBoxText}>I agree to
-              <Text style={styles.checkBoxText2}> Terms of Services </Text>and 
-              <Text  onPress={() => {Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app')}} style={styles.checkBoxText2}> Privacy Policy</Text>
+            <Text style={styles.checkBoxText}>I agree to
+              <Text style={styles.checkBoxText2}> Terms of Services </Text>and
+              <Text onPress={() => { Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app') }} style={styles.checkBoxText2}> Privacy Policy</Text>
             </Text>
           </View>
 

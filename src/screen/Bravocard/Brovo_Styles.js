@@ -65,5 +65,23 @@ const Brovo_Styles = StyleSheet.create({
     paddingVertical: 7,
     borderRadius: 20,
   },
+  imputHeader: {
+    fontSize: 16, color: "#000", fontFamily: Fonts.ProximaNovaBold , marginHorizontal: 24,
+  },
+  dropdownView: {
+    borderWidth: 1,
+    borderColor: '#CECECE',
+    fontSize: Fontsize.fontFifteen,
+    borderRadius: 10,
+    marginHorizontal: 20,
+    paddingLeft: 10,
+    paddingVertical: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  dropdownText: { fontSize: Fontsize.fontFifteen, fontFamily: Fonts.ProximaNovaMedium },
+  downArrow: { height: 8, width: 12, paddingRight: 50 },
 });
 export default Brovo_Styles;
