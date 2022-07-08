@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { BRAVOCARD, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES, USERDATA, DOCTORDETAILS, DOCTORLIST,PROFILEDATA } from '../action/types';
+=======
+import { BRAVOCARD, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES, USERDATA, DOCTORDETAILS, DOCTORLIST, SERVICESLIST } from '../action/types';
+>>>>>>> main
 const initialState = {
     doctorList: [],
     allHomeData: {},
@@ -10,7 +14,7 @@ const initialState = {
     allDetailsDoc: {},
     lastPage: 1,
     allDoctorlist: [],
-    ProfileData:{},
+    allServices: [],
 };
 
 const ChangeTheNumber = (state = initialState, action) => {
@@ -35,8 +39,13 @@ const ChangeTheNumber = (state = initialState, action) => {
             return { ...state, allDetailsDoc: action.payload };
         case DOCTORLIST:
             return { ...state, allDoctorlist: action.payload };
+<<<<<<< HEAD
         case PROFILEDATA:
             return { ...state, ProfileData: action.payload };
+=======
+        case SERVICESLIST:
+            return { ...state, allServices: action.payload };
+>>>>>>> main
         default:
             return state;
     }

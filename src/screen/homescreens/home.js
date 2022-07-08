@@ -294,7 +294,7 @@ const Home = (props) => {
                 onPress={() => userType && userToken ? handleProfile() : handleLogin()}
                 style={styles.profileButton}>
                 <Image
-                  source={Imagepath.profile}
+                  source={{uri : userType?.profile_picture}}
                   resizeMode="stretch"
                   imageStyle={{}}
                   style={styles.profileButton}

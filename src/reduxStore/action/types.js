@@ -20,4 +20,4 @@ export const DOCTORDETAILS = "DOCTORDETAILS";
 
 export const DOCTORLIST = "DOCTORLIST";
 
-export const PROFILEDATA = "PROFILEDATA";
+export const SERVICESLIST = "SERVICESLIST";

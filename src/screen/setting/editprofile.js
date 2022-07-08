@@ -1,24 +1,18 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
   ImageBackground,
   Image,
   TextInput,
   ScrollView,
-  Modal,
-  PermissionsAndroid,
 } from 'react-native';
-import Toast from 'react-native-simple-toast';
 import { useNavigation } from '@react-navigation/native';
 
 import { String, Header, Fonts, imagepath, Colors, } from '@common';
-import RNPickerSelect from 'react-native-picker-select';
-import { Constants, SortUrl, ApiCall, AsyncStorageHelper, Validators } from '@lib';
+import { Validators } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { HandlDocProfil, getCategories } from '../../reduxStore/action/doctorAction';
@@ -27,20 +21,26 @@ import Picker from '../../modal/picker';
 import Fontsize from '../../common/Fontsize';
 
 
-const { width, height } = Dimensions.get('window');
 const Editprofile = (props) => {
+
   const [Location, setLocation] = useState('');
   const [Hours, setHours] = useState();
   const [Aboutus, setAboutus] = useState('');
   const [loaderVisible, setloaderVisible] = useState(false);
-  const [CateList, setCateList] = useState([]);
-  const [CateId, setCateId] = useState();
   const [ReviewModalPopup, setReviewModalPopup] = useState();
   const [modalVisible, setModalVisible] = useState();
   const navigation = useNavigation();
   const [editText, seteditText] = useState(false);
   const [mark, setMark] = useState([]);
   // console.log(mark,"mark");
+
+  useEffect(() => {
+    console.log("props.setData", props);
+        setAboutus(props.setData?.business?.about_us);
+        setLocation(props.setData?.business?.service_location);
+        setHours(props.setData?.business?.service_hours);
+  }, [props.setData]);
+
   const chexkBox = (item) => {
     let follows1 = [...mark];
     if (!follows1.includes(item)) {
@@ -61,26 +61,14 @@ const Editprofile = (props) => {
   }, []);
 
   const ListModal = () => {
-
     setReviewModalPopup(!modalVisible);
     setModalVisible(!modalVisible);
   };
-
 
   const Get_Categroy = () => {
     let { actions } = props;
     actions.getCategories();
   };
-  useEffect(() => {
-    if (props.allCategories.status == true) {
-      let arr = [];
-      props.allCategories.data.categories.map((item, label) => {
-        arr.push({ label: item.name, value: item.id });
-        // console.log('arr== categories in signup==>>>', arr);
-      });
-      setCateList(arr);
-    }
-  }, [props.allCategories])
 
   const Account_SettingApi = () => {
     if (
@@ -95,11 +83,13 @@ const Editprofile = (props) => {
   const Signin_Validators = () => {
     let { actions } = props;
     let apiData = {
-      bussiness_services: JSON.stringify(mark),
+      bussiness_services: mark.map(item => item.id),
       bussiness_hours: Hours,
       location: Location,
       about_us: Aboutus,
     };
+    // console.log("apiData", apiData)
+    // return;
     actions.HandlDocProfil(apiData, () => setloaderVisible(), () => PageNavigation());
 
   };
@@ -147,7 +137,7 @@ const Editprofile = (props) => {
             paddingHorizontal: 10
           }}>
 
-          <Text style={styles.serviceText}>Select Services</Text>
+          <Text style={styles.serviceText}>{mark.length > 0 ? mark.map(item => item.name).join(', ') : "Select Services"}</Text>
 
           <Image style={styles.arrowDown} source={imagepath.plus} />
         </TouchableOpacity>
@@ -162,6 +152,7 @@ const Editprofile = (props) => {
           onChangeText={text => {
             setLocation(text);
           }}
+          value={Location}
         />
         <Text style={styles.textInputHeader}>Business Hours</Text>
         <TextInput
@@ -173,6 +164,7 @@ const Editprofile = (props) => {
           onChangeText={text => {
             setHours(text);
           }}
+          value={Hours}
         />
         <Text style={styles.textInputHeader}>About Us</Text>
         <TextInput
@@ -186,6 +178,7 @@ const Editprofile = (props) => {
           onChangeText={text => {
             setAboutus(text);
           }}
+          value={Aboutus}
         />
 
         <TouchableOpacity
@@ -198,7 +191,7 @@ const Editprofile = (props) => {
         <Picker
           modalVisible={modalVisible}
           Hidemodal={ListModal}
-          data={props.allCategories.data.categories}
+          data={props.allServices}
           slectData={mark}
           chexkBoxFnc={chexkBox}
         />
@@ -264,7 +257,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   setData: state.doctor.setData,
   allCategories: state.doctor.allCategories,
-
+  allServices: state.doctor.allServices,
 });
 
 const ActionCreators = Object.assign(
