@@ -1,4 +1,4 @@
-import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST } from './types';
+import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -145,18 +145,18 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
+                dispatch(setUserData(response.data))
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token
                 PageNavigation(response)
-                dispatch(setUserData(response.data))
             } else {
                 setloaderVisible(false);
                 console.log(response);
                 Toast.show(response.message);
             }
         }).catch(err => {
-            // console.log("postLogin", err);              //...............log..........remove please
+            console.log("postLogin", err);              //...............log..........remove please
             setloaderVisible(false);
             Toast.show("something went wrong");
         })
@@ -184,7 +184,6 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
-                console.log(response, "response=============================");
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 PageNavigation(response)
@@ -208,7 +207,7 @@ export const getCategories = (setloaderVisible) => {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
-                "Token": `Bearer ${global.token}`
+                "Authorization": `Bearer ${global.token}`
             }
         }).then(async (res) => {
             let response = await res.json();
@@ -422,7 +421,6 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
-                console.log("response.data",response.data );
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
 
@@ -569,7 +567,7 @@ export const getDoctorList = () => {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
-                "Token": `Bearer ${global.token}`
+                "Authorization": `Bearer ${global.token}`
             }
         }).then(async (res) => {
             let response = await res.json();
@@ -613,6 +611,33 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
         }).catch(err => {
             console.log("postReview", err);
             setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+
+export const saveServices = (data) => {
+    return ({
+        type: SERVICESLIST,
+        payload: data
+    })
+};
+
+export const getServices = () => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${URL.servicesList}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+        }).then(async (res) => {
+            let response = await res.json();
+            if (response.status) {
+                dispatch(saveServices(response.data?.services));
+            }
+        }).catch(err => {
+            console.log("getServices", err);
             Toast.show("something went wrong");
         })
     }

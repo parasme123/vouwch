@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     datalistText: {
       color:Colors.black,
       backgroundColor:Colors.white,
-      Fontsize:Fontsize.fontFourteen,
+      fontSize:Fontsize.fontFourteen,
       fontFamily:Fonts.ProximaNovaRegular
     },
     checkbox: { height: 30, width: 30, borderRadius: 5, tintColor: Colors.checkboxColor },

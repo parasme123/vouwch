@@ -16,21 +16,25 @@ import Profile from '../screen/setting/profile';
 import Welcome from '../screen/welcome/welcome';
 import Menu from '../screen/setting/menu';
 import { Constants, AsyncStorageHelper, Helper } from '@lib';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setUserData } from '../reduxStore/action/doctorAction';
 
 export const Bottomtab = props => {
-  const [userData, setuserData] = useState(null);
+  const [userData, setuserRcord] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
       AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
         if (value !== null) {
-          setuserData(value);
+          setuserRcord(value);
+          props.actions.setUserData(value);
         }
       });
       AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
         if (value !== null) {
-          global.token=value;
+          global.token = value;
         }
       });
     }
@@ -295,4 +299,17 @@ export const styles = StyleSheet.create({
   },
   buttonTwoText: { color: '#fff', fontSize: 15, marginLeft: 5 },
 });
-export default Bottomtab;
+
+const mapStateToProps = state => ({
+  setData: state.doctor.setData,
+});
+
+const ActionCreators = Object.assign(
+  { setUserData },
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Bottomtab);
