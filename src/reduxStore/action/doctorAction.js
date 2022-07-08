@@ -353,10 +353,10 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
         await fetch(`${URL.baseUrl}${URL.accountsetting}`, {
             method: "POST",
             headers: {
-                "Content-type": "application/json",
+                "Content-type": "multipart/form-data",
                 "Authorization": `Bearer ${global.token}`
             },
-            body: JSON.stringify(data)
+            body: data
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);

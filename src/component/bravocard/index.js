@@ -40,9 +40,9 @@ export default Bravocard = (props) => {
                             showsHorizontalScrollIndicator={false}
                             renderItem={(i) => {
                                 return (
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+                                        
                                         <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
-                                        <Text>Description</Text>
                                     </View>
                                 )
                             }}

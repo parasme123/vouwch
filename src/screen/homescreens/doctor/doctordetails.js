@@ -46,46 +46,11 @@ const Doctordetails = (props, { route }) => {
   const [userType, setuserType] = useState();
 
 
-  // const Aboutus = () => {
-  //   setAbout(true);
-  //   setService(false);
-  //   setLocation(false);
-  //   setBusiness(false);
-  //   setFeedback(false);
-  // };
-  // const Serviceus = () => {
-  //   setAbout(false);
-  //   setService(true);
-  //   setLocation(false);
-  //   setBusiness(false);
-  //   setFeedback(false);
-  // };
-  // const ServiceLocation = () => {
-  //   setAbout(false);
-  //   setService(false);
-  //   setLocation(true);
-  //   setBusiness(false);
-  //   setFeedback(false);
-  // };
-  // const Businessis = () => {
-  //   setAbout(false);
-  //   setService(false);
-  //   setLocation(false);
-  //   setBusiness(true);
-  //   setFeedback(false);
-  // };
-  // const Feedbackfun = () => {
-  //   setAbout(false);
-  //   setService(false);
-  //   setLocation(false);
-  //   setBusiness(false);
-  //   setFeedback(true);
-  // };
   const AddReview = () => {
     if (userType !== 2) {
-      navigation.navigate('review', { detail: doctorId });
+      navigation.navigate('review', { doctorid: doctorId });
     } else {
-      alert('you are not able to give a review');
+      alert('please login with personal account');
     }
   };
 
@@ -111,8 +76,8 @@ const Doctordetails = (props, { route }) => {
       <ScrollView>
         <View style={styles.container}>
           <Image
-            source={props.allDetailsDoc?.business?.business_profile ? { uri: props.allDetailsDoc?.business?.business_profile } : 
-            Imagepath.doctor}
+            source={props.allDetailsDoc?.business?.business_profile ? { uri: props.allDetailsDoc?.business?.business_profile } :
+              Imagepath.doctor}
             resizeMode="stretch"
             style={styles.ImageTop}
           />
@@ -198,10 +163,9 @@ const Doctordetails = (props, { route }) => {
           <View
             style={{
               flexDirection: 'row',
-              width: '90%',
+             marginHorizontal:24,
               marginTop: 50,
               justifyContent: 'space-between',
-              alignSelf: 'center',
               backgroundColor: '#fff',
               elevation: 5,
               borderRadius: 10,
@@ -219,7 +183,7 @@ const Doctordetails = (props, { route }) => {
               ]}>
               <Text
                 style={{
-                  fontSize: 10,
+                  fontSize: Fontsize.small,
                   fontFamily: Fonts.ProximaNovaMedium,
                   color: activeTab == "about" ? '#fff' : '#000',
                 }}>
@@ -239,7 +203,7 @@ const Doctordetails = (props, { route }) => {
               ]}>
               <Text
                 style={{
-                  fontSize: 10,
+                  fontSize: Fontsize.small,
                   fontFamily: Fonts.ProximaNovaMedium,
                   color: activeTab == "services" ? '#fff' : '#000',
                 }}>
@@ -259,7 +223,7 @@ const Doctordetails = (props, { route }) => {
               ]}>
               <Text
                 style={{
-                  fontSize: 10,
+                  fontSize: Fontsize.small,
                   fontFamily: Fonts.ProximaNovaMedium,
                   color: activeTab == "location" ? '#fff' : '#000',
                 }}>
@@ -279,7 +243,7 @@ const Doctordetails = (props, { route }) => {
               ]}>
               <Text
                 style={{
-                  fontSize: 10,
+                  fontSize: Fontsize.small,
                   fontFamily: Fonts.ProximaNovaMedium,
                   color: activeTab == "business" ? '#fff' : '#000',
                 }}>
@@ -299,7 +263,7 @@ const Doctordetails = (props, { route }) => {
               ]}>
               <Text
                 style={{
-                  fontSize: 10,
+                  fontSize: Fontsize.small,
                   fontFamily: Fonts.ProximaNovaMedium,
                   color: activeTab == "feedback" ? '#fff' : Colors.black,
                 }}>
@@ -361,23 +325,23 @@ const styles = StyleSheet.create({
   },
   DoctordetailsCard: {
     backgroundColor: '#E7F6FC',
-    width: '90%',
+    marginHorizontal: 24,
     justifyContent: 'center',
     paddingHorizontal: 20,
     borderRadius: 20,
-    alignSelf: 'center',
+    flex: 1,
     marginTop: -65,
     paddingVertical: 15,
   },
   dactorName: {
     color: Colors.black,
-    fontSize: 20,
+    fontSize: Fontsize.fontTwenty,
     fontFamily: Fonts.ProximaNovaBold,
     marginBottom: 5,
   },
   doctorSpacilist: {
     color: '#858585',
-    fontSize: 15,
+    fontSize: Fontsize.fontFifteen,
     fontFamily: Fonts.ProximaNovaMedium,
     marginBottom: 5,
   },
@@ -395,13 +359,13 @@ const styles = StyleSheet.create({
   star: { height: 6, width: 6 },
   ratingNumber: {
     color: Colors.black,
-    fontSize: 11,
+    fontSize: Fontsize.fontEleven,
     fontFamily: Fonts.ProximaNovaMedium,
     marginLeft: 10,
   },
   clinicianReview: {
     color: '#5D5D5D',
-    fontSize: 10,
+    fontSize: Fontsize.small,
     fontFamily: Fonts.ProximaNovaRegular,
   },
   yellowStarSubview: {
@@ -426,7 +390,7 @@ const styles = StyleSheet.create({
   },
   yellowStarSubviewIconTExt: {
     color: Colors.white,
-    fontSize: 10,
+    fontSize: Fontsize.small,
     paddingLeft: 10,
     fontFamily: Fonts.ProximaNovaMedium,
   },
@@ -435,9 +399,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   tabviewDetails: {
-    width: '90%',
+   marginHorizontal:24,
     backgroundColor: Colors.white,
-    alignSelf: 'center',
     marginTop: 15,
     borderRadius: 10,
     elevation: 5,

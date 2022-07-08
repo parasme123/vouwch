@@ -17,19 +17,24 @@ export default ServicesPage = (props) => {
   const DoctorService = ({ item, index }) => {
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }} key={index}>
-        <Image
-          style={{ height: 10, width: 10, tintColor: Colors.black }}
-          source={imagepath.dot}
-        />
-        <Text
-          style={{
-            color: '#929397',
-            paddingLeft: 15,
-            paddingVertical: 7,
-            fontFamily: Fonts.ProximaNovaRegular,
-          }}>
-          {item?.service_detail?.name}
-        </Text>
+        {
+          item?.service_detail?.name != null ?
+          <>
+            <Image
+              style={{ height: 10, width: 10, tintColor: Colors.black }}
+              source={imagepath.dot}
+            />
+            <Text
+              style={{
+                color: '#929397',
+                paddingLeft: 15,
+                paddingVertical: 7,
+                fontFamily: Fonts.ProximaNovaRegular,
+              }}>
+              {item?.service_detail?.name}
+            </Text>
+          </>: null
+        }
       </View>
     );
   };
@@ -46,7 +51,7 @@ export default ServicesPage = (props) => {
           {props.data.business.business_name}
         </Text>
         <FlatList
-          data={props.data?.business?.services}
+          data={props?.data?.business?.services}
           renderItem={DoctorService}
           keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}

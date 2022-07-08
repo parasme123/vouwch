@@ -11,15 +11,15 @@ const styles = StyleSheet.create({
     opacity: 5,
   },
   centeredView2: {
-    // width: '92%',
-    // height: 255,
+    width: '92%',
+    height: 360,
     borderRadius: 15,
     alignSelf: 'center',
     backgroundColor: Colors.white,
     elevation: 1,
   },
   headerView: {
-    // height: 50,
+    height: 50,
     backgroundColor: Colors.bottonColors,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
