@@ -306,13 +306,16 @@ const Home = (props) => {
           <View style={styles.searchView}>
             <TextInput
               style={styles.textInputStyles}
-              placeholder="Search for a doctor, hospital, City, State etc."
+              placeholder="Search for a doctor, hospital, City, State, Zip code etc."
               placeholderTextColor={'white'}
+              multiline={false}
+              numberOfLines={1}
               onChangeText={text => {
                 setsearch(text);
               }}
             />
-            <TouchableOpacity onPress={() => Call_SearchApi(search)}>
+            <TouchableOpacity 
+            onPress={() => Call_SearchApi(search)}>
               <Image
                 source={Imagepath.searchbtn}
                 resizeMode="stretch"

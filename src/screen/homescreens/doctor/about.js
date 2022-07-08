@@ -7,8 +7,10 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
+import Colors from '../../../common/Colors';
 
 import Fonts from '../../../common/Fonts';
+import Fontsize from '../../../common/Fontsize';
 // import styles from '../homecss';
 
 export default Aboutapp = (props) => {
@@ -27,15 +29,14 @@ export default Aboutapp = (props) => {
 };
 const styles = StyleSheet.create({
   name: {
-    fontSize: 16,
-    color: '#000',
+    fontSize: Fontsize.fontSixteen,
+    color: Colors.black,
     paddingBottom: 5,
     fontFamily: Fonts.ProximaNovaBold,
   },
   details: {
-    fontSize: 10,
+    fontSize: Fontsize.small,
     color: '#929397',
-    width: '90%',
     justifyContent: 'center',
     fontFamily: Fonts.ProximaNovaRegular,
   },
