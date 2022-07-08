@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -6,14 +6,34 @@ import {
   FlatList,
   Text,
   StatusBar,
+  StyleSheet,
+  TouchableOpacity
 } from 'react-native';
-import Imagepath from '../../../common/imagepath';
 import { useNavigation } from '@react-navigation/native';
-import {Colors, Fonts} from '@common';
+import { Colors, Fonts, imagepath } from '@common';
 
+const styles = StyleSheet.create({
+  feedBackTypeBtn: {
+    backgroundColor: Colors.darkSkyBlue,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    marginLeft: 6,
+    borderRadius: 10
+  },
+  feedBackTypeBtnTxt: {
+    color: Colors.black,
+    fontSize: 12
+  },
+  feedBackTypeBtnActive: {
+    backgroundColor: Colors.appcolor,
+  },
+  feedBackTypeBtnTxtActive: {
+    color: Colors.white,
+  }
+})
 export default Feedbackpage = (props) => {
   const navigation = useNavigation();
-
+  const [activeFeedbackTab, setActiveFeedbackTab] = useState("p");
   const Card = [
     {
       NameFeedback: 'Dr. jenny wilson',
@@ -53,7 +73,7 @@ export default Feedbackpage = (props) => {
               </Text>
               <Image
                 style={{ height: 11, width: 11, marginLeft: 10 }}
-                source={Imagepath.bluetick}
+                source={imagepath.bluetick}
               />
             </View>
             <Text
@@ -84,7 +104,7 @@ export default Feedbackpage = (props) => {
                   }}>
                   <Image
                     style={{ height: 8, width: 8, paddingRight: 3 }}
-                    source={Imagepath.yellowstar}
+                    source={imagepath.yellowstar}
                   />
                   <Text
                     style={{
@@ -111,7 +131,7 @@ export default Feedbackpage = (props) => {
                 style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image
                   style={{ height: 14, width: 14 }}
-                  source={Imagepath.likeicon}
+                  source={imagepath.likeicon}
                 />
                 <Text
                   style={{
@@ -154,19 +174,30 @@ export default Feedbackpage = (props) => {
         Feedback
       </Text>
       {/* Card of Feedback */}
+      <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', marginVertical:12 }}>
+        <TouchableOpacity onPress={()=>setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
+          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "p" ? styles.feedBackTypeBtnTxtActive : null]}>Patient Feedback</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>setActiveFeedbackTab("c")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "c" ? styles.feedBackTypeBtnActive : null]}>
+          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "c" ? styles.feedBackTypeBtnTxtActive : null]}>Clinician Feedback</Text>
+        </TouchableOpacity>
+        {/* <TouchableOpacity onPress={()=>setActiveFeedbackTab("b")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "b" ? styles.feedBackTypeBtnActive : null]}>
+          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "b" ? styles.feedBackTypeBtnTxtActive : null]}>Bravo Card</Text>
+        </TouchableOpacity> */}
+      </View>
 
       <FlatList
-        data={props.data?.clinical_reviews?.data}
+        data={activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data}
         style={{ paddingHorizontal: 8 }}
         renderItem={Feedback}
         keyExtractor={item => item}
       />
-      <FlatList
+      {/* <FlatList
         data={props.data?.patient_reviews?.data}
         style={{ paddingHorizontal: 8 }}
         renderItem={Feedback}
         keyExtractor={item => item}
-      />
+      /> */}
     </SafeAreaView>
   );
 };

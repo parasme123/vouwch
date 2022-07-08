@@ -75,7 +75,7 @@ const Rate = (props, { navigation, route }) => {
               styles.button,
             ]}>
             <Text style={{ color: Colors.white, fontSize: 13 }}>
-              Clinician Review
+            Clinician’s Feedback
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -89,7 +89,7 @@ const Rate = (props, { navigation, route }) => {
               },
               styles.button,
             ]}>
-            <Text style={{ color: Colors.white, fontSize: 13 }}>Patient Review</Text>
+            <Text style={{ color: Colors.white, fontSize: 13 }}>Patient/family Feedback</Text>
           </TouchableOpacity>
         </View>
       </View>
