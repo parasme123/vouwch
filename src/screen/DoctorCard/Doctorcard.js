@@ -154,6 +154,8 @@ const Doctor_Card = (props) => {
     const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
         if (!userType) {
             Helper.loginPopUp(props.navigation);
+        } else if (userType?.user_type !== 1) {
+            alert('please login with personal account');
         } else {
             props.navigation.navigate(navigationFor, { doctorid })
         }
