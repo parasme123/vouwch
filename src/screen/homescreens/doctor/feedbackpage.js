@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Colors, Fonts, imagepath } from '@common';
+import Fontsize from '../../../common/Fontsize';
 
 const styles = StyleSheet.create({
   feedBackTypeBtn: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
   },
   feedBackTypeBtnTxt: {
     color: Colors.black,
-    fontSize: 12
+    fontSize: Fontsize.fontTwelve
   },
   feedBackTypeBtnActive: {
     backgroundColor: Colors.appcolor,
@@ -48,7 +49,7 @@ export default Feedbackpage = (props) => {
   const Feedback = ({ item, index }) => {
     return (
       <View
-        style={{ borderBottomWidth: 0.5, borderColor: '#929397', width: '100%', paddingVertical: 10 }} key={index}>
+        style={{ borderBottomWidth: 0.5, borderColor: Colors.grey, width: '100%', paddingVertical: 10 }} key={index}>
         <View
           style={{
             flexDirection: 'row',
@@ -65,8 +66,8 @@ export default Feedbackpage = (props) => {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text
                 style={{
-                  fontSize: 12,
-                  color: '#000',
+                  fontSize: Fontsize.fontTwelve,
+                  color: Colors.black,
                   fontFamily: Fonts.ProximaNovaBold,
                 }}>
                 {item.NameFeedback}
@@ -78,8 +79,8 @@ export default Feedbackpage = (props) => {
             </View>
             <Text
               style={{
-                fontSize: 8,
-                color: '#929397',
+                fontSize: Fontsize.Verysmall,
+                color: Colors.grey,
                 paddingVertical: 3,
                 fontFamily: Fonts.ProximaNovaRegular,
               }}>
@@ -89,18 +90,19 @@ export default Feedbackpage = (props) => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                width: '80%',
+                flex: 1
               }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {/* first View */}
+              <View style={{ flexDirection: 'row', alignItems: 'center', width: "40%" }}>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     backgroundColor: '#E6F5FB',
-                    width: 35,
-                    height: 14,
                     borderRadius: 10,
                     justifyContent: 'center',
+                    paddingHorizontal: 10,
+                    paddingVertical: 3
                   }}>
                   <Image
                     style={{ height: 8, width: 8, paddingRight: 3 }}
@@ -108,8 +110,8 @@ export default Feedbackpage = (props) => {
                   />
                   <Text
                     style={{
-                      fontSize: 8,
-                      color: '#000',
+                      fontSize: Fontsize.Verysmall,
+                      color: Colors.black,
                       fontFamily: Fonts.ProximaNovaBold,
                       paddingLeft: 3,
                     }}>
@@ -118,7 +120,7 @@ export default Feedbackpage = (props) => {
                 </View>
                 <Text
                   style={{
-                    fontSize: 8,
+                    fontSize: Fontsize.Verysmall,
                     color: '#5D5D5D',
                     paddingLeft: 5,
                     fontFamily: Fonts.ProximaNovaRegular,
@@ -126,18 +128,20 @@ export default Feedbackpage = (props) => {
                   Reviews
                 </Text>
               </View>
+              {/*           View recomended */}
               <View
                 // onPress={() => navigation.navigate('profile')}
-                style={{ flexDirection: 'row', alignItems: 'center' }}>
+                style={{ flexDirection: 'row', alignItems: 'center', width: "60%" }}>
                 <Image
                   style={{ height: 14, width: 14 }}
                   source={imagepath.likeicon}
                 />
                 <Text
                   style={{
-                    fontSize: 8,
+                    fontSize: Fontsize.Verysmall,
                     color: Colors.appcolor,
                     marginLeft: 5,
+                    lineHeight: 15,    //   add if give error than remove
                     fontFamily: Fonts.ProximaNovaRegular,
                   }}>
                   {item.is_recommend == 1 ? "I recommended this doctor" : "Not recommended this doctor"}
@@ -148,8 +152,8 @@ export default Feedbackpage = (props) => {
         </View>
         <Text
           style={{
-            fontSize: 9,
-            color: '#929397',
+            fontSize: Fontsize.fontNine,
+            color: Colors.grey,
             paddingLeft: 20,
             paddingVertical: 5,
             fontFamily: Fonts.ProximaNovaLight,
@@ -165,8 +169,8 @@ export default Feedbackpage = (props) => {
       {/*Feedback Text  */}
       <Text
         style={{
-          fontSize: 16,
-          color: '#000',
+          fontSize: Fontsize.fontSixteen,
+          color: Colors.black,
           paddingBottom: 5,
           fontFamily: Fonts.ProximaNovaBold,
           padding: 15,
@@ -174,11 +178,11 @@ export default Feedbackpage = (props) => {
         Feedback
       </Text>
       {/* Card of Feedback */}
-      <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', marginVertical:12 }}>
-        <TouchableOpacity onPress={()=>setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
+      <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', marginVertical: 12 }}>
+        <TouchableOpacity onPress={() => setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
           <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "p" ? styles.feedBackTypeBtnTxtActive : null]}>Patient Feedback</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>setActiveFeedbackTab("c")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "c" ? styles.feedBackTypeBtnActive : null]}>
+        <TouchableOpacity onPress={() => setActiveFeedbackTab("c")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "c" ? styles.feedBackTypeBtnActive : null]}>
           <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "c" ? styles.feedBackTypeBtnTxtActive : null]}>Clinician Feedback</Text>
         </TouchableOpacity>
         {/* <TouchableOpacity onPress={()=>setActiveFeedbackTab("b")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "b" ? styles.feedBackTypeBtnActive : null]}>

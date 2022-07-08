@@ -1,4 +1,4 @@
-import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST } from './types';
+import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST ,PROFILEDATA} from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -618,3 +618,32 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
+
+
+
+
+export const GetProfile = () => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${URL.getProfile}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Token": `Bearer ${global.token}`
+            }
+        }).then(async (res) => {
+            let response = await res.json();
+            if (response.status) {
+                dispatch(saveProfileData(response.data))
+            }
+        }).catch(err => {
+            console.log("GetProfile", err);
+        })
+    }
+};
+
+export const saveProfileData = (data) => {
+    return ({
+        type: PROFILEDATA,
+        payload: data
+    })
+};
