@@ -171,7 +171,7 @@ const Home = (props) => {
     });
   }
 
-  
+
 
 
   // api   Profile
@@ -218,6 +218,8 @@ const Home = (props) => {
   const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
     if (!userType) {
       Helper.loginPopUp(props.navigation);
+    } else if (userType?.user_type !== 1) {
+      alert('please login with personal account');
     } else {
       navigation.navigate(navigationFor, { doctorid })
     }
@@ -323,7 +325,7 @@ const Home = (props) => {
 
         {/* Categouries: */}
         <View style={styles.featuredView}>
-          <Text style={styles.categouryViewText}>Categories:</Text>
+          <Text style={styles.categouryViewText}>Medical Specialty Areas/Categories</Text>
         </View>
         <View style={{ marginLeft: 15 }}>
           <FlatList
@@ -338,7 +340,7 @@ const Home = (props) => {
 
         {/* Categouries Bravo card: */}
         <View style={styles.featuredView}>
-          <Text style={styles.bravoCategouryText}>Bravo Card</Text>
+          <Text style={styles.bravoCategouryText}>Featured Bravo Cards</Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('Hospotalbravocard')} style={{ alignItems: 'center' }}>
             <Text style={styles.bravoCategouryButtonText}>See All</Text>

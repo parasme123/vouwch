@@ -71,9 +71,9 @@ export default Bravocard = (props) => {
 
             {/* Hospital name and details   */}
             <View style={styles.cardHospitalView}>
-                <Text style={styles.hospitalName}>{props.bravo_Card_name}</Text>
-                <Text style={styles.cardHospitalViewText}>{props.bravo_Card_Details}</Text>
-                <Text style={styles.cardHospitalViewText}>{props.bravo_Card_Details}</Text>
+                <Text style={styles.hospitalName}>{props.item.name}</Text>
+                <Text style={styles.cardHospitalViewText} numberOfLines={3}>{props.item?.detail}</Text>
+                <Text style={[styles.cardHospitalViewText, { marginTop: 5 }]}><Text style={{ fontWeight: "bold", fontSize: 12 }}>{props.item?.users?.full_name}</Text> added a bravo card for <Text style={{ fontWeight: "bold", fontSize: 12 }}>{props.item.name}</Text></Text>
                 {/* photo & Videos Btn */}
                 <View style={styles.cardHospitalViewButton}>
                     <TouchableOpacity style={styles.cardPhotoButton} onPress={() => handlePhotoModal("Photos")} >
