@@ -21,7 +21,7 @@ import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
 import Constants from '../../Lib/Constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setUserData } from '../../reduxStore/action/doctorAction';
+import { getServices } from '../../reduxStore/action/doctorAction';
 const Profile = (props, { route }) => {
   const [rating, setRating] = useState();
   const [isTrue, setisTrue] = useState(false);
@@ -31,9 +31,7 @@ const Profile = (props, { route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    handelHomeData();
-    console.log('setuserData---api redux----', props.setData);
-    console.log("userDAtaa=======",  props.setData?.first_name);
+    handleServicesData();
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
         setuserData(value);
@@ -43,9 +41,9 @@ const Profile = (props, { route }) => {
   }, []);
 
   // user data
-  const handelHomeData = () => {
+  const handleServicesData = () => {
     let { actions } = props;
-    actions.setUserData();
+    actions.getServices();
   };
 
   return (
@@ -273,7 +271,7 @@ const mapStateToProps = state => ({
 });
 
 const ActionCreators = Object.assign(
-  { setUserData },
+  { getServices },
 );
 
 const mapDispatchToProps = dispatch => ({

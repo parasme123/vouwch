@@ -11,13 +11,13 @@ import { imagepath } from '@common';
 import styles from './pickercss';
 
 const Picker = (props) => {
- 
+
 
 
   const Datalist = ({ item, index }) => {
     return (
       <TouchableOpacity
-        onPress={() => props.chexkBoxFnc(item.id)}
+        onPress={() => props.chexkBoxFnc({ id: item.id, name: item.name })}
         key={item.id}
         style={styles.dataListView}>
         <Text style={styles.datalistText}>
@@ -27,7 +27,7 @@ const Picker = (props) => {
           style={{ paddingRight: 5 }}>
           <Image
             source={
-              props.slectData.includes(item.id)
+              props.slectData.findIndex((data) => data.id == item.id) !== -1
                 ? imagepath.yes
                 : imagepath.check
             }

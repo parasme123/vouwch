@@ -39,13 +39,9 @@ const Account = (props) => {
         setuserData(value);
         setfirstName(value.first_name);
         setlastName(value.last_name);
-
       }
-      console.log('  global.userData=====================-------', userData);
     });
   }, []);
-
-
 
   const requestCamera = async () => {
     try {
@@ -154,7 +150,7 @@ const Account = (props) => {
         <View style={styles.profileImageview}>
           <Image
             style={styles.ProfileImage}
-            source={image.path ? { uri: image.path } : Imagepath.doctors}
+            source={image.path ? { uri: image.path } : {uri : userData?.profile_picture}}
             resizeMode="contain"
           />
           <TouchableOpacity
