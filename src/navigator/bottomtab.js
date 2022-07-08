@@ -130,28 +130,28 @@ export const Bottomtab = props => {
       >
         <CurvedBottomBar.Screen
           name="Home"
-          position="left"
+          position="LEFT"
           options={{ headerShown: false }}
           component={() => <Home {...props} />}
         />
         <CurvedBottomBar.Screen
           name="Account"
           component={() => userData ? <Menu {...props} /> : <Welcome />}
-          position="left"
+          position="LEFT"
           options={{ headerShown: false }}
         />
 
         <CurvedBottomBar.Screen
           name="Notification"
           component={() => userData ? <Notification {...props} /> : <Welcome />}
-          position="right"
+          position="RIGHT"
           options={{ headerShown: false }}
         />
 
         <CurvedBottomBar.Screen
           name="Settingprofile"
           component={() => userData ? <Profile {...props} /> : <Welcome />}
-          position="right"
+          position="RIGHT"
           options={{ headerShown: false }}
         />
       </CurvedBottomBar.Navigator>
