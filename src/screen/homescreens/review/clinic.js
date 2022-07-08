@@ -243,7 +243,7 @@ const Clinic = (props) => {
 };
 
 const styles = StyleSheet.create({
-  backgroundContainer:{ flex: 1, paddingHorizontal:24 },
+  backgroundContainer: { flex: 1, paddingHorizontal: 24 },
   headerText: {
     textAlign: 'center',
     paddingVertical: 22,

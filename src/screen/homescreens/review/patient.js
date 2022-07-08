@@ -89,19 +89,19 @@ export default Patient = (props) => {
 
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
-      <ScrollView  contentContainerStyle={{flexGrow:1}}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         {
           doctorId == null ?
             <>
               <Text
-                style={[styles.imputHeader, { marginTop: 22 }]}>
+                style={[styles.imputHeader, { marginTop: 22, marginHorizontal: 24 }]}>
                 Select Doctors List
               </Text>
 
               <TouchableOpacity
                 onPress={() => ListModal()}
                 style={[styles.dropdownView, { marginBottom: 15 }]}>
-                <Text style={styles.dropdownText}>{doctId != null ? doctId.business_name : "Select Doctors"}</Text>
+                <Text style={styles.dropdownText}>{doctId.id ? doctId.business_name : "Select Doctors"}</Text>
                 <Image
                   style={styles.downArrow}
                   source={Imagepath.down}
@@ -113,8 +113,9 @@ export default Patient = (props) => {
         {/* Text Recomended */}
         <Text
           style={{
+            marginHorizontal: 24,
             color: Colors.black,
-            fontSize: 15,
+            fontSize: Fontsize.fontFifteen,
             paddingVertical: 10,
             fontFamily: Fonts.ProximaNovaSemibold,
           }}>
@@ -123,11 +124,9 @@ export default Patient = (props) => {
 
         <View
           style={{
-            width: '90%',
-            alignSelf: 'center',
+            marginHorizontal: 24,
             flexDirection: 'row',
             alignItems: 'center',
-            alignSelf: 'center',
           }}>
           {/* Button of Recomondation */}
           <TouchableOpacity
@@ -136,7 +135,7 @@ export default Patient = (props) => {
             }}
             style={[styles.button, click ? { backgroundColor: Colors.appcolor } : { borderWidth: 1 }]}>
             <Text
-              style={[styles.buttonText, click ? { color: "#ffffff" } : { color: Colors.black }]}>
+              style={[styles.buttonText, click ? { color: Colors.white } : { color: Colors.black }]}>
               yes
             </Text>
           </TouchableOpacity>
@@ -146,7 +145,7 @@ export default Patient = (props) => {
             }}
             style={[styles.button, { marginLeft: 10 }, !click ? { backgroundColor: Colors.appcolor } : { borderWidth: 1 }]}>
             <Text
-              style={[styles.buttonText, !click ? { color: "#ffffff" } : { color: Colors.black }]}>
+              style={[styles.buttonText, !click ? { color: Colors.white } : { color: Colors.black }]}>
               No
             </Text>
           </TouchableOpacity>
@@ -155,11 +154,10 @@ export default Patient = (props) => {
         <Text
           style={{
             color: Colors.black,
-            width: '90%',
-            alignSelf: 'center',
+            marginHorizontal: 24,
             marginTop: 15,
             paddingLeft: 5,
-            fontSize: 15,
+            fontSize: Fontsize.fontFifteen,
             fontFamily: Fonts.ProximaNovaSemibold,
           }}>
           How long did you wait
@@ -167,9 +165,10 @@ export default Patient = (props) => {
         {/* Progress Bar */}
         <View
           style={{
+            flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
-            alignSelf: 'center',
+            marginHorizontal: 24,
             justifyContent: 'center',
             marginTop: 5,
           }}>
@@ -178,10 +177,9 @@ export default Patient = (props) => {
               setWaitTime(1);
             }}
             style={styles.progressButton}>
-            {/* style={[{ backgroundColor: text ? Colors.appcolor : null, borderWidth: text ? null : 1, marginLeft: 10 }, styles.button]} */}
             <Image
               style={[
-                { tintColor: waitTime >= 1 ? '#245FC7' : '#929397' },
+                { tintColor: waitTime >= 1 ? Colors.appcolor: Colors.checkboxColor },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -190,7 +188,7 @@ export default Patient = (props) => {
           </TouchableOpacity>
           <Text
             style={[
-              { color: waitTime >= 2 ? '#245FC7' : '#929397' },
+              { color: waitTime >= 2 ? Colors.appcolor: Colors.checkboxColor },
               styles.progressButtonText,
             ]}>
             ---------------
@@ -202,7 +200,7 @@ export default Patient = (props) => {
             style={styles.progressButton}>
             <Image
               style={[
-                { tintColor: waitTime >= 2 ? '#245FC7' : '#929397' },
+                { tintColor: waitTime >= 2 ? Colors.appcolor: Colors.checkboxColor },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -211,7 +209,7 @@ export default Patient = (props) => {
           </TouchableOpacity>
           <Text
             style={[
-              { color: waitTime >= 3 ? '#245FC7' : '#929397' },
+              { color: waitTime >= 3 ? Colors.appcolor: Colors.checkboxColor },
               styles.progressButtonText,
             ]}>
             ---------------
@@ -223,7 +221,7 @@ export default Patient = (props) => {
             style={styles.progressButton}>
             <Image
               style={[
-                { tintColor: waitTime >= 3 ? '#245FC7' : '#929397' },
+                { tintColor: waitTime >= 3 ? Colors.appcolor: Colors.checkboxColor },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -232,14 +230,14 @@ export default Patient = (props) => {
           </TouchableOpacity>
           <Text
             style={[
-              { color: waitTime >= 4 ? '#245FC7' : '#929397' },
+              { color: waitTime >= 4 ? Colors.appcolor: Colors.checkboxColor },
               styles.progressButtonText,
             ]}>
             ---------------
           </Text>
           <TouchableOpacity onPress={() => setWaitTime(4)} style={styles.progressButton}>
             <Image
-              style={[styles.dotImage, { tintColor: waitTime >= 4 ? '#245FC7' : '#929397' }]}
+              style={[styles.dotImage, { tintColor: waitTime >= 4 ? Colors.appcolor: Colors.checkboxColor }]}
               resizeMode="contain"
               source={Imagepath.dot}
             />
@@ -260,7 +258,7 @@ export default Patient = (props) => {
             }}>
             <Text
               style={[
-                { color: waitTime >= 1 ? '#245FC7' : '#929397', paddingHorizontal: 18 },
+                { color: waitTime >= 1 ? Colors.appcolor: Colors.checkboxColor, paddingHorizontal: 18 },
                 styles.progressButtonTexttime,
               ]}>
               0To15
@@ -272,7 +270,7 @@ export default Patient = (props) => {
             }}>
             <Text
               style={[
-                { color: waitTime >= 2 ? '#245FC7' : '#929397' },
+                { color: waitTime >= 2 ? Colors.appcolor: Colors.checkboxColor },
                 styles.progressButtonTexttime,
               ]}>
               15To30
@@ -284,7 +282,7 @@ export default Patient = (props) => {
             }}>
             <Text
               style={[
-                { color: waitTime >= 3 ? '#245FC7' : '#929397', paddingLeft: 25 },
+                { color: waitTime >= 3 ? Colors.appcolor: Colors.checkboxColor, paddingLeft: 25 },
                 styles.progressButtonTexttime,
               ]}>
               30To1hr
@@ -296,7 +294,7 @@ export default Patient = (props) => {
             }}>
             <Text
               style={[
-                { color: waitTime >= 4 ? '#245FC7' : '#929397' },
+                { color: waitTime >= 4 ? Colors.appcolor: Colors.checkboxColor },
                 styles.progressButtonTexttime,
               ]}>
               More than hr
@@ -304,7 +302,7 @@ export default Patient = (props) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ width: '90%', alignSelf: 'center' }}>
+        <View style={{ marginHorizontal: 24 }}>
           <View
             style={{
               flexDirection: 'row',
@@ -315,7 +313,7 @@ export default Patient = (props) => {
             <Text
               style={{
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: Fontsize.fontFifteen,
                 fontFamily: Fonts.ProximaNovaMedium,
               }}>
               Doctor Friendliness
@@ -336,13 +334,13 @@ export default Patient = (props) => {
               justifyContent: 'space-between',
               alignItems: 'center',
               paddingVertical: 10,
-              borderColor: '#929397',
+              borderColor: Colors.checkboxColor,
               borderTopWidth: 1,
             }}>
             <Text
               style={{
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: Fontsize.fontFifteen,
                 fontFamily: Fonts.ProximaNovaMedium,
               }}>
               Treatnment Satisfication
@@ -363,13 +361,13 @@ export default Patient = (props) => {
               justifyContent: 'space-between',
               alignItems: 'center',
               paddingVertical: 10,
-              borderColor: '#929397',
+              borderColor: Colors.checkboxColor,
               borderTopWidth: 1,
             }}>
             <Text
               style={{
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: Fontsize.fontFifteen,
                 fontFamily: Fonts.ProximaNovaMedium,
               }}>
               Wait Time
@@ -390,13 +388,13 @@ export default Patient = (props) => {
               justifyContent: 'space-between',
               alignItems: 'center',
               paddingVertical: 10,
-              borderColor: '#929397',
+              borderColor: '#CECECE',
               borderTopWidth: 1,
             }}>
             <Text
               style={{
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: Fontsize.fontFifteen,
                 fontFamily: Fonts.ProximaNovaMedium,
               }}>
               Explanation of the issue
@@ -417,13 +415,13 @@ export default Patient = (props) => {
               justifyContent: 'space-between',
               alignItems: 'center',
               paddingVertical: 10,
-              borderColor: '#929397',
+              borderColor: Colors.checkboxColor,
               borderTopWidth: 1,
             }}>
             <Text
               style={{
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: Fontsize.fontFifteen,
                 fontFamily: Fonts.ProximaNovaMedium,
               }}>
               Value for Money
@@ -442,10 +440,8 @@ export default Patient = (props) => {
         <Text
           style={{
             color: Colors.black,
-            width: '90%',
-            alignSelf: 'center',
-            paddingLeft: 5,
-            fontSize: 15,
+            marginHorizontal: 24,
+            fontSize: Fontsize.fontFifteen,
             fontFamily: Fonts.ProximaNovaMedium,
           }}>
           Share your experience
@@ -453,18 +449,16 @@ export default Patient = (props) => {
         <TextInput
           placeholder="Share your experiance"
           multiline={true}
-          placeholderTextColor="#929397"
+          placeholderTextColor={Colors.imputborderColor}
           style={{
-            paddingLeft: 15,
+            marginHorizontal: 24,
             height: 120,
-            borderColor: '#CECECE',
+            borderColor: "#CECECE",
             borderWidth: 0.5,
-            width: '90%',
-            alignSelf: 'center',
             borderRadius: 10,
             marginTop: 10,
-            textAlign: 'center',
-            textAlign: 'justify',
+            textAlign:"center"
+
           }}
           keyboardType="default"
           numberOfLines={20}
@@ -479,21 +473,21 @@ export default Patient = (props) => {
           }}>
           <TouchableOpacity
             onPress={() => chexkBox()}
-            style={{ paddingRight: '2%' }}>
+            style={{ paddingRight: 20 }}>
             <Image
               source={mark ? Imagepath.yes : Imagepath.check}
               style={{
                 height: 30,
                 width: 30,
                 borderRadius: 5,
-                tintColor: '#707070',
+                tintColor: Colors.checkboxColor,
               }}
               resizeMode="cover"
             />
           </TouchableOpacity>
           <Text
             style={{
-              fontSize: 15,
+              fontSize: Fontsize.fontFifteen,
               color: Colors.black,
               fontFamily: Fonts.ProximaNovaRegular,
             }}>
@@ -504,19 +498,18 @@ export default Patient = (props) => {
         <TouchableOpacity
           onPress={Call_ClinicialApi}
           style={{
-            backgroundColor: '#245FC7',
-            height: 50,
+            backgroundColor: Colors.appcolor,
+            paddingVertical: 15,
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 10,
-            width: '90%',
-            alignSelf: 'center',
-            marginBottom: 10,
+            marginBottom: 30,
+            marginHorizontal:24 
           }}>
           <Text
             style={{
-              fontSize: 16,
-              color: '#FFFFFF',
+              fontSize: Fontsize.FontSixteen,
+              color:Colors.white,
               fontFamily: Fonts.ProximaNovaSemibold,
             }}>
             SUBMIT
@@ -543,20 +536,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#CECECE',
+    borderColor: Colors.imputborderColor,
   },
   buttonText: { fontSize: Fontsize.FontThirteen, fontFamily: Fonts.ProximaNovaSemibold },
   progressButton: { alignItems: 'center', height: 15, width: 15 },
-  progressButtonText: { fontSize: 17, width: 74 },
+  progressButtonText: { fontSize: Fontsize.fontseventeen, width: 74 },
   dotImage: { height: 15, width: 15 },
-  progressButtonTexttime: { fontFamily: Fonts.ProximaNovaRegular, fontSize: 13 },
+  progressButtonTexttime: { fontFamily: Fonts.ProximaNovaRegular, fontSize: Fontsize.fontThirteen },
   imputHeader: {
     color: Colors.black,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
   dropdownView: {
     borderWidth: 1,
-    borderColor: '#CECECE',
+    borderColor: Colors.imputborderColor,
     fontSize: Fontsize.fontFifteen,
     borderRadius: 10,
     marginHorizontal: 20,
@@ -569,16 +562,5 @@ const styles = StyleSheet.create({
   },
   dropdownText: { fontSize: Fontsize.fontFifteen, fontFamily: Fonts.ProximaNovaMedium },
   downArrow: { height: 8, width: 12, paddingRight: 50 },
-  DropDownView: {
-    elevation: 5,
-    width: "90%",
-    zIndex: 5,
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    backgroundColor: Colors.white,
-    borderRadius: 5,
-    position: 'absolute',
-    // top: height / 5.1,
-    alignSelf: "center"
-  },
+
 });
