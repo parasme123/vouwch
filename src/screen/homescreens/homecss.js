@@ -43,13 +43,14 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: Fontsize.fontFourteen,
     fontFamily: Fonts.ProximaNovaLight,
+    flex:1
   },
   searchText: {
     color: Colors.white,
     fontSize: Fontsize.fontFourteen,
     fontFamily: Fonts.ProximaNovaLight,
   },
-  searchImage: {height: 24, width: 24},
+  searchImage: {height: 24, width: 24,},
   categouryView: {
     flexDirection: 'row',
     marginHorizontal: 15,

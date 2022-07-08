@@ -8,7 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 
-import Fonts from '../../../common/Fonts';
+import { imagepath, Fonts, Fontsize, Colors } from '@common';
 
 export default Businesses = (props) => {
   return (
@@ -23,22 +23,26 @@ export default Businesses = (props) => {
           }}>
           {props.data.business.business_name}
         </Text>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Image
-            style={{ height: 10, width: 10, tintColor: 'black' }}
-            source={require('../../../assect/icon/dot.png')}
-          />
-          <Text
-            style={{
-              color: '#929397',
-              paddingLeft: 15,
-              fontFamily: Fonts.ProximaNovaRegular,
-            }}>
-          {props.data.business.service_hours}
-          </Text>
-        </View>
- 
+        {
+          props.data.business.service_hours != null ?
+            <>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image
+                  style={{ height: 10, width: 10, tintColor: 'black' }}
+                  source={imagepath.dot}
+                />
+                <Text
+                  style={{
+                    color: '#929397',
+                    paddingLeft: 15,
+                    fontSize: Fontsize.fontNine,
+                    fontFamily: Fonts.ProximaNovaRegular,
+                  }}>
+                  {props.data.business.service_hours}
+                </Text>
+              </View>
+            </> : null
+        }
       </View>
     </SafeAreaView>
   );

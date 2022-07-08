@@ -28,7 +28,7 @@ export default Feedbackpage = (props) => {
   const Feedback = ({ item, index }) => {
     return (
       <View
-        style={{ borderBottomWidth: 0.5, borderColor: '#929397', width: '100%', paddingVertical: 10 }} key={index}>
+        style={{ borderBottomWidth: 0.5, borderColor: '#929397', paddingVertical: 10 }} key={index}>
         <View
           style={{
             flexDirection: 'row',

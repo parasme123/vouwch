@@ -8,7 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 
-import Fonts from '../../../common/Fonts';
+import { imagepath, Fonts, Fontsize, Colors } from '@common';
 
 export default Locationn = (props) => {
   return (
@@ -16,29 +16,34 @@ export default Locationn = (props) => {
       <View style={{ padding: 15 }}>
         <Text
           style={{
-            fontSize: 16,
-            color: '#000',
+            fontSize: Fontsize.fontSixteen,
+            color: Colors.black,
             paddingBottom: 5,
             fontFamily: Fonts.ProximaNovaBold,
           }}>
           {props.data.business.business_name}
         </Text>
-        
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Image
-            style={{ height: 10, width: 10, tintColor: 'black' }}
-            source={require('../../../assect/icon/dot.png')}
-          />
-          <Text
-            style={{
-              color: '#929397',
-              paddingLeft: 15,
-              paddingVertical: 7,
-              fontFamily: Fonts.ProximaNovaRegular,
-            }}>
-            {props.data.business.service_location}
-          </Text>
-        </View>
+        {
+          props.data.business.service_location != null ?
+            <>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image
+                  style={{ height: 10, width: 10, tintColor: 'black' }}
+                  source={imagepath.dot}
+                />
+                <Text
+                  style={{
+                    color: '#929397',
+                    paddingLeft: 15,
+                    paddingVertical: 7,
+                    fontSize: Fontsize.fontNine,
+                    fontFamily: Fonts.ProximaNovaRegular,
+                  }}>
+                  {props.data.business.service_location}
+                </Text>
+              </View>
+            </> : null
+        }
       </View>
     </SafeAreaView>
   );
