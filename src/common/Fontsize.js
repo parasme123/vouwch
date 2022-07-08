@@ -2,11 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const Fontsize = StyleSheet.create({
     Verysmall: 8,
-<<<<<<< HEAD
     fontNine: 9,
-=======
-    fontNine:9,
->>>>>>> main
     small: 10,
     fontEleven: 11,
     fontTwelve: 12,
