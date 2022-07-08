@@ -25,15 +25,11 @@ const Account = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [DropDownSec, setDropDownSec] = useState(false);
   const [selectvalue, setselectvalue] = useState('Select');
-  const [image, setImage] = useState();
+  const [image, setImage] = useState({});
   const [firstName, setfirstName] = useState();
   const [lastName, setlastName] = useState();
   const [mailAddress, setmailAddress] = useState();
-  const [password, setpassword] = useState();
-  const [Profilepic, setProfilepic] = useState('');
   const [loaderVisible, setloaderVisible] = useState(false);
-  const [CateList, setCateList] = useState([]);
-  const [CateId, setCateId] = useState();
   const [editText, seteditText] = useState(false);
   const [userData, setuserData] = useState(null);
 
@@ -41,6 +37,9 @@ const Account = (props) => {
     AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
       if (value !== null) {
         setuserData(value);
+        setfirstName(value.first_name);
+        setlastName(value.last_name);
+
       }
       console.log('  global.userData=====================-------', userData);
     });
@@ -62,8 +61,6 @@ const Account = (props) => {
           buttonPositive: "OK"
         }
       );
-      console.log("granted", granted);
-      console.log("PermissionsAndroid.RESULTS.GRANTED", PermissionsAndroid.RESULTS.GRANTED);
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         camera(!modalVisible)
       } else {
@@ -81,7 +78,8 @@ const Account = (props) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      setImage(image.path);
+      console.log("image", image);
+      setImage(image);
       setModalVisible(!modalVisible);
     }).catch((err) => {
       console.log("Error in OPen Camera : ", err)
@@ -93,7 +91,7 @@ const Account = (props) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      setImage(image.path);
+      setImage(image);
       setModalVisible(!modalVisible);
     });
   };
@@ -109,14 +107,18 @@ const Account = (props) => {
 
   const Account_SettingApi = () => {
     let { actions } = props;
-    let apiData = {
-      profile_picture: image,
-      user_fname: firstName,
-      user_lname: lastName,
-      email: userData?.email,
+    let fileName = image.path.split("/");
+    let imageData = {
+      uri: image.path,
+      name: fileName[fileName.length - 1],
+      type: image.mime
     }
-    actions.postAccountSetting(apiData, () => setloaderVisible(), () => PageNavigation());
-
+    const data = new FormData();
+    data.append('profile_picture', imageData);
+    data.append('user_fname', firstName);
+    data.append('user_lname', lastName);
+    data.append('email', userData?.email);
+    actions.postAccountSetting(data, () => setloaderVisible(), () => PageNavigation());
   };
   const PageNavigation = () => {
     handleNavigation({
@@ -152,7 +154,7 @@ const Account = (props) => {
         <View style={styles.profileImageview}>
           <Image
             style={styles.ProfileImage}
-            source={image ? { uri: image } : Imagepath.doctors}
+            source={image.path ? { uri: image.path } : Imagepath.doctors}
             resizeMode="contain"
           />
           <TouchableOpacity
@@ -174,6 +176,7 @@ const Account = (props) => {
           style={styles.textInput}
           keyboardType="default"
           placeholder={userData?.first_name}
+          value={firstName}
           placeholderTextColor={'#737373'}
           editable={editText}
           onChangeText={text => {
@@ -184,6 +187,7 @@ const Account = (props) => {
         <Text style={styles.textInputHeader}>Last Name</Text>
         <TextInput
           style={styles.textInput}
+          value={lastName}
           keyboardType="default"
           placeholder={userData?.last_name}
           placeholderTextColor={'#737373'}
