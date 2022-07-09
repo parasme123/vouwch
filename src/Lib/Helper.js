@@ -13,7 +13,6 @@ export const confirmPopUp = (alertMessage, cb) => {
         text: 'YES',
         onPress: () => {
           if (cb) cb(true);
-          console.log('OK Pressed');
         },
       },
       {
@@ -26,6 +25,15 @@ export const confirmPopUp = (alertMessage, cb) => {
     ],
     { cancelable: false },
   );
+}
+
+export const setDateFormat = (newDate) => {
+  let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  let timeStamp = new Date(newDate);
+  let date = timeStamp.getDate();
+  let month = timeStamp.getMonth();
+  let year = timeStamp.getFullYear();
+  return months[month - 1] + " " + date + ", " + year;
 }
 
 export const loginPopUp = (navigation) => {
@@ -52,21 +60,21 @@ export const loginPopUp = (navigation) => {
 
 export const onShare = async () => {
   try {
-      const result = await Share.share({
-          message:
-              'React Native | A framework for building native apps using React',
-      });
-      if (result.action === Share.sharedAction) {
-          if (result.activityType) {
-              // shared with activity type of result.activityType
-          } else {
-              // shared
-          }
-      } else if (result.action === Share.dismissedAction) {
-          // dismissed
+    const result = await Share.share({
+      message:
+        'React Native | A framework for building native apps using React',
+    });
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        // shared with activity type of result.activityType
+      } else {
+        // shared
       }
+    } else if (result.action === Share.dismissedAction) {
+      // dismissed
+    }
   } catch (error) {
-      alert(error.message);
+    alert(error.message);
   }
 };
 
