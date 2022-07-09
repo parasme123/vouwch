@@ -21,7 +21,9 @@ export default Bravocard = (props) => {
                 animationType="slide"
                 transparent={true}
             >
-                <View style={styles.centeredView1}>
+                <TouchableOpacity
+                    onPress={() => setShowPhotoModal(false)}
+                    style={styles.centeredView1}>
                     <View style={styles.centeredView2}>
                         <View style={styles.headerView}>
                             <Text style={styles.headerText}>{showModalFor}</Text>
@@ -41,33 +43,38 @@ export default Bravocard = (props) => {
                             renderItem={(i) => {
                                 return (
                                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                                        
+
                                         <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
                                     </View>
                                 )
                             }}
                         />
                     </View>
-                </View>
+                </TouchableOpacity >
             </Modal>
             <View style={styles.cardIconView} >
                 <Image style={styles.cardIcon} source={imagepath.Bravo} />
             </View>
             {/*  Button of Share , Comment and Mesage  */}
-            <View style={styles.shareCardView}>
-                <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Comment(props.item.id) }}>
-                    {svg.commentCircle(30, 30, Colors.appcolor)}
-                    <Text numberOfLines={1} style={styles.shareButtonText}>Comment</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Message(props.item.id) }}>
-                    {svg.messageCircle(30, 30, Colors.appcolor)}
-                    <Text numberOfLines={1} style={styles.shareButtonText}>Message</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.id) }}>
-                    {svg.shareCircle(30, 30, Colors.black, Colors.white)}
-                    <Text numberOfLines={1} style={styles.shareButtonText}>share</Text>
-                </TouchableOpacity>
-            </View>
+
+            {props.hideButtons ? null :
+                <>
+                    <View style={styles.shareCardView}>
+                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Comment(props.item.id) }}>
+                            {svg.commentCircle(30, 30, Colors.appcolor)}
+                            <Text numberOfLines={1} style={styles.shareButtonText}>Comment</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Message(props.item.id) }}>
+                            {svg.messageCircle(30, 30, Colors.appcolor)}
+                            <Text numberOfLines={1} style={styles.shareButtonText}>Message</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.id) }}>
+                            {svg.shareCircle(30, 30, Colors.black, Colors.white)}
+                            <Text numberOfLines={1} style={styles.shareButtonText}>share</Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            }
 
             {/* Hospital name and details   */}
             <View style={styles.cardHospitalView}>

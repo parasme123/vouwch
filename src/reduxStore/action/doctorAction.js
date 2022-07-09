@@ -1,4 +1,4 @@
-import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST} from './types';
+import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib"
@@ -616,12 +616,6 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
-export const saveServices = (data) => {
-    return ({
-        type: SERVICESLIST,
-        payload: data
-    })
-};
 
 export const getServices = () => {
     return async dispatch => {
@@ -643,3 +637,44 @@ export const getServices = () => {
     }
 };
 
+export const saveServices = (data) => {
+    return ({
+        type: SERVICESLIST,
+        payload: data
+    })
+};
+
+/// before using this please check data  
+export const PostUserProfile = (data, setloaderVisible,) => {
+    // console.log("data+++++++++++++++++++++++++++++++++++", data);
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.getprofileuRL}?user_id=${data}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+            },
+            // body: JSON.stringify(data)
+        }).then(async (res) => {
+            // console.log("res+++++++++++++++++++++++++++++++++++", res);
+            let response = await res.json();
+            // console.log("response+++++++++++++++++++++++++++++++++++", response);
+            setloaderVisible(false);
+            if (response.status) {
+                dispatch(saveUserProfile(response.data));
+            }
+            Toast.show(response.message);
+        }).catch(err => {
+            console.log("PostUserProfile", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+
+export const saveUserProfile = (data) => {
+    return ({
+        type: USERGETDATA,
+        payload: data
+    })
+};

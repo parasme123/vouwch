@@ -18,7 +18,7 @@ import addhospital from '../screen/setting/addhospital';
 import Searchresult from '../screen/setting/searchresult';
 import myprofilecomment from '../screen/setting/myprofilecomment';
 import Rate from '../screen/homescreens/review/rate';
-import settingprofile from '../screen/setting/settingprofile';
+// import settingprofile from '../screen/setting/settingprofile';
 import Editprofile from '../screen/setting/editprofile';
 import ForgotPassword from '../screen/Forgotpassword/Forgotpassword';
 import OtpPage from '../screen/Forgotpassword/Otppage';
@@ -28,11 +28,12 @@ import Resetpassword from '../screen/Forgotpassword/Resetpassword';
 import Reply from '../screen/Message/Reply';
 import MessageBox from '../common/MessegeBox';
 import MyWebComponent from '../component/webVview/MyWebComponent';
+import FeedbackUserProfile from '../screen/setting/FeedbackUserProfile';
 const MainStack = createStackNavigator();
 const Navigator = () => {
   return (
     <NavigationContainer>
-      <MainStack.Navigator 
+      <MainStack.Navigator
         initialRouteName="splash"
         screenOptions={{ headerShown: false }}>
         <MainStack.Screen name="splash" component={Splash} />
@@ -46,7 +47,7 @@ const Navigator = () => {
         <MainStack.Screen name="Bravocard" component={Bravocard} />
         <MainStack.Screen name="Notification" component={Notification} />
         <MainStack.Screen name="review" component={Rate} />
-        <MainStack.Screen name="profile" component={settingprofile} />
+        {/* <MainStack.Screen name="profile" component={settingprofile} /> */}
         <MainStack.Screen name="profilepage" component={profile} />
         <MainStack.Screen name="asscounsetting" component={account} />
         <MainStack.Screen name="menue" component={menu} />
@@ -62,6 +63,8 @@ const Navigator = () => {
         <MainStack.Screen name="Reply" component={Reply} />
         <MainStack.Screen name="Msg" component={MessageBox} />
         <MainStack.Screen name="webView" component={MyWebComponent} />
+        <MainStack.Screen name="FeedbackUserProfile" component={FeedbackUserProfile} />
+
       </MainStack.Navigator>
     </NavigationContainer>
   );

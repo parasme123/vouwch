@@ -12,6 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { Colors, Fonts, imagepath } from '@common';
 import Fontsize from '../../../common/Fontsize';
+import { Bravocard, DoctorCard } from '@component';
 
 const styles = StyleSheet.create({
   feedBackTypeBtn: {
@@ -30,70 +31,82 @@ const styles = StyleSheet.create({
   },
   feedBackTypeBtnTxtActive: {
     color: Colors.white,
-  }
+  },
+  listMainViewFlatlist: {
+    borderBottomWidth: 0.5,
+    borderColor: Colors.grey,
+    width: '100%',
+    paddingVertical: 10
+  },
+  subViewflatelist: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 15,
+  },
+  profileuserfeedback: {
+    height: 49,
+    width: 49,
+    borderRadius: 100
+  },
+  detailsView: {
+    flexDirection: 'column',
+    marginLeft: 15,
+    flex: 1
+  },
+  userNameFeed: {
+    fontSize: Fontsize.fontTwelve,
+    color: Colors.black,
+    fontFamily: Fonts.ProximaNovaBold,
+  },
 })
 export default Feedbackpage = (props) => {
   const navigation = useNavigation();
   const [activeFeedbackTab, setActiveFeedbackTab] = useState("p");
-  const Card = [
-    {
-      NameFeedback: 'Dr. jenny wilson',
-    },
-    {
-      NameFeedback: 'Dr. jenny wilson',
-    },
-    {
-      NameFeedback: 'Dr. jenny wilson',
-    },
-  ];
   const Feedback = ({ item, index }) => {
     return (
       <View
-        style={{ borderBottomWidth: 0.5, borderColor: Colors.grey, width: '100%', paddingVertical: 10 }} key={index}>
+        style={styles.listMainViewFlatlist} key={index}>
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 15,
-          }}>
+          style={styles.subViewflatelist}>
           {/* doctor Image */}
-          <Image
-            style={{ height: 49, width: 49, borderRadius: 100 }}
-            source={{ uri: item.users.profile_picture }}
-          />
-          {/* Doctor Details */}
-          <View style={{ flexDirection: 'column', marginLeft: 15 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={() => { navigation.navigate("FeedbackUserProfile", { userId: item?.users?.id }) }}>
+            <Image
+              style={styles.profileuserfeedback}
+              //  source={}
+              source={item.users.profile_picture == null ? imagepath.doctor : { uri: item.users.profile_picture }}
+            />
+          </TouchableOpacity>
+          {/* feedback details */}
+          <View style={styles.detailsView}>
+            {/* name of feedback user */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10 }}>
               <Text
-                style={{
-                  fontSize: Fontsize.fontTwelve,
-                  color: Colors.black,
-                  fontFamily: Fonts.ProximaNovaBold,
-                }}>
-                {item.NameFeedback}
+                style={styles.userNameFeed}>
+                {/* {item.NameFeedback} */}
+                {item.users.full_name}
               </Text>
               <Image
                 style={{ height: 11, width: 11, marginLeft: 10 }}
                 source={imagepath.bluetick}
               />
+              {/* <Text
+                style={{
+                  fontSize: Fontsize.fontTwelve,
+                  color: Colors.grey,
+                  paddingVertical: 3,
+                  fontFamily: Fonts.ProximaNovaRegular,
+                }}>
+                {item.users.full_name}
+              </Text> */}
             </View>
-            <Text
-              style={{
-                fontSize: Fontsize.Verysmall,
-                color: Colors.grey,
-                paddingVertical: 3,
-                fontFamily: Fonts.ProximaNovaRegular,
-              }}>
-              {item.users.full_name}
-            </Text>
+
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                flex: 1
+                flex: 1,
               }}>
-              {/* first View */}
-              <View style={{ flexDirection: 'row', alignItems: 'center', width: "40%" }}>
+              {/* Review given */}
+              <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -110,7 +123,7 @@ export default Feedbackpage = (props) => {
                   />
                   <Text
                     style={{
-                      fontSize: Fontsize.Verysmall,
+                      fontSize: Fontsize.fontTwelve,
                       color: Colors.black,
                       fontFamily: Fonts.ProximaNovaBold,
                       paddingLeft: 3,
@@ -120,7 +133,7 @@ export default Feedbackpage = (props) => {
                 </View>
                 <Text
                   style={{
-                    fontSize: Fontsize.Verysmall,
+                    fontSize: Fontsize.fontTwelve,
                     color: '#5D5D5D',
                     paddingLeft: 5,
                     fontFamily: Fonts.ProximaNovaRegular,
@@ -128,20 +141,20 @@ export default Feedbackpage = (props) => {
                   Reviews
                 </Text>
               </View>
-              {/*           View recomended */}
+              {/*           View recomended   by user*/}
               <View
-                // onPress={() => navigation.navigate('profile')}
-                style={{ flexDirection: 'row', alignItems: 'center', width: "60%" }}>
+                // onPress={() => navigation.navigate('profile')}s
+                style={{ flexDirection: "row", alignItems: 'center', justifyContent: "flex-end" }}>
                 <Image
                   style={{ height: 14, width: 14 }}
                   source={imagepath.likeicon}
                 />
                 <Text
                   style={{
-                    fontSize: Fontsize.Verysmall,
+                    fontSize: Fontsize.fontTwelve,
                     color: Colors.appcolor,
                     marginLeft: 5,
-                    lineHeight: 15,    //   add if give error than remove
+                    lineHeight: 15,
                     fontFamily: Fonts.ProximaNovaRegular,
                   }}>
                   {item.is_recommend == 1 ? "I recommended this doctor" : "Not recommended this doctor"}
@@ -152,10 +165,9 @@ export default Feedbackpage = (props) => {
         </View>
         <Text
           style={{
-            fontSize: Fontsize.fontNine,
+            fontSize: Fontsize.fontTwelve,
             color: Colors.grey,
             paddingLeft: 20,
-            paddingVertical: 5,
             fontFamily: Fonts.ProximaNovaLight,
           }}>
           {item.review}
@@ -164,6 +176,22 @@ export default Feedbackpage = (props) => {
     );
   };
 
+  const BravoCard = ({ item, index }) => {
+    return (
+      <Bravocard
+        bravo_Card_name={item.name}
+        bravo_Card_Details={item.department}
+        hideButtons={true}
+        // onpress_Comment={CommentpropPage}
+        // onpress_Message={MessagepropPage}
+        // onpress_Share={onShare}
+        item={item}
+        index={index}
+      // onpress_Photo={}
+      // onpress_Video={}
+      />
+    )
+  }
   return (
     <SafeAreaView>
       {/*Feedback Text  */}
@@ -185,23 +213,30 @@ export default Feedbackpage = (props) => {
         <TouchableOpacity onPress={() => setActiveFeedbackTab("c")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "c" ? styles.feedBackTypeBtnActive : null]}>
           <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "c" ? styles.feedBackTypeBtnTxtActive : null]}>Clinician Feedback</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={()=>setActiveFeedbackTab("b")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "b" ? styles.feedBackTypeBtnActive : null]}>
+        <TouchableOpacity onPress={() => setActiveFeedbackTab("b")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "b" ? styles.feedBackTypeBtnActive : null]}>
           <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "b" ? styles.feedBackTypeBtnTxtActive : null]}>Bravo Card</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
+      {activeFeedbackTab == "p" || activeFeedbackTab == "c" ?
+        < FlatList
+          data={activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data}
+          style={{ paddingHorizontal: 8 }}
+          renderItem={Feedback}
+          keyExtractor={(item, index) => String(index)}
+        /> : null
 
-      <FlatList
-        data={activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data}
-        style={{ paddingHorizontal: 8 }}
-        renderItem={Feedback}
-        keyExtractor={item => item}
-      />
-      {/* <FlatList
-        data={props.data?.patient_reviews?.data}
-        style={{ paddingHorizontal: 8 }}
-        renderItem={Feedback}
-        keyExtractor={item => item}
-      /> */}
+      }
+
+      {activeFeedbackTab == "b" ?
+        <FlatList
+          data={props.data?.business?.get_card}
+          style={{ paddingHorizontal: 8 }}
+          renderItem={BravoCard}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item, index) => String(index)}
+        /> : null
+      }
     </SafeAreaView>
   );
 };

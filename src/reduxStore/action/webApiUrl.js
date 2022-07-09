@@ -23,4 +23,4 @@ export const bravoApi = "add-bravo-card";
 export const addReview = "add-review";
 export const doctorlist = "hospital-doctor-list";
 export const servicesList = "get-services";
-// export const getAllDoctors = "all-doctor-list";
+export const getprofileuRL = "get-profile";

@@ -41,8 +41,9 @@ const Doctordetails = (props, { route }) => {
   const navigation = useNavigation();
 
   const doctorId = props.route.params ? props.route.params.doctorId : null;
+  const propActiveTab = props.route?.params?.activeTab ? props.route.params.activeTab : "about";
   const [loaderVisible, setloaderVisible] = useState();
-  const [activeTab, setActiveTab] = useState("about")
+  const [activeTab, setActiveTab] = useState(propActiveTab)
   const [userType, setuserType] = useState();
 
 
@@ -73,7 +74,9 @@ const Doctordetails = (props, { route }) => {
 
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
-      <ScrollView>
+      <ScrollView
+      showsVerticalScrollIndicator={false}
+      >
         <View style={styles.container}>
           <Image
             source={props.allDetailsDoc?.business?.business_profile ? { uri: props.allDetailsDoc?.business?.business_profile } :

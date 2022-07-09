@@ -192,11 +192,9 @@ const Home = (props) => {
     );
   };
 
-  const DoctorNavigation = item => {
-    navigation.navigate('Doctordetails', { person: true, doctorId: item });
+  const DoctorNavigation = (item, activeTab) => {
+    navigation.navigate('Doctordetails', { doctorId: item, activeTab });
   };
-
-
 
   // Card DATA Content   && Bravo card
   const Card = ({ item, index }) => {
@@ -294,7 +292,8 @@ const Home = (props) => {
                 onPress={() => userType && userToken ? handleProfile() : handleLogin()}
                 style={styles.profileButton}>
                 <Image
-                  source={{uri : userType?.profile_picture}}
+                    source={userType?.profile_picture == null ? Imagepath.doctor : { uri: userType?.profile_picture }}
+                  // source={{uri : userType?.profile_picture}}
                   resizeMode="stretch"
                   imageStyle={{}}
                   style={styles.profileButton}
