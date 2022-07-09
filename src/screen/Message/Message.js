@@ -1,5 +1,4 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,92 +8,58 @@ import {
   FlatList,
 } from 'react-native';
 
-import Imagepath from '../../common/imagepath';
-import Fonts from '../../common/Fonts';
-import String from '../../common/String';
+import { imagepath, Colors, String, Fonts } from '@common';
+import {Helper} from '@lib';
 import MessageBox from '../../common/MessegeBox';
-import ApiCall from '../../Lib/ApiCall';
-import SortUrl from '../../Lib/SortUrl';
-import CustomLoader from '../../Lib/CustomLoader';
-import Colors from '../../common/Colors';
 
-const Message = ({navigation, index}) => {
-  const [Reply, setReply] = useState('');
+const Message = (props) => {
+  const [Reply, setReply] = useState(0);
 
-  useEffect(() => {
-    Call_DataCardApi();
-  }, []);
-  const [loaderVisible, setloaderVisible] = useState(false);
-  const onChangesecond = value => {
-    if (Reply == value) {
-      setReply('');
-    } else {
-      setReply(value);
-    }
+  const onChangesecond = (value) => {
+    setReply(value);
   };
 
-  const [DataCardList, setDataCardList] = useState('');
-  const Call_DataCardApi = () => {
-    setloaderVisible(true);
-    ApiCall.ApiMethod(SortUrl.AllServices, 'Get').then(response => {
-      setloaderVisible(false);
-      if (response.status == true) {
-        setloaderVisible(false);
-        setDataCardList(response.data.services);
-      } else {
-        setloaderVisible(false);
-      }
-    });
-  };
+  const DataCardList = props.dataMsg;
 
-  const NotificationItem = ({item, index}) => {
+  const NotificationItem = ({ item, index }) => {
     return (
       <View key={index} style={styles.messageBoxContainer}>
         <View
           style={[
-            styles.ContentView,
-            {
-              borderTopLeftRadius: index == 0 ? 15 : 0,
-              borderTopRightRadius: index == 0 ? 15 : 0,
-              borderBottomLeftRadius: index + 1 == DataCardList.length ? 15 : 0,
-              borderBottomRightRadius:
-                index + 1 == DataCardList.length ? 15 : 0,
-            },
+            styles.ContentView, index == 0 ? styles.topBorderRound : index + 1 == DataCardList.length ? styles.bottomBorderRound : null
           ]}>
           <View style={styles.mainSubview}>
-            <Text style={styles.namedoctor}>Dr.Jenny Wilson</Text>
-            <Text style={styles.time}>5 Min ago</Text>
+            <Text style={styles.namedoctor}>{item.get_user.full_name}</Text>
+            <Text style={styles.time}>{Helper.setDateFormat(item.created_at)}</Text>
           </View>
           <Text style={styles.namedoctordetails}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry.
+            {item.detail}
           </Text>
           <TouchableOpacity
             onPress={() => {
-              onChangesecond(item.id);
+              onChangesecond(item);
             }}
             style={styles.replyView}>
-            <Image style={styles.replyIcon} source={Imagepath.replyIcons} />
+            <Image style={styles.replyIcon} source={imagepath.replyIcons} />
             <Text style={styles.replyText}>Reply</Text>
           </TouchableOpacity>
         </View>
-        {Reply == item.id && <MessageBox />}
+        {Reply == item && <MessageBox />}
       </View>
     );
   };
 
   return (
     <View
-      source={Imagepath.background}
-      style={{flex: 1, paddingTop: 15, paddingBottom: 10}}>
+      source={imagepath.background}
+      style={{ flex: 1, paddingTop: 15, paddingBottom: 10 }}>
       <FlatList
         data={DataCardList}
         keyExtractor={(item, index) => item.key}
         renderItem={NotificationItem}
         showsVerticalScrollIndicator={false}
-        style={{marginBottom: 5}}
+        style={{ marginBottom: 5 }}
       />
-      <CustomLoader loaderVisible={loaderVisible} />
     </View>
   );
 };
@@ -107,7 +72,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
   },
-
+  topBorderRound: {
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  bottomBorderRound: {
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
   ContentView: {
     backgroundColor: '#fff',
     shadowColor: '#929397',
@@ -140,13 +112,21 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaRegular,
     paddingVertical: 15,
   },
-  replyView: {flexDirection: 'row', alignItems: 'flex-end', width: 90},
-  replyIcon: {height: 20, width: 30},
-  replyText: {color: Colors.appcolor, paddingLeft: 10},
+  replyView: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    width: 90
+  },
+  replyIcon: {
+    height: 20,
+    width: 30
+  },
+  replyText: {
+    color: Colors.appcolor,
+    paddingLeft: 10
+  },
   messageBoxContainer: {
-    marginLeft: 15,
-    marginRight: 15,
-    elevation: 4,
+    marginHorizontal: 15,
     borderRadius: 15,
   },
 });

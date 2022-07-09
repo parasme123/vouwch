@@ -2,6 +2,7 @@ export const baseUrl = 'https://apponedemo.top/vouwch/api/';
 export const imgBaseUrl = 'https://apponedemo.top/vouwch/';
 
 export const getAllDoctors = 'all-doctor-list';
+export const getMessageAndComment = "business-msg-commant";
 export const postDoctorSearch = 'get-doctors';
 export const getHomeData = 'get-home-data';
 export const getAllBravoCard = "get-cards";
