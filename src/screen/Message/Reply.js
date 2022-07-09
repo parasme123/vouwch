@@ -1,62 +1,47 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
-  ScrollView,
   ImageBackground,
-  Image,
-  FlatList,
-  Alert,
-  Modal,
 } from 'react-native';
-import {Header} from '@common';
-import Imagepath from '../../common/imagepath';
-import Fonts from '../../common/Fonts';
-import String from '../../common/String';
-import MessageBox from '../../common/MessegeBox';
-import Message from './Message';
-import Comment from './Comment';
-import Colors from '../../common/Colors';
 
-const Reply = ({navigation}) => {
-  const [mark, setMark] = useState();
-  const [Massageprop, setMassageprop] = useState();
-  const [Commentprop, setCommentprop] = useState();
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Header, imagepath, Fonts, String, Colors, Fontsize } from '@common';
+import { CustomLoader } from '@lib';
+import { NoRecordFound } from '@component';
+import Message from './Message';
+import { getMessageAndComment } from '../../reduxStore/action/doctorAction';
+
+const Reply = (props) => {
+  const [typeOfData, setTypeOfData] = useState(1);
   const [loaderVisible, setloaderVisible] = useState(false);
-  // const [modalVisible, setModalVisible] = useState(false);
-  const chexkBox = () => {
-    setMark(!mark);
-  };
+
   const MessagePage = () => {
-    setMassageprop(true);
-    setCommentprop(false);
+    setTypeOfData(1);
+    handleMessageAndComment(1);
   };
 
   const CommentpropPage = () => {
-    setMassageprop(false);
-    setCommentprop(true);
-  };
-  useEffect(() => {
-    CommentpropPage();
-  }, []);
-  const [DropDownSec, setDropDownSec] = useState(false);
-  const [selectvalue, setselectvalue] = useState('Select');
-  const onChangesecond = () => {
-    setDropDownSec(!DropDownSec);
+    setTypeOfData(2);
+    handleMessageAndComment(2);
   };
 
-  //    const onPickersecond = () => {
-  //       setDropDownSec(!DropDownSec)
-  // }
+  const handleMessageAndComment = (callFor) => {
+    let { actions } = props;
+    actions.getMessageAndComment(callFor)
+  }
+
+  useEffect(() => {
+    handleMessageAndComment(1)
+  }, []);
 
   return (
-    <ImageBackground source={Imagepath.background} style={{flex: 1}}>
+    <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
       <View
-        style={{height: 115, width: '100%', backgroundColor: Colors.appcolor}}>
+        style={{ height: 115, width: '100%', backgroundColor: Colors.appcolor }}>
         <Header title={String.message} isback={'bottomtab'} />
         <View
           style={{
@@ -72,10 +57,10 @@ const Reply = ({navigation}) => {
               MessagePage();
             }}
             style={[
-              {backgroundColor: Massageprop ? '#19428A' : null},
+              { backgroundColor: typeOfData == 1 ? '#19428A' : null },
               styles.button,
             ]}>
-            <Text style={{color: '#ffffff', fontSize: 13}}>Massage</Text>
+            <Text style={{ color: '#ffffff', fontSize: 13 }}>Message</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -83,18 +68,23 @@ const Reply = ({navigation}) => {
             }}
             style={[
               {
-                backgroundColor: Commentprop ? '#19428A' : null,
+                backgroundColor: typeOfData == 2 ? '#19428A' : null,
                 fontFamily: Fonts.ProximaNovaSemibold,
               },
               styles.button,
             ]}>
-            <Text style={{color: '#ffffff', fontSize: 13}}>Comment</Text>
+            <Text style={{ color: '#ffffff', fontSize: 13 }}>Comment</Text>
           </TouchableOpacity>
         </View>
       </View>
-
-      {Massageprop && <Message />}
-      {Commentprop && <Comment />}
+      {
+        props.messageAndComment.length > 0 ? (
+          <Message dataMsg={props.messageAndComment} />
+        ) : (
+          <NoRecordFound />
+        )
+      }
+      <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>
   );
 };
@@ -140,9 +130,23 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaRegular,
     paddingVertical: 15,
   },
-  replyView: {flexDirection: 'row', alignItems: 'flex-end', width: 90},
-  replyIcon: {height: 20, width: 30},
-  replyText: {color: Colors.appcolor, paddingLeft: 10},
+  replyView: { flexDirection: 'row', alignItems: 'flex-end', width: 90 },
+  replyIcon: { height: 20, width: 30 },
+  replyText: { color: Colors.appcolor, paddingLeft: 10 },
 });
 
-export default Reply;
+
+const mapStateToProps = state => ({
+  messageAndComment: state.doctor.messageAndComment,
+});
+
+const ActionCreators = Object.assign(
+  { getMessageAndComment },
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reply);
+

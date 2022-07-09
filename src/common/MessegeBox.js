@@ -1,11 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, Image, TouchableOpacity, FlatList, View } from 'react-native';
 import fonts from './Fonts';
-import Colors from './Colors';
-import Imagepath from './imagepath';
 import { TextInput } from 'react-native-gesture-handler';
-import CoustomButton from './CommanBotton';
-import String from './String';
 import Fonts from './Fonts';
 export default class MessageBox extends React.Component {
     constructor(props) {

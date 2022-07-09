@@ -1,7 +1,34 @@
-import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST} from './types';
+import { MESSAGEANDCOMMENT, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
-import { Constants, AsyncStorageHelper } from "@lib"
+import { Constants, AsyncStorageHelper } from "@lib";
+
+export const getMessageAndComment = (id) => {
+    return async dispatch => {
+        dispatch(saveMessageAndComment([]))
+        await fetch(`${URL.baseUrl}${URL.getMessageAndComment}?typeOfDta=${id}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            }
+        }).then(async (res) => {
+            let response = await res.json();
+            console.log("getMessageAndComment", response.data)
+            dispatch(saveMessageAndComment(response.data))
+        }).catch(err => {
+            console.log("getMessageAndComment", err);
+        })
+    }
+}
+
+export const saveMessageAndComment = (data) => {
+    return ({
+        type: MESSAGEANDCOMMENT,
+        payload: data
+    })
+};
+
 export const saveDoctorData = (data) => {
     return ({
         type: DOCTORRECORD,
@@ -152,7 +179,6 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);
-                console.log(response);
                 Toast.show(response.message);
             }
         }).catch(err => {
@@ -342,10 +368,6 @@ export const saveNotification = (data) => {
     })
 };
 
-
-
-
-
 export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
@@ -360,7 +382,6 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
-                console.log(response);
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
                 Toast.show(response.message);
@@ -375,9 +396,6 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
         })
     }
 };
-
-
-
 
 export const handelAddDoctor = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
@@ -405,7 +423,6 @@ export const handelAddDoctor = (data, setloaderVisible, PageNavigation) => {
         })
     }
 };
-
 
 export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
@@ -466,7 +483,6 @@ export const postMessge = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
-
 export const postComment = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
@@ -495,8 +511,6 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
-
-
 export const getdoctordetails = (data, setloaderVisible) => {
     return async dispatch => {
         setloaderVisible(true);
@@ -523,14 +537,12 @@ export const getdoctordetails = (data, setloaderVisible) => {
     }
 };
 
-
 export const savedoctordetails = (data) => {
     return ({
         type: DOCTORDETAILS,
         payload: data
     })
 };
-
 
 export const postBravo = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
@@ -589,7 +601,6 @@ export const savedoctorList = (data) => {
     })
 };
 
-
 export const postReview = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
@@ -642,4 +653,3 @@ export const getServices = () => {
         })
     }
 };
-
