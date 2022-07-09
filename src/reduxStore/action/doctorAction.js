@@ -3,6 +3,24 @@ import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
 
+export const postMessageReply = (data, typeOfData) => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${typeOfData == 1 ? URL.messageReply : URL.commentReply}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body:JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(getMessageAndComment(typeOfData))
+        }).catch(err => {
+            console.log("postMessageReply", err);
+        })
+    }
+}
+
 export const getMessageAndComment = (id) => {
     return async dispatch => {
         dispatch(saveMessageAndComment([]))

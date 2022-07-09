@@ -9,13 +9,14 @@ import {
 } from 'react-native';
 
 import { imagepath, Colors, String, Fonts } from '@common';
-import {Helper} from '@lib';
+import { Helper } from '@lib';
 import MessageBox from '../../common/MessegeBox';
 
 const Message = (props) => {
   const [Reply, setReply] = useState(0);
 
   const onChangesecond = (value) => {
+    if (Reply == value) value = 0;
     setReply(value);
   };
 
@@ -37,14 +38,14 @@ const Message = (props) => {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              onChangesecond(item);
+              onChangesecond(item.id);
             }}
             style={styles.replyView}>
             <Image style={styles.replyIcon} source={imagepath.replyIcons} />
             <Text style={styles.replyText}>Reply</Text>
           </TouchableOpacity>
         </View>
-        {Reply == item && <MessageBox />}
+        {Reply == item.id && <MessageBox item={item} handleReply={props.handleReply} />}
       </View>
     );
   };

@@ -60,7 +60,7 @@ const Home = (props) => {
       }
       //
     });
-    // console.log('msgDocId------------', props.allHomeData.cards);
+    console.log('userTypeuserType------------', userType);
   }, []);
 
 

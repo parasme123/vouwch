@@ -1,28 +1,19 @@
-// import React, { Component } from 'react';
-// import { StyleSheet, Text, View } from 'react-native';
-// import { WebView } from 'react-native-webview';
-
-
-// const MyWebComponent =(props) => {
-//     return <WebView source={{ uri: "https://apponedemo.top/vouwch/api/contact-us-app" }} />
-//   }
-
-// export default MyWebComponent;
-
-
-
-
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-
+import { Header, Fonts, String, Colors, Fontsize, imagepath } from '@common';
 // ...
-export default class MyWebComponent extends Component {
-  render() {
-    return (
-      <View style={{backgroundColor:"red", flex:1}}>
-        <WebView source={{ uri: 'https://reactnative.dev/' }} />
-      </View>
-    );
-  }
+const MyWebComponent = (props, { route }) => {
+  const urlPath = props?.route?.params?.url ? props.route.params.url : null;
+  const HeaderTittle = props?.route?.params?.title ? props.route.params.title : null;
+  return (
+    <View style={{ flex: 1 }}>
+       <Header title={HeaderTittle} isback={'bottomtab'} />
+       {/* <Header title={String.menu} isback={'bottomtab'} /> */}
+      <WebView source={{ uri: urlPath }} />
+    </View>
+  )
 }
+
+
+export default MyWebComponent;

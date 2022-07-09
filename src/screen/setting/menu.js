@@ -10,12 +10,12 @@ import {
   Image,
 } from 'react-native';
 import { useIsFocused, useLinkProps } from '@react-navigation/native';
-import { Header, Fonts, String,Colors,Fontsize ,imagepath  } from '@common';
+import { Header, Fonts, String, Colors, Fontsize, imagepath } from '@common';
 import { Helper, Constants, AsyncStorageHelper } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
 
 // const { width, height } = Dimensions.get("window");
-export default Menu = (props,{ navigation }) => {
+export default Menu = (props, { navigation }) => {
   const [userType, setuserType] = useState(null);
   const [userToken, setuserToken] = useState(null);
   const isFocused = useIsFocused();
@@ -60,8 +60,7 @@ export default Menu = (props,{ navigation }) => {
         contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container1}>
           <TouchableOpacity
-            // onPress={()=>props.navigation.navigate("webView")}
-            onPress={()=>{Linking.openURL('https://apponedemo.top/vouwch/api/contact-us-app')}}
+            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/contact-us-app', title: "Contact Us" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
@@ -71,7 +70,7 @@ export default Menu = (props,{ navigation }) => {
             <Text style={styles.pageButtonText}>contact us</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={()=>{Linking.openURL('https://apponedemo.top/vouwch/api/help-support-app')}}
+          onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/help-support-app', title: "Help & support" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
@@ -81,43 +80,43 @@ export default Menu = (props,{ navigation }) => {
             <Text style={styles.pageButtonText}>Help & support</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={()=> { Linking.openURL('https://apponedemo.top/vouwch/api/about-us-app') }}
-          style={styles.pageButton}>
-          <Image
-            style={styles.pageButtonIcon}
-            resizeMode="contain"
-            source={imagepath.i}
-          />
-          <Text style={styles.pageButtonText}>About us</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => { Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app') }}
-          style={styles.pageButton}>
-          <Image
-            style={styles.pageButtonIcon}
-            resizeMode="contain"
-            source={imagepath.privacy}
-          />
-          <Text style={styles.pageButtonText}>Privacy Policy</Text>
-        </TouchableOpacity>
-        {
-          userType && userToken ? (
-            <TouchableOpacity
-              style={[styles.pageButton,{marginBottom:50}]}
-              onPress={() => {
-                SignOut();
-              }}>
-              <Image
-                style={styles.pageButtonIcon}
-                resizeMode="contain"
-                source={imagepath.help}
-              />
-              <Text style={styles.pageButtonText}>Sign out</Text>
-            </TouchableOpacity>
-          ) : null
-        }
-      </View>
-    </ScrollView>
+             onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/about-us-app', title: "About us" })}
+            style={styles.pageButton}>
+            <Image
+              style={styles.pageButtonIcon}
+              resizeMode="contain"
+              source={imagepath.i}
+            />
+            <Text style={styles.pageButtonText}>About us</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/privacy-policy-app', title: "Privacy Policy" })}
+            style={styles.pageButton}>
+            <Image
+              style={styles.pageButtonIcon}
+              resizeMode="contain"
+              source={imagepath.privacy}
+            />
+            <Text style={styles.pageButtonText}>Privacy Policy</Text>
+          </TouchableOpacity>
+          {
+            userType && userToken ? (
+              <TouchableOpacity
+                style={[styles.pageButton, { marginBottom: 50 }]}
+                onPress={() => {
+                  SignOut();
+                }}>
+                <Image
+                  style={styles.pageButtonIcon}
+                  resizeMode="contain"
+                  source={imagepath.help}
+                />
+                <Text style={styles.pageButtonText}>Sign out</Text>
+              </TouchableOpacity>
+            ) : null
+          }
+        </View>
+      </ScrollView>
     </ImageBackground >
   );
 };
@@ -125,13 +124,13 @@ export default Menu = (props,{ navigation }) => {
 const styles = StyleSheet.create({
   imagebg: { flex: 1 },
   container1: {
-    marginHorizontal:24,
+    marginHorizontal: 24,
     marginTop: 10,
   },
   pageButton: { flexDirection: 'row', alignItems: 'center', },
   pageButtonIcon: { height: 30, width: 30 },
   pageButtonText: {
-    color:Colors.black,
+    color: Colors.black,
     fontSize: Fontsize.fontEighteen,
     marginHorizontal: 15,
     marginVertical: 20,

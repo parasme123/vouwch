@@ -35,6 +35,8 @@ const Navigator = () => {
     <NavigationContainer>
       <MainStack.Navigator
         initialRouteName="splash"
+        // initialRouteName="myprofliecomment"
+
         screenOptions={{ headerShown: false }}>
         <MainStack.Screen name="splash" component={Splash} />
         <MainStack.Screen name="welcome" component={Welcome} />
@@ -64,6 +66,7 @@ const Navigator = () => {
         <MainStack.Screen name="Msg" component={MessageBox} />
         <MainStack.Screen name="webView" component={MyWebComponent} />
         <MainStack.Screen name="FeedbackUserProfile" component={FeedbackUserProfile} />
+
 
       </MainStack.Navigator>
     </NavigationContainer>

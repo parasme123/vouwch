@@ -25,6 +25,7 @@ export const addReview = "add-review";
 export const doctorlist = "hospital-doctor-list";
 export const servicesList = "get-services";
 export const getprofileuRL = "get-profile";
-// export const getAllDoctors = "all-doctor-list";
+export const messageReply = "add-msg-reply";
+export const commentReply = "add-comment-reply";
 
 
