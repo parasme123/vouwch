@@ -14,8 +14,8 @@ import { handleNavigation } from '../../navigator/Navigator';
 import DoctorList from '../../modal/DoctorList';
 
 const Bravocard = (props) => {
-  const [Photos, setPhotos] = useState();
-  const [Videos, setVideos] = useState();
+  const [Photos, setPhotos] = useState([]);
+  const [Videos, setVideos] = useState([]);
   const [name, setname] = useState();
   const [department, setdepartment] = useState();
   const [hospital, sethospital] = useState();
@@ -37,6 +37,7 @@ const Bravocard = (props) => {
   };
   const VideoRecoder = async () => {
     ImagePicker.openPicker({
+      multiple: true,
       mediaType: 'video',
     }).then(video => {
       setVideos(true);
@@ -50,8 +51,7 @@ const Bravocard = (props) => {
       height: 400,
       cropping: true,
     }).then(image => {
-
-      setPhotos(image.path);
+      setPhotos(image);
       setPhotos(true);
     });
   };
@@ -79,30 +79,76 @@ const Bravocard = (props) => {
 
   const Signin_Validators = () => {
     if (
-      Validators.checkNull('Name', 2, name) &&
-      Validators.checkNull('Department', 2, department) &&
-      Validators.checkNull('hospital', 2, hospital) &&
-      Validators.checkNull('City', 2, city) &&
-      Validators.checkNull('State', 2, state) &&
+      // Validators.checkNull('Name', 2, name) &&
+      // Validators.checkNull('Department', 2, department) &&
+      // Validators.checkNull('hospital', 2, hospital) &&
+      // Validators.checkNull('City', 2, city) &&
+      // Validators.checkNull('State', 2, state) &&
       Validators.checkNull('Detail', 2, detail)
     ) {
       BravoCard();
     }
   };
 
+  // const BravoCard32 = () => {
+  //   let { actions } = props;
+
+  //   let apiData = {
+  //     doctor_id: doctorId ?? props.allDoctorlist,
+  //     name: name,
+  //     department: department,
+  //     hospital: hospital,
+  //     city: city,
+  //     state: state,
+  //     detail: detail,
+  //     files: [Photos, Videos]
+  //   };
+  //   actions.postBravo(apiData, setloaderVisible, () => PageNavigation());
+  // };
+
+  // start
+  //   const data = new FormData();
+
+  // if (Photos.length > 0) {
+  //   for (var i = 1; i < Photos.length; i++) {
+  //     const photo = Photos[i];
+  //     data.append('images', {
+  //       name: photo.fileName,
+  //       type: photo.type,
+  //       uri: Platform.OS === "ios" ? photo.uri.replace("file://", "") : photo.uri,
+  //     });
+  //   }
+  // }
+
+  //end
+
   const BravoCard = () => {
     let { actions } = props;
-    let apiData = {
-      doctor_id: doctorId ?? props.allDoctorlist,
-      name: name,
-      department: department,
-      hospital: hospital,
-      city: city,
-      state: state,
-      detail: detail,
-      files: [Photos, Videos]
-    };
-    actions.postBravo(apiData, setloaderVisible, () => PageNavigation());
+    const NewPhotoArr = []
+    if (Photos.length > 0) {
+      for (var i = 1; i < Photos.length; i++) {
+        const photo = Photos[i];
+        let fileName = photo.path.split("/");
+        NewPhotoArr.push({
+          name: fileName[fileName.length - 1],
+          type: photo.mime,
+          uri: Platform.OS === "ios" ? photo.path.replace("file://", "") : photo.path,
+        });
+      }
+    }
+
+    console.log("NewPhotoArr", NewPhotoArr);
+    const data = new FormData();
+    data.append('doctor_id', doctorId ?? props.allDoctorlist);
+    data.append('name', name);
+    data.append('department', department);
+    data.append('hospital', hospital);
+    data.append('city', city);
+    data.append('state', state);
+    data.append('detail', detail);
+    data.append('files', NewPhotoArr);
+    console.log("data", data);          //////////////////////////////////////remove please 
+    actions.postBravo(data, () => setloaderVisible(false), () => PageNavigation());
   };
 
   const PageNavigation = () => {
@@ -121,7 +167,7 @@ const Bravocard = (props) => {
       <Header title={String.Bravo_Head_title} isback="asjdfla" />
       <View style={styles.hightView}></View>
       <View style={styles.mainView}>
-         <ScrollView
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.ScrollViewStyle}>
           <View style={styles.input_main}>
@@ -196,7 +242,6 @@ const Bravocard = (props) => {
                   </TouchableOpacity>
                 </> : null
             }
-
 
             <InputCommon
               title={String.title}

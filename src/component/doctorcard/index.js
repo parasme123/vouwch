@@ -16,7 +16,7 @@ export default Doctorcard = props => {
       key={props.index}
       // onPress={() => { userType?.user_token && userType?.user_type == 1 ? navigation.navigate('Doctordetails', { person: true }) : alert("Please login with Personal Account") }}
       onPress={() => {
-        props.onpress_DoctorCard(props.item.id);
+        props.onpress_DoctorCard(props.item.id, "about");
       }}
       style={[
         styles.doctorCardContainer,
@@ -28,7 +28,7 @@ export default Doctorcard = props => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_Comment(props.item.id);
+            props.onpress_Comment(props.item.user_id);
           }}>
           {svg.commentCircle(30, 30, Colors.appcolor)}
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -38,7 +38,7 @@ export default Doctorcard = props => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_Message(props.item.id);
+            props.onpress_Message(props.item.user_id);
           }}>
           {svg.messageCircle(30, 30, Colors.appcolor)}
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -74,13 +74,13 @@ export default Doctorcard = props => {
 
       <View style={{ flex: 1, flexDirection: 'row', marginVertical: 15 }}>
         <TouchableOpacity
-          onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'Bravocard')}
+          onPress={() => props.handleAddBravoCardOrReview(props.item.user_id, 'Bravocard')}
           style={[styles.addBravoCardBtn, { marginRight: 2 }]}>
           {svg.addBravo(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'review')}
+          onPress={() => props.handleAddBravoCardOrReview(props.item.user_id, 'review')}
           style={[styles.addBravoCardBtn, { marginLeft: 2 }]}>
           {svg.addReview(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add A Review</Text>
@@ -96,7 +96,10 @@ export default Doctorcard = props => {
         </Text>
         {/* photo & Videos Btn */}
         {/* Red Star Line */}
-        <View style={styles.ratingViewRed}>
+        <TouchableOpacity onPress={() => {
+          props.onpress_DoctorCard(props.item.id ,"feedback")
+        }}
+          style={styles.ratingViewRed}>
           <View style={styles.ratingViewmain}>
             <Rating
               type="custom"
@@ -114,11 +117,15 @@ export default Doctorcard = props => {
             {props.Clinician_Rating}
             <Text style={styles.clinicianReview}> Clinician's Review</Text>
           </Text>
-        </View>
+        </TouchableOpacity>
 
         {/* yellow Star Line */}
-        <View style={styles.yellowstarview}>
-          {/* onPress={() => navigation.navigate('Doctordetails', { personRed: true })} */}
+        <TouchableOpacity
+          onPress={() => {
+            props.onpress_DoctorCard(props.item.id,"review");
+          }}
+          style={styles.yellowstarview}>
+
           <View style={styles.ratingViewmain}>
             <Rating
               max={5}
@@ -133,7 +140,7 @@ export default Doctorcard = props => {
             {props.patient_Rating}
             <Text style={styles.clinicianReview}> Patient Review</Text>
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );

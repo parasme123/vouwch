@@ -13,7 +13,7 @@ import { Header, imagepath, Fonts, String, Colors, Fontsize } from '@common';
 import { CustomLoader } from '@lib';
 import { NoRecordFound } from '@component';
 import Message from './Message';
-import { getMessageAndComment } from '../../reduxStore/action/doctorAction';
+import { getMessageAndComment, postMessageReply } from '../../reduxStore/action/doctorAction';
 
 const Reply = (props) => {
   const [typeOfData, setTypeOfData] = useState(1);
@@ -37,6 +37,30 @@ const Reply = (props) => {
   useEffect(() => {
     handleMessageAndComment(1)
   }, []);
+
+  const handelMessageReply = (item, message) => {
+    let { actions } = props;
+    let apiData = {};
+    if (typeOfData == 1) {
+      apiData = {
+        doctor_id: item.business_id,
+        user_id: item.user_id,
+        msg_id: item.id,
+        detail: message
+      }
+    } else {
+      apiData = {
+        doctor_id: item.business_id,
+        user_id: item.user_id,
+        comment_id: item.id,
+        detail: message
+      }
+    }
+    console.log("apiData", apiData);
+    // return;
+    actions.postMessageReply(apiData, typeOfData)
+
+  }
 
   return (
     <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
@@ -79,7 +103,7 @@ const Reply = (props) => {
       </View>
       {
         props.messageAndComment.length > 0 ? (
-          <Message dataMsg={props.messageAndComment} />
+          <Message dataMsg={props.messageAndComment} handleReply={handelMessageReply} />
         ) : (
           <NoRecordFound />
         )
@@ -142,6 +166,7 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
   { getMessageAndComment },
+  { postMessageReply }
 );
 
 const mapDispatchToProps = dispatch => ({

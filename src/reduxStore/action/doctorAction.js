@@ -1,7 +1,25 @@
-import { MESSAGEANDCOMMENT, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST } from './types';
+import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
+
+export const postMessageReply = (data, typeOfData) => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${typeOfData == 1 ? URL.messageReply : URL.commentReply}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(getMessageAndComment(typeOfData))
+        }).catch(err => {
+            console.log("postMessageReply", err);
+        })
+    }
+}
 
 export const getMessageAndComment = (id) => {
     return async dispatch => {
@@ -294,14 +312,13 @@ export const Handelotp = (data, setloaderVisible) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            // console.log("apiData-------------dTa-----------", data);
             setloaderVisible(false);
             if (response.status) {
                 // PageNavigation(response)
-                alert("hiii")
+                // alert("hiii")
             } else {
                 setloaderVisible(false);
-                alert('hello')
+                // alert('hello')
                 Toast.show(response.message);
             }
         }).catch(err => {
@@ -550,11 +567,12 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
         await fetch(`${URL.baseUrl}${URL.bravoApi}`, {
             method: "POST",
             headers: {
-                "Content-type": "application/json",
+                "Content-type": "multipart/form-data",
                 "Authorization": `Bearer ${global.token}`
             },
-            body: JSON.stringify(data)
+            body: data
         }).then(async (res) => {
+            console.log("res", res);
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {
@@ -627,12 +645,6 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
-export const saveServices = (data) => {
-    return ({
-        type: SERVICESLIST,
-        payload: data
-    })
-};
 
 export const getServices = () => {
     return async dispatch => {
@@ -652,4 +664,46 @@ export const getServices = () => {
             Toast.show("something went wrong");
         })
     }
+};
+
+export const saveServices = (data) => {
+    return ({
+        type: SERVICESLIST,
+        payload: data
+    })
+};
+
+/// before using this please check data  
+export const PostUserProfile = (data, setloaderVisible,) => {
+    // console.log("data+++++++++++++++++++++++++++++++++++", data);
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.getprofileuRL}?user_id=${data}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+            },
+            // body: JSON.stringify(data)
+        }).then(async (res) => {
+            // console.log("res+++++++++++++++++++++++++++++++++++", res);
+            let response = await res.json();
+            // console.log("response+++++++++++++++++++++++++++++++++++", response);
+            setloaderVisible(false);
+            if (response.status) {
+                dispatch(saveUserProfile(response.data));
+            }
+            Toast.show(response.message);
+        }).catch(err => {
+            console.log("PostUserProfile", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};
+
+export const saveUserProfile = (data) => {
+    return ({
+        type: USERGETDATA,
+        payload: data
+    })
 };

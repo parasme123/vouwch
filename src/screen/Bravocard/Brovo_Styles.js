@@ -34,12 +34,13 @@ const Brovo_Styles = StyleSheet.create({
   PhotoText: {
     fontSize: Fontsize.fontFourteen,
     color: Colors.white,
-    left: 10,
+    left: 5,
     fontFamily: Fonts.ProximaNovaLight,
   },
   Imageicon: {
     height: 20,
     width: 20,
+    right:5
   },
   mainContPhoto: {
     flex: 1,
@@ -51,22 +52,21 @@ const Brovo_Styles = StyleSheet.create({
   },
   PhotosView: {
     marginRight: 10,
-    alignSelf: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     paddingVertical: 7,
     borderRadius: 20,
   },
 
   VideoView: {
-    alignSelf: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     paddingVertical: 7,
     borderRadius: 20,
+    justifyContent:"space-between"
   },
   imputHeader: {
-    fontSize: 16, color: "#000", fontFamily: Fonts.ProximaNovaBold , marginHorizontal: 24,
+    fontSize: Fontsize.fontSixteen, color: "#000", fontFamily: Fonts.ProximaNovaBold , marginHorizontal: 24,
   },
   dropdownView: {
     borderWidth: 1,
