@@ -230,7 +230,6 @@ export default Feedbackpage = (props) => {
       {activeFeedbackTab == "b" ?
         <FlatList
           data={props.data?.business?.get_card}
-          style={{ paddingHorizontal: 8 }}
           renderItem={BravoCard}
           horizontal
           showsHorizontalScrollIndicator={false}

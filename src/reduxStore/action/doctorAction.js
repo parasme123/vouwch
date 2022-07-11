@@ -11,7 +11,7 @@ export const postMessageReply = (data, typeOfData) => {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${global.token}`
             },
-            body:JSON.stringify(data)
+            body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
             dispatch(getMessageAndComment(typeOfData))
@@ -312,14 +312,13 @@ export const Handelotp = (data, setloaderVisible) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            // console.log("apiData-------------dTa-----------", data);
             setloaderVisible(false);
             if (response.status) {
                 // PageNavigation(response)
-                alert("hiii")
+                // alert("hiii")
             } else {
                 setloaderVisible(false);
-                alert('hello')
+                // alert('hello')
                 Toast.show(response.message);
             }
         }).catch(err => {
@@ -568,11 +567,12 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
         await fetch(`${URL.baseUrl}${URL.bravoApi}`, {
             method: "POST",
             headers: {
-                "Content-type": "application/json",
+                "Content-type": "multipart/form-data",
                 "Authorization": `Bearer ${global.token}`
             },
-            body: JSON.stringify(data)
+            body: data
         }).then(async (res) => {
+            console.log("res", res);
             let response = await res.json();
             setloaderVisible(false);
             if (response.status) {

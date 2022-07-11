@@ -60,7 +60,7 @@ const Home = (props) => {
       }
       //
     });
-    console.log('userTypeuserType------------', userType);
+    // console.log('userTypeuserType------------', userType);
   }, []);
 
 

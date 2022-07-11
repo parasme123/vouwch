@@ -21,7 +21,7 @@ export default Bravocard = (props) => {
                 animationType="slide"
                 transparent={true}
             >
-                <TouchableOpacity
+                <View
                     onPress={() => setShowPhotoModal(false)}
                     style={styles.centeredView1}>
                     <View style={styles.centeredView2}>
@@ -50,7 +50,7 @@ export default Bravocard = (props) => {
                             }}
                         />
                     </View>
-                </TouchableOpacity >
+                </View >
             </Modal>
             <View style={styles.cardIconView} >
                 <Image style={styles.cardIcon} source={imagepath.Bravo} />
@@ -60,11 +60,11 @@ export default Bravocard = (props) => {
             {props.hideButtons ? null :
                 <>
                     <View style={styles.shareCardView}>
-                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Comment(props.item.id) }}>
+                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Comment(props.item.doctor_id) }}>
                             {svg.commentCircle(30, 30, Colors.appcolor)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>Comment</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Message(props.item.id) }}>
+                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Message(props.item.doctor_id) }}>
                             {svg.messageCircle(30, 30, Colors.appcolor)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>Message</Text>
                         </TouchableOpacity>
