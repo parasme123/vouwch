@@ -48,11 +48,11 @@ export default Doctorcard = props => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_DoctorCard_Follow(props.item.id);
+            props.onpress_DoctorCard_Follow(props.item.user_id);
           }}>
-          {svg.followCircle(30, 30, props.Follows?.includes(props.item.id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor : Colors.white)}
+          {svg.followCircle(30, 30, props.Follows?.includes(props.item.user_id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor : Colors.white)}
 
-          {props.Follows?.includes(props.item.id) ? (
+          {props.Follows?.includes(props.item.user_id) ? (
             <Text style={styles.DoctorCardShareButtonText}>Following</Text>
           ) : (
             <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -97,7 +97,7 @@ export default Doctorcard = props => {
         {/* photo & Videos Btn */}
         {/* Red Star Line */}
         <TouchableOpacity onPress={() => {
-          props.onpress_DoctorCard(props.item.id ,"feedback")
+          props.onpress_DoctorCard(props.item.user_id ,"feedback")
         }}
           style={styles.ratingViewRed}>
           <View style={styles.ratingViewmain}>
@@ -122,7 +122,7 @@ export default Doctorcard = props => {
         {/* yellow Star Line */}
         <TouchableOpacity
           onPress={() => {
-            props.onpress_DoctorCard(props.item.id,"review");
+            props.onpress_DoctorCard(props.item.user_id,"review");
           }}
           style={styles.yellowstarview}>
 

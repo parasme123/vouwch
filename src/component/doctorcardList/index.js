@@ -15,7 +15,7 @@ export default DoctorcardList = (props) => {
     <TouchableOpacity
       key={props.index}
       onPress={() => {
-        props.onpress_DoctorCard(props.item.id);
+        props.onpress_DoctorCard(props.item.user_id);
       }}
       style={[
         styles.doctorCardContainer,
@@ -80,7 +80,7 @@ export default DoctorcardList = (props) => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_Comment(props.item.id);
+            props.onpress_Comment(props.item.user_id);
           }}>
           {svg.commentCircle(30, 30, Colors.appcolor)}
           {/* <Image
@@ -94,7 +94,7 @@ export default DoctorcardList = (props) => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_Message(props.item.id);
+            props.onpress_Message(props.item.user_id);
           }}>
           {svg.messageCircle(30, 30, Colors.appcolor)}
           {/* <Image
@@ -108,11 +108,11 @@ export default DoctorcardList = (props) => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_DoctorCard_Follow(props.item.id);
+            props.onpress_DoctorCard_Follow(props.item.user_id);
           }}>
-          {svg.followCircle(30, 30, props.Follows?.includes(props.item.id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor : Colors.white)}
+          {svg.followCircle(30, 30, props.Follows?.includes(props.item.user_id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.user_id) ? Colors.appcolor : Colors.white)}
 
-          {props.Follows?.includes(props.item.id) ? (
+          {props.Follows?.includes(props.item.user_id) ? (
             <Text style={styles.DoctorCardShareButtonText}>Following</Text>
           ) : (
             <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -123,7 +123,7 @@ export default DoctorcardList = (props) => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_Share(props.item.id);
+            props.onpress_Share(props.item.user_id);
           }}>
           {svg.shareCircle(30, 30, Colors.black, Colors.white)}
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -133,13 +133,13 @@ export default DoctorcardList = (props) => {
       </View>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
-          onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'Bravocard')}
+          onPress={() => props.handleAddBravoCardOrReview(props.item.user_id, 'Bravocard')}
           style={[styles.addBravoCardBtn, { marginRight: 5 }]}>
           {svg.addBravo(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'review')}
+          onPress={() => props.handleAddBravoCardOrReview(props.item.user_id, 'review')}
           style={[styles.addBravoCardBtn, { marginLeft: 5 }]}>
           {svg.addReview(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add A Review</Text>

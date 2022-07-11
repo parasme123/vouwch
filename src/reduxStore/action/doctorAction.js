@@ -32,7 +32,7 @@ export const getMessageAndComment = (id) => {
             }
         }).then(async (res) => {
             let response = await res.json();
-            console.log("getMessageAndComment", response.data)
+            // console.log("getMessageAndComment", response.data)
             dispatch(saveMessageAndComment(response.data))
         }).catch(err => {
             console.log("getMessageAndComment", err);
