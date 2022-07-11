@@ -40,7 +40,7 @@ const Bravocard = (props) => {
       multiple: true,
       mediaType: 'video',
     }).then(video => {
-      setVideos(true);
+      setVideos(video);
     });
   };
 
@@ -52,7 +52,6 @@ const Bravocard = (props) => {
       cropping: true,
     }).then(image => {
       setPhotos(image);
-      setPhotos(true);
     });
   };
 
@@ -124,20 +123,6 @@ const Bravocard = (props) => {
 
   const BravoCard = () => {
     let { actions } = props;
-    const NewPhotoArr = []
-    if (Photos.length > 0) {
-      for (var i = 1; i < Photos.length; i++) {
-        const photo = Photos[i];
-        let fileName = photo.path.split("/");
-        NewPhotoArr.push({
-          name: fileName[fileName.length - 1],
-          type: photo.mime,
-          uri: Platform.OS === "ios" ? photo.path.replace("file://", "") : photo.path,
-        });
-      }
-    }
-
-    console.log("NewPhotoArr", NewPhotoArr);
     const data = new FormData();
     data.append('doctor_id', doctorId ?? props.allDoctorlist);
     data.append('name', name);
@@ -146,8 +131,18 @@ const Bravocard = (props) => {
     data.append('city', city);
     data.append('state', state);
     data.append('detail', detail);
-    data.append('files', NewPhotoArr);
-    console.log("data", data);          //////////////////////////////////////remove please 
+    if (Photos.length > 0) {
+      for (var i = 0; i < Photos.length; i++) {
+        const photo = Photos[i];
+        let fileName = photo.path.split("/");
+        let imgUploadObj = {
+          name: fileName[fileName.length - 1],
+          type: photo.mime,
+          uri: Platform.OS === "ios" ? photo.path.replace("file://", "") : photo.path,
+        }
+        data.append('files', imgUploadObj);
+      }
+    }
     actions.postBravo(data, () => setloaderVisible(false), () => PageNavigation());
   };
 
@@ -176,13 +171,13 @@ const Bravocard = (props) => {
               <View style={styles.PhotosVideoView}>
                 <TouchableOpacity
                   style={[
-                    { backgroundColor: Photos ? '#245FC7' : '#FBECE3' },
+                    { backgroundColor: Photos.length > 0 ? '#245FC7' : '#FBECE3' },
                     styles.PhotosView,
                   ]}
                   onPress={() => PhotosButton()}>
                   <Image
                     style={[
-                      { tintColor: Photos ? '#fff' : '#000' },
+                      { tintColor: Photos.length > 0 ? '#fff' : '#000' },
                       styles.Imageicon,
                     ]}
                     resizeMode="contain"
@@ -191,7 +186,7 @@ const Bravocard = (props) => {
                   <Text
                     style={[
                       styles.PhotoText,
-                      { color: Photos ? '#fff' : '#000' },
+                      { color: Photos.length > 0 ? '#fff' : '#000' },
                     ]}>
                     {String.Photos}
                   </Text>
@@ -199,13 +194,13 @@ const Bravocard = (props) => {
 
                 <TouchableOpacity
                   style={[
-                    { backgroundColor: Videos ? '#245FC7' : '#FBECE3' },
+                    { backgroundColor: Videos.length > 0 ? '#245FC7' : '#FBECE3' },
                     styles.VideoView,
                   ]}
                   onPress={() => videosButton()}>
                   <Image
                     style={[
-                      { tintColor: Photos ? '#fff' : '#000' },
+                      { tintColor: Videos.length > 0 ? '#fff' : '#000' },
                       styles.Imageicon,
                     ]}
                     resizeMode="contain"
@@ -214,7 +209,7 @@ const Bravocard = (props) => {
                   <Text
                     style={[
                       styles.PhotoText,
-                      { color: Videos ? '#fff' : '#000' },
+                      { color: Videos.length > 0 ? '#fff' : '#000' },
                     ]}>
                     {String.Videos}
                   </Text>

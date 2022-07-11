@@ -572,8 +572,8 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
             },
             body: data
         }).then(async (res) => {
-            console.log("res", res);
             let response = await res.json();
+            console.log("response", response);
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
