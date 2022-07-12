@@ -29,16 +29,12 @@ const Account = (props) => {
   const [mailAddress, setmailAddress] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const [editText, seteditText] = useState(false);
-  const [userData, setuserData] = useState(null);
+  const [userData, setuser] = useState(null);
 
   useEffect(() => {
-    AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
-      if (value !== null) {
-        setuserData(value);
-        setfirstName(value.first_name);
-        setlastName(value.last_name);
-      }
-    });
+    setuser(props.allUserPostData)
+    setfirstName(props.allUserPostData.first_name);
+    setlastName(props.allUserPostData.last_name);
   }, []);
 
   const requestCamera = async () => {
@@ -146,7 +142,7 @@ const Account = (props) => {
         <View style={styles.profileImageview}>
           <Image
             style={styles.ProfileImage}
-            source={image.path ? { uri: image.path } : {uri : userData?.profile_picture}}
+            source={image.path ? { uri: image.path } : { uri: userData?.profile_picture }}
             resizeMode="contain"
           />
           <TouchableOpacity
@@ -167,7 +163,7 @@ const Account = (props) => {
         <TextInput
           style={styles.textInput}
           keyboardType="default"
-          placeholder={userData?.first_name}
+          placeholder={"Enter First Name"}
           value={firstName}
           placeholderTextColor={'#737373'}
           editable={editText}
@@ -181,7 +177,7 @@ const Account = (props) => {
           style={styles.textInput}
           value={lastName}
           keyboardType="default"
-          placeholder={userData?.last_name}
+          placeholder={"Enter Last Name"}
           placeholderTextColor={'#737373'}
           editable={editText}
           onChangeText={text => {
@@ -192,12 +188,10 @@ const Account = (props) => {
         <TextInput
           style={styles.textInput}
           keyboardType="email-address"
-          placeholder={userData?.email}
+          placeholder={"Enter Email"}
           placeholderTextColor={'#737373'}
           editable={false}
-          onChangeText={text => {
-            setmailAddress(text);
-          }}
+          value={userData?.email}
         />
         {/* <Text style={styles.textInputHeader}>password</Text>
         <TextInput
@@ -397,6 +391,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   setData: state.doctor.setData,
+  allUserPostData: state.doctor.allUserPostData
 });
 
 const ActionCreators = Object.assign(

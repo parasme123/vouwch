@@ -290,7 +290,7 @@ const Home = (props) => {
                 onPress={() => userType && userToken ? handleProfile() : handleLogin()}
                 style={styles.profileButton}>
                 <Image
-                  source={userType?.profile_picture == null ? Imagepath.doctor : { uri: userType?.profile_picture }}
+                  source={props.allUserPostData?.profile_picture == null ? Imagepath.doctor : { uri: props.allUserPostData?.profile_picture }}
                   // source={{uri : userType?.profile_picture}}
                   resizeMode="stretch"
                   imageStyle={{}}
@@ -406,7 +406,8 @@ const Home = (props) => {
 
 const mapStateToProps = state => ({
   allHomeData: state.doctor.allHomeData,
-  followData: state.doctor.followData
+  followData: state.doctor.followData,
+  allUserPostData: state.doctor.allUserPostData
 });
 
 const ActionCreators = Object.assign(

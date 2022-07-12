@@ -1,4 +1,4 @@
-import { DOCTORRECORD, SAVEFOLLOWDATA, LOGOUT, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
+import { DOCTORRECORD, SAVEFOLLOWDATA, FEEDBACKUSERDATA, LOGOUT, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
@@ -671,10 +671,10 @@ export const saveServices = (data) => {
 };
 
 /// before using this please check data  
-export const PostUserProfile = (data, setloaderVisible,) => {
+export const PostUserProfile = (data, setloaderVisible = () => { }, callForFeedback = false) => {
     // console.log("data+++++++++++++++++++++++++++++++++++", data);
     return async dispatch => {
-        setloaderVisible(true);
+        // setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.getprofileuRL}?user_id=${data}`, {
             method: "GET",
             headers: {
@@ -685,17 +685,28 @@ export const PostUserProfile = (data, setloaderVisible,) => {
             // console.log("res+++++++++++++++++++++++++++++++++++", res);
             let response = await res.json();
             // console.log("response+++++++++++++++++++++++++++++++++++", response);
-            setloaderVisible(false);
+            // setloaderVisible(false);
             if (response.status) {
-                dispatch(saveUserProfile(response.data));
+                if (callForFeedback) {
+                    dispatch(saveFeedBackUserProfile(response.data[0]));
+                } else {
+                    dispatch(saveUserProfile(response.data[0]));
+                }
             }
-            Toast.show(response.message);
+            // Toast.show(response.message);
         }).catch(err => {
             console.log("PostUserProfile", err);
-            setloaderVisible(false);
+            // setloaderVisible(false);
             Toast.show("something went wrong");
         })
     }
+};
+
+export const saveFeedBackUserProfile = (data) => {
+    return ({
+        type: FEEDBACKUSERDATA,
+        payload: data
+    })
 };
 
 export const saveUserProfile = (data) => {
@@ -704,8 +715,6 @@ export const saveUserProfile = (data) => {
         payload: data
     })
 };
-
-
 
 export const handelNotification = () => {
     return async dispatch => {
@@ -749,7 +758,7 @@ export const savegetnotification = (data) => {
 //         }).then(async (res) => {
 //             let response = await res.json();
 //             dispatch(saveNotification(response))
-//             // console.log("res===", response);           //console remove after use 
+//             // console.log("res===", response);           //console remove after use
 //             // setloaderVisible(false);
 //         }).catch(err => {
 //             console.log("getCategories", err);
