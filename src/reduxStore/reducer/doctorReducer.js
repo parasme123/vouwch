@@ -6,7 +6,7 @@ const initialState = {
     allBravoCardDataLIst: [],
     allFollowPost: {},
     allCategories: {},
-    allNotification: {},
+    allNotification: [],
     setData: {},
     allDetailsDoc: {},
     lastPage: 1,

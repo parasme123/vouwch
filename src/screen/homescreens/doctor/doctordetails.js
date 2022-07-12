@@ -62,6 +62,7 @@ const Doctordetails = (props, { route }) => {
       }
       setuserType(value?.user_type);
     });
+    console.log("props.allDetailsDoc",props.allDetailsDoc);
   }, []);
 
   const Call_Details_Api = () => {

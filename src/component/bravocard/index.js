@@ -4,7 +4,7 @@ import {
 } from 'react-native'; import styles from './styles';
 import { Colors, imagepath, svg } from '@common';
 import { imgBaseUrl } from '../../reduxStore/action/webApiUrl';
-
+// import VideoPlayer from "react-native-video-player "
 export default Bravocard = (props) => {
     const [showPhotoModal, setShowPhotoModal] = useState(false);
     const [showModalFor, setShowModalFor] = useState("Photos");
@@ -33,8 +33,15 @@ export default Bravocard = (props) => {
                                     resizeMode="contain"
                                     source={imagepath.crose}
                                 />
+                                {/* <VideoPlayer
+                                    video={{ uri: 'https://www.youtube.com/watch?v=jGWUCl2plck' }}
+                                    videoWidth={1600}
+                                    videoHeight={900}
+                                    thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
+                                /> */}
                             </TouchableOpacity>
                         </View>
+
                         <FlatList
                             style={{ marginVertical: 50 }}
                             data={props.item.card_image_media}
@@ -43,7 +50,6 @@ export default Bravocard = (props) => {
                             renderItem={(i) => {
                                 return (
                                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-
                                         <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
                                     </View>
                                 )

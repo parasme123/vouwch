@@ -28,7 +28,7 @@ export default Doctorcard = props => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_Comment(props.item.user_id);
+            props.onpress_Comment(props.item.id);
           }}>
           {svg.commentCircle(30, 30, Colors.appcolor)}
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -38,7 +38,7 @@ export default Doctorcard = props => {
         <TouchableOpacity
           style={styles.DoctorCardShareButton}
           onPress={() => {
-            props.onpress_Message(props.item.user_id);
+            props.onpress_Message(props.item.id);
           }}>
           {svg.messageCircle(30, 30, Colors.appcolor)}
           <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -74,13 +74,13 @@ export default Doctorcard = props => {
 
       <View style={{ flex: 1, flexDirection: 'row', marginVertical: 15 }}>
         <TouchableOpacity
-          onPress={() => props.handleAddBravoCardOrReview(props.item.user_id, 'Bravocard')}
+          onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'Bravocard')}
           style={[styles.addBravoCardBtn, { marginRight: 2 }]}>
           {svg.addBravo(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.handleAddBravoCardOrReview(props.item.user_id, 'review')}
+          onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'review')}
           style={[styles.addBravoCardBtn, { marginLeft: 2 }]}>
           {svg.addReview(15, 15, Colors.white)}
           <Text style={styles.addBravoCardTxt}>Add A Review</Text>
@@ -96,9 +96,7 @@ export default Doctorcard = props => {
         </Text>
         {/* photo & Videos Btn */}
         {/* Red Star Line */}
-        <TouchableOpacity onPress={() => {
-          props.onpress_DoctorCard(props.item.id ,"feedback")
-        }}
+        <TouchableOpacity onPress={() => { props.onpress_DoctorCard(props.item.id, "feedback") }}
           style={styles.ratingViewRed}>
           <View style={styles.ratingViewmain}>
             <Rating
@@ -114,16 +112,13 @@ export default Doctorcard = props => {
             />
           </View>
           <Text style={styles.ratingText}>
-            {props.Clinician_Rating}
+            {props?.item?.cr_count}
             <Text style={styles.clinicianReview}> Clinician's Review</Text>
           </Text>
         </TouchableOpacity>
 
         {/* yellow Star Line */}
-        <TouchableOpacity
-          onPress={() => {
-            props.onpress_DoctorCard(props.item.id,"review");
-          }}
+        <TouchableOpacity onPress={() => { props.onpress_DoctorCard(props.item.id, "feedback") }}
           style={styles.yellowstarview}>
 
           <View style={styles.ratingViewmain}>
@@ -137,7 +132,7 @@ export default Doctorcard = props => {
             />
           </View>
           <Text style={styles.ratingText}>
-            {props.patient_Rating}
+            {props?.item.pr_count}
             <Text style={styles.clinicianReview}> Patient Review</Text>
           </Text>
         </TouchableOpacity>

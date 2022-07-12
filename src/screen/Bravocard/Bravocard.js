@@ -78,11 +78,11 @@ const Bravocard = (props) => {
 
   const Signin_Validators = () => {
     if (
-      // Validators.checkNull('Name', 2, name) &&
-      // Validators.checkNull('Department', 2, department) &&
-      // Validators.checkNull('hospital', 2, hospital) &&
-      // Validators.checkNull('City', 2, city) &&
-      // Validators.checkNull('State', 2, state) &&
+      Validators.checkNull('Name', 2, name) &&
+      Validators.checkNull('Department', 2, department) &&
+      Validators.checkNull('hospital', 2, hospital) &&
+      Validators.checkNull('City', 2, city) &&
+      Validators.checkNull('State', 2, state) &&
       Validators.checkNull('Detail', 2, detail)
     ) {
       BravoCard();
@@ -143,7 +143,7 @@ const Bravocard = (props) => {
         data.append('files', imgUploadObj);
       }
     }
-    actions.postBravo(data, () => setloaderVisible(false), () => PageNavigation());
+    actions.postBravo(data, () => setloaderVisible(), () => PageNavigation());
   };
 
   const PageNavigation = () => {

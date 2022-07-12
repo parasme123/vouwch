@@ -11,6 +11,7 @@ import { Colors, imagepath, svg } from '@common';
 import { useNavigation } from '@react-navigation/native';
 export default DoctorcardList = (props) => {
   const navigation = useNavigation();
+  // console.log(props.item)
   return (
     <TouchableOpacity
       key={props.index}
@@ -35,7 +36,9 @@ export default DoctorcardList = (props) => {
           </Text>
           {/* photo & Videos Btn */}
           {/* Red Star Line */}
-          <View style={styles.ratingViewRed}>
+          <TouchableOpacity
+            onPress={() => { props.onpress_DoctorCard(props.item.id, "feedback") }}
+            style={styles.ratingViewRed}>
             <View style={styles.ratingViewmain}>
               <Rating
                 type="custom"
@@ -50,14 +53,15 @@ export default DoctorcardList = (props) => {
               />
             </View>
             <Text style={styles.ratingText}>
-              {props.Clinician_Rating}
+            {props?.item?.cr_count}
               <Text style={styles.clinicianReview}> Clinician's Review</Text>
             </Text>
-          </View>
+          </TouchableOpacity>
 
           {/* yellow Star Line */}
-          <View style={styles.yellowstarview}>
-            {/* onPress={() => navigation.navigate('Doctordetails', { personRed: true })} */}
+          <TouchableOpacity
+            onPress={() => { props.onpress_DoctorCard(props.item.id, "feedback") }}
+            style={styles.yellowstarview}>
             <View style={styles.ratingViewmain}>
               <Rating
                 max={5}
@@ -69,10 +73,10 @@ export default DoctorcardList = (props) => {
               />
             </View>
             <Text style={styles.ratingText}>
-              {props.patient_Rating}
+              {props?.item?.pr_count}
               <Text style={styles.clinicianReview}> Patient Review</Text>
             </Text>
-          </View>
+          </TouchableOpacity>
 
         </View>
       </View>

@@ -27,5 +27,15 @@ export const servicesList = "get-services";
 export const getprofileuRL = "get-profile";
 export const messageReply = "add-msg-reply";
 export const commentReply = "add-comment-reply";
-
-
+export const notification = "notification";
+// export const getprofileuRL = "get-profile";
+// export const messageReply = "add-msg-reply";
+// export const commentReply = "add-comment-reply";
+// export const servicesList = "get-services";
+// export const getprofileuRL = "get-profile";
+// export const messageReply = "add-msg-reply";
+// export const commentReply = "add-comment-reply";
+// export const servicesList = "get-services";
+// export const getprofileuRL = "get-profile";
+// export const messageReply = "add-msg-reply";
+// export const commentReply = "add-comment-reply";

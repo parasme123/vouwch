@@ -21,10 +21,10 @@ export default Businesses = (props) => {
             paddingBottom: 5,
             fontFamily: Fonts.ProximaNovaBold,
           }}>
-          {props.data.business.business_name}
+          {props?.data?.business?.business_name}
         </Text>
         {
-          props.data.business.service_hours != null ?
+          props?.data?.business?.service_hours != null ?
             <>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image

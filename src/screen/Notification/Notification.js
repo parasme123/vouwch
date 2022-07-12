@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, FlatList, Dimensions} from 'react-native';
+import {View, Text, Image, FlatList, Dimensions, TouchableOpacity} from 'react-native';
 import {Header} from '@common';
 import Imagepath from '../../common/imagepath';
 import String from '../../common/String';
@@ -7,18 +7,20 @@ import styles from './NotificationStyle';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { handelNotification } from '../../reduxStore/action/doctorAction';
+import Colors from '../../common/Colors';
 
 const {width, height} = Dimensions.get('window');
 
 const Notification = (props,{navigation, route}) => {
   // const [isback , setIsback] = useState(true);
   const [NotificationList, setNotificationList] = useState([1, 2, 3, 4]);
+  const [activeFeedbackTab, setActiveFeedbackTab] = useState("p");
   const isTrue = props.route.params ? props.route.params.isTrue : false;
  
 
   useEffect(()=>{
     NotificationApi();
-    // console.log("allNotification===================",props.allNotification);
+    console.log("allNotification===================",props.allNotification);
   },[])
   const NotificationApi = () => {
     let { actions } = props;
@@ -27,7 +29,7 @@ const Notification = (props,{navigation, route}) => {
 
 
   const NotificationItem = ({item, index}) => {
-    return (
+    return ( 
       <View
         style={{
           flexDirection: 'row',
@@ -37,7 +39,7 @@ const Notification = (props,{navigation, route}) => {
           paddingVertical: 10,
           borderRadius: 10,
           elevation: 2,
-          backgroundColor: '#fff',
+          backgroundColor:Colors.white,
         }}
         key={index}>
         <View style={{flex: 0.3}}>
@@ -70,11 +72,42 @@ const Notification = (props,{navigation, route}) => {
   return (
     <View style={styles.background}>
       <Header title={String.Notifications} isback={isTrue} />
-      <Text>{isTrue}</Text>
+      {/* sub Notification tabb */}
+      <View style={{  flexDirection: "row",  marginVertical: 15, marginVertical:24 }}>
+        <TouchableOpacity onPress={() => setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
+          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "p" ? styles.feedBackTypeBtnTxtActive : null]}>Patient Feedback</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setActiveFeedbackTab("c")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "c" ? styles.feedBackTypeBtnActive : null]}>
+          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "c" ? styles.feedBackTypeBtnTxtActive : null]}>Clinician Feedback</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setActiveFeedbackTab("b")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "b" ? styles.feedBackTypeBtnActive : null]}>
+          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "b" ? styles.feedBackTypeBtnTxtActive : null]}>Bravo Card</Text>
+        </TouchableOpacity>
+      </View>
+      {activeFeedbackTab == "p" ?
+        < FlatList
+          data={activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data}
+          style={{ paddingHorizontal: 8 }}
+          renderItem={NotificationItem}
+          keyExtractor={(item, index) => String(index)}
+        /> : null
+
+      }
+
+      {activeFeedbackTab == "c" ?
+        <FlatList
+          data={props.data?.business?.get_card}
+          renderItem={NotificationItem}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item, index) => String(index)}
+        /> : null
+      }
+      {/* <Text>{isTrue}</Text> */}
       <View style={{flex: 1}}>
         <View style={{marginBottom: 70}}>
           <FlatList
-            data={NotificationList}
+            data={props?.allNotification?.notifcationDta?.get_commant_reply}    /////////////////see this first
             keyExtractor={item => item}
             renderItem={NotificationItem}
             showsVerticalScrollIndicator={false}

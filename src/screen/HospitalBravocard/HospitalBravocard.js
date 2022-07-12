@@ -54,9 +54,7 @@ const Hospotalbravocard = (props) => {
     setmsgDocId(DataCardiList);
     if (!userType) {
       Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
-    } else {
+    }else {
       setReviewModalPopup(!modalVisible);
       setModalVisible(!modalVisible);
     }
@@ -75,8 +73,6 @@ const Hospotalbravocard = (props) => {
     setmsgDocId(DataCardiList)
     if (!userType) {
       Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
     } else {
       setcommentModalPopup(!commentModalPopup);
       setModalVisibleComment(!modalVisibleComment);
