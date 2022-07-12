@@ -11,6 +11,7 @@ import { Colors, imagepath, svg } from '@common';
 import { useNavigation } from '@react-navigation/native';
 export default DoctorcardList = (props) => {
   const navigation = useNavigation();
+  // console.log(props.item)
   return (
     <TouchableOpacity
       key={props.index}

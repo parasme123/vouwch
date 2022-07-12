@@ -21,10 +21,10 @@ export default Locationn = (props) => {
             paddingBottom: 5,
             fontFamily: Fonts.ProximaNovaBold,
           }}>
-          {props.data.business.business_name}
+          {props?.data?.business?.business_name}
         </Text>
         {
-          props.data.business.service_location != null ?
+          props?.data?.business?.service_location != null ?
             <>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image
@@ -39,7 +39,7 @@ export default Locationn = (props) => {
                     fontSize: Fontsize.fontNine,
                     fontFamily: Fonts.ProximaNovaRegular,
                   }}>
-                  {props.data.business.service_location}
+                  {props?.data?.business?.service_location}
                 </Text>
               </View>
             </> : null
