@@ -18,7 +18,7 @@ import Menu from '../screen/setting/menu';
 import { Constants, AsyncStorageHelper, Helper } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setUserData } from '../reduxStore/action/doctorAction';
+import { PostUserProfile, getFollowData } from '../reduxStore/action/doctorAction';
 
 export const Bottomtab = props => {
   const [userData, setuserRcord] = useState(null);
@@ -29,12 +29,13 @@ export const Bottomtab = props => {
       AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
         if (value !== null) {
           setuserRcord(value);
-          props.actions.setUserData(value);
+          props.actions.PostUserProfile(value.id);
         }
       });
       AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
         if (value !== null) {
           global.token = value;
+          props.actions.getFollowData();
         }
       });
     }
@@ -305,7 +306,8 @@ const mapStateToProps = state => ({
 });
 
 const ActionCreators = Object.assign(
-  { setUserData },
+  { PostUserProfile },
+  { getFollowData }
 );
 
 const mapDispatchToProps = dispatch => ({

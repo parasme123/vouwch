@@ -38,13 +38,13 @@ const FeedbackUserProfile = (props, { route }) => {
       // console.log('  global.userData=====================-------',   global.userData);
     });
   }, []);
-  console.log("props.allUserPostData", props.allUserPostData);              // console.log('  global.userData=====================-------',   global.userData);
+  console.log("props.feedbackUserData", props.feedbackUserData);              // console.log('  global.userData=====================-------',   global.userData);
 
 
   // user data come from api of feedback Person
   const FeedbackPrsonDetails = () => {
     let { actions } = props;
-    actions.PostUserProfile(props.route.params.userId, setloaderVisible);
+    actions.PostUserProfile(props.route.params.userId, setloaderVisible, true);
 
   };
 
@@ -70,15 +70,15 @@ const FeedbackUserProfile = (props, { route }) => {
             style={styles.profileIcon}
           >
             <Image style={styles.profileIcon}
-              source={{ uri: props.allUserPostData[0]?.profile_picture }}
+              source={{ uri: props.feedbackUserData?.profile_picture }}
             />
           </ImageBackground>
           {/* Button of Share , Comment and Mesage */}
 
-          <Text style={styles.doctorname}>{props.allUserPostData[0]?.full_name}</Text>
+          <Text style={styles.doctorname}>{props.feedbackUserData?.full_name}</Text>
 
 
-          <Text style={styles.doctorname}>{props.allUserPostData[0]?.email}</Text>
+          <Text style={styles.doctorname}>{props.feedbackUserData?.email}</Text>
 
         </View>
         {/* use for About us details */}
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
-  allUserPostData: state.doctor.allUserPostData,
+  feedbackUserData: state.doctor.feedbackUserData,
 });
 
 const ActionCreators = Object.assign(

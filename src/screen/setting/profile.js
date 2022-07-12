@@ -32,12 +32,7 @@ const Profile = (props, { route }) => {
 
   useEffect(() => {
     handleServicesData();
-    AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
-      if (value !== null) {
-        setuserData(value);
-      }
-      // console.log('  global.userData=====================-------',   global.userData);
-    });
+    setuserData(props.allUserPostData);
   }, []);
 
   // user data
@@ -268,6 +263,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   setData: state.doctor.setData,
+  allUserPostData: state.doctor.allUserPostData
 });
 
 const ActionCreators = Object.assign(

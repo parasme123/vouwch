@@ -1,5 +1,4 @@
-import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION,
-     DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
+import { DOCTORRECORD, SAVEFOLLOWDATA, FEEDBACKUSERDATA, LOGOUT, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
@@ -20,6 +19,36 @@ export const postMessageReply = (data, typeOfData) => {
             console.log("postMessageReply", err);
         })
     }
+}
+
+export const getFollowData = () => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${URL.getFollowData}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(saveFollowData(response.data))
+        }).catch(err => {
+            console.log("getFollowData", err);
+        })
+    }
+}
+
+export const saveFollowData = (data) => {
+    return ({
+        type: SAVEFOLLOWDATA,
+        payload: data
+    })
+}
+
+export const logOut = () => {
+    return ({
+        type: LOGOUT,
+    })
 }
 
 export const getMessageAndComment = (id) => {
@@ -72,13 +101,6 @@ export const saveHomeData = (data) => {
 export const saveBravoCard = (data) => {
     return ({
         type: BRAVOCARD,
-        payload: data
-    })
-};
-
-export const saveFollowPost = (data) => {
-    return ({
-        type: FOLLOW,
         payload: data
     })
 };
@@ -169,8 +191,9 @@ export const postFollow = (data) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            dispatch(saveFollowPost(response.data))
-            // console.log("responese===================", response);
+            if (response.status) {
+                dispatch(getFollowData());
+            }
         }).catch(err => {
             console.log("postFollow", err);
         })
@@ -194,7 +217,8 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
                 dispatch(setUserData(response.data))
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
-                global.token = response.token
+                global.token = response.token;
+                dispatch(getFollowData());
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);
@@ -647,10 +671,10 @@ export const saveServices = (data) => {
 };
 
 /// before using this please check data  
-export const PostUserProfile = (data, setloaderVisible,) => {
+export const PostUserProfile = (data, setloaderVisible = () => { }, callForFeedback = false) => {
     // console.log("data+++++++++++++++++++++++++++++++++++", data);
     return async dispatch => {
-        setloaderVisible(true);
+        // setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.getprofileuRL}?user_id=${data}`, {
             method: "GET",
             headers: {
@@ -661,17 +685,28 @@ export const PostUserProfile = (data, setloaderVisible,) => {
             // console.log("res+++++++++++++++++++++++++++++++++++", res);
             let response = await res.json();
             // console.log("response+++++++++++++++++++++++++++++++++++", response);
-            setloaderVisible(false);
+            // setloaderVisible(false);
             if (response.status) {
-                dispatch(saveUserProfile(response.data));
+                if (callForFeedback) {
+                    dispatch(saveFeedBackUserProfile(response.data[0]));
+                } else {
+                    dispatch(saveUserProfile(response.data[0]));
+                }
             }
-            Toast.show(response.message);
+            // Toast.show(response.message);
         }).catch(err => {
             console.log("PostUserProfile", err);
-            setloaderVisible(false);
+            // setloaderVisible(false);
             Toast.show("something went wrong");
         })
     }
+};
+
+export const saveFeedBackUserProfile = (data) => {
+    return ({
+        type: FEEDBACKUSERDATA,
+        payload: data
+    })
 };
 
 export const saveUserProfile = (data) => {
@@ -680,8 +715,6 @@ export const saveUserProfile = (data) => {
         payload: data
     })
 };
-
-
 
 export const handelNotification = () => {
     return async dispatch => {
@@ -725,7 +758,7 @@ export const savegetnotification = (data) => {
 //         }).then(async (res) => {
 //             let response = await res.json();
 //             dispatch(saveNotification(response))
-//             // console.log("res===", response);           //console remove after use 
+//             // console.log("res===", response);           //console remove after use
 //             // setloaderVisible(false);
 //         }).catch(err => {
 //             console.log("getCategories", err);
