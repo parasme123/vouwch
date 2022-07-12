@@ -7,6 +7,7 @@ import styles from './NotificationStyle';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { handelNotification } from '../../reduxStore/action/doctorAction';
+import Colors from '../../common/Colors';
 
 const {width, height} = Dimensions.get('window');
 
@@ -18,7 +19,7 @@ const Notification = (props,{navigation, route}) => {
 
   useEffect(()=>{
     NotificationApi();
-    // console.log("allNotification===================",props.allNotification);
+    console.log("allNotification===================",props.allNotification);
   },[])
   const NotificationApi = () => {
     let { actions } = props;
@@ -27,7 +28,7 @@ const Notification = (props,{navigation, route}) => {
 
 
   const NotificationItem = ({item, index}) => {
-    return (
+    return ( 
       <View
         style={{
           flexDirection: 'row',
@@ -37,7 +38,7 @@ const Notification = (props,{navigation, route}) => {
           paddingVertical: 10,
           borderRadius: 10,
           elevation: 2,
-          backgroundColor: '#fff',
+          backgroundColor:Colors.white,
         }}
         key={index}>
         <View style={{flex: 0.3}}>
@@ -74,7 +75,7 @@ const Notification = (props,{navigation, route}) => {
       <View style={{flex: 1}}>
         <View style={{marginBottom: 70}}>
           <FlatList
-            data={NotificationList}
+            data={props?.allNotification?.notifcationDta?.get_commant_reply}    /////////////////see this first
             keyExtractor={item => item}
             renderItem={NotificationItem}
             showsVerticalScrollIndicator={false}
