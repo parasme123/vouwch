@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaBold,
   },
   details: {
-    fontSize: Fontsize.small,
+    fontSize: Fontsize.fontTwelve,
     color: '#929397',
     justifyContent: 'center',
     fontFamily: Fonts.ProximaNovaRegular,

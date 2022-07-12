@@ -51,7 +51,8 @@ const Notification = (props,{navigation, route}) => {
         </View>
         <View style={{flex: 0.8}}>
           <Text style={[styles.UserNameText]}>
-            Barbara Michelle{item.detail}
+            Barbara Michelle
+            {/* {item.detail} */}
             <Text style={[styles.RequestText]}>confirmed your</Text>
           </Text>
           <Text style={[styles.RequestText]}>booking request </Text>
@@ -72,7 +73,7 @@ const Notification = (props,{navigation, route}) => {
   return (
     <View style={styles.background}>
       <Header title={"Notifications"} isback={isTrue} />
-      {/* sub Notification tabb */}
+      {/* sub Notification tabb
       <View style={{  flexDirection: "row",  marginVertical: 15, marginVertical:24 }}>
         <TouchableOpacity onPress={() => setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
           <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "p" ? styles.feedBackTypeBtnTxtActive : null]}>Patient Feedback</Text>
@@ -102,7 +103,7 @@ const Notification = (props,{navigation, route}) => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => String(index)}
         /> : null
-      }
+      } */}
       {/* <Text>{isTrue}</Text> */}
       <View style={{flex: 1}}>
         <View style={{marginBottom: 70}}>

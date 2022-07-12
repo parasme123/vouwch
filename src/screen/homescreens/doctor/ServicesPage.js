@@ -30,8 +30,9 @@ export default ServicesPage = (props) => {
                 paddingLeft: 15,
                 paddingVertical: 7,
                 fontFamily: Fonts.ProximaNovaRegular,
+                fontSize: Fontsize.fontTwelve,
               }}>
-              {item?.service_detail?.name}
+              {item?.service_detail?.name}``
             </Text>
           </>: null
         }

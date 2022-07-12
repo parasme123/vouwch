@@ -56,7 +56,6 @@ const Reply = (props) => {
         detail: message
       }
     }
-    console.log("apiData", apiData);
     actions.postMessageReply(apiData, typeOfData);
 
   }

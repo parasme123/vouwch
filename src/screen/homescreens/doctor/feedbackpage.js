@@ -94,9 +94,9 @@ export default Feedbackpage = (props) => {
                   source={imagepath.bluetick}
                 />
               </View>
-              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingTop: 10 }}>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingTop: 10, marginRight:10}}>
                 <Image
-                  style={{ height: 15, width: 15, marginRight:5}}
+                  style={{ height: 15, width: 15, marginRight:5 }}
                   source={imagepath.calender}
                 />
                 <Text

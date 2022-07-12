@@ -38,11 +38,12 @@ const Message = (props) => {
             {item.detail}
           </Text>
           {/* //Repply  */}
-          {item?.reply_msg != "" ?
+          {item?.reply_msg ?
             <View style={styles.ReplyForword}>
               <Image style={styles.replyForwordIcon} source={imagepath.forword} />
               <View style={styles.forwordView}>
-                <Text style={styles.forwordText}> {item?.reply_msg}</Text>
+                <Text style={styles.namedoctor}>{item?.reply_msg?.full_name}</Text>
+                <Text style={styles.forwordText}> {item?.reply_msg?.reply_msg}</Text>
               </View>
             </View> :
             <TouchableOpacity

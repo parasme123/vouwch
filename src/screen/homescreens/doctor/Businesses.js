@@ -16,8 +16,8 @@ export default Businesses = (props) => {
       <View style={{ padding: 15 }}>
         <Text
           style={{
-            fontSize: 16,
-            color: '#000',
+            fontSize: Fontsize.fontSixteen,
+            color: Colors.black,
             paddingBottom: 5,
             fontFamily: Fonts.ProximaNovaBold,
           }}>

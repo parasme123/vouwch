@@ -62,7 +62,6 @@ const Doctordetails = (props, { route }) => {
       }
       setuserType(value?.user_type);
     });
-    console.log("props.allDetailsDoc",props.allDetailsDoc);
   }, []);
 
   const Call_Details_Api = () => {
@@ -76,7 +75,7 @@ const Doctordetails = (props, { route }) => {
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView
-      showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
         <View style={styles.container}>
           <Image
@@ -167,7 +166,7 @@ const Doctordetails = (props, { route }) => {
           <View
             style={{
               flexDirection: 'row',
-             marginHorizontal:24,
+              marginHorizontal: 24,
               marginTop: 50,
               justifyContent: 'space-between',
               backgroundColor: '#fff',
@@ -403,7 +402,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   tabviewDetails: {
-   marginHorizontal:24,
+    marginHorizontal: 24,
     backgroundColor: Colors.white,
     marginTop: 15,
     borderRadius: 10,
