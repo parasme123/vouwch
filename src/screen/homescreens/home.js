@@ -104,9 +104,11 @@ const Home = (props) => {
   const Follow_api = (id) => {
     if (!userType) {
       Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
-    } else {
+    }
+    //  else if (userType?.user_type !== 1) {
+    //   alert('please login with personal account');
+    // } 
+    else {
       Call_FollowApi(id);
       FollowButton(id);
     }

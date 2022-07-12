@@ -34,7 +34,7 @@ const Doctor_Card = (props) => {
         setmsgDocId(DataCardiList);
         if (!userType) {
             Helper.loginPopUp(props.navigation);
-        }  else {
+        } else {
             setReviewModalPopup(!modalVisible);
             setModalVisible(!modalVisible);
         }
@@ -99,9 +99,11 @@ const Doctor_Card = (props) => {
     const Follow_api = (id) => {
         if (!userType) {
             Helper.loginPopUp(props.navigation);
-        } else if (userType?.user_type !== 1) {
-            alert('please login with personal account');
-        } else {
+        }
+        // else if (userType?.user_type !== 1) {
+        //     alert('please login with personal account');
+        // } else 
+        {
             Call_FollowApi(id);
             FollowButton(id);
         }
