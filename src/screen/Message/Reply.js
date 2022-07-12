@@ -56,9 +56,8 @@ const Reply = (props) => {
         detail: message
       }
     }
-    console.log("apiData", apiData);
-    // return;
-    actions.postMessageReply(apiData, typeOfData)
+ 
+    actions.postMessageReply(apiData, typeOfData);
 
   }
 
@@ -70,7 +69,7 @@ const Reply = (props) => {
         <View
           style={{
             flexDirection: 'row',
-            width: '85%',
+            marginHorizontal:24,
             justifyContent: 'space-between',
             alignItems: 'center',
             alignSelf: 'center',

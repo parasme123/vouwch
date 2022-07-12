@@ -87,7 +87,7 @@ const Imagepath = {
   forwordIcon: require('../assect/icon/forwordIcon.png'),
   massege: require('../assect/icon/massege.png'),
   following: require('../assect/icon/following.png'),
-
+  forword: require('../assect/icon/forword.png'),
 
 
 }

@@ -1,9 +1,11 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Colors from '../../common/Colors';
 import Fonts from '../../common/Fonts';
+import Fontsize from '../../common/Fontsize';
+
 const NotificationStyle = StyleSheet.create({
-  background: {flex: 1, backgroundColor: '#fff'},
-  Imageicon: {height: 70, width: 70, borderRadius: 70 / 2},
+  background: { flex: 1, backgroundColor: '#fff' },
+  Imageicon: { height: 70, width: 70, borderRadius: 70 / 2 },
   UserNameText: {
     fontSize: 18,
     color: '#000',
@@ -29,6 +31,27 @@ const NotificationStyle = StyleSheet.create({
     left: 5,
     fontFamily: Fonts.ProximaNovaLight,
   },
-  Imagealram: {height: 18, width: 18},
+  Imagealram: { height: 18, width: 18 },
+  feedBackTypeBtn: {
+    backgroundColor: Colors.darkSkyBlue,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginLeft: 6,
+    borderRadius: 10,
+    flex:1, 
+    justifyContent:"space-around",
+    margin:10
+  },
+  feedBackTypeBtnTxt: {
+    color: Colors.black,
+    fontSize: Fontsize.fontTwelve,
+    textAlign:"center"
+  },
+  feedBackTypeBtnActive: {
+    backgroundColor: Colors.appcolor,
+  },
+  feedBackTypeBtnTxtActive: {
+    color: Colors.white,
+  },
 });
 export default NotificationStyle;

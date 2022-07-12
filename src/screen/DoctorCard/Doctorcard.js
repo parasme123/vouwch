@@ -34,8 +34,6 @@ const Doctor_Card = (props) => {
         setmsgDocId(DataCardiList);
         if (!userType) {
             Helper.loginPopUp(props.navigation);
-        } else if (userType?.user_type !== 1) {
-            alert('please login with personal account');
         } else {
             setReviewModalPopup(!modalVisible);
             setModalVisible(!modalVisible);
@@ -51,20 +49,16 @@ const Doctor_Card = (props) => {
         };
         actions.postMessge(apiData, setloaderVisible, () => PageNavigation());
     };
-
     // ?Commet api
     const CommentpropPage = DataCardiList => {
         setmsgDocId(DataCardiList)
         if (!userType) {
             Helper.loginPopUp(props.navigation);
-        } else if (userType?.user_type !== 1) {
-            alert('please login with personal account');
         } else {
             setcommentModalPopup(!commentModalPopup);
             setModalVisibleComment(!modalVisibleComment);
         }
     };
-
     const Call_Commet_Api = () => {
         let { actions } = props;
         const apiData = {
@@ -73,7 +67,6 @@ const Doctor_Card = (props) => {
         };
         actions.postComment(apiData, setloaderVisible, () => PageNavigation());
     };
-
     const PageNavigation = () => {
         handleNavigation({
             type: 'setRoot',
@@ -81,10 +74,7 @@ const Doctor_Card = (props) => {
             navigation: props.navigation,
         });
     }
-
-
     // Follow API
-
     const FollowButton = item => {
         let follows1 = [...Follows];
         if (!follows1.includes(item)) {
@@ -109,9 +99,11 @@ const Doctor_Card = (props) => {
     const Follow_api = (id) => {
         if (!userType) {
             Helper.loginPopUp(props.navigation);
-        } else if (userType?.user_type !== 1) {
-            alert('please login with personal account');
-        } else {
+        }
+        // else if (userType?.user_type !== 1) {
+        //     alert('please login with personal account');
+        // } else 
+        {
             Call_FollowApi(id);
             FollowButton(id);
         }
@@ -184,9 +176,10 @@ const Doctor_Card = (props) => {
             />
         )
     }
-    const DoctorNavigation = item => {
-        props.navigation.navigate('Doctordetails', { person: true, doctorId: item });
+    const DoctorNavigation = (item, activeTab) => {
+        props.navigation.navigate('Doctordetails', { doctorId: item, activeTab });
     };
+
 
 
 
@@ -200,6 +193,19 @@ const Doctor_Card = (props) => {
             {/* Header */}
 
 
+
+            {
+                props.doctorList?.length > 0 ? (
+                    <FlatList
+                        data={props.doctorList}
+                        renderItem={DoctorCard_Cards}
+                        keyExtractor={(item, index) => String(index)}
+                        showsVerticalScrollIndicator={false}
+                        onEndReached={() => addRecordsInList()}
+                        onEndReachedThreshold={0.5}
+                    />
+                ) : <Searchresult />
+            }
             {ReviewModalPopup && (
                 <Message
                     modalVisible={modalVisible}
@@ -216,19 +222,6 @@ const Doctor_Card = (props) => {
                     CmmentText={setcommentText}
                 />
             )}
-            {
-                props.doctorList?.length > 0 ? (
-                    <FlatList
-                        data={props.doctorList}
-                        style={{ flex: 1 }}
-                        renderItem={DoctorCard_Cards}
-                        keyExtractor={(item, index) => String(index)}
-                        showsVerticalScrollIndicator={false}
-                        onEndReached={() => addRecordsInList()}
-                        onEndReachedThreshold={0.5}
-                    />
-                ) : <Searchresult />
-            }
             <CustomLoader loaderVisible={loaderVisible} />
         </ImageBackground>
 

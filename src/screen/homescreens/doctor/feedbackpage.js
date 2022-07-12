@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Colors, Fonts, imagepath } from '@common';
 import Fontsize from '../../../common/Fontsize';
 import { Bravocard, DoctorCard } from '@component';
-
+import { Helper } from '@lib';
 const styles = StyleSheet.create({
   feedBackTypeBtn: {
     backgroundColor: Colors.darkSkyBlue,
@@ -80,27 +80,33 @@ export default Feedbackpage = (props) => {
           {/* feedback details */}
           <View style={styles.detailsView}>
             {/* name of feedback user */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10 }}>
-              <Text
-                style={styles.userNameFeed}>
-                {/* {item.NameFeedback} */}
-                {item.users.full_name}
-              </Text>
-              <Image
-                style={{ height: 11, width: 11, marginLeft: 10 }}
-                source={imagepath.bluetick}
-              />
-              {/* <Text
-                style={{
-                  fontSize: Fontsize.fontTwelve,
-                  color: Colors.grey,
-                  paddingVertical: 3,
-                  fontFamily: Fonts.ProximaNovaRegular,
-                }}>
-                {item.users.full_name}
-              </Text> */}
+            <View style={{
+             flexDirection: 'row', alignItems: 'center', paddingTop: 10
+            }}>
+              <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', paddingTop: 10 }}>
+                <Text
+                  style={[styles.userNameFeed]}>
+                  {/* {item.NameFeedback} */}
+                  {item.users.full_name}
+                </Text>
+                <Image
+                  style={{ height: 11, width: 11, marginLeft: 10 }}
+                  source={imagepath.bluetick}
+                />
+              </View>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingTop: 10 }}>
+                <Text
+                  style={{
+                    fontSize: Fontsize.fontTwelve,
+                    color: Colors.grey,
+                    paddingVertical: 3,
+                    fontFamily: Fonts.ProximaNovaRegular,
+                    justifyContent: "flex-end"
+                  }}>
+                  {Helper.setDateFormat(item.created_at)}
+                </Text>
+              </View>
             </View>
-
             <View
               style={{
                 flex: 1,
@@ -156,6 +162,7 @@ export default Feedbackpage = (props) => {
                     marginLeft: 5,
                     lineHeight: 15,
                     fontFamily: Fonts.ProximaNovaRegular,
+                    marginRight: 10
                   }}>
                   {item.is_recommend == 1 ? "I recommended this doctor" : "Not recommended this doctor"}
                 </Text>
@@ -169,6 +176,7 @@ export default Feedbackpage = (props) => {
             color: Colors.grey,
             paddingLeft: 20,
             fontFamily: Fonts.ProximaNovaLight,
+            marginVertical: 10
           }}>
           {item.review}
         </Text>

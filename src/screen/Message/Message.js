@@ -11,6 +11,7 @@ import {
 import { imagepath, Colors, String, Fonts } from '@common';
 import { Helper } from '@lib';
 import MessageBox from '../../common/MessegeBox';
+import Fontsize from '../../common/Fontsize';
 
 const Message = (props) => {
   const [Reply, setReply] = useState(0);
@@ -36,14 +37,21 @@ const Message = (props) => {
           <Text style={styles.namedoctordetails}>
             {item.detail}
           </Text>
-          <TouchableOpacity
-            onPress={() => {
-              onChangesecond(item.id);
-            }}
-            style={styles.replyView}>
-            <Image style={styles.replyIcon} source={imagepath.replyIcons} />
-            <Text style={styles.replyText}>Reply</Text>
-          </TouchableOpacity>
+          {/* //Repply  */}
+          {item?.reply_msg || item?.reply_comm_id == "" ?
+            <View style={styles.ReplyForword}>
+              <Image style={styles.replyForwordIcon} source={imagepath.forword} />
+              <View style={styles.forwordView}>
+                <Text style={styles.forwordText}> {item?.reply_msg}</Text>
+              </View>
+            </View> :
+            <TouchableOpacity
+              onPress={() => { onChangesecond(item.id) }}
+              style={styles.replyView}>
+              <Image style={styles.replyIcon} source={imagepath.replyIcons} />
+              <Text style={styles.replyText}>Reply</Text>
+            </TouchableOpacity>
+          }
         </View>
         {Reply == item.id && <MessageBox item={item} handleReply={props.handleReply} />}
       </View>
@@ -82,14 +90,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
   },
   ContentView: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     shadowColor: '#929397',
     shadowRadius: 10,
     elevation: 10,
-    paddingVertical: 20,
+    paddingHorizontal: 20,
     paddingLeft: 15,
-    paddingRight: 15,
     marginBottom: 2,
+    paddingVertical: 15
   },
   mainSubview: {
     flexDirection: 'row',
@@ -98,25 +106,25 @@ const styles = StyleSheet.create({
   },
   namedoctor: {
     color: Colors.appcolor,
-    fontSize: 18,
+    fontSize: Fontsize.fontEighteen,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
   time: {
     color: Colors.appcolor,
     justifyContent: 'flex-end',
-    fontSize: 10,
+    fontSize: Fontsize.fontTwelve,
     fontFamily: Fonts.ProximaNovaRegular,
   },
   namedoctordetails: {
     color: '#929397',
-    fontSize: 12,
+    fontSize: Fontsize.fontTwelve,
     fontFamily: Fonts.ProximaNovaRegular,
     paddingVertical: 15,
   },
   replyView: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    width: 90
+    // width: 90
   },
   replyIcon: {
     height: 20,
@@ -130,6 +138,30 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     borderRadius: 15,
   },
+  ReplyForword: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "space-between",
+    paddingHorizontal: 15
+  },
+  replyForwordIcon: {
+    height: 25,
+    width: 32,
+  },
+  forwordView: {
+    backgroundColor: "#F5F5F5",
+    flex: 1,
+    marginLeft: 15,
+    borderRadius: 5
+  },
+  forwordText: {
+    textAlign: "justify",
+    lineHeight: 20,
+    fontSize: Fontsize.fontTwelve,
+    color: "#929397",
+    paddingLeft: 10
+  }
 });
+
 
 export default Message;

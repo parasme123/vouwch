@@ -241,7 +241,7 @@ const Account = (props) => {
               }}
               style={{ position: 'absolute', top: 10, right: 20 }}>
               <Image
-                style={[styles.CancleArrow, { tintColor: '#fff' }]}
+                style={[styles.CancleArrow, { tintColor: Colors.white }]}
                 source={Imagepath.crose}
                 resizeMode="contain"
               />
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   textButton: {
-    color: '#fff',
+    color: Colors.white,
     fontSize: 16,
     fontFamily: Fonts.ProximaNovaSemibold,
   },
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     paddingHorizontal: 10,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     borderRadius: 5,
     position: 'absolute',
     top: height / 3.3,

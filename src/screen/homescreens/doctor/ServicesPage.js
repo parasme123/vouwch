@@ -48,10 +48,10 @@ export default ServicesPage = (props) => {
             paddingBottom: 5,
             fontFamily: Fonts.ProximaNovaBold,
           }}>
-          {props.data.business.business_name}
+          {props?.data?.business?.business_name}
         </Text>
         <FlatList
-          data={props?.data?.business?.services}
+          data={props.data?.business?.services}
           renderItem={DoctorService}
           keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}

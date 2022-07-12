@@ -1,4 +1,4 @@
-import { DOCTORRECORD, SAVEFOLLOWDATA, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
+import { DOCTORRECORD, SAVEFOLLOWDATA, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
@@ -56,7 +56,7 @@ export const getMessageAndComment = (id) => {
             }
         }).then(async (res) => {
             let response = await res.json();
-            console.log("getMessageAndComment", response.data)
+            // console.log("getMessageAndComment", response.data)
             dispatch(saveMessageAndComment(response.data))
         }).catch(err => {
             console.log("getMessageAndComment", err);
@@ -383,34 +383,6 @@ export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
-export const handelNotification = (setloaderVisible) => {
-    return async dispatch => {
-        // setloaderVisible(true);
-        await fetch(`${URL.baseUrl}${URL.getCategoury}`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-            }
-
-        }).then(async (res) => {
-            let response = await res.json();
-            dispatch(saveNotification(response))
-            // console.log("res===", response);           //console remove after use 
-            // setloaderVisible(false);
-        }).catch(err => {
-            console.log("getCategories", err);
-            // setloaderVisible(false);
-        })
-    }
-};
-
-export const saveNotification = (data) => {
-    return ({
-        type: NOTIFICATION,
-        payload: data
-    })
-};
-
 export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
@@ -733,3 +705,63 @@ export const saveUserProfile = (data) => {
         payload: data
     })
 };
+
+
+
+export const handelNotification = () => {
+    return async dispatch => {
+        // setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.notification}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            }
+        }).then(async (res) => {
+            let response = await res.json();
+            // setloaderVisible(false);
+            if (response.status) {
+                dispatch(savegetnotification(response.data))
+            }
+        }).catch(err => {
+            console.log("getnotification", err);
+            // setloaderVisible(false);
+        })
+    }
+};
+
+export const savegetnotification = (data) => {
+    return ({
+        type: NOTIFICATION,
+        payload: data
+    })
+};
+
+
+// export const handelNotification = (setloaderVisible) => {
+//     return async dispatch => {
+//         // setloaderVisible(true);
+//         await fetch(`${URL.baseUrl}${URL.notification}`, {
+//             method: "GET",
+//             headers: {
+//                 "Content-type": "application/json",
+//             }
+
+//         }).then(async (res) => {
+//             let response = await res.json();
+//             dispatch(saveNotification(response))
+//             // console.log("res===", response);           //console remove after use 
+//             // setloaderVisible(false);
+//         }).catch(err => {
+//             console.log("getCategories", err);
+//             // setloaderVisible(false);
+//         })
+//     }
+// };
+
+// export const saveNotification = (data) => {
+//     return ({
+//         type: NOTIFICATION,
+//         payload: data
+//     })
+// };
