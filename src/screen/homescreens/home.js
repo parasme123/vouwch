@@ -110,7 +110,7 @@ const Home = (props) => {
     // } 
     else {
       Call_FollowApi(id);
-      FollowButton(id);
+      // FollowButton(id);
     }
   };
 
@@ -230,7 +230,7 @@ const Home = (props) => {
         onpress_Message={MessagepropPage}
         onpress_Share={onShare}
         user_Type={userType}
-        Follows={Follows}
+        Follows={props.followData}
         onpress_DoctorCard_Follow={Follow_api}
         item={item}
         index={index}
@@ -290,7 +290,7 @@ const Home = (props) => {
                 onPress={() => userType && userToken ? handleProfile() : handleLogin()}
                 style={styles.profileButton}>
                 <Image
-                  source={userType?.profile_picture == null ? Imagepath.doctor : { uri: userType?.profile_picture }}
+                  source={props.allUserPostData?.profile_picture == null ? Imagepath.doctor : { uri: props.allUserPostData?.profile_picture }}
                   // source={{uri : userType?.profile_picture}}
                   resizeMode="stretch"
                   imageStyle={{}}
@@ -406,7 +406,8 @@ const Home = (props) => {
 
 const mapStateToProps = state => ({
   allHomeData: state.doctor.allHomeData,
-  allFollowPost: state.doctor.allFollowPost,
+  followData: state.doctor.followData,
+  allUserPostData: state.doctor.allUserPostData
 });
 
 const ActionCreators = Object.assign(

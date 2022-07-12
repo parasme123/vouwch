@@ -13,9 +13,12 @@ import { useIsFocused, useLinkProps } from '@react-navigation/native';
 import { Header, Fonts, String, Colors, Fontsize, imagepath } from '@common';
 import { Helper, Constants, AsyncStorageHelper } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
+import { logOut } from '../../reduxStore/action/doctorAction';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 // const { width, height } = Dimensions.get("window");
-export default Menu = (props, { navigation }) => {
+const Menu = (props, { navigation }) => {
   const [userType, setuserType] = useState(null);
   const [userToken, setuserToken] = useState(null);
   const isFocused = useIsFocused();
@@ -44,6 +47,7 @@ export default Menu = (props, { navigation }) => {
   const appLogout = async () => {
     await AsyncStorageHelper.removeItemValue(Constants.USER_DATA);
     await AsyncStorageHelper.removeItemValue(Constants.TOKEN);
+    props.actions.logOut();
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
@@ -137,3 +141,18 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaMedium,
   },
 });
+
+
+const mapStateToProps = state => ({
+  // setData: state.doctor.setData,
+});
+
+const ActionCreators = Object.assign(
+  { logOut }
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
