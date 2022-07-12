@@ -1,4 +1,4 @@
-import { DOCTORRECORD, SAVEFOLLOWDATA, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
+import { DOCTORRECORD, SAVEFOLLOWDATA, LOGOUT, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
@@ -33,7 +33,7 @@ export const getFollowData = () => {
             let response = await res.json();
             dispatch(saveFollowData(response.data))
         }).catch(err => {
-            console.log("postMessageReply", err);
+            console.log("getFollowData", err);
         })
     }
 }
@@ -42,6 +42,12 @@ export const saveFollowData = (data) => {
     return ({
         type: SAVEFOLLOWDATA,
         payload: data
+    })
+}
+
+export const logOut = () => {
+    return ({
+        type: LOGOUT,
     })
 }
 
