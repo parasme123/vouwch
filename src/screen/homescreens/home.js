@@ -123,8 +123,6 @@ const Home = (props) => {
     setmsgDocId(DataCardiList);
     if (!userType) {
       Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
     } else {
       setReviewModalPopup(!modalVisible);
       setModalVisible(!modalVisible);
@@ -146,8 +144,6 @@ const Home = (props) => {
     setmsgDocId(DataCardiList)
     if (!userType) {
       Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
     } else {
       setcommentModalPopup(!commentModalPopup);
       setModalVisibleComment(!modalVisibleComment);
@@ -292,7 +288,7 @@ const Home = (props) => {
                 onPress={() => userType && userToken ? handleProfile() : handleLogin()}
                 style={styles.profileButton}>
                 <Image
-                    source={userType?.profile_picture == null ? Imagepath.doctor : { uri: userType?.profile_picture }}
+                  source={userType?.profile_picture == null ? Imagepath.doctor : { uri: userType?.profile_picture }}
                   // source={{uri : userType?.profile_picture}}
                   resizeMode="stretch"
                   imageStyle={{}}
@@ -313,8 +309,8 @@ const Home = (props) => {
                 setsearch(text);
               }}
             />
-            <TouchableOpacity 
-            onPress={() => Call_SearchApi(search)}>
+            <TouchableOpacity
+              onPress={() => Call_SearchApi(search)}>
               <Image
                 source={Imagepath.searchbtn}
                 resizeMode="stretch"
