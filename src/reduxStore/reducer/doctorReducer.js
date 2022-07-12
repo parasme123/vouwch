@@ -1,10 +1,10 @@
-import { BRAVOCARD, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES, USERDATA, DOCTORDETAILS, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from '../action/types';
+import { BRAVOCARD, SAVEFOLLOWDATA, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, FOLLOW, NOTIFICATION, CATEGORIES, USERDATA, DOCTORDETAILS, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from '../action/types';
 
 const initialState = {
     doctorList: [],
+    followData: [],
     allHomeData: {},
     allBravoCardDataLIst: [],
-    allFollowPost: {},
     allCategories: {},
     allNotification: {},
     setData: {},
@@ -20,6 +20,8 @@ const ChangeTheNumber = (state = initialState, action) => {
     switch (action.type) {
         case DOCTORRECORD:
             return { ...state, doctorList: action.payload, lastPage: 1 };
+        case SAVEFOLLOWDATA:
+            return { ...state, followData: action.payload }
         case MESSAGEANDCOMMENT:
             return { ...state, messageAndComment: action.payload }
         case DOCTORRECORDCONCATE:
@@ -28,8 +30,6 @@ const ChangeTheNumber = (state = initialState, action) => {
             return { ...state, allHomeData: action.payload };
         case BRAVOCARD:
             return { ...state, allBravoCardDataLIst: action.payload };
-        case FOLLOW:
-            return { ...state, allFollowPost: action.payload };
         case CATEGORIES:
             return { ...state, allCategories: action.payload };
         case NOTIFICATION:

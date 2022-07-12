@@ -23,8 +23,6 @@ import { postAccountSetting } from '../../reduxStore/action/doctorAction';
 const { width, height } = Dimensions.get('window');
 const Account = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [DropDownSec, setDropDownSec] = useState(false);
-  const [selectvalue, setselectvalue] = useState('Select');
   const [image, setImage] = useState({});
   const [firstName, setfirstName] = useState();
   const [lastName, setlastName] = useState();
@@ -101,14 +99,14 @@ const Account = (props) => {
 
   const Account_SettingApi = () => {
     let { actions } = props;
-    let fileName = image.path.split("/");
+    let fileName = image?.path?.split("/");
     let imageData = {
       uri: image.path,
       name: fileName[fileName.length - 1],
       type: image.mime
     }
     const data = new FormData();
-    data.append('profile_picture', imageData);
+    data.append('profile_picture', image.path ? imageData : "");
     data.append('user_fname', firstName);
     data.append('user_lname', lastName);
     data.append('email', userData?.email);

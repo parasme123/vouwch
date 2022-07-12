@@ -1,4 +1,4 @@
-import { DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
+import { DOCTORRECORD, SAVEFOLLOWDATA, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, FOLLOW, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
@@ -19,6 +19,30 @@ export const postMessageReply = (data, typeOfData) => {
             console.log("postMessageReply", err);
         })
     }
+}
+
+export const getFollowData = () => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${URL.getFollowData}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(saveFollowData(response.data))
+        }).catch(err => {
+            console.log("postMessageReply", err);
+        })
+    }
+}
+
+export const saveFollowData = (data) => {
+    return ({
+        type: SAVEFOLLOWDATA,
+        payload: data
+    })
 }
 
 export const getMessageAndComment = (id) => {
@@ -168,8 +192,9 @@ export const postFollow = (data) => {
             body: JSON.stringify(data)
         }).then(async (res) => {
             let response = await res.json();
-            dispatch(saveFollowPost(response.data))
-            // console.log("responese===================", response);
+            if (response.status) {
+                dispatch(getFollowData());
+            }
         }).catch(err => {
             console.log("postFollow", err);
         })
@@ -193,7 +218,8 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
                 dispatch(setUserData(response.data))
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
-                global.token = response.token
+                global.token = response.token;
+                dispatch(getFollowData());
                 PageNavigation(response)
             } else {
                 setloaderVisible(false);

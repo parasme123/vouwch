@@ -108,7 +108,7 @@ const Home = (props) => {
       alert('please login with personal account');
     } else {
       Call_FollowApi(id);
-      FollowButton(id);
+      // FollowButton(id);
     }
   };
 
@@ -232,7 +232,7 @@ const Home = (props) => {
         onpress_Message={MessagepropPage}
         onpress_Share={onShare}
         user_Type={userType}
-        Follows={Follows}
+        Follows={props.followData}
         onpress_DoctorCard_Follow={Follow_api}
         item={item}
         index={index}
@@ -408,7 +408,7 @@ const Home = (props) => {
 
 const mapStateToProps = state => ({
   allHomeData: state.doctor.allHomeData,
-  allFollowPost: state.doctor.allFollowPost,
+  followData: state.doctor.followData
 });
 
 const ActionCreators = Object.assign(
