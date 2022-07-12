@@ -56,7 +56,7 @@ const Reply = (props) => {
         detail: message
       }
     }
- 
+    console.log("apiData", apiData);
     actions.postMessageReply(apiData, typeOfData);
 
   }
@@ -69,7 +69,7 @@ const Reply = (props) => {
         <View
           style={{
             flexDirection: 'row',
-            marginHorizontal:24,
+            marginHorizontal: 24,
             justifyContent: 'space-between',
             alignItems: 'center',
             alignSelf: 'center',
@@ -83,7 +83,7 @@ const Reply = (props) => {
               { backgroundColor: typeOfData == 1 ? '#19428A' : null },
               styles.button,
             ]}>
-            <Text style={{ color: '#ffffff', fontSize: 13 }}>Message</Text>
+            <Text style={{ color: Colors.white, fontSize: 13 }}>Message</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -96,7 +96,7 @@ const Reply = (props) => {
               },
               styles.button,
             ]}>
-            <Text style={{ color: '#ffffff', fontSize: 13 }}>Comment</Text>
+            <Text style={{ color: Colors.white, fontSize: Fontsize.fontThirteen }}>Comment</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, Image, FlatList, Dimensions, TouchableOpacity} from 'react-native';
 import {Header} from '@common';
 import Imagepath from '../../common/imagepath';
-import String from '../../common/String';
+// import String from '../../common/String';
 import styles from './NotificationStyle';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,7 +20,7 @@ const Notification = (props,{navigation, route}) => {
 
   useEffect(()=>{
     NotificationApi();
-    console.log("allNotification===================",props.allNotification);
+    // console.log("allNotification===================",props.allNotification);
   },[])
   const NotificationApi = () => {
     let { actions } = props;
@@ -51,7 +51,7 @@ const Notification = (props,{navigation, route}) => {
         </View>
         <View style={{flex: 0.8}}>
           <Text style={[styles.UserNameText]}>
-            Barbara Michelle{' '}
+            Barbara Michelle{item.detail}
             <Text style={[styles.RequestText]}>confirmed your</Text>
           </Text>
           <Text style={[styles.RequestText]}>booking request </Text>
@@ -71,7 +71,7 @@ const Notification = (props,{navigation, route}) => {
   };
   return (
     <View style={styles.background}>
-      <Header title={String.Notifications} isback={isTrue} />
+      <Header title={"Notifications"} isback={isTrue} />
       {/* sub Notification tabb */}
       <View style={{  flexDirection: "row",  marginVertical: 15, marginVertical:24 }}>
         <TouchableOpacity onPress={() => setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
@@ -86,7 +86,7 @@ const Notification = (props,{navigation, route}) => {
       </View>
       {activeFeedbackTab == "p" ?
         < FlatList
-          data={activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data}
+          data={props?.allNotification?.notifcationDta?.get_commant}
           style={{ paddingHorizontal: 8 }}
           renderItem={NotificationItem}
           keyExtractor={(item, index) => String(index)}

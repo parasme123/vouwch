@@ -16,6 +16,7 @@ export const postMessageReply = (data, typeOfData) => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(getMessageAndComment(typeOfData))
+            // console.log("res", res);
         }).catch(err => {
             console.log("postMessageReply", err);
         })

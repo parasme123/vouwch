@@ -81,7 +81,7 @@ export default Feedbackpage = (props) => {
           <View style={styles.detailsView}>
             {/* name of feedback user */}
             <View style={{
-             flexDirection: 'row', alignItems: 'center', paddingTop: 10
+              flexDirection: 'row', alignItems: 'center', paddingTop: 10
             }}>
               <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', paddingTop: 10 }}>
                 <Text
@@ -95,6 +95,10 @@ export default Feedbackpage = (props) => {
                 />
               </View>
               <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingTop: 10 }}>
+                <Image
+                  style={{ height: 15, width: 15, marginRight:5}}
+                  source={imagepath.calender}
+                />
                 <Text
                   style={{
                     fontSize: Fontsize.fontTwelve,

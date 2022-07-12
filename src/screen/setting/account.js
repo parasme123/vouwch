@@ -148,7 +148,7 @@ const Account = (props) => {
         <View style={styles.profileImageview}>
           <Image
             style={styles.ProfileImage}
-            source={image.path ? { uri: image.path } : {uri : userData?.profile_picture}}
+            source={image.path ? { uri: image.path } : { uri: userData?.profile_picture }}
             resizeMode="contain"
           />
           <TouchableOpacity

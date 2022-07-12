@@ -38,7 +38,7 @@ const Message = (props) => {
             {item.detail}
           </Text>
           {/* //Repply  */}
-          {item?.reply_msg || item?.reply_comm_id == "" ?
+          {item?.reply_msg != "" ?
             <View style={styles.ReplyForword}>
               <Image style={styles.replyForwordIcon} source={imagepath.forword} />
               <View style={styles.forwordView}>
