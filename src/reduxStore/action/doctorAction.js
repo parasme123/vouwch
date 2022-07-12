@@ -99,13 +99,6 @@ export const saveBravoCard = (data) => {
     })
 };
 
-export const saveFollowPost = (data) => {
-    return ({
-        type: FOLLOW,
-        payload: data
-    })
-};
-
 // export const getDoctorData = () => {
 //     return async dispatch => {
 //         await fetch(`${URL.baseUrl}${URL.getAllDoctors}`, {
