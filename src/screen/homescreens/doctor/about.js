@@ -16,13 +16,13 @@ import Fontsize from '../../../common/Fontsize';
 export default Aboutapp = (props) => {
   return (
     <SafeAreaView>
-      <View style={{padding: 25}}>
+      <View style={{ padding: 25 }}>
         <Text style={styles.name}>
           {props.data.business?.business_name}
-          </Text>
+        </Text>
         <Text style={styles.details}>
           {props.data?.business?.about_us}
-          </Text>
+        </Text>
       </View>
     </SafeAreaView>
   );
@@ -35,9 +35,10 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaBold,
   },
   details: {
-    fontSize: Fontsize.fontTwelve,
+
     color: '#929397',
     justifyContent: 'center',
     fontFamily: Fonts.ProximaNovaRegular,
+    fontSize: Fontsize.fontTwelve
   },
 });

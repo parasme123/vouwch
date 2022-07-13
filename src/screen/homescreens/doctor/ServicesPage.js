@@ -32,7 +32,7 @@ export default ServicesPage = (props) => {
                 fontFamily: Fonts.ProximaNovaRegular,
                 fontSize: Fontsize.fontTwelve,
               }}>
-              {item?.service_detail?.name}``
+              {item?.service_detail?.name}
             </Text>
           </>: null
         }

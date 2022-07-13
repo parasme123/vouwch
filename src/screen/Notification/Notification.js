@@ -62,8 +62,8 @@ const Notification = (props,{navigation, route}) => {
               resizeMode="contain"
               source={Imagepath.alarm_clock}
             />
-            <Text style={[styles.PhotoText, {color: '#000'}]}>
-              {String.Alram}
+            <Text style={[styles.PhotoText, {color: Colors.black}]}>
+              {String.Alram}12-07-2022
             </Text>
           </View>
         </View>
@@ -73,38 +73,6 @@ const Notification = (props,{navigation, route}) => {
   return (
     <View style={styles.background}>
       <Header title={"Notifications"} isback={isTrue} />
-      {/* sub Notification tabb
-      <View style={{  flexDirection: "row",  marginVertical: 15, marginVertical:24 }}>
-        <TouchableOpacity onPress={() => setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
-          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "p" ? styles.feedBackTypeBtnTxtActive : null]}>Patient Feedback</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveFeedbackTab("c")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "c" ? styles.feedBackTypeBtnActive : null]}>
-          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "c" ? styles.feedBackTypeBtnTxtActive : null]}>Clinician Feedback</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveFeedbackTab("b")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "b" ? styles.feedBackTypeBtnActive : null]}>
-          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "b" ? styles.feedBackTypeBtnTxtActive : null]}>Bravo Card</Text>
-        </TouchableOpacity>
-      </View>
-      {activeFeedbackTab == "p" ?
-        < FlatList
-          data={props?.allNotification?.notifcationDta?.get_commant}
-          style={{ paddingHorizontal: 8 }}
-          renderItem={NotificationItem}
-          keyExtractor={(item, index) => String(index)}
-        /> : null
-
-      }
-
-      {activeFeedbackTab == "c" ?
-        <FlatList
-          data={props.data?.business?.get_card}
-          renderItem={NotificationItem}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) => String(index)}
-        /> : null
-      } */}
-      {/* <Text>{isTrue}</Text> */}
       <View style={{flex: 1}}>
         <View style={{marginBottom: 70}}>
           <FlatList

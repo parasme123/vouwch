@@ -35,8 +35,8 @@ export default Businesses = (props) => {
                   style={{
                     color: '#929397',
                     paddingLeft: 15,
-                    fontSize: Fontsize.fontNine,
                     fontFamily: Fonts.ProximaNovaRegular,
+                    fontSize: Fontsize.fontTwelve
                   }}>
                   {props.data.business.service_hours}
                 </Text>

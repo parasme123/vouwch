@@ -140,7 +140,19 @@ const Bravocard = (props) => {
           type: photo.mime,
           uri: Platform.OS === "ios" ? photo.path.replace("file://", "") : photo.path,
         }
-        data.append('files', imgUploadObj);
+        data.append('files[]', imgUploadObj);
+      }
+    }
+    if (Videos.length > 0) {
+      for (var i = 0; i < Videos.length; i++) {
+        const photo = Videos[i];
+        let fileName = photo.path.split("/");
+        let imgUploadObj = {
+          name: fileName[fileName.length - 1],
+          type: photo.mime,
+          uri: Platform.OS === "ios" ? photo.path.replace("file://", "") : photo.path,
+        }
+        data.append('files[]', imgUploadObj);
       }
     }
     actions.postBravo(data, () => setloaderVisible(), () => PageNavigation());
