@@ -19,6 +19,7 @@ import { HandlDocProfil, getCategories } from '../../reduxStore/action/doctorAct
 import { handleNavigation } from '../../navigator/Navigator';
 import Picker from '../../modal/picker';
 import Fontsize from '../../common/Fontsize';
+import CustomLoader from '../../Lib/CustomLoader';
 
 
 const Editprofile = (props) => {
@@ -196,6 +197,7 @@ const Editprofile = (props) => {
           chexkBoxFnc={chexkBox}
         />
       )}
+        <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>
   );
 };

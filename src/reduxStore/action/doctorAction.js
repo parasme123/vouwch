@@ -216,6 +216,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 dispatch(setUserData(response.data))
+                // dispatch(saveUserProfile(response.data))
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token;
@@ -455,7 +456,7 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
-
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);

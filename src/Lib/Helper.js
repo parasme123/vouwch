@@ -36,6 +36,17 @@ export const setDateFormat = (newDate) => {
   return months[month - 1] + " " + date + ", " + year;
 }
 
+export const setTimeFormat = (newDate) => {
+  let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  let timeStamp = new Date(newDate);
+  let date = timeStamp.getDate();
+  let month = timeStamp.getMonth();
+  let year = timeStamp.getFullYear();
+  let hours = timeStamp.getUTCHours();
+  let Min = timeStamp.getUTCMinutes();
+  return months[month - 1] + " " + date + ", " + year + ", " +hours +":"+Min;
+}
+
 export const loginPopUp = (navigation) => {
   Alert.alert(
     Constants.AppName,
