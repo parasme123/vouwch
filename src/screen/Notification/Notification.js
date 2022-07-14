@@ -100,20 +100,20 @@ const Notification = (props, { navigation, route }) => {
         <View style={{ marginBottom: 50 }} >
           <FlatList
             data={messagesNotification}
-            keyExtractor={item => item}
+            keyExtractor={(item, index) => String(index)}
             renderItem={({ item, index }) => NotificationItem({ item, index, type: "send a message", Tab: 1 })}
             showsVerticalScrollIndicator={false}
           />
           <FlatList
             data={commentNotification}
-            keyExtractor={item => item}
+            keyExtractor={(item, index) => String(index)}
             renderItem={({ item, index }) => NotificationItem({ item, index, type: "send a Commment", Tab: 2 })}
             showsVerticalScrollIndicator={false}
           />
           {userType != 1 ?
             <FlatList
               data={bravoCardNotification}
-              keyExtractor={item => item}
+              keyExtractor={(item, index) => String(index)}
               renderItem={({ item, index }) => NotificationItem({ item, index, type: "add a Bravo card" })}
               showsVerticalScrollIndicator={false}
             />

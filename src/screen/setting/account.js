@@ -45,7 +45,7 @@ const Account = (props) => {
     setlastName(props.allUserPostData?.last_name);
   }, []);
 
-console.log(props?.allUserPostData)
+// console.log(props?.allUserPostData)
   const requestCamera = async () => {
     try {
       const granted = await PermissionsAndroid.request(
