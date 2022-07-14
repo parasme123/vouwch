@@ -21,7 +21,6 @@ import Rate from '../screen/homescreens/review/rate';
 // import settingprofile from '../screen/setting/settingprofile';
 import Editprofile from '../screen/setting/editprofile';
 import ForgotPassword from '../screen/Forgotpassword/Forgotpassword';
-import OtpPage from '../screen/Forgotpassword/Otppage';
 import Hospotalbravocard from '../screen/HospitalBravocard/HospitalBravocard';
 import Doctorcard from '../screen/DoctorCard/Doctorcard';
 import Resetpassword from '../screen/Forgotpassword/Resetpassword';
@@ -58,7 +57,6 @@ const Navigator = () => {
         <MainStack.Screen name="myprofliecomment" component={myprofilecomment} />
         <MainStack.Screen name="edit" component={Editprofile} />
         <MainStack.Screen name="forgotpassword" component={ForgotPassword} />
-        <MainStack.Screen name="otppage" component={OtpPage} />
         <MainStack.Screen name="DoctorCard" component={Doctorcard} />
         <MainStack.Screen name="Hospotalbravocard" component={Hospotalbravocard} />
         <MainStack.Screen name="Confirmpassword" component={Resetpassword} />

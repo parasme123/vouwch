@@ -15,7 +15,15 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import { Header, Colors, Fonts, String } from '@common';
 import Imagepath from '../../common/imagepath';
-import { Constants, SortUrl, AsyncStorageHelper, ApiCall, Validators } from '@lib';
+
+import {
+  ApiCall,
+  SortUrl,
+  CustomLoader,
+  Constants,
+  AsyncStorageHelper,
+  Validators
+} from '@lib';
 import { connect } from 'react-redux';
 import { handleNavigation } from '../../navigator/Navigator';
 import { bindActionCreators } from 'redux';
@@ -32,11 +40,12 @@ const Account = (props) => {
   const [userData, setuser] = useState(null);
 
   useEffect(() => {
-    setuser(props.allUserPostData)
-    setfirstName(props.allUserPostData.first_name);
-    setlastName(props.allUserPostData.last_name);
+    setuser(props?.allUserPostData)
+    setfirstName(props?.allUserPostData?.first_name);
+    setlastName(props.allUserPostData?.last_name);
   }, []);
 
+console.log(props?.allUserPostData)
   const requestCamera = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -92,7 +101,6 @@ const Account = (props) => {
       Account_SettingApi();
     }
   }
-
   const Account_SettingApi = () => {
     let { actions } = props;
     let imageData = {}
@@ -259,6 +267,7 @@ const Account = (props) => {
           </View>
         </View>
       </Modal>
+      <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>
   );
 };

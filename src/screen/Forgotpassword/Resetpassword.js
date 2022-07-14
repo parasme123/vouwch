@@ -32,12 +32,7 @@ const Resetpassword = (props) => {
     if (
       Validators.checkPassword('Password', 7, 15, password) &&
       Validators.checkNotNull('Confirm Password', 2, 20, ConfirmPassword) &&
-      Validators.checkMatch(
-        'Password',
-        password,
-        'Confirm Password',
-        ConfirmPassword,
-      )
+      Validators.checkMatch('Password', password, 'Confirm Password', ConfirmPassword,)
     ) {
       Signin_CallApi();
     }
@@ -52,7 +47,7 @@ const Resetpassword = (props) => {
     };
     // console.log(" apiData", apiData);
 
-    actions.handelresetPassword(apiData, setloaderVisible,PageNavigation() );
+    actions.handelresetPassword(apiData, setloaderVisible,() => PageNavigation());
     setloaderVisible(true);
   };
   const PageNavigation = () => {

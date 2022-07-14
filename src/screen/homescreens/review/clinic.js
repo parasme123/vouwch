@@ -38,9 +38,12 @@ const Clinic = (props) => {
   const [modalVisible, setModalVisible] = useState();
   const [mark, setMark] = useState(false);
   const [doctId, setdoctId] = useState({});
-  const onChangesecond = value => {
+  const [id, setId] = useState();
+
+  const onChangesecond = (item) => {
     setDropDownSec(!DropDownSec);
-    setselectvalue(value);
+    setselectvalue(item.label);
+    setId(item.SlectId)
   };
   const onPickersecond = () => {
     setDropDownSec(!DropDownSec);
@@ -49,11 +52,11 @@ const Clinic = (props) => {
     setMark(!mark);
   };
   let DishesData = [
-    { label: 'First Choice', value: '5 Star' },
-    { label: 'Second Choice', value: '4 Star' },
-    { label: 'Third Choice', value: '3 Star' },
-    { label: 'Maybe', value: '2 Star' },
-    { label: 'Emergency only', value: '1 Star' },
+    { label: 'First Choice', value: '5 Star', SlectId: "5" },
+    { label: 'Second Choice', value: '4 Star', SlectId: "4" },
+    { label: 'Third Choice', value: '3 Star', SlectId: "3" },
+    { label: 'Maybe', value: '2 Star', SlectId: "2" },
+    { label: 'Emergency only', value: '1 Star', SlectId: "1" },
   ];
 
   const ListModal = () => {
@@ -70,7 +73,7 @@ const Clinic = (props) => {
     let apiData = {
       business_id: doctorId ?? doctId.id,
       review_type: "Clinical",
-      rate: selectvalue,
+      rate: id,
       review: recomendation,
       is_anonym: mark ? 1 : 0,
       // friendness_rate: state,
@@ -88,7 +91,6 @@ const Clinic = (props) => {
       props.Review_Validators(apiData)
     }
   }
-
   return (
     <ImageBackground source={Imagepath.background} style={styles.backgroundContainer}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -141,7 +143,8 @@ const Clinic = (props) => {
               marginVertical={5}
               items={DishesData}
               placeholder={selectvalue}
-              onChangeItem={item => onChangesecond(item.label)}
+              id={id}
+              onChangeItem={item => onChangesecond(item)}
               onOpen={() => onPickersecond()}
               ImagePath={Imagepath.downArrow}
               colour={Colors.bottonColors}

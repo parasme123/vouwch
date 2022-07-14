@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import { useIsFocused, useLinkProps } from '@react-navigation/native';
 import { Header, Fonts, String, Colors, Fontsize, imagepath } from '@common';
-import { Helper, Constants, AsyncStorageHelper } from '@lib';
+import { Helper, Constants, AsyncStorageHelper,CustomLoader } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
-import { logOut } from '../../reduxStore/action/doctorAction';
+import { logOut ,postLogout} from '../../reduxStore/action/doctorAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -22,7 +22,7 @@ const Menu = (props, { navigation }) => {
   const [userType, setuserType] = useState(null);
   const [userToken, setuserToken] = useState(null);
   const isFocused = useIsFocused();
-
+  const [loaderVisible, setloaderVisible] = useState(false);
   useEffect(() => {
     AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
       if (value !== null) {
@@ -48,13 +48,18 @@ const Menu = (props, { navigation }) => {
     await AsyncStorageHelper.removeItemValue(Constants.USER_DATA);
     await AsyncStorageHelper.removeItemValue(Constants.TOKEN);
     props.actions.logOut();
+    HandelLogoutbyApi();
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
       navigation: props.navigation,
     });
   };
-
+  
+  const HandelLogoutbyApi = () => {
+    let { actions } = props;
+    actions.postLogout(setloaderVisible);
+  };
   return (
     <ImageBackground source={imagepath.background} style={styles.imagebg}>
       {/*  Header*/}
@@ -121,6 +126,7 @@ const Menu = (props, { navigation }) => {
           }
         </View>
       </ScrollView>
+      <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground >
   );
 };
@@ -148,7 +154,8 @@ const mapStateToProps = state => ({
 });
 
 const ActionCreators = Object.assign(
-  { logOut }
+  { logOut },
+  {postLogout}
 );
 
 const mapDispatchToProps = dispatch => ({

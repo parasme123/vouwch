@@ -89,38 +89,6 @@ const Bravocard = (props) => {
     }
   };
 
-  // const BravoCard32 = () => {
-  //   let { actions } = props;
-
-  //   let apiData = {
-  //     doctor_id: doctorId ?? props.allDoctorlist,
-  //     name: name,
-  //     department: department,
-  //     hospital: hospital,
-  //     city: city,
-  //     state: state,
-  //     detail: detail,
-  //     files: [Photos, Videos]
-  //   };
-  //   actions.postBravo(apiData, setloaderVisible, () => PageNavigation());
-  // };
-
-  // start
-  //   const data = new FormData();
-
-  // if (Photos.length > 0) {
-  //   for (var i = 1; i < Photos.length; i++) {
-  //     const photo = Photos[i];
-  //     data.append('images', {
-  //       name: photo.fileName,
-  //       type: photo.type,
-  //       uri: Platform.OS === "ios" ? photo.uri.replace("file://", "") : photo.uri,
-  //     });
-  //   }
-  // }
-
-  //end
-
   const BravoCard = () => {
     let { actions } = props;
     const data = new FormData();

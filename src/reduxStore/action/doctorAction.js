@@ -122,7 +122,7 @@ export const saveBravoCard = (data) => {
 //     }
 // };
 
-export const postDoctorSearch = (data, pageNo = 1) => {
+export const postDoctorSearch = (data, pageNo = 1,) => {
     return async dispatch => {
         if (pageNo == 1) {
             dispatch(saveDoctorData([]))
@@ -165,17 +165,20 @@ export const getHomeData = () => {
     }
 };
 
-export const getBravoCardData = () => {
+export const getBravoCardData = (setloaderVisible) => {
     return async dispatch => {
+        setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.getAllBravoCard}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
             }
         }).then(async (res) => {
+            setloaderVisible(false);
             let response = await res.json();
             dispatch(saveBravoCard(response.data.cards))
         }).catch(err => {
+            setloaderVisible(false);
             console.log("getBravoCardData", err);
         })
     }
@@ -198,7 +201,6 @@ export const postFollow = (data) => {
         }).catch(err => {
             console.log("postFollow", err);
         })
-
     }
 };
 
@@ -645,8 +647,9 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
 };
 
 
-export const getServices = () => {
+export const getServices = (setloaderVisible) => {
     return async dispatch => {
+        setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.servicesList}`, {
             method: "GET",
             headers: {
@@ -654,11 +657,13 @@ export const getServices = () => {
                 "Authorization": `Bearer ${global.token}`
             },
         }).then(async (res) => {
+            setloaderVisible(false);
             let response = await res.json();
             if (response.status) {
                 dispatch(saveServices(response.data?.services));
             }
         }).catch(err => {
+            setloaderVisible(false);
             console.log("getServices", err);
             Toast.show("something went wrong");
         })
@@ -688,11 +693,12 @@ export const PostUserProfile = (data, setloaderVisible = () => { }, callForFeedb
             let response = await res.json();
             // console.log("response+++++++++++++++++++++++++++++++++++", response);
             // setloaderVisible(false);
+            // Toast.show(response.message);
             if (response.status) {
                 if (callForFeedback) {
-                    dispatch(saveFeedBackUserProfile(response.data[0]));
+                    dispatch(saveFeedBackUserProfile(response.data));
                 } else {
-                    dispatch(saveUserProfile(response.data[0]));
+                    dispatch(saveUserProfile(response.data));
                 }
             }
             // Toast.show(response.message);
@@ -748,30 +754,24 @@ export const savegetnotification = (data) => {
 };
 
 
-// export const handelNotification = (setloaderVisible) => {
-//     return async dispatch => {
-//         // setloaderVisible(true);
-//         await fetch(`${URL.baseUrl}${URL.notification}`, {
-//             method: "GET",
-//             headers: {
-//                 "Content-type": "application/json",
-//             }
-
-//         }).then(async (res) => {
-//             let response = await res.json();
-//             dispatch(saveNotification(response))
-//             // console.log("res===", response);           //console remove after use
-//             // setloaderVisible(false);
-//         }).catch(err => {
-//             console.log("getCategories", err);
-//             // setloaderVisible(false);
-//         })
-//     }
-// };
-
-// export const saveNotification = (data) => {
-//     return ({
-//         type: NOTIFICATION,
-//         payload: data
-//     })
-// };
+export const postLogout = (setloaderVisible,) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.userLogout}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify(data)
+        }).then(async (res) => {
+            let response = await res.json();
+            setloaderVisible(false);
+            Toast.show(response.message);
+        }).catch(err => {
+            console.log("postLogout", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};

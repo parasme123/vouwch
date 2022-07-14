@@ -123,7 +123,7 @@ const Hospotalbravocard = (props) => {
   // DAta
   const Call_DataCardApi = () => {
     let { actions } = props;
-    actions.getBravoCardData();
+    actions.getBravoCardData(setloaderVisible);
   };
 
 

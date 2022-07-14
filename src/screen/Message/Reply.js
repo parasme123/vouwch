@@ -15,15 +15,15 @@ import { NoRecordFound } from '@component';
 import Message from './Message';
 import { getMessageAndComment, postMessageReply } from '../../reduxStore/action/doctorAction';
 
-const Reply = (props) => {
-  const [typeOfData, setTypeOfData] = useState(1);
-  const [loaderVisible, setloaderVisible] = useState(false);
+const Reply = (props, { route }) => {
 
+  const Active = props.route.params?.actTab ? props?.route?.params?.actTab : 1;
+  const [typeOfData, setTypeOfData] = useState(Active);
+  const [loaderVisible, setloaderVisible] = useState(false);
   const MessagePage = () => {
     setTypeOfData(1);
     handleMessageAndComment(1);
   };
-
   const CommentpropPage = () => {
     setTypeOfData(2);
     handleMessageAndComment(2);
