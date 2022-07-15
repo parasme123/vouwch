@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
 export default Feedbackpage = (props) => {
   const navigation = useNavigation();
   const [activeFeedbackTab, setActiveFeedbackTab] = useState("p");
+  const Review = activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data;
   const Feedback = ({ item, index }) => {
     return (
       <View
@@ -94,9 +95,9 @@ export default Feedbackpage = (props) => {
                   source={imagepath.bluetick}
                 />
               </View>
-              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingTop: 10, marginRight:10}}>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingTop: 10, marginRight: 10 }}>
                 <Image
-                  style={{ height: 15, width: 15, marginRight:5 }}
+                  style={{ height: 15, width: 15, marginRight: 5 }}
                   source={imagepath.calender}
                 />
                 <Text
@@ -194,13 +195,8 @@ export default Feedbackpage = (props) => {
         bravo_Card_name={item.name}
         bravo_Card_Details={item.department}
         hideButtons={true}
-        // onpress_Comment={CommentpropPage}
-        // onpress_Message={MessagepropPage}
-        // onpress_Share={onShare}
         item={item}
         index={index}
-      // onpress_Photo={}
-      // onpress_Video={}
       />
     )
   }
@@ -230,23 +226,30 @@ export default Feedbackpage = (props) => {
         </TouchableOpacity>
       </View>
       {activeFeedbackTab == "p" || activeFeedbackTab == "c" ?
-        < FlatList
-          data={activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data}
-          style={{ paddingHorizontal: 8 }}
-          renderItem={Feedback}
-          keyExtractor={(item, index) => String(index)}
-        /> : null
-
+        <>
+          {Review.map((item, index) => (
+            Feedback({ item, index })
+          ))
+          }
+        </>
+        : null
       }
 
       {activeFeedbackTab == "b" ?
-        <FlatList
+        // <>
+        //   {props.data?.business?.get_card.map((item, index) => (
+        //     BravoCard({ item, index })
+        //   ))
+        //   }
+        // </>
+        < FlatList
           data={props.data?.business?.get_card}
           renderItem={BravoCard}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => String(index)}
-        /> : null
+        />
+        : null
       }
     </SafeAreaView>
   );

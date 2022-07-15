@@ -5,19 +5,21 @@ import { TextInput } from 'react-native-gesture-handler';
 import Fonts from './Fonts';
 const MessageBox = (props) => {
     const [message, setMessage] = useState("");
+    const MsgCmnt = props.typeDetail == 1 ? "Message" : "Comment"
+    // console.log("MsgCmnt, ", MsgCmnt);
     return (
         <View style={{ backgroundColor: "#EEEEEE", height: 225, width: "100%", marginLeft: 15, marginRight: 15, alignSelf: "center", borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
             <TextInput
                 style={styles.textInputstyle}
                 keyboardType='default'
-                placeholder='Message'
+                placeholder={MsgCmnt}
                 placeholderTextColor={"#000"}
                 value={message}
                 multiline
                 numberOfLines={5}
                 onChangeText={setMessage}
             />
-            <TouchableOpacity style={styles.buttonSubmit} onPress={()=>props.handleReply(props.item, message)}>
+            <TouchableOpacity style={styles.buttonSubmit} onPress={() => props.handleReply(props.item, message)}>
                 <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
 

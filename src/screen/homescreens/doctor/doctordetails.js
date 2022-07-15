@@ -27,7 +27,7 @@ import Feedbackpage from './feedbackpage';
 import Fonts from '../../../common/Fonts';
 import {
   ApiCall,
-  SortUrl,
+  Helper,
   CustomLoader,
   Constants,
   AsyncStorageHelper,
@@ -46,13 +46,22 @@ const Doctordetails = (props, { route }) => {
   const [activeTab, setActiveTab] = useState(propActiveTab)
   const [userType, setuserType] = useState();
 
+//   const CommentpropPage = DataCardiList => {
+//     setmsgDocId(DataCardiList)
+//     if (!userType) {
+//       Helper.loginPopUp(props.navigation);
+//     } else {
+//       navigation.navigate('review', { doctorid: doctorId });
+//   }
+// }
 
   const AddReview = () => {
-    if (userType !== 2) {
-      navigation.navigate('review', { doctorid: doctorId });
+    // setmsgDocId(DataCardiList)
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
     } else {
-      alert('please login with personal account');
-    }
+      navigation.navigate('review', { doctorid: doctorId });
+  }
   };
 
   useEffect(() => {
@@ -61,9 +70,9 @@ const Doctordetails = (props, { route }) => {
       if (value !== null) {
       }
       setuserType(value?.user_type);
+      
     });
   }, []);
-
   const Call_Details_Api = () => {
     let { actions } = props;
     const apiData = {

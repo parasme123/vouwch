@@ -48,7 +48,7 @@ const Addhospital = (props) => {
   useEffect(() => {
     if (props.allCategories.status == true) {
       let arr = [];
-      props.allCategories.data.categories.map((item, label) => {
+      props.allCategories.data.categories?.map((item, label) => {
         arr.push({ label: item.name, value: item.id });
         // console.log('arr== categories in signup==>>>', arr);
       });

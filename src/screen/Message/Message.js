@@ -54,7 +54,14 @@ const Message = (props) => {
             </TouchableOpacity>
           }
         </View>
-        {Reply == item.id && <MessageBox item={item} handleReply={props.handleReply} />}
+        {
+          Reply == item.id &&
+          <MessageBox 
+          item={item} 
+          typeDetail={props.typeDetail}
+          handleReply={props.handleReply} />
+
+        }
       </View>
     );
   };

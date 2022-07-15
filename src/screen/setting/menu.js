@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import { useIsFocused, useLinkProps } from '@react-navigation/native';
 import { Header, Fonts, String, Colors, Fontsize, imagepath } from '@common';
-import { Helper, Constants, AsyncStorageHelper,CustomLoader } from '@lib';
+import { Helper, Constants, AsyncStorageHelper, CustomLoader } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
-import { logOut ,postLogout} from '../../reduxStore/action/doctorAction';
+import { logOut, postLogout } from '../../reduxStore/action/doctorAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -44,21 +44,18 @@ const Menu = (props, { navigation }) => {
     });
     // navigation.navigate('bottomtab')
   };
-  const appLogout = async () => {
-    await AsyncStorageHelper.removeItemValue(Constants.USER_DATA);
-    await AsyncStorageHelper.removeItemValue(Constants.TOKEN);
-    props.actions.logOut();
-    HandelLogoutbyApi();
+
+
+  const HandelLogoutbyApi = () => {
+    let { actions } = props;
+    actions.postLogout(setloaderVisible, PostNavigation);
+  };
+  const PostNavigation = () => {
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
       navigation: props.navigation,
     });
-  };
-  
-  const HandelLogoutbyApi = () => {
-    let { actions } = props;
-    actions.postLogout(setloaderVisible);
   };
   return (
     <ImageBackground source={imagepath.background} style={styles.imagebg}>
@@ -79,7 +76,7 @@ const Menu = (props, { navigation }) => {
             <Text style={styles.pageButtonText}>contact us</Text>
           </TouchableOpacity>
           <TouchableOpacity
-          onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/help-support-app', title: "Help & support" })}
+            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/help-support-app', title: "Help & support" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
@@ -89,7 +86,7 @@ const Menu = (props, { navigation }) => {
             <Text style={styles.pageButtonText}>Help & support</Text>
           </TouchableOpacity>
           <TouchableOpacity
-             onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/about-us-app', title: "About us" })}
+            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/about-us-app', title: "About us" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
@@ -113,7 +110,7 @@ const Menu = (props, { navigation }) => {
               <TouchableOpacity
                 style={[styles.pageButton, { marginBottom: 50 }]}
                 onPress={() => {
-                  SignOut();
+                  HandelLogoutbyApi();
                 }}>
                 <Image
                   style={styles.pageButtonIcon}
@@ -155,7 +152,7 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
   { logOut },
-  {postLogout}
+  { postLogout }
 );
 
 const mapDispatchToProps = dispatch => ({

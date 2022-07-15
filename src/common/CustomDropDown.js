@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     arrowPositionView: { position: "absolute", top: 0, bottom: 0, right: 0, justifyContent: "center", alignItems: "center", },
     downarrowIcon: { height: 14, width: 14, resizeMode: "contain", },
     dropDownFlatListCss: { borderTopColor: Colors.grey, borderTopWidth: 0, maxHeight: 250 },
-    dropDownFlatListItemCss: { alignItems: 'center', flexDirection: 'row', paddingVertical: 15, paddingLeft: 5, borderBottomWidth: 0.5, borderBottomColor: 'grey' },
+    dropDownFlatListItemCss: { alignItems: 'center', flexDirection: 'row', paddingVertical: 15, paddingLeft: 5, borderBottomWidth: 0.5, borderBottomColor: 'grey' , },
     redstar: { height: 20, width: 20, },
 
 })

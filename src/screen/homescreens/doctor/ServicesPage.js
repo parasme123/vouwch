@@ -14,7 +14,9 @@ import { Fonts, imagepath, Colors, Fontsize } from '@common';
 // import { useLinkProps } from '@react-navigation/native';
 
 export default ServicesPage = (props) => {
+  const Data = props.data?.business?.services;
   const DoctorService = ({ item, index }) => {
+    // console.log("Data",Data);
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }} key={index}>
         {
@@ -51,14 +53,9 @@ export default ServicesPage = (props) => {
           }}>
           {props?.data?.business?.business_name}
         </Text>
-        <ScrollView horizontal={true} style={{ width: "100%" }}>
-          <FlatList
-            data={props.data?.business?.services}
-            renderItem={DoctorService}
-            keyExtractor={(item, index) => String(index)}
-            showsVerticalScrollIndicator={false}
-          />
-        </ScrollView>
+        {Data?.map((item, index) => (
+          DoctorService({ item, index })
+        ))}
       </View>
     </SafeAreaView>
   );

@@ -77,7 +77,6 @@ export default Patient = (props) => {
       is_anonym: mark ? 1 : 0,
       review: message
     }
-    console.log("apiData : ", apiData);
     if (
       Validators.checkNotNull('Doctor Id', 1, 20, doctorId ?? doctId.id)
       // Validators.checkNotNull('Recommendation', 2, 20, is_recommend) 

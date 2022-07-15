@@ -72,8 +72,8 @@ const Notification = (props, { navigation, route }) => {
         <View style={{ flex: 0.8 }}>
           <View style={{ justifyContent: "space-between", flexDirection: "row", alignItems: "center", flex: 1, }}>
             <Text style={[styles.UserNameText, { lineHeight: 20 }]}>
-              {userType == 1 ?
-                item.replybussiness.business_name : item?.get_user?.full_name
+              {userType == 2 ?
+                item.replybussiness.business_name : item?.reply_msg?.full_name
               }</Text>
             <Text style={{ color: 'grey', fontFamily: Fonts.ProximaNovaRegular, fontSize: Fontsize.fontFifteen, lineHeight: 20, }}>
               {type}
@@ -95,28 +95,21 @@ const Notification = (props, { navigation, route }) => {
   };
   return (
     <View style={styles.background}>
+      <Header title={"Notifications"} isback={isTrue} />
       <ScrollView>
-        <Header title={"Notifications"} isback={isTrue} />
         <View style={{ marginBottom: 50 }} >
-          <FlatList
-            data={messagesNotification}
-            keyExtractor={(item, index) => String(index)}
-            renderItem={({ item, index }) => NotificationItem({ item, index, type: "send a message", Tab: 1 })}
-            showsVerticalScrollIndicator={false}
-          />
-          <FlatList
-            data={commentNotification}
-            keyExtractor={(item, index) => String(index)}
-            renderItem={({ item, index }) => NotificationItem({ item, index, type: "send a Commment", Tab: 2 })}
-            showsVerticalScrollIndicator={false}
-          />
+          {messagesNotification?.map((item, index) => (
+            NotificationItem({ item, index, type: "send a message", Tab: 1 })
+          ))}
+          {commentNotification?.map((item, index) => (
+            NotificationItem({ item, index, type: "send a  Commment", Tab: 2 })
+          ))}
           {userType != 1 ?
-            <FlatList
-              data={bravoCardNotification}
-              keyExtractor={(item, index) => String(index)}
-              renderItem={({ item, index }) => NotificationItem({ item, index, type: "add a Bravo card" })}
-              showsVerticalScrollIndicator={false}
-            />
+            <>
+              {bravoCardNotification?.map((item, index) => (
+                NotificationItem({ item, index, type: "send a  Commment", Tab: 2 })
+              ))}
+            </>
             : null}
         </View>
       </ScrollView>

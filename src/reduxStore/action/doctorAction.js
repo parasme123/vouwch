@@ -15,6 +15,7 @@ export const postMessageReply = (data, typeOfData) => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(getMessageAndComment(typeOfData))
+            Toast.show(response.message);
             // console.log("res", res);
         }).catch(err => {
             console.log("postMessageReply", err);
@@ -64,9 +65,11 @@ export const getMessageAndComment = (id) => {
         }).then(async (res) => {
             let response = await res.json();
             // console.log("getMessageAndComment", response.data)
+            // Toast.show(response.message);
             dispatch(saveMessageAndComment(response.data))
         }).catch(err => {
             console.log("getMessageAndComment", err);
+            Toast.show(response.message);
         })
     }
 }
@@ -753,8 +756,7 @@ export const savegetnotification = (data) => {
     })
 };
 
-
-export const postLogout = (setloaderVisible,) => {
+export const postLogout = (setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.userLogout}`, {
@@ -763,9 +765,16 @@ export const postLogout = (setloaderVisible,) => {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${global.token}`
             },
-            body: JSON.stringify(data)
+            // body: JSON.stringify(d   ata)
         }).then(async (res) => {
+            await AsyncStorageHelper.removeMultiItemValue([Constants.USER_DATA, Constants.TOKEN])
             let response = await res.json();
+            console.log(response);
+            PageNavigation()
+            // await AsyncStorageHelper.removeItemValue(Constants.USER_DATA);
+            // await AsyncStorageHelper.removeItemValue(Constants.TOKEN);
+            dispatch(logOut())
+
             setloaderVisible(false);
             Toast.show(response.message);
         }).catch(err => {

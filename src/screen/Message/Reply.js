@@ -101,7 +101,10 @@ const Reply = (props, { route }) => {
       </View>
       {
         props.messageAndComment.length > 0 ? (
-          <Message dataMsg={props.messageAndComment} handleReply={handelMessageReply} />
+          <Message 
+          typeDetail={typeOfData }
+          dataMsg={props.messageAndComment}
+           handleReply={handelMessageReply} />
         ) : (
           <NoRecordFound />
         )

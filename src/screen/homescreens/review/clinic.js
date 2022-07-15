@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   downArrow: { height: 8, width: 12, paddingRight: 50 },
   DropDownView: {
     elevation: 5,
-    width: "90%",
+    width: "100%",
     zIndex: 5,
     justifyContent: 'center',
     paddingHorizontal: 10,
