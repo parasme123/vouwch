@@ -53,5 +53,17 @@ const NotificationStyle = StyleSheet.create({
   feedBackTypeBtnTxtActive: {
     color: Colors.white,
   },
+  headButton:{
+    flexDirection: 'row',
+    marginVertical: 10,
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 10,
+    elevation: 2,
+    backgroundColor: Colors.white,
+
+  }
 });
+
 export default NotificationStyle;

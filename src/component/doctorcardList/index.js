@@ -24,7 +24,7 @@ export default DoctorcardList = (props) => {
       ]}>
       <View style={{ flexDirection: 'row' }}>
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          <Image style={styles.doctorCardIcon} source={props.item.business_profile ? props.item.business_profile : imagepath.doctor} />
+          <Image style={styles.doctorCardIcon} source={props?.item?.business_profile ? props?.item?.business_profile : imagepath.doctor} />
         </View>
         {/* Hospital name and details */}
         <View style={styles.doctorDetails}>
