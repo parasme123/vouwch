@@ -66,7 +66,7 @@ const Menu = (props, { navigation }) => {
         contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container1}>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/contact-us-app', title: "Contact Us" })}
+            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/contact-us', title: "Contact Us" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
@@ -76,7 +76,7 @@ const Menu = (props, { navigation }) => {
             <Text style={styles.pageButtonText}>contact us</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/help-support-app', title: "Help & support" })}
+            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/help-support', title: "Help & support" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}

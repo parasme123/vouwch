@@ -31,8 +31,8 @@ export default Bravocard = (props) => {
                                     style={styles.headerIcon}
                                     resizeMode="contain"
                                     source={imagepath.crose}
-                                />  
-                                 
+                                />
+
                             </TouchableOpacity>
                         </View>
 
@@ -45,7 +45,7 @@ export default Bravocard = (props) => {
                                 return (
                                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                                         <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
-                            
+
                                     </View>
                                 )
                             }}
@@ -68,6 +68,25 @@ export default Bravocard = (props) => {
                         <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Message(props.item.doctor_id) }}>
                             {svg.messageCircle(30, 30, Colors.appcolor)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>Message</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.DoctorCardShareButton}
+                            onPress={() => {
+                                props.onpress_DoctorCard_Follow(props.item.id);
+                            }}>
+                            {
+                                props.Follows?.findIndex((data) => data.business_id === props.item.id) !== -1 ?
+                                    svg.followCircle(30, 30, Colors.white, Colors.appcolor) :
+                                    svg.followCircle(30, 30, Colors.black, Colors.white)
+                            }
+
+                            {props.Follows?.findIndex((data) => data.business_id === props.item.id) !== -1 ? (
+                                <Text style={styles.DoctorCardShareButtonText}>Following</Text>
+                            ) : (
+                                <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
+                                    Follow
+                                </Text>
+                            )}
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.id) }}>
                             {svg.shareCircle(30, 30, Colors.black, Colors.white)}

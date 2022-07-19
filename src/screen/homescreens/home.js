@@ -205,6 +205,8 @@ const Home = (props) => {
         onpress_Share={onShare}
         item={item}
         index={index}
+        onpress_DoctorCard_Follow={Follow_api}
+        Follows={props.followData}
       // onpress_Photo={}
       // onpress_Video={}
       />
@@ -265,39 +267,28 @@ const Home = (props) => {
           style={styles.headerbgImage}>
           {/* Header View of profile notification */}
           <View style={styles.notificationHeaserView}>
-            {/* navemenu Image */}
-            <TouchableOpacity onPress={() => navigation.navigate('menue')}>
+            {/* profile Notification */}
+            <TouchableOpacity
+              onPress={() => userType && userToken ? navigation.navigate('Reply', { isBack: true }) : handleLogin()}
+              style={[styles.notificationbutton, { marginRight: 10 }]}>
               <Image
-                source={Imagepath.navmenu}
-                resizeMode="contain"
+                source={Imagepath.massege}
+                resizeMode="stretch"
                 imageStyle={{}}
-                style={styles.headerIconMenue}
+                style={styles.notificationIcon}
               />
             </TouchableOpacity>
-            {/* profile Notification */}
-            <View style={styles.profileView}>
-              <TouchableOpacity
-                onPress={() => userType && userToken ? navigation.navigate('Reply', { isBack: true }) : handleLogin()}
-                style={styles.notificationbutton}>
-                <Image
-                  source={Imagepath.massege}
-                  resizeMode="stretch"
-                  imageStyle={{}}
-                  style={styles.notificationIcon}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => userType && userToken ? handleProfile() : handleLogin()}
-                style={styles.profileButton}>
-                <Image
-                  source={props.allUserPostData?.profile_picture == null ? Imagepath.doctor : { uri: props.allUserPostData?.profile_picture }}
-                  // source={{uri : userType?.profile_picture}}
-                  resizeMode="stretch"
-                  imageStyle={{}}
-                  style={styles.profileButton}
-                />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => userType && userToken ? handleProfile() : handleLogin()}
+              style={styles.notificationbutton}>
+              <Image
+                source={props.allUserPostData?.profile_picture == null ? Imagepath.doctor : { uri: props.allUserPostData?.profile_picture }}
+                // source={{uri : userType?.profile_picture}}
+                resizeMode="stretch"
+                imageStyle={{}}
+                style={styles.notificationbutton}
+              />
+            </TouchableOpacity>
           </View>
           {/* Search bar */}
           <View style={styles.searchView}>

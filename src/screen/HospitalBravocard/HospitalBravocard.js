@@ -24,7 +24,7 @@ import { handleNavigation } from '../../navigator/Navigator';
 import Message from '../../modal/Message';
 import { connect } from 'react-redux';
 import Comments from '../../modal/Comments';
-import { Bravocard } from '@component';
+import { Bravocard,BravocardList } from '@component';
 import {
   ApiCall,
   SortUrl,
@@ -49,12 +49,12 @@ const Hospotalbravocard = (props) => {
   const [msgDocId, setmsgDocId] = useState();
   const [messageText, setmessage] = useState();
   const [commentText, setcommentText] = useState();
-
+  const [Follows, setFollow] = useState([]);
   const MessagepropPage = DataCardiList => {
     setmsgDocId(DataCardiList);
     if (!userType) {
       Helper.loginPopUp(props.navigation);
-    }else {
+    } else {
       setReviewModalPopup(!modalVisible);
       setModalVisible(!modalVisible);
     }
@@ -126,12 +126,59 @@ const Hospotalbravocard = (props) => {
     actions.getBravoCardData(setloaderVisible);
   };
 
+   // Follow API
+   const FollowButton = item => {
+    let follows1 = [...Follows];
+    if (!follows1.includes(item)) {
+        //checking weather array contain the id
+        follows1.push(item); //adding to array because value doesnt exists
+        // Call_FollowApi(id);
+    } else {
+        follows1.splice(follows1.indexOf(item), 1); //deleting
+        // Call_FollowApi(id);
+    }
+    setFollow(follows1);
+};
+
+const Call_FollowApi = (id) => {
+    let { actions } = props;
+    let apiData = {
+        business_id: id,
+    }
+    actions.postFollow(apiData);
+};
+
+const Follow_api = (id) => {
+    if (!userType) {
+        Helper.loginPopUp(props.navigation);
+    }
+    // else if (userType?.user_type !== 1) {
+    //     alert('please login with personal account');
+    // } else 
+    {
+        Call_FollowApi(id);
+        FollowButton(id);
+    }
+};
+
 
   // Card DATA Content
   const Card = ({ item, index }) => {
     return (
-      <Bravocard
-        bravo_Card_name={item.name}
+      // <Bravocard
+      //   bravo_Card_name={item.name}
+      //   bravo_Card_Details={item.department}
+      //   onpress_Comment={CommentpropPage}
+      //   onpress_Message={MessagepropPage}
+      //   onpress_Share={onShare}
+      //   item={item}
+      //   // key={}
+      //   index={index}
+      // // onpress_Photo={}
+      // // onpress_Video={}
+      // />
+      <BravocardList
+      bravo_Card_name={item.name}
         bravo_Card_Details={item.department}
         onpress_Comment={CommentpropPage}
         onpress_Message={MessagepropPage}
@@ -139,8 +186,10 @@ const Hospotalbravocard = (props) => {
         item={item}
         // key={}
         index={index}
-      // onpress_Photo={}
-      // onpress_Video={}
+        Follows={Follows}
+        onpress_DoctorCard_Follow={Follow_api}
+      // // onpress_Photo={}
+      // // onpress_Video={}
       />
     );
   };
@@ -152,15 +201,12 @@ const Hospotalbravocard = (props) => {
       style={styles.image}>
       <Header title={"Bravo Card"} isback={true} />
       {/* Card of hospitals */}
-      <FlatList
-        data={props?.allBravoCardDataLIst}
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
-        style={{}}
-        renderItem={Card}
-        keyExtractor={(item, index) => String(index)}
-      />
-
+        <FlatList
+          data={props?.allBravoCardDataLIst}
+          showsVerticalScrollIndicator={false}
+          renderItem={Card}
+          keyExtractor={(item, index) => String(index)}
+        />
       {ReviewModalPopup && (
         <Message
           modalVisible={modalVisible}
