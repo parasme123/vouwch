@@ -11,6 +11,7 @@ import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
 import Constants from '../../Lib/Constants';
 import { handleNavigation } from '../../navigator/Navigator';
 import styles from './css';
+import { Colors, imagepath, svg } from '@common';
 export default Splash = ({ navigation }) => {
     useEffect(() => {
         setTimeout(() => {
@@ -38,11 +39,12 @@ export default Splash = ({ navigation }) => {
             source={Imagepath.background}
             resizeMode="cover"
             style={styles.bg}>
-            <Image
+            {/* <Image
                 style={styles.logo}
                 resizeMode="cover"
                 source={Imagepath.logo}
-            />
+            /> */}
+            {svg.vOWCHiCON(30, 30, Colors.appcolor)}
         </ImageBackground>
     );
 }

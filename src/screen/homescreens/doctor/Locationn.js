@@ -36,8 +36,8 @@ export default Locationn = (props) => {
                     color: '#929397',
                     paddingLeft: 15,
                     paddingVertical: 7,
-                    fontSize: Fontsize.fontNine,
                     fontFamily: Fonts.ProximaNovaRegular,
+                    fontSize: Fontsize.fontTwelve
                   }}>
                   {props?.data?.business?.service_location}
                 </Text>

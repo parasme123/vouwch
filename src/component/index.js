@@ -12,3 +12,6 @@ export const Searchresult = _Searchresult;
 
 import _NoRecordFound from './NoRecordFound';
 export const NoRecordFound = _NoRecordFound;
+
+import _BravocardList from './bravocardList';
+export const BravocardList = _BravocardList;

@@ -16,33 +16,49 @@ import { Colors, imagepath, svg } from '@common';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { Header, Fonts, String, Fontsize } from '@common';
 import { useNavigation } from '@react-navigation/native';
-
+import {
+  ApiCall,
+  SortUrl,
+  CustomLoader,
+  Constants,
+  AsyncStorageHelper,
+  Helper
+} from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getServices } from '../../reduxStore/action/doctorAction';
+import { getServices,  } from '../../reduxStore/action/doctorAction';
 const Profile = (props) => {
   const [isTrue, setisTrue] = useState(false);
   const [userData, setuserData] = useState(null);
   const isBackTrue = props.route.params ? props.route.params.isBackTrue : false;
-
   const navigation = useNavigation();
-
+  const [usedId, setUserId] = useState(null);    //userid ==id
+  const [loaderVisible, setloaderVisible] = useState(false);
   useEffect(() => {
+    // handleuserData();
     handleServicesData();
     setuserData(props.allUserPostData);
+    AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
+      if (value !== null) {
+        setUserId(value?.id);
+      }
+    })
   }, []);
 
   // user data
   const handleServicesData = () => {
     let { actions } = props;
-    actions.getServices();
+    actions.getServices(setloaderVisible);
   };
+
+  // console.log("usedId",usedId);
+  // console.log("props.allUserPostData1111111111111111111111111", props.allUserPostData);
+  // console.log("props.allUserPostData111111111111111props.userData1111111111", props.userData);
 
   return (
     <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
-
         <Header title={String.ProfileSetting} isback={isBackTrue} />
         <View
           style={{
@@ -172,6 +188,7 @@ const Profile = (props) => {
           </View>
         </View>
       </ScrollView>
+      <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>
   );
 };
@@ -262,7 +279,6 @@ const mapStateToProps = state => ({
   setData: state.doctor.setData,
   allUserPostData: state.doctor.allUserPostData
 });
-
 const ActionCreators = Object.assign(
   { getServices },
 );

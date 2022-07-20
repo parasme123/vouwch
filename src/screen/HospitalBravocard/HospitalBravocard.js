@@ -24,7 +24,7 @@ import { handleNavigation } from '../../navigator/Navigator';
 import Message from '../../modal/Message';
 import { connect } from 'react-redux';
 import Comments from '../../modal/Comments';
-import { Bravocard } from '@component';
+import { Bravocard, BravocardList } from '@component';
 import {
   ApiCall,
   SortUrl,
@@ -34,7 +34,7 @@ import {
   Helper
 } from '@lib';
 import { bindActionCreators } from 'redux';
-import { getBravoCardData, postMessge, postComment } from '../../reduxStore/action/doctorAction';
+import { getBravoCardData, postMessge, postComment  ,postFollow} from '../../reduxStore/action/doctorAction';
 
 const Hospotalbravocard = (props) => {
   const [loaderVisible, setloaderVisible] = useState(false);
@@ -49,12 +49,12 @@ const Hospotalbravocard = (props) => {
   const [msgDocId, setmsgDocId] = useState();
   const [messageText, setmessage] = useState();
   const [commentText, setcommentText] = useState();
-
+  const [Follows, setFollow] = useState([]);
   const MessagepropPage = DataCardiList => {
     setmsgDocId(DataCardiList);
     if (!userType) {
       Helper.loginPopUp(props.navigation);
-    }else {
+    } else {
       setReviewModalPopup(!modalVisible);
       setModalVisible(!modalVisible);
     }
@@ -89,19 +89,16 @@ const Hospotalbravocard = (props) => {
   };
 
   const PageNavigation = () => {
+    // props.navigation.navigate("Hospotalbravocard");
     handleNavigation({
       type: 'setRoot',
-      page: 'bottomtab',
+      page: 'Hospotalbravocard',
       navigation: navigation,
     });
   }
 
-
-
   useEffect(() => {
     Call_DataCardApi();
-    // console.log("props.getBravoCardData.name", props?.allBravoCardDataLIst.name);
-
     AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
       if (value !== null) {
       }
@@ -114,6 +111,7 @@ const Hospotalbravocard = (props) => {
       setuserType(value);
       // console.log('setuserType-------', userType);
     });
+
   }, []);
   const navigation = useNavigation();
   // share module
@@ -123,14 +121,51 @@ const Hospotalbravocard = (props) => {
   // DAta
   const Call_DataCardApi = () => {
     let { actions } = props;
-    actions.getBravoCardData();
+    actions.getBravoCardData(setloaderVisible);
   };
 
+  const Follow_api = (msgDocId) => {
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
+    }else{
+      Call_FollowApi(msgDocId);
+    }
+  };
+  const Call_FollowApi = (msgDocId) => {
+    let { actions } = props;
+    let apiData = {
+      business_id: msgDocId,
+    }
+    // console.log("apiData------------------------", apiData);
+    actions.postFollow(apiData);
+  };
+  // console.log('setuserType-------', userType);
+  const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
+    } else if (userType?.user_type !== 1) {
+      alert('please login with personal account');
+    } else {
+      navigation.navigate(navigationFor, { doctorid })
+    }
+  }
 
   // Card DATA Content
   const Card = ({ item, index }) => {
     return (
-      <Bravocard
+      // <Bravocard
+      //   bravo_Card_name={item.name}
+      //   bravo_Card_Details={item.department}
+      //   onpress_Comment={CommentpropPage}
+      //   onpress_Message={MessagepropPage}
+      //   onpress_Share={onShare}
+      //   item={item}
+      //   // key={}
+      //   index={index}
+      // // onpress_Photo={}
+      // // onpress_Video={}
+      // />
+      <BravocardList
         bravo_Card_name={item.name}
         bravo_Card_Details={item.department}
         onpress_Comment={CommentpropPage}
@@ -139,8 +174,11 @@ const Hospotalbravocard = (props) => {
         item={item}
         // key={}
         index={index}
-      // onpress_Photo={}
-      // onpress_Video={}
+        handleAddBravoCardOrReview={handleAddBravoCardOrReview}
+        onpress_DoctorCard_Follow={Follow_api}
+        Follows={props.followData}
+      // // onpress_Photo={}
+      // // onpress_Video={}
       />
     );
   };
@@ -155,12 +193,9 @@ const Hospotalbravocard = (props) => {
       <FlatList
         data={props?.allBravoCardDataLIst}
         showsVerticalScrollIndicator={false}
-        numColumns={2}
-        style={{}}
         renderItem={Card}
         keyExtractor={(item, index) => String(index)}
       />
-
       {ReviewModalPopup && (
         <Message
           modalVisible={modalVisible}
@@ -185,12 +220,15 @@ const Hospotalbravocard = (props) => {
 
 const mapStateToProps = state => ({
   allBravoCardDataLIst: state.doctor.allBravoCardDataLIst,
+  followData: state.doctor.followData,
 });
 
 const ActionCreators = Object.assign(
   { getBravoCardData },
   { postMessge },
-  { postComment }
+  { postComment },
+  {postFollow}
+
 );
 
 const mapDispatchToProps = dispatch => ({

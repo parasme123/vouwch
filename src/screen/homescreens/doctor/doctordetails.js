@@ -27,7 +27,7 @@ import Feedbackpage from './feedbackpage';
 import Fonts from '../../../common/Fonts';
 import {
   ApiCall,
-  SortUrl,
+  Helper,
   CustomLoader,
   Constants,
   AsyncStorageHelper,
@@ -46,13 +46,22 @@ const Doctordetails = (props, { route }) => {
   const [activeTab, setActiveTab] = useState(propActiveTab)
   const [userType, setuserType] = useState();
 
+//   const CommentpropPage = DataCardiList => {
+//     setmsgDocId(DataCardiList)
+//     if (!userType) {
+//       Helper.loginPopUp(props.navigation);
+//     } else {
+//       navigation.navigate('review', { doctorid: doctorId });
+//   }
+// }
 
   const AddReview = () => {
-    if (userType !== 2) {
-      navigation.navigate('review', { doctorid: doctorId });
+    // setmsgDocId(DataCardiList)
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
     } else {
-      alert('please login with personal account');
-    }
+      navigation.navigate('review', { doctorid: doctorId });
+  }
   };
 
   useEffect(() => {
@@ -61,10 +70,9 @@ const Doctordetails = (props, { route }) => {
       if (value !== null) {
       }
       setuserType(value?.user_type);
+      
     });
-    console.log("props.allDetailsDoc",props.allDetailsDoc);
   }, []);
-
   const Call_Details_Api = () => {
     let { actions } = props;
     const apiData = {
@@ -76,7 +84,7 @@ const Doctordetails = (props, { route }) => {
   return (
     <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
       <ScrollView
-      showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
         <View style={styles.container}>
           <Image
@@ -167,7 +175,7 @@ const Doctordetails = (props, { route }) => {
           <View
             style={{
               flexDirection: 'row',
-             marginHorizontal:24,
+              marginHorizontal: 24,
               marginTop: 50,
               justifyContent: 'space-between',
               backgroundColor: '#fff',
@@ -403,7 +411,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   tabviewDetails: {
-   marginHorizontal:24,
+    marginHorizontal: 24,
     backgroundColor: Colors.white,
     marginTop: 15,
     borderRadius: 10,

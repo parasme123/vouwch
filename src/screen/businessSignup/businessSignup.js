@@ -64,9 +64,7 @@ const BusinessSignup = (props) => {
 
   const Signin_Validators = () => {
     if (
-      Validators.checkNull('First Name', 2, firstname) &&
-      Validators.checkNull('Last Name', 2, lastname) &&
-      Validators.checkNull('Business Name', 2, BusinessName) &&
+      Validators.checkNull('First Name', 2, BusinessName) &&
       Validators.checkEmail('Email', email) &&
       Validators.checkNull('Password', 7, password)
     ) {
@@ -82,12 +80,11 @@ const BusinessSignup = (props) => {
     let { actions } = props;
     let apiData = {
       user_type: 'Business',
-      first_name: firstname,
-      last_name: lastname,
+      first_name: BusinessName,
+      last_name: "",
       email: email,
       password: password,
       confirm_password: ConfirmPassword,
-      business_name: BusinessName,
       device_type: 'Android',
       device_token: 'Business',
       category_id: CateId,
@@ -113,7 +110,7 @@ const BusinessSignup = (props) => {
             (Dodtors, Hospitals and clinics )
           </Text>
           <View style={styles.ImputView}>
-            <View style={styles.textInputView}>
+            {/* <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
                 {svg.manIcon(16, 18, Colors.imputborderColor)}
               </View>
@@ -127,8 +124,8 @@ const BusinessSignup = (props) => {
                 value={firstname}
                 keyboardType="default"
               />
-            </View>
-            <View style={styles.textInputView}>
+            </View> */}
+            {/* <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
                 {svg.manIcon(16, 18, Colors.imputborderColor)}
               </View>
@@ -137,12 +134,12 @@ const BusinessSignup = (props) => {
                 placeholder="Enter your last name"
                 style={styles.textInput}
                 onChangeText={text => {
-                  setlastname(text);
+                  // setlastname(text);
                 }}
                 value={lastname}
                 keyboardType="default"
               />
-            </View>
+            </View> */}
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
                 {svg.email(16, 18, Colors.imputborderColor)}

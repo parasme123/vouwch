@@ -1,119 +1,109 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, Image, FlatList, Dimensions, TouchableOpacity} from 'react-native';
-import {Header} from '@common';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, FlatList, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { Header } from '@common';
 import Imagepath from '../../common/imagepath';
-import String from '../../common/String';
+// import String from '../../common/String';
 import styles from './NotificationStyle';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { handelNotification } from '../../reduxStore/action/doctorAction';
 import Colors from '../../common/Colors';
+import { CustomLoader, } from '@lib';
+import Fontsize from '../../common/Fontsize';
+import Fonts from '../../common/Fonts';
+import moment from "moment";
+const { width, height } = Dimensions.get('window');
 
-const {width, height} = Dimensions.get('window');
-
-const Notification = (props,{navigation, route}) => {
-  // const [isback , setIsback] = useState(true);
-  const [NotificationList, setNotificationList] = useState([1, 2, 3, 4]);
-  const [activeFeedbackTab, setActiveFeedbackTab] = useState("p");
+const Notification = (props, { navigation, route }) => {
+  const [loaderVisible, setloaderVisible] = useState(false);
+  const [userType, setUserType] = useState()
   const isTrue = props.route.params ? props.route.params.isTrue : false;
- 
+  const [messagesNotification, setMessagesNotification] = useState([]);
+  const [commentNotification, setCommentNotification] = useState([]);
 
-  useEffect(()=>{
-    NotificationApi();
-    console.log("allNotification===================",props.allNotification);
-  },[])
   const NotificationApi = () => {
     let { actions } = props;
-    actions.handelNotification();
+    actions.handelNotification(setloaderVisible);
   };
 
+  useEffect(() => {
+    NotificationApi();
+  }, [])
 
-  const NotificationItem = ({item, index}) => {
-    return ( 
-      <View
-        style={{
-          flexDirection: 'row',
-          marginVertical: 10,
-          marginHorizontal: 10,
-          paddingHorizontal: 10,
-          paddingVertical: 10,
-          borderRadius: 10,
-          elevation: 2,
-          backgroundColor:Colors.white,
-        }}
-        key={index}>
-        <View style={{flex: 0.3}}>
-          <Image
-            style={styles.Imageicon}
-            resizeMode="cover"
-            source={Imagepath.doctor}
-          />
-        </View>
-        <View style={{flex: 0.8}}>
-          <Text style={[styles.UserNameText]}>
-            Barbara Michelle{' '}
-            <Text style={[styles.RequestText]}>confirmed your</Text>
-          </Text>
-          <Text style={[styles.RequestText]}>booking request </Text>
-          <View style={styles.VideoView}>
-            <Image
-              style={styles.Imagealram}
-              resizeMode="contain"
-              source={Imagepath.alarm_clock}
-            />
-            <Text style={[styles.PhotoText, {color: '#000'}]}>
-              {String.Alram}
-            </Text>
-          </View>
-        </View>
-      </View>
+  useEffect(() => {
+    if (props?.allNotification?.notifcationDta?.user_type == 1) {
+      // console.log("patient===================", props?.allNotification?.notifcationDta?.get_msg_reply)
+      setMessagesNotification(props?.allNotification?.notifcationDta?.get_msg_reply)
+      setCommentNotification(props?.allNotification?.notifcationDta?.get_commant_reply)
+    } else {
+      // console.log("business===================", props?.allNotification?.notifcationDta?.get_msg)
+      setMessagesNotification(props?.allNotification?.notifcationDta?.get_msg)
+      setCommentNotification(props?.allNotification?.notifcationDta?.get_commant)
+      setBravoCardNotification(props?.allNotification?.notifcationDta?.get_card)
+    }
+    setUserType(props?.allNotification?.notifcationDta?.user_type)
+  }, [props?.allNotification?.notifcationDta])
+  const [bravoCardNotification, setBravoCardNotification] = useState([]);
+
+  const NotificationItem = ({ item, index, type, Tab }) => {
+    return (
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("Reply", { actTab: Tab })}
+            style={styles.headButton}
+            key={index}>
+            <View style={{ flex: 0.3 }}>
+              <Image
+                style={styles.Imageicon}
+                resizeMode="cover"
+                source={userType == 1 ?
+                  { uri: item?.get_user?.profile_picture } : { uri: item?.get_user?.profile_picture }}
+              />
+            </View>
+            <View style={{ flex: 0.8 }}>
+              <View style={{ justifyContent: "space-between", flexDirection: "row", alignItems: "center", flex: 1, }}>
+                <Text style={[styles.UserNameText, { lineHeight: 20 }]}>
+                  {userType == 2 ?
+                    item.replybussiness.business_name : item?.get_user?.full_name
+                  }</Text>
+                <Text style={{ color: 'grey', fontFamily: Fonts.ProximaNovaRegular, fontSize: Fontsize.fontFifteen, lineHeight: 20, }}>
+                  {type}
+                </Text>
+              </View>
+              <Text style={[styles.RequestText]}>{item.detail}</Text>
+              <View style={styles.VideoView}>
+                <Image
+                  style={styles.Imagealram}
+                  resizeMode="contain"
+                  source={Imagepath.alarm_clock} />
+                <Text style={[styles.PhotoText, { color: Colors.black }]}>
+                  {moment().format('MMMM Do YYYY, h:mm: a', item.created_at)}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
     );
   };
   return (
     <View style={styles.background}>
-      <Header title={String.Notifications} isback={isTrue} />
-      {/* sub Notification tabb */}
-      <View style={{  flexDirection: "row",  marginVertical: 15, marginVertical:24 }}>
-        <TouchableOpacity onPress={() => setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
-          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "p" ? styles.feedBackTypeBtnTxtActive : null]}>Patient Feedback</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveFeedbackTab("c")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "c" ? styles.feedBackTypeBtnActive : null]}>
-          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "c" ? styles.feedBackTypeBtnTxtActive : null]}>Clinician Feedback</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveFeedbackTab("b")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "b" ? styles.feedBackTypeBtnActive : null]}>
-          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "b" ? styles.feedBackTypeBtnTxtActive : null]}>Bravo Card</Text>
-        </TouchableOpacity>
-      </View>
-      {activeFeedbackTab == "p" ?
-        < FlatList
-          data={activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data}
-          style={{ paddingHorizontal: 8 }}
-          renderItem={NotificationItem}
-          keyExtractor={(item, index) => String(index)}
-        /> : null
-
-      }
-
-      {activeFeedbackTab == "c" ?
-        <FlatList
-          data={props.data?.business?.get_card}
-          renderItem={NotificationItem}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) => String(index)}
-        /> : null
-      }
-      {/* <Text>{isTrue}</Text> */}
-      <View style={{flex: 1}}>
-        <View style={{marginBottom: 70}}>
-          <FlatList
-            data={props?.allNotification?.notifcationDta?.get_commant_reply}    /////////////////see this first
-            keyExtractor={item => item}
-            renderItem={NotificationItem}
-            showsVerticalScrollIndicator={false}
-          />
+      <Header title={"Notifications"} isback={isTrue} />
+      <ScrollView>
+        <View style={{ marginBottom: 50 }} >
+          {messagesNotification?.map((item, index) => (
+            NotificationItem({ item, index, type: "send a message", Tab: 1 })
+          ))}
+          {commentNotification?.map((item, index) => (
+            NotificationItem({ item, index, type: "send a commment", Tab: 2 })
+          ))}
+          {/* {userType != 1 ? */}
+          {/* <> */}
+          {bravoCardNotification?.map((item, index) => (
+            NotificationItem({ item, index, type: "send a bravo card", })
+          ))}
+          {/* </> */}
+          {/* : null} */}
         </View>
-      </View>
+      </ScrollView>
+      <CustomLoader loaderVisible={loaderVisible} />
     </View>
   );
 };

@@ -15,6 +15,8 @@ export const postMessageReply = (data, typeOfData) => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(getMessageAndComment(typeOfData))
+            Toast.show(response.message);
+            // console.log("res", res);
         }).catch(err => {
             console.log("postMessageReply", err);
         })
@@ -86,9 +88,11 @@ export const getMessageAndComment = (id) => {
         }).then(async (res) => {
             let response = await res.json();
             // console.log("getMessageAndComment", response.data)
+            // Toast.show(response.message);
             dispatch(saveMessageAndComment(response.data))
         }).catch(err => {
             console.log("getMessageAndComment", err);
+            Toast.show(response.message);
         })
     }
 }
@@ -144,7 +148,7 @@ export const saveBravoCard = (data) => {
 //     }
 // };
 
-export const postDoctorSearch = (data, pageNo = 1) => {
+export const postDoctorSearch = (data, pageNo = 1,) => {
     return async dispatch => {
         if (pageNo == 1) {
             dispatch(saveDoctorData([]))
@@ -187,17 +191,20 @@ export const getHomeData = () => {
     }
 };
 
-export const getBravoCardData = () => {
+export const getBravoCardData = (setloaderVisible) => {
     return async dispatch => {
+        setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.getAllBravoCard}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
             }
         }).then(async (res) => {
+            setloaderVisible(false);
             let response = await res.json();
             dispatch(saveBravoCard(response.data.cards))
         }).catch(err => {
+            setloaderVisible(false);
             console.log("getBravoCardData", err);
         })
     }
@@ -217,10 +224,10 @@ export const postFollow = (data) => {
             if (response.status) {
                 dispatch(getFollowData());
             }
+            console.log(response);
         }).catch(err => {
             console.log("postFollow", err);
         })
-
     }
 };
 
@@ -238,6 +245,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 dispatch(setUserData(response.data))
+                // dispatch(saveUserProfile(response.data))
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token;
@@ -477,7 +485,7 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
-
+                Toast.show(response.message);
             } else {
                 setloaderVisible(false);
                 Toast.show(response.message);
@@ -666,8 +674,9 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
 };
 
 
-export const getServices = () => {
+export const getServices = (setloaderVisible) => {
     return async dispatch => {
+        setloaderVisible(true);
         await fetch(`${URL.baseUrl}${URL.servicesList}`, {
             method: "GET",
             headers: {
@@ -675,11 +684,13 @@ export const getServices = () => {
                 "Authorization": `Bearer ${global.token}`
             },
         }).then(async (res) => {
+            setloaderVisible(false);
             let response = await res.json();
             if (response.status) {
                 dispatch(saveServices(response.data?.services));
             }
         }).catch(err => {
+            setloaderVisible(false);
             console.log("getServices", err);
             Toast.show("something went wrong");
         })
@@ -709,11 +720,12 @@ export const PostUserProfile = (data, setloaderVisible = () => { }, callForFeedb
             let response = await res.json();
             // console.log("response+++++++++++++++++++++++++++++++++++", response);
             // setloaderVisible(false);
+            // Toast.show(response.message);
             if (response.status) {
                 if (callForFeedback) {
-                    dispatch(saveFeedBackUserProfile(response.data[0]));
+                    dispatch(saveFeedBackUserProfile(response.data));
                 } else {
-                    dispatch(saveUserProfile(response.data[0]));
+                    dispatch(saveUserProfile(response.data));
                 }
             }
             // Toast.show(response.message);
@@ -768,31 +780,31 @@ export const savegetnotification = (data) => {
     })
 };
 
+export const postLogout = (setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await fetch(`${URL.baseUrl}${URL.userLogout}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            // body: JSON.stringify(d   ata)
+        }).then(async (res) => {
+            await AsyncStorageHelper.removeMultiItemValue([Constants.USER_DATA, Constants.TOKEN])
+            let response = await res.json();
+            console.log(response);
+            PageNavigation()
+            // await AsyncStorageHelper.removeItemValue(Constants.USER_DATA);
+            // await AsyncStorageHelper.removeItemValue(Constants.TOKEN);
+            dispatch(logOut())
 
-// export const handelNotification = (setloaderVisible) => {
-//     return async dispatch => {
-//         // setloaderVisible(true);
-//         await fetch(`${URL.baseUrl}${URL.notification}`, {
-//             method: "GET",
-//             headers: {
-//                 "Content-type": "application/json",
-//             }
-
-//         }).then(async (res) => {
-//             let response = await res.json();
-//             dispatch(saveNotification(response))
-//             // console.log("res===", response);           //console remove after use
-//             // setloaderVisible(false);
-//         }).catch(err => {
-//             console.log("getCategories", err);
-//             // setloaderVisible(false);
-//         })
-//     }
-// };
-
-// export const saveNotification = (data) => {
-//     return ({
-//         type: NOTIFICATION,
-//         payload: data
-//     })
-// };
+            setloaderVisible(false);
+            Toast.show(response.message);
+        }).catch(err => {
+            console.log("postLogout", err);
+            setloaderVisible(false);
+            Toast.show("something went wrong");
+        })
+    }
+};

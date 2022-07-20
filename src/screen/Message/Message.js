@@ -38,11 +38,12 @@ const Message = (props) => {
             {item.detail}
           </Text>
           {/* //Repply  */}
-          {item?.reply_msg || item?.reply_comm_id == "" ?
+          {item?.reply_msg ?
             <View style={styles.ReplyForword}>
               <Image style={styles.replyForwordIcon} source={imagepath.forword} />
               <View style={styles.forwordView}>
-                <Text style={styles.forwordText}> {item?.reply_msg}</Text>
+                <Text style={styles.namedoctor}>{item?.reply_msg?.full_name}</Text>
+                <Text style={styles.forwordText}> {item?.reply_msg?.reply_msg}</Text>
               </View>
             </View> :
             <TouchableOpacity
@@ -53,7 +54,14 @@ const Message = (props) => {
             </TouchableOpacity>
           }
         </View>
-        {Reply == item.id && <MessageBox item={item} handleReply={props.handleReply} />}
+        {
+          Reply == item.id &&
+          <MessageBox 
+          item={item} 
+          typeDetail={props.typeDetail}
+          handleReply={props.handleReply} />
+
+        }
       </View>
     );
   };

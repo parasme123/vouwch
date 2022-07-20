@@ -3,45 +3,32 @@ import { Fonts, Colors, Fontsize } from "@common";
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  centeredView1: {
+  // Doctor Cards
+  addBravoCardBtn: {
+    backgroundColor: Colors.appcolor,
+    marginTop: 16,
     flex: 1,
+    padding: 5,
+    borderRadius: 20,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.transparentBlack,
-    opacity: 5,
+
   },
-  centeredView2: {
-    width: '92%',
-    height: 360,
-    borderRadius: 15,
-    alignSelf: 'center',
-    backgroundColor: Colors.white,
-    elevation: 1,
-  },
-  headerView: {
-    height: 50,
-    backgroundColor: Colors.bottonColors,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-  },
-  headerText: {
+  addBravoCardTxt: {
     color: Colors.white,
-    fontSize: Fontsize.fontFifteen,
+    textAlign: 'center',
+    color: Colors.white,
+    fontSize: Fontsize.small,
+    lineHeight: 20,
+    fontFamily: Fonts.ProximaNovaMedium,
+    marginLeft: 4
   },
-  headerIcon: {
-    height: 30,
-    width: 30,
-  },
-  cardContainer: {
+  doctorCardContainer: {
     borderRadius: 10,
-    padding: 15,
-    margin: 10,
-    // width: SCREEN_WIDTH / 2 - 20,
-    width: 280,
+    padding: 16,
+    margin: 24,
+    // flex: 1,
   },
   cardIconView: {
     height: 100,
@@ -53,15 +40,94 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   cardIcon: { height: 78, width: 78, borderRadius: 100, alignSelf: 'center' },
-  shareCardView: { flexDirection: 'row', marginTop: 10 },
-  shareButton: { alignItems: 'center', flex: 1 },
-  shareButtonImage: { height: 30, width: 30 },
-  shareButtonText: {
+  DoctorCardShareView: {
+    flexDirection: 'row',
+    // justifyContent: 'space-around',
+    marginTop: 24,
+    marginBottom: 10
+  },
+  DoctorCardShareButton: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  DoctorCardShareButtonIcon: {
+    height: 30,
+    width: 30,
+  },
+  //
+  DoctorCardShareButtonText: {
     color: Colors.grey,
     fontSize: Fontsize.small,
     lineHeight: 15,
     fontFamily: Fonts.ProximaNovaRegular,
-    marginTop: 5,
+    marginTop: 10,
+  },
+  doctorDetails: { flex: 3, marginLeft: 24,justifyContent:"center", },
+  doctorname: {
+    color: Colors.black,
+    fontSize: Fontsize.fontFifteen,
+    lineHeight: 25,
+    fontFamily: Fonts.ProximaNovaBold,
+    marginBottom: 5,
+    marginLeft: 5,
+    alignContent:"center"
+  },
+  doctorProfile: {
+    color: Colors.appcolor,
+    fontSize: Fontsize.small,
+    lineHeight: 15,
+    fontFamily: Fonts.ProximaNovaRegular,
+    marginLeft: 5,
+  },
+  ratingViewRed: {
+    flexDirection: 'row',
+    marginTop: 15,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  ratingViewmain: {
+    backgroundColor: Colors.white,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 10,
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+  },
+  ratingText: {
+    color: Colors.black,
+    fontSize: Fontsize.fontTwelve,
+    lineHeight: 15,
+    fontFamily: Fonts.ProximaNovaMedium,
+    marginLeft: 10,
+    flex: 3,
+  },
+  clinicianReview: {
+    color: Colors.darkGrey,
+    fontSize: Fontsize.fontTwelve,
+    lineHeight: 15,
+    fontFamily: Fonts.ProximaNovaRegular,
+  },
+  yellowstarview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchName: {
+    fontSize: Fontsize.fontTwenty,
+    lineHeight: 25,
+    color: Colors.black,
+  },
+  searchkey: {
+    backgroundColor: '#fff',
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    padding: 10,
+    paddingLeft: 20,
+    elevation: 9,
+    flex: 1,
+    marginHorizontal: 15,
   },
   cardHospitalView: {},
   hospitalName: {
@@ -91,8 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.appcolor,
     borderRadius: 10,
     flex: 1,
-    paddingHorizontal: 5,
-    paddingVertical:5
+    paddingVertical: 5,
   },
   videoButton: {
     justifyContent: 'center',
@@ -102,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flex: 1,
     paddingVertical: 5,
-    marginHorizontal: 7,
+    marginHorizontal: 10,
   },
   cardPhotoImage: { height: 11.5, width: 13 },
   cardVideoText: {
@@ -113,7 +178,7 @@ const styles = StyleSheet.create({
     fontSize: Fontsize.small,
     lineHeight: 15,
     fontFamily: Fonts.ProximaNovaRegular,
-    paddingLeft: 5,textAlign:"center"
+    paddingLeft: 5,
   },
   cardVideoIcon: { height: 11.5, width: 13 },
   // Doctor Cards
@@ -133,12 +198,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  doctorCardIcon: {
-    height: 100,
-    width: 100,
-    borderRadius: 100,
-    alignSelf: 'center',
-  },
+  // doctorCardIcon: {
+  //   height: 100,
+  //   width: 100,
+  //   borderRadius: 100,
+  //   alignSelf: 'center',
+  // },
   DoctorCardShareView: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -154,7 +219,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaRegular,
     marginTop: 10,
   },
-  doctorDetails: {},
   doctorname: {
     color: Colors.black,
     fontSize: Fontsize.fontFifteen,
@@ -215,5 +279,42 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 15,
   },
+
+  //Modal
+
+  centeredView1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.transparentBlack,
+    opacity: 5,
+  },
+  centeredView2: {
+    width: '92%',
+    height: 360,
+    borderRadius: 15,
+    alignSelf: 'center',
+    backgroundColor: Colors.white,
+    elevation: 1,
+  },
+  headerView: {
+    height: 50,
+    backgroundColor: Colors.bottonColors,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  headerText: {
+    color: Colors.white,
+    fontSize: Fontsize.fontFifteen,
+  },
+  headerIcon: {
+    height: 30,
+    width: 30,
+  },
 });
+
 export default styles;

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   notificationHeaserView: {
     marginHorizontal: 15,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: "flex-end",
     alignItems: 'center',
     marginVertical: 20,
     flex: 1,

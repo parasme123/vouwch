@@ -46,6 +46,8 @@ export default class CustomDropDown extends React.Component {
                                     <Text style={[styles.dropDownText, { color: this.props.placeholder == item.label ? Colors.bottonColors : '#000000', paddingHorizontal: 10, }]}>{item.value}</Text>
 
                                     <Text style={[styles.dropDownText1, { color: this.props.placeholder == item.label ? Colors.bottonColors : '#000000' }]}>{item.label}</Text>
+
+                                    <Text style={[styles.dropDownText1, { color: this.props.placeholder == item.SlectId ? Colors.bottonColors : '#000000' }]}>{item.SlectId}</Text>
                                 </TouchableOpacity>
                             );
                         }} />
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     arrowPositionView: { position: "absolute", top: 0, bottom: 0, right: 0, justifyContent: "center", alignItems: "center", },
     downarrowIcon: { height: 14, width: 14, resizeMode: "contain", },
     dropDownFlatListCss: { borderTopColor: Colors.grey, borderTopWidth: 0, maxHeight: 250 },
-    dropDownFlatListItemCss: { alignItems: 'center', flexDirection: 'row', paddingVertical: 15, paddingLeft: 5, borderBottomWidth: 0.5, borderBottomColor: 'grey' },
+    dropDownFlatListItemCss: { alignItems: 'center', flexDirection: 'row', paddingVertical: 15, paddingLeft: 5, borderBottomWidth: 0.5, borderBottomColor: 'grey' , },
     redstar: { height: 20, width: 20, },
 
 })
