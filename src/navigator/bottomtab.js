@@ -29,7 +29,6 @@ export const Bottomtab = props => {
   useEffect(() => {
     if (isFocused) {
       AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
-        console.log("value", value);
         if (value !== null) {
           setuserRcord(value);
           props.actions.PostUserProfile(value.id);
