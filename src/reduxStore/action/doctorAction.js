@@ -1,4 +1,4 @@
-import { DOCTORRECORD, SAVEFOLLOWDATA, FEEDBACKUSERDATA, LOGOUT, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
+import { DOCTORRECORD, SAVEALLCOUNTRY, SAVEFOLLOWDATA, FEEDBACKUSERDATA, LOGOUT, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
@@ -19,6 +19,29 @@ export const postMessageReply = (data, typeOfData) => {
             console.log("postMessageReply", err);
         })
     }
+}
+
+export const getAllCountry = () => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${URL.getAllCountry}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+            },
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(saveAllCountry(response.data))
+        }).catch(err => {
+            console.log("getAllCountry", err);
+        })
+    }
+}
+
+export const saveAllCountry = (data) => {
+    return ({
+        type: SAVEALLCOUNTRY,
+        payload: data
+    })
 }
 
 export const getFollowData = () => {

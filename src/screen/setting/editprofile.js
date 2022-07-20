@@ -15,7 +15,7 @@ import { String, Header, Fonts, imagepath, Colors, } from '@common';
 import { Validators } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { HandlDocProfil, getCategories } from '../../reduxStore/action/doctorAction';
+import { HandlDocProfil, getCategories, getAllCountry } from '../../reduxStore/action/doctorAction';
 import { handleNavigation } from '../../navigator/Navigator';
 import Picker from '../../modal/picker';
 import Fontsize from '../../common/Fontsize';
@@ -36,9 +36,9 @@ const Editprofile = (props) => {
 
   useEffect(() => {
     console.log("props.setData", props);
-        setAboutus(props.setData?.business?.about_us);
-        setLocation(props.setData?.business?.service_location);
-        setHours(props.setData?.business?.service_hours);
+    setAboutus(props.setData?.business?.about_us);
+    setLocation(props.setData?.business?.service_location);
+    setHours(props.setData?.business?.service_hours);
   }, [props.setData]);
 
   const chexkBox = (item) => {
@@ -68,6 +68,7 @@ const Editprofile = (props) => {
   const Get_Categroy = () => {
     let { actions } = props;
     actions.getCategories();
+    actions.getAllCountry();
   };
 
   const Account_SettingApi = () => {
@@ -119,6 +120,28 @@ const Editprofile = (props) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}>
         {/* container */}
+
+        {/* details */}
+        <Text style={styles.textInputHeader}>Services</Text>
+        {/*      placeholderTextColor={Colors.imputborderColor} */}
+        <TouchableOpacity
+          onPress={() => ListModal()}
+          style={{
+            marginHorizontal: 20,
+            borderColor: Colors.imputborderColor,
+            borderWidth: 1,
+            borderRadius: 10,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: 45,
+            paddingHorizontal: 10
+          }}>
+
+          <Text style={styles.serviceText}>{mark.length > 0 ? mark.map(item => item.name).join(', ') : "Select Services"}</Text>
+
+          <Image style={styles.arrowDown} source={imagepath.plus} />
+        </TouchableOpacity>
 
         {/* details */}
         <Text style={styles.textInputHeader}>Services</Text>
@@ -229,7 +252,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     paddingLeft: 10,
     fontFamily: Fonts.ProximaNovaMedium,
-    textAlign:"center"
+    textAlign: "center"
 
   },
   button: {
@@ -258,11 +281,13 @@ const mapStateToProps = state => ({
   setData: state.doctor.setData,
   allCategories: state.doctor.allCategories,
   allServices: state.doctor.allServices,
+  allCountries: state.doctor.allCountries
 });
 
 const ActionCreators = Object.assign(
   { HandlDocProfil },
   { getCategories },
+  { getAllCountry }
 );
 
 const mapDispatchToProps = dispatch => ({

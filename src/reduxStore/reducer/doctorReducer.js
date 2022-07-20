@@ -1,8 +1,9 @@
-import { BRAVOCARD, SAVEFOLLOWDATA, FEEDBACKUSERDATA, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, NOTIFICATION, CATEGORIES, USERDATA, DOCTORDETAILS, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from '../action/types';
+import { BRAVOCARD, SAVEFOLLOWDATA, SAVEALLCOUNTRY, FEEDBACKUSERDATA, DOCTORRECORD, DOCTORRECORDCONCATE, HOMEDATA, NOTIFICATION, CATEGORIES, USERDATA, DOCTORDETAILS, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from '../action/types';
 
 const initialState = {
     doctorList: [],
     followData: [],
+    allCountries: [],
     allHomeData: {},
     allBravoCardDataLIst: [],
     allCategories: {},
@@ -23,6 +24,8 @@ const ChangeTheNumber = (state = initialState, action) => {
             return { ...state, doctorList: action.payload, lastPage: 1 };
         case SAVEFOLLOWDATA:
             return { ...state, followData: action.payload }
+        case SAVEALLCOUNTRY:
+            return { ...state, allCountries: action.payload }
         case MESSAGEANDCOMMENT:
             return { ...state, messageAndComment: action.payload }
         case DOCTORRECORDCONCATE:
