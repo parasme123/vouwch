@@ -22,19 +22,23 @@ const Picker = (props) => {
         style={styles.dataListView}>
         <Text style={styles.datalistText}>
           {item.name}</Text>
-        <TouchableOpacity
-          onPress={() => props.chexkBoxFnc(item.id)}
-          style={{ paddingRight: 5 }}>
-          <Image
-            source={
-              props.slectData.findIndex((data) => data.id == item.id) !== -1
-                ? imagepath.yes
-                : imagepath.check
-            }
-            style={styles.checkbox}
-            resizeMode="cover"
-          />
-        </TouchableOpacity>
+        {
+          props.showCheckBox ? (
+            <TouchableOpacity
+              onPress={() => props.chexkBoxFnc({ id: item.id, name: item.name })}
+              style={{ paddingRight: 5 }}>
+              <Image
+                source={
+                  props.slectData.findIndex((data) => data.id == item.id) !== -1
+                    ? imagepath.yes
+                    : imagepath.check
+                }
+                style={styles.checkbox}
+                resizeMode="cover"
+              />
+            </TouchableOpacity>
+          ) : null
+        }
 
       </TouchableOpacity>
     )
@@ -51,7 +55,7 @@ const Picker = (props) => {
       <View style={styles.centeredView1}>
         <View style={styles.centeredView2}>
           <View style={styles.headerView}>
-            <Text style={styles.headerText}>Services</Text>
+            <Text style={styles.headerText}>{props.listTitle}</Text>
             <TouchableOpacity
               onPress={() => props.Hidemodal()}
               style={styles.headerIcon}>

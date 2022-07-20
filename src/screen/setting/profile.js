@@ -26,7 +26,7 @@ import {
 } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getServices,  } from '../../reduxStore/action/doctorAction';
+import { getServices, } from '../../reduxStore/action/doctorAction';
 const Profile = (props) => {
   const [isTrue, setisTrue] = useState(false);
   const [userData, setuserData] = useState(null);
