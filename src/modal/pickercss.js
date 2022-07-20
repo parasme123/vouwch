@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
       paddingHorizontal:10,
       borderBottomWidth:0.5,
       borderColor:Colors.grey,
-      padding:8,
+      paddingVertical:12,
       justifyContent:"space-between",
     },
     datalistText: {

@@ -15,7 +15,7 @@ import { String, Header, Fonts, imagepath, Colors, } from '@common';
 import { Validators } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { HandlDocProfil, getCategories } from '../../reduxStore/action/doctorAction';
+import { HandlDocProfil, getCategories, getAllCountry, getStateAndCity } from '../../reduxStore/action/doctorAction';
 import { handleNavigation } from '../../navigator/Navigator';
 import Picker from '../../modal/picker';
 import Fontsize from '../../common/Fontsize';
@@ -33,29 +33,61 @@ const Editprofile = (props) => {
   const navigation = useNavigation();
   const [editText, seteditText] = useState(false);
   const [mark, setMark] = useState([]);
+  const [countryModalVisible, setCountryModalVisible] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState([]);
+  const [stateModalVisible, setStateModalVisible] = useState(false);
+  const [selectedState, setSelectedState] = useState([]);
+  const [cityModalVisible, setCityModalVisible] = useState(false);
+  const [selectedCity, setSelectedCity] = useState([]);
   // console.log(mark,"mark");
 
   useEffect(() => {
-    // console.log("props.setData", props);
-        setAboutus(props.setData?.business?.about_us);
-        setLocation(props.setData?.business?.service_location);
-        setHours(props.setData?.business?.service_hours);
+    // console.log("props.setData", props.setData);
+    setAboutus(props.setData?.business?.about_us);
+    setLocation(props.setData?.business?.service_location);
+    setHours(props.setData?.business?.service_hours);
+    setSelectedCountry([{ name: props.setData?.business?.country }])
+    setSelectedState([{ name: props.setData?.business?.state }])
+    setSelectedCity([{ name: props.setData?.business?.city }])
   }, [props.setData]);
 
   const chexkBox = (item) => {
     let follows1 = [...mark];
-    if (!follows1.includes(item)) {
-      //checking weather array contain the id
-      follows1.push(item); //adding to array because value doesnt exists
-      // Call_FollowApi(id);
+    if (follows1.findIndex(data => data.id == item.id) !== -1) {
+      follows1.splice(follows1.findIndex(data => data.id == item.id), 1);
     } else {
-      follows1.splice(follows1.indexOf(item), 1); //deleting
-      // Call_FollowApi(id);
+      follows1.push(item);
     }
     setMark(follows1);
-    // console.log(mark, "mark");
   };
 
+  const addSelectedCountry = (item) => {
+    setSelectedCountry([item]);
+    setSelectedState([]);
+    setCountryModalVisible(!countryModalVisible);
+    getStateCity(1, item.id);
+  }
+
+  const addSelectedState = (item) => {
+    setSelectedState([item]);
+    setSelectedCity([]);
+    setStateModalVisible(!stateModalVisible);
+    getStateCity(2, item.id);
+  }
+
+  const addSelectedCity = (item) => {
+    setSelectedCity([item]);
+    setCityModalVisible(!cityModalVisible);
+  }
+
+  const getStateCity = (findType, itemId) => {
+    let { actions } = props;
+    let apiData = {
+      find_type: findType,
+      c_s_id: itemId
+    }
+    actions.getStateAndCity(apiData);
+  }
 
   useEffect(() => {
     Get_Categroy();
@@ -69,6 +101,7 @@ const Editprofile = (props) => {
   const Get_Categroy = () => {
     let { actions } = props;
     actions.getCategories();
+    actions.getAllCountry();
   };
 
   const Account_SettingApi = () => {
@@ -88,9 +121,11 @@ const Editprofile = (props) => {
       bussiness_hours: Hours,
       location: Location,
       about_us: Aboutus,
+      country: selectedCountry[0]?.name,
+      state: selectedState[0]?.name,
+      city: selectedCity[0]?.name
     };
-    // console.log("apiData", apiData)
-    // return;
+    console.log("apiData", apiData);
     actions.HandlDocProfil(apiData, () => setloaderVisible(), () => PageNavigation());
 
   };
@@ -101,6 +136,19 @@ const Editprofile = (props) => {
       navigation: navigation,
     });
   }
+
+  const countryModal = () => {
+    setCountryModalVisible(!countryModalVisible);
+  }
+
+  const stateModal = () => {
+    setStateModalVisible(!stateModalVisible);
+  }
+
+  const cityModal = () => {
+    setCityModalVisible(!cityModalVisible);
+  }
+
   return (
     <ImageBackground source={imagepath.background} style={styles.imagebg}>
       {/*  Header*/}
@@ -121,26 +169,30 @@ const Editprofile = (props) => {
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}>
         {/* container */}
 
-        {/* details */}
         <Text style={styles.textInputHeader}>Services</Text>
-        {/*      placeholderTextColor={Colors.imputborderColor} */}
         <TouchableOpacity
           onPress={() => ListModal()}
-          style={{
-            marginHorizontal: 20,
-            borderColor: Colors.imputborderColor,
-            borderWidth: 1,
-            borderRadius: 10,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            height: 45,
-            paddingHorizontal: 10
-          }}>
-
+          style={styles.listModalBtn}>
           <Text style={styles.serviceText}>{mark.length > 0 ? mark.map(item => item.name).join(', ') : "Select Services"}</Text>
-
           <Image style={styles.arrowDown} source={imagepath.plus} />
+        </TouchableOpacity>
+
+        <Text style={styles.textInputHeader}>Select Country</Text>
+        <TouchableOpacity onPress={() => countryModal()}
+          style={styles.listModalBtn}>
+          <Text style={styles.serviceText}>{selectedCountry.length > 0 ? selectedCountry.map(item => item.name).join(', ') : "Select Country"}</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.textInputHeader}>Select State</Text>
+        <TouchableOpacity onPress={() => stateModal()}
+          style={styles.listModalBtn}>
+          <Text style={styles.serviceText}>{selectedState.length > 0 ? selectedState.map(item => item.name).join(', ') : "Select State"}</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.textInputHeader}>Select City</Text>
+        <TouchableOpacity onPress={() => cityModal()}
+          style={styles.listModalBtn}>
+          <Text style={styles.serviceText}>{selectedCity.length > 0 ? selectedCity.map(item => item.name).join(', ') : "Select City"}</Text>
         </TouchableOpacity>
 
         <Text style={styles.textInputHeader}>Service Location</Text>
@@ -195,16 +247,59 @@ const Editprofile = (props) => {
           data={props.allServices}
           slectData={mark}
           chexkBoxFnc={chexkBox}
+          showCheckBox={true}
+          listTitle={"Services"}
         />
       )}
-        <CustomLoader loaderVisible={loaderVisible} />
+
+      <Picker
+        modalVisible={countryModalVisible}
+        Hidemodal={countryModal}
+        data={props.allCountries}
+        slectData={selectedCountry}
+        chexkBoxFnc={addSelectedCountry}
+        showCheckBox={false}
+        listTitle={"Countries"}
+      />
+
+      <Picker
+        modalVisible={stateModalVisible}
+        Hidemodal={stateModal}
+        data={props.allState}
+        slectData={selectedState}
+        chexkBoxFnc={addSelectedState}
+        showCheckBox={false}
+        listTitle={"Countries"}
+      />
+
+      <Picker
+        modalVisible={cityModalVisible}
+        Hidemodal={cityModal}
+        data={props.allCity}
+        slectData={selectedCity}
+        chexkBoxFnc={addSelectedCity}
+        showCheckBox={false}
+        listTitle={"Cities"}
+      />
+
+      <CustomLoader loaderVisible={loaderVisible} />
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   imagebg: { flex: 1 },
-
+  listModalBtn: {
+    marginHorizontal: 20,
+    borderColor: Colors.imputborderColor,
+    borderWidth: 1,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 45,
+    paddingHorizontal: 10
+  },
   headerView2: { position: 'absolute', top: 15, right: 10 },
   headerbuttonIcon: { height: 30, width: 30 },
   textInputHeader: {
@@ -231,7 +326,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     paddingLeft: 10,
     fontFamily: Fonts.ProximaNovaMedium,
-    textAlign:"center"
+    textAlign: "center"
 
   },
   button: {
@@ -260,11 +355,16 @@ const mapStateToProps = state => ({
   setData: state.doctor.setData,
   allCategories: state.doctor.allCategories,
   allServices: state.doctor.allServices,
+  allCountries: state.doctor.allCountries,
+  allState: state.doctor.allState,
+  allCity: state.doctor.allCity
 });
 
 const ActionCreators = Object.assign(
   { HandlDocProfil },
   { getCategories },
+  { getAllCountry },
+  { getStateAndCity }
 );
 
 const mapDispatchToProps = dispatch => ({

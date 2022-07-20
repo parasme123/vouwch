@@ -1,4 +1,4 @@
-import { DOCTORRECORD, SAVEFOLLOWDATA, FEEDBACKUSERDATA, LOGOUT, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
+import { DOCTORRECORD, SAVEALLCOUNTRY, SAVEALLSTATE, SAVEALLCITY, SAVEFOLLOWDATA, FEEDBACKUSERDATA, LOGOUT, DOCTORRECORDCONCATE, HOMEDATA, BRAVOCARD, CATEGORIES, NOTIFICATION, DOCTORDETAILS, USERDATA, DOCTORLIST, SERVICESLIST, USERGETDATA, MESSAGEANDCOMMENT } from './types';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
@@ -21,6 +21,63 @@ export const postMessageReply = (data, typeOfData) => {
             console.log("postMessageReply", err);
         })
     }
+}
+
+export const getAllCountry = () => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${URL.getAllCountry}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+            },
+        }).then(async (res) => {
+            let response = await res.json();
+            dispatch(saveAllCountry(response.data))
+        }).catch(err => {
+            console.log("getAllCountry", err);
+        })
+    }
+}
+
+export const saveAllCountry = (data) => {
+    return ({
+        type: SAVEALLCOUNTRY,
+        payload: data
+    })
+}
+
+export const getStateAndCity = (data) => {
+    return async dispatch => {
+        await fetch(`${URL.baseUrl}${URL.getStateAndCity}?find_type=${data.find_type}&c_s_id=${data.c_s_id}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+            },
+        }).then(async (res) => {
+            let response = await res.json();
+            if (data.find_type == 1) {
+                dispatch(saveAllState(response.data))
+            } else {
+                dispatch(saveAllCity(response.data))
+            }
+        }).catch(err => {
+            console.log("getStateAndCity", err);
+        })
+    }
+}
+
+export const saveAllState = (data) => {
+    return ({
+        type: SAVEALLSTATE,
+        payload: data
+    })
+}
+
+export const saveAllCity = (data) => {
+    return ({
+        type: SAVEALLCITY,
+        payload: data
+    })
 }
 
 export const getFollowData = () => {
@@ -222,7 +279,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 dispatch(setUserData(response.data))
-                // dispatch(saveUserProfile(response.data))
+                dispatch(saveUserProfile(response.data))
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token;
@@ -702,6 +759,7 @@ export const PostUserProfile = (data, setloaderVisible = () => { }, callForFeedb
                 if (callForFeedback) {
                     dispatch(saveFeedBackUserProfile(response.data));
                 } else {
+                    dispatch(setUserData(response.data))
                     dispatch(saveUserProfile(response.data));
                 }
             }
@@ -778,7 +836,9 @@ export const postLogout = (setloaderVisible, PageNavigation) => {
 
             setloaderVisible(false);
             Toast.show(response.message);
-        }).catch(err => {
+        }).catch(async (err) => {
+            await AsyncStorageHelper.removeMultiItemValue([Constants.USER_DATA, Constants.TOKEN])
+            PageNavigation()
             console.log("postLogout", err);
             setloaderVisible(false);
             Toast.show("something went wrong");
