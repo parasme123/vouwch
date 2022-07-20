@@ -4,12 +4,17 @@ import {
 } from 'react-native'; import styles from './styles';
 import { Colors, imagepath, svg } from '@common';
 import { imgBaseUrl } from '../../reduxStore/action/webApiUrl';
+import VideoPlayer from 'react-native-video-controls';
 export default Bravocard = (props) => {
     const [showPhotoModal, setShowPhotoModal] = useState(false);
+    const [videoBtn, setvideoBtn] = useState(false);
     const [showModalFor, setShowModalFor] = useState("Photos");
-    const handlePhotoModal = (callFor) => {
+    const mediaurl = videoBtn ?  props.item.card_video_media :props.item.card_image_media 
+
+    const handlePhotoModal = (callFor, videoBtn) => {
         setShowPhotoModal(true);
-        setShowModalFor(callFor)
+        setShowModalFor(callFor);
+        setvideoBtn(videoBtn)
     }
     return (
         <View key={props.index}
@@ -32,22 +37,27 @@ export default Bravocard = (props) => {
                                     resizeMode="contain"
                                     source={imagepath.crose}
                                 />
-
                             </TouchableOpacity>
                         </View>
-
                         <FlatList
-                            style={{ marginVertical: 50 }}
-                            data={props.item.card_image_media}
+                            // style={{ marginVertical: 50 }}
+                            data={mediaurl}
                             horizontal
-                            showsHorizontalScrollIndicator={false}
+                            showsHorizontalScrollIndicator={true}
                             renderItem={(i) => {
                                 return (
-                                    <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                                        <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: "row" }}>
+                                        {
+                                            console.log("videoBtn,videoBtn", i.item.media_url)
+                                        }
+                                        {videoBtn == true ?
+                                            <View style={{ margin: 10 }}>
+                                                <VideoPlayer
+                                                    source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} />
+                                            </View> :
+                                            <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
 
-                                        
-
+                                        }
                                     </View>
                                 )
                             }}
@@ -105,11 +115,11 @@ export default Bravocard = (props) => {
                 <Text style={[styles.cardHospitalViewText, { marginTop: 5 }]}><Text style={{ fontWeight: "bold", fontSize: 12 }}>{props.item?.users?.full_name}</Text> added a bravo card for <Text style={{ fontWeight: "bold", fontSize: 12 }}>{props.item.name}</Text></Text>
                 {/* photo & Videos Btn */}
                 <View style={styles.cardHospitalViewButton}>
-                    <TouchableOpacity style={styles.cardPhotoButton} onPress={() => handlePhotoModal("Photos")} >
+                    <TouchableOpacity style={styles.cardPhotoButton} onPress={() => handlePhotoModal("Photos", false)} >
                         <Image style={styles.cardPhotoImage} source={imagepath.Photo} />
                         <Text style={styles.cardPhotoText}>Photo</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.videoButton} onPress={() => handlePhotoModal("Videos")}>
+                    <TouchableOpacity style={styles.videoButton} onPress={() => handlePhotoModal("Videos", true )}>
                         <Image style={styles.cardVideoIcon} source={imagepath.Video} />
                         <Text style={[styles.cardPhotoText, styles.cardVideoText]}>Video</Text>
                     </TouchableOpacity>

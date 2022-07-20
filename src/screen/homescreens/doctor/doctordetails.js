@@ -189,7 +189,7 @@ const Doctordetails = (props, { route }) => {
               style={[
                 {
                   backgroundColor: activeTab == "about" ? Colors.appcolor : Colors.white,
-                  paddingHorizontal: activeTab == "about" ? 12 : 12,
+                  paddingHorizontal: activeTab == "about" ? 12 : 5,
                 },
                 styles.button,
               ]}>
@@ -269,7 +269,7 @@ const Doctordetails = (props, { route }) => {
               style={[
                 {
                   backgroundColor: activeTab == "feedback" ? Colors.appcolor : Colors.white,
-                  paddingHorizontal: activeTab == "feedback" ? 12 : 12,
+                  paddingHorizontal: activeTab == "feedback" ? 12 : 10,
                 },
                 styles.button,
               ]}>
