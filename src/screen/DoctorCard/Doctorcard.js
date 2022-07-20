@@ -86,7 +86,7 @@ const Doctor_Card = (props) => {
         // } else 
         {
             Call_FollowApi(id);
-            FollowButton(id);
+            // FollowButton(id);
         }
     };
     const Call_FollowApi = (id) => {
@@ -166,7 +166,7 @@ const Doctor_Card = (props) => {
                 onpress_Message={MessagepropPage}
                 onpress_Share={onShare}
                 user_Type={userType}
-                Follows={Follows}
+                Follows={props.followData}
                 onpress_DoctorCard_Follow={Follow_api}
                 item={item}
                 index={index}
@@ -234,7 +234,8 @@ const Doctor_Card = (props) => {
 
 const mapStateToProps = state => ({
     doctorList: state.doctor.doctorList,
-    lastPage: state.doctor.lastPage
+    lastPage: state.doctor.lastPage,
+    followData: state.doctor.followData
 });
 
 const ActionCreators = Object.assign(

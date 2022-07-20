@@ -114,9 +114,14 @@ export default DoctorcardList = (props) => {
           onPress={() => {
             props.onpress_DoctorCard_Follow(props.item.id);
           }}>
-          {svg.followCircle(30, 30, props.Follows?.includes(props.item.id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor : Colors.white)}
+            {console.log("props.Followsprops.Follows",props.Follows, props.item.id)}
+          {
+            props.Follows?.findIndex((data) => data.business_id === props.item.id) !== -1 ?
+              svg.followCircle(30, 30, Colors.white, Colors.appcolor) :
+              svg.followCircle(30, 30, Colors.black, Colors.white)
+          }
 
-          {props.Follows?.includes(props.item.id) ? (
+          {props.Follows?.findIndex((data) => data.business_id === props.item.id) !== -1 ? (
             <Text style={styles.DoctorCardShareButtonText}>Following</Text>
           ) : (
             <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>

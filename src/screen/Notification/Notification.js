@@ -12,6 +12,7 @@ import { CustomLoader, } from '@lib';
 import Fontsize from '../../common/Fontsize';
 import Fonts from '../../common/Fonts';
 import moment from "moment";
+import VideoPlayer from 'react-native-video-controls';
 const { width, height } = Dimensions.get('window');
 
 const Notification = (props, { navigation, route }) => {
@@ -47,40 +48,44 @@ const Notification = (props, { navigation, route }) => {
 
   const NotificationItem = ({ item, index, type, Tab }) => {
     return (
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("Reply", { actTab: Tab })}
-            style={styles.headButton}
-            key={index}>
-            <View style={{ flex: 0.3 }}>
-              <Image
-                style={styles.Imageicon}
-                resizeMode="cover"
-                source={userType == 1 ?
-                  { uri: item?.get_user?.profile_picture } : { uri: item?.get_user?.profile_picture }}
-              />
-            </View>
-            <View style={{ flex: 0.8 }}>
-              <View style={{ justifyContent: "space-between", flexDirection: "row", alignItems: "center", flex: 1, }}>
-                <Text style={[styles.UserNameText, { lineHeight: 20 }]}>
-                  {userType == 2 ?
-                    item.replybussiness.business_name : item?.get_user?.full_name
-                  }</Text>
-                <Text style={{ color: 'grey', fontFamily: Fonts.ProximaNovaRegular, fontSize: Fontsize.fontFifteen, lineHeight: 20, }}>
-                  {type}
-                </Text>
-              </View>
-              <Text style={[styles.RequestText]}>{item.detail}</Text>
-              <View style={styles.VideoView}>
-                <Image
-                  style={styles.Imagealram}
-                  resizeMode="contain"
-                  source={Imagepath.alarm_clock} />
-                <Text style={[styles.PhotoText, { color: Colors.black }]}>
-                  {moment().format('MMMM Do YYYY, h:mm: a', item.created_at)}
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Reply", { actTab: Tab })}
+        style={styles.headButton}
+        key={index}>
+        <View style={{ flex: 0.3 }}>
+          <Image
+            style={styles.Imageicon}
+            resizeMode="cover"
+            source={userType == 1 ?
+              { uri: item?.reply_msg?.profile_picture } : { uri: item?.get_user?.profile_picture }}
+          />
+          <VideoPlayer
+            source={{ uri: 'https://vjs.zencdn.net/v/oceans.mp4' }}
+            navigator={this.props.navigator}
+          />
+        </View>
+        <View style={{ flex: 0.8 }}>
+          <View style={{ justifyContent: "space-between", flexDirection: "row", alignItems: "center", flex: 1, }}>
+            <Text style={[styles.UserNameText, { lineHeight: 20 }]}>
+              {userType == 1 ?
+                item?.reply_msg?.full_name : item?.get_user?.full_name
+              }</Text>
+            <Text style={{ color: 'grey', fontFamily: Fonts.ProximaNovaRegular, fontSize: Fontsize.fontFifteen, lineHeight: 20, }}>
+              {type}
+            </Text>
+          </View>
+          <Text style={[styles.RequestText]}>{item.detail}</Text>
+          <View style={styles.VideoView}>
+            <Image
+              style={styles.Imagealram}
+              resizeMode="contain"
+              source={Imagepath.alarm_clock} />
+            <Text style={[styles.PhotoText, { color: Colors.black }]}>
+              {moment().format('MMMM Do YYYY, h:mm: a', item.created_at)}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
     );
   };
   return (
