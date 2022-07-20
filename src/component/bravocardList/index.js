@@ -9,6 +9,7 @@ import {
 import { Rating } from 'react-native-ratings';
 import { Colors, imagepath, svg } from '@common';
 import { useNavigation } from '@react-navigation/native';
+import { imgBaseUrl } from '../../reduxStore/action/webApiUrl';
 export default DoctorcardList = (props) => {
     const navigation = useNavigation();
     const [showPhotoModal, setShowPhotoModal] = useState(false);
@@ -40,10 +41,8 @@ export default DoctorcardList = (props) => {
                                     resizeMode="contain"
                                     source={imagepath.crose}
                                 />
-
                             </TouchableOpacity>
                         </View>
-
                         <FlatList
                             style={{ marginVertical: 50 }}
                             data={props.item.card_image_media}
@@ -79,7 +78,7 @@ export default DoctorcardList = (props) => {
                 <TouchableOpacity
                     style={styles.DoctorCardShareButton}
                     onPress={() => {
-                        props.onpress_Comment(props.item.id);
+                        props.onpress_Comment(props?.item?.doctor_id);
                     }}>
                     {svg.commentCircle(30, 30, Colors.appcolor)}
                     <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -89,7 +88,7 @@ export default DoctorcardList = (props) => {
                 <TouchableOpacity
                     style={styles.DoctorCardShareButton}
                     onPress={() => {
-                        props.onpress_Message(props.item.id);
+                        props.onpress_Message(props?.item?.doctor_id);
                     }}>
                     {svg.messageCircle(30, 30, Colors.appcolor)}
                     <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -99,11 +98,11 @@ export default DoctorcardList = (props) => {
                 <TouchableOpacity
                     style={styles.DoctorCardShareButton}
                     onPress={() => {
-                        props.onpress_DoctorCard_Follow(props.item.id);
+                        props.onpress_DoctorCard_Follow(props.item.doctor_id);
                     }}>
-                    {svg.followCircle(30, 30, props.Follows?.includes(props.item.id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.id) ? Colors.appcolor : Colors.white)}
+                    {svg.followCircle(30, 30, props.Follows?.includes(props.item.doctor_id) ? Colors.white : Colors.black, props.Follows?.includes(props.item.doctor_id) ? Colors.appcolor : Colors.white)}
 
-                    {props.Follows?.includes(props.item.id) ? (
+                    {props.Follows?.includes(props.item.doctor_id) ? (
                         <Text style={styles.DoctorCardShareButtonText}>Following</Text>
                     ) : (
                         <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -114,7 +113,7 @@ export default DoctorcardList = (props) => {
                 <TouchableOpacity
                     style={styles.DoctorCardShareButton}
                     onPress={() => {
-                        props.onpress_Share(props.item.id);
+                        props.onpress_Share(props.item.doctor_id);
                     }}>
                     {svg.shareCircle(30, 30, Colors.black, Colors.white)}
                     <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -132,10 +131,10 @@ export default DoctorcardList = (props) => {
                     <Text style={[styles.cardPhotoText, styles.cardVideoText]}>Video</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => props.handleAddBravoCardOrReview(props.item.id, 'review')}
+                    onPress={() => props?.handleAddBravoCardOrReview(props?.item?.doctor_id, 'Bravocard')}
                     style={styles.cardPhotoButton}>
-                    {svg.addReview(15, 15, Colors.white)}
-                    <Text style={styles.addBravoCardTxt}>Add A Review</Text>
+                    {svg.addBravo(15, 15, Colors.white)}
+                    <Text style={styles.addBravoCardTxt}>Add Bravo Card</Text>
                 </TouchableOpacity>
             </View>
             {/* Button of Share , Comment and Mesage */}

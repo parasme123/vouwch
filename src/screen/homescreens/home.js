@@ -78,41 +78,36 @@ const Home = (props) => {
 
   // Follow API
 
-  const FollowButton = item => {
-    let follows1 = [...Follows];
-    if (!follows1.includes(item)) {
-      //checking weather array contain the id
-      follows1.push(item); //adding to array because value doesnt exists
-      // Call_FollowApi(id);
-    } else {
-      follows1.splice(follows1.indexOf(item), 1); //deleting
-      // Call_FollowApi(id);
+  // const FollowButton = item => {
+  //   let follows1 = [...Follows];
+  //   if (!follows1.includes(item)) {
+  //     //checking weather array contain the id
+  //     follows1.push(item); //adding to array because value doesnt exists
+  //     // Call_FollowApi(id);
+  //   } else {
+  //     follows1.splice(follows1.indexOf(item), 1); //deleting
+  //     // Call_FollowApi(id);
+  //   }
+  //   setFollow(follows1);
+  // };
+  const Follow_api = (id) => {
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
     }
-    setFollow(follows1);
+    else {
+      Call_FollowApi(id);
+    }
   };
-
   const Call_FollowApi = (id) => {
     let { actions } = props;
     let apiData = {
       business_id: id,
     }
-    // console.log("apiData------------------------",apiData);
     actions.postFollow(apiData);
 
   };
 
-  const Follow_api = (id) => {
-    if (!userType) {
-      Helper.loginPopUp(props.navigation);
-    }
-    //  else if (userType?.user_type !== 1) {
-    //   alert('please login with personal account');
-    // } 
-    else {
-      Call_FollowApi(id);
-      // FollowButton(id);
-    }
-  };
+
 
 
   // Search API
@@ -170,13 +165,19 @@ const Home = (props) => {
   }
 
 
-
+  const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
+    if (!userType) {
+      Helper.loginPopUp(props.navigation);
+    } else if (userType?.user_type !== 1) {
+      alert('please login with personal account');
+    } else {
+      navigation.navigate(navigationFor, { doctorid })
+    }
+  }
 
   // api   Profile
   const handleProfile = () => {
-
     navigation.navigate('profilepage', { isBackTrue: true });
-
   };
 
   const categoriesItemData = ({ item, index }) => {
@@ -202,26 +203,19 @@ const Home = (props) => {
         bravo_Card_Details={item.department}
         onpress_Comment={CommentpropPage}
         onpress_Message={MessagepropPage}
-        onpress_Share={onShare}
+        onpress_Share={onShare} user_Type={userType}
         item={item}
         index={index}
         onpress_DoctorCard_Follow={Follow_api}
         Follows={props.followData}
+        handleAddBravoCardOrReview={handleAddBravoCardOrReview}
       // onpress_Photo={}
       // onpress_Video={}
       />
     );
   };
 
-  const handleAddBravoCardOrReview = (doctorid, navigationFor) => {
-    if (!userType) {
-      Helper.loginPopUp(props.navigation);
-    } else if (userType?.user_type !== 1) {
-      alert('please login with personal account');
-    } else {
-      navigation.navigate(navigationFor, { doctorid })
-    }
-  }
+
 
   /* // Doctor CARDS */
   const Doctor_Card = ({ item, index }) => {
@@ -231,7 +225,7 @@ const Home = (props) => {
         onpress_Comment={CommentpropPage}
         onpress_Message={MessagepropPage}
         onpress_Share={onShare}
-        user_Type={userType}
+
         Follows={props.followData}
         onpress_DoctorCard_Follow={Follow_api}
         item={item}

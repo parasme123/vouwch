@@ -72,15 +72,15 @@ export default Bravocard = (props) => {
                         <TouchableOpacity
                             style={styles.DoctorCardShareButton}
                             onPress={() => {
-                                props.onpress_DoctorCard_Follow(props.item.id);
+                                props.onpress_DoctorCard_Follow(props.item.doctor_id);
                             }}>
                             {
-                                props.Follows?.findIndex((data) => data.business_id === props.item.id) !== -1 ?
+                                props.Follows?.findIndex((data) => data.business_id === props.item.doctor_id) !== -1 ?
                                     svg.followCircle(30, 30, Colors.white, Colors.appcolor) :
                                     svg.followCircle(30, 30, Colors.black, Colors.white)
                             }
 
-                            {props.Follows?.findIndex((data) => data.business_id === props.item.id) !== -1 ? (
+                            {props.Follows?.findIndex((data) => data.business_id === props.item.doctor_id) !== -1 ? (
                                 <Text style={styles.DoctorCardShareButtonText}>Following</Text>
                             ) : (
                                 <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
@@ -88,7 +88,7 @@ export default Bravocard = (props) => {
                                 </Text>
                             )}
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.id) }}>
+                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.doctor_id) }}>
                             {svg.shareCircle(30, 30, Colors.black, Colors.white)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>share</Text>
                         </TouchableOpacity>
@@ -110,6 +110,12 @@ export default Bravocard = (props) => {
                     <TouchableOpacity style={styles.videoButton} onPress={() => handlePhotoModal("Videos")}>
                         <Image style={styles.cardVideoIcon} source={imagepath.Video} />
                         <Text style={[styles.cardPhotoText, styles.cardVideoText]}>Video</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => props.handleAddBravoCardOrReview(props.item.doctor_id, 'Bravocard')}
+                        style={[styles.cardPhotoButton, { marginRight: 5 }]}>
+                        {svg.addBravo(15, 15, Colors.white)}
+                        <Text style={styles.cardPhotoText}>Add Bravo Card</Text>
                     </TouchableOpacity>
                 </View>
             </View>

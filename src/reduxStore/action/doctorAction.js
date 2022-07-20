@@ -201,6 +201,7 @@ export const postFollow = (data) => {
             if (response.status) {
                 dispatch(getFollowData());
             }
+            console.log(response);
         }).catch(err => {
             console.log("postFollow", err);
         })

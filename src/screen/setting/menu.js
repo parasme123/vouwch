@@ -60,7 +60,7 @@ const Menu = (props, { navigation }) => {
   return (
     <ImageBackground source={imagepath.background} style={styles.imagebg}>
       {/*  Header*/}
-      <Header title={String.menu} isback={'bottomtab'} />
+      <Header title={String.menu}  />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
@@ -96,7 +96,7 @@ const Menu = (props, { navigation }) => {
             <Text style={styles.pageButtonText}>About us</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/privacy-policy-app', title: "Privacy Policy" })}
+            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/privacy-policy', title: "Privacy Policy" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}

@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.appcolor,
     borderRadius: 10,
     flex: 1,
-    paddingVertical: 5,
-    marginRight: 5,
+    paddingHorizontal: 10,
+    paddingVertical:5
   },
   videoButton: {
     justifyContent: 'center',
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flex: 1,
     paddingVertical: 5,
-    marginLeft: 5,
+    marginHorizontal: 10,
   },
   cardPhotoImage: { height: 11.5, width: 13 },
   cardVideoText: {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: Fontsize.small,
     lineHeight: 15,
     fontFamily: Fonts.ProximaNovaRegular,
-    paddingLeft: 5,
+    paddingLeft: 5,textAlign:"center"
   },
   cardVideoIcon: { height: 11.5, width: 13 },
   // Doctor Cards
