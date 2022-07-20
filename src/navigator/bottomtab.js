@@ -19,6 +19,8 @@ import { Constants, AsyncStorageHelper, Helper } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PostUserProfile, getFollowData } from '../reduxStore/action/doctorAction';
+import menu from '../screen/setting/menu';
+import profile from '../screen/setting/profile';
 
 export const Bottomtab = props => {
   const [userData, setuserRcord] = useState(null);
@@ -50,7 +52,7 @@ export const Bottomtab = props => {
         icon = imagepath.homeicon;
         break;
       case 'Settingprofile':
-        icon = imagepath.setting_icon;
+        icon = imagepath.navmenu;
         break;
       case 'Notification':
         icon = imagepath.Notfication_icon;
@@ -141,7 +143,7 @@ export const Bottomtab = props => {
         />
         <CurvedBottomBar.Screen
           name="Account"
-          component={userData ? Menu : Welcome}
+          component={userData ? profile : Welcome}
           position="LEFT"
           options={{ headerShown: false }}
         />
@@ -155,7 +157,7 @@ export const Bottomtab = props => {
 
         <CurvedBottomBar.Screen
           name="Settingprofile"
-          component={userData ? Profile : Welcome}
+          component={ menu }
           position="RIGHT"
           options={{ headerShown: false }}
         />

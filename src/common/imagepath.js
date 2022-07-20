@@ -38,7 +38,7 @@ const Imagepath = {
   redstar: require('../assect/icon/redstar.png'),
   yellowstar: require('../assect/icon/yellowstar.png'),
   Followicon: require('../assect/icon/Followicon.png'),
-  // doctor: require('../assect/images/doctor.png'),
+  calender: require('../assect/icon/calender.png'),
   mess: require('../assect/icon/mess.png'),
   dot: require('../assect/icon/dot.png'),
   bluetick: require('../assect/icon/bluetick.png'),

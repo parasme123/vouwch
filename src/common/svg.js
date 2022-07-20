@@ -259,9 +259,6 @@ export const googleIcon = (width, height) => {
 }
 
 
-
-
-
 export const businessIcon = (width, height, color) => {
     return (
 <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 20.5 19">
@@ -272,6 +269,45 @@ export const businessIcon = (width, height, color) => {
     <Path id="Path_144" data-name="Path 144" d="M18,7H12V5.5A1.5,1.5,0,0,1,13.5,4h3A1.5,1.5,0,0,1,18,5.5Z" transform="translate(-2.25)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
     <Line id="Line_32" data-name="Line 32" y1="1" transform="translate(5.75 21)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
     <Line id="Line_33" data-name="Line 33" y1="1" transform="translate(19.75 21)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </G>
+</Svg>
+
+
+    )
+}
+
+
+export const vOWCHiCON = (width, height, color) => {
+    return (
+<Svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 337 337">
+  <G id="Group_114" data-name="Group 114" transform="translate(-46 -295)">
+    {/* <G id="Ellipse_53" data-name="Ellipse 53" transform="translate(46 295)" fill="none" stroke="#245fc7" stroke-width="1">
+      <Circle cx="168.5" cy="168.5" r="168.5" stroke="none"/>
+      <Circle cx="168.5" cy="168.5" r="168" fill="none"/>
+    </G>
+    <G id="Ellipse_52" data-name="Ellipse 52" transform="translate(62 311)" fill="none" stroke="#245fc7" stroke-width="1">
+      <Circle cx="152.5" cy="152.5" r="152.5" stroke="none"/>
+      <Circle cx="152.5" cy="152.5" r="152" fill="none"/>
+    </G>
+    <G id="Ellipse_51" data-name="Ellipse 51" transform="translate(81 330)" fill="none" stroke="#245fc7" stroke-width="1">
+      <Circle cx="133.5" cy="133.5" r="133.5" stroke="none"/>
+      <Circle cx="133.5" cy="133.5" r="133" fill="none"/>
+    </G>
+    <G id="Ellipse_50" data-name="Ellipse 50" transform="translate(101 350)" fill="none" stroke="#245fc7" stroke-width="1">
+      <Circle cx="113.5" cy="113.5" r="113.5" stroke="none"/>
+      <Circle cx="113.5" cy="113.5" r="113" fill="none"/>
+    </G> */}
+    <G id="logo" transform="translate(132.458)">
+   
+      <G id="Group_57" data-name="Group 57" transform="translate(28.665 397.329)">
+        <Path id="Path_111" data-name="Path 111" d="M0,0H108.259V107.342H0Z" transform="translate(0)" fill="#245fc7"/>
+        <G id="Path_112" data-name="Path 112" transform="translate(14.373 17.584)">
+          <Path id="Path_145" data-name="Path 145" d="M96.923,89.6H25V25H96.923Z" transform="translate(-21.177 -21.177)" fill="#245fc7"/>
+          <Path id="Path_146" data-name="Path 146" d="M7.645,7.645V64.6H71.923V7.645H7.645M0,0H79.568V72.247H0Z" transform="translate(0 0)" fill="#fff"/>
+        </G>
+        <Path id="Path_113" data-name="Path 113" d="M6071.49,300.147h6.673l10.665,27.15,10.97-27.181h6.582l-17.552,40.832Z" transform="translate(-6034.791 -266.783)" fill="#fff"/>
+      </G>
+    </G>
   </G>
 </Svg>
 

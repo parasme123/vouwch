@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="337" height="337" viewBox="0 0 337 337">
+  <g id="Group_114" data-name="Group 114" transform="translate(-46 -295)">
+    <g id="Ellipse_53" data-name="Ellipse 53" transform="translate(46 295)" fill="none" stroke="#245fc7" stroke-width="1">
+      <circle cx="168.5" cy="168.5" r="168.5" stroke="none"/>
+      <circle cx="168.5" cy="168.5" r="168" fill="none"/>
+    </g>
+    <g id="Ellipse_52" data-name="Ellipse 52" transform="translate(62 311)" fill="none" stroke="#245fc7" stroke-width="1">
+      <circle cx="152.5" cy="152.5" r="152.5" stroke="none"/>
+      <circle cx="152.5" cy="152.5" r="152" fill="none"/>
+    </g>
+    <g id="Ellipse_51" data-name="Ellipse 51" transform="translate(81 330)" fill="none" stroke="#245fc7" stroke-width="1">
+      <circle cx="133.5" cy="133.5" r="133.5" stroke="none"/>
+      <circle cx="133.5" cy="133.5" r="133" fill="none"/>
+    </g>
+    <g id="Ellipse_50" data-name="Ellipse 50" transform="translate(101 350)" fill="none" stroke="#245fc7" stroke-width="1">
+      <circle cx="113.5" cy="113.5" r="113.5" stroke="none"/>
+      <circle cx="113.5" cy="113.5" r="113" fill="none"/>
+    </g>
+    <g id="logo" transform="translate(132.458)">
+      <text id="vouwch" transform="translate(-0.458 511)" fill="#245fc7" font-size="25" font-family="Quicksand-Bold, Quicksand" font-weight="700"><tspan x="-45" y="25">vouwch</tspan></text>
+      <g id="Group_57" data-name="Group 57" transform="translate(28.665 397.329)">
+        <path id="Path_111" data-name="Path 111" d="M0,0H108.259V107.342H0Z" transform="translate(0)" fill="#245fc7"/>
+        <g id="Path_112" data-name="Path 112" transform="translate(14.373 17.584)">
+          <path id="Path_145" data-name="Path 145" d="M96.923,89.6H25V25H96.923Z" transform="translate(-21.177 -21.177)" fill="#245fc7"/>
+          <path id="Path_146" data-name="Path 146" d="M7.645,7.645V64.6H71.923V7.645H7.645M0,0H79.568V72.247H0Z" transform="translate(0 0)" fill="#fff"/>
+        </g>
+        <path id="Path_113" data-name="Path 113" d="M6071.49,300.147h6.673l10.665,27.15,10.97-27.181h6.582l-17.552,40.832Z" transform="translate(-6034.791 -266.783)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

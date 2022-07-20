@@ -35,7 +35,8 @@ const Rate = (props, { navigation, route }) => {
 
   const Review_Validators = (apiData) => {
     let { actions } = props;
-    // console.log(apiData);
+    console.log(apiData);
+
     actions.postReview(apiData, setloaderVisible, () => PageNavigation());
   };
 

@@ -35,7 +35,7 @@ function ForgotPassword(props) {
 
   };
   const PageNavigation = () => {
-    navigation.navigate('otppage', { Email: Email })
+    navigation.navigate('Confirmpassword', { Email: Email })
   }
 
   return (

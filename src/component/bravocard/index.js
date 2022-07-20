@@ -4,7 +4,6 @@ import {
 } from 'react-native'; import styles from './styles';
 import { Colors, imagepath, svg } from '@common';
 import { imgBaseUrl } from '../../reduxStore/action/webApiUrl';
-// import VideoPlayer from "react-native-video-player "
 export default Bravocard = (props) => {
     const [showPhotoModal, setShowPhotoModal] = useState(false);
     const [showModalFor, setShowModalFor] = useState("Photos");
@@ -33,12 +32,7 @@ export default Bravocard = (props) => {
                                     resizeMode="contain"
                                     source={imagepath.crose}
                                 />
-                                {/* <VideoPlayer
-                                    video={{ uri: 'https://www.youtube.com/watch?v=jGWUCl2plck' }}
-                                    videoWidth={1600}
-                                    videoHeight={900}
-                                    thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
-                                /> */}
+
                             </TouchableOpacity>
                         </View>
 
@@ -51,6 +45,7 @@ export default Bravocard = (props) => {
                                 return (
                                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                                         <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
+
                                     </View>
                                 )
                             }}
@@ -74,7 +69,26 @@ export default Bravocard = (props) => {
                             {svg.messageCircle(30, 30, Colors.appcolor)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>Message</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.id) }}>
+                        {/* <TouchableOpacity
+                            style={styles.DoctorCardShareButton}
+                            onPress={() => {
+                                props.onpress_DoctorCard_Follow(props.item.doctor_id);
+                            }}>
+                            {
+                                props.Follows?.findIndex((data) => data.business_id === props.item.doctor_id) !== -1 ?
+                                    svg.followCircle(30, 30, Colors.white, Colors.appcolor) :
+                                    svg.followCircle(30, 30, Colors.black, Colors.white)
+                            }
+
+                            {props.Follows?.findIndex((data) => data.business_id === props.item.doctor_id) !== -1 ? (
+                                <Text style={styles.DoctorCardShareButtonText}>Following</Text>
+                            ) : (
+                                <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>
+                                    Follow
+                                </Text>
+                            )}
+                        </TouchableOpacity> */}
+                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.doctor_id) }}>
                             {svg.shareCircle(30, 30, Colors.black, Colors.white)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>share</Text>
                         </TouchableOpacity>
@@ -96,6 +110,12 @@ export default Bravocard = (props) => {
                     <TouchableOpacity style={styles.videoButton} onPress={() => handlePhotoModal("Videos")}>
                         <Image style={styles.cardVideoIcon} source={imagepath.Video} />
                         <Text style={[styles.cardPhotoText, styles.cardVideoText]}>Video</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => props.handleAddBravoCardOrReview(props.item.doctor_id, 'Bravocard')}
+                        style={[styles.cardPhotoButton, { marginRight: 5 }]}>
+                        {svg.addBravo(15, 15, Colors.white)}
+                        <Text style={styles.cardPhotoText}>Add Bravo Card</Text>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -15,15 +15,15 @@ import { NoRecordFound } from '@component';
 import Message from './Message';
 import { getMessageAndComment, postMessageReply } from '../../reduxStore/action/doctorAction';
 
-const Reply = (props) => {
-  const [typeOfData, setTypeOfData] = useState(1);
-  const [loaderVisible, setloaderVisible] = useState(false);
+const Reply = (props, { route }) => {
 
+  const Active = props.route.params?.actTab ? props?.route?.params?.actTab : 1;
+  const [typeOfData, setTypeOfData] = useState(Active);
+  const [loaderVisible, setloaderVisible] = useState(false);
   const MessagePage = () => {
     setTypeOfData(1);
     handleMessageAndComment(1);
   };
-
   const CommentpropPage = () => {
     setTypeOfData(2);
     handleMessageAndComment(2);
@@ -56,7 +56,6 @@ const Reply = (props) => {
         detail: message
       }
     }
- 
     actions.postMessageReply(apiData, typeOfData);
 
   }
@@ -69,7 +68,7 @@ const Reply = (props) => {
         <View
           style={{
             flexDirection: 'row',
-            marginHorizontal:24,
+            marginHorizontal: 24,
             justifyContent: 'space-between',
             alignItems: 'center',
             alignSelf: 'center',
@@ -83,7 +82,7 @@ const Reply = (props) => {
               { backgroundColor: typeOfData == 1 ? '#19428A' : null },
               styles.button,
             ]}>
-            <Text style={{ color: '#ffffff', fontSize: 13 }}>Message</Text>
+            <Text style={{ color: Colors.white, fontSize: 13 }}>Message</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -96,13 +95,16 @@ const Reply = (props) => {
               },
               styles.button,
             ]}>
-            <Text style={{ color: '#ffffff', fontSize: 13 }}>Comment</Text>
+            <Text style={{ color: Colors.white, fontSize: Fontsize.fontThirteen }}>Comment</Text>
           </TouchableOpacity>
         </View>
       </View>
       {
         props.messageAndComment.length > 0 ? (
-          <Message dataMsg={props.messageAndComment} handleReply={handelMessageReply} />
+          <Message 
+          typeDetail={typeOfData }
+          dataMsg={props.messageAndComment}
+           handleReply={handelMessageReply} />
         ) : (
           <NoRecordFound />
         )

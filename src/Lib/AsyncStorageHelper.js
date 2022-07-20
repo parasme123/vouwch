@@ -34,4 +34,12 @@ export default class AsyncStorageHelper extends React.Component {
       return false;
     }
   }
+  static async removeMultiItemValue(keys) {
+    try {
+      await AsyncStorage.multiRemove(keys);
+      return true;
+    } catch (exception) {
+      return false;
+    }
+  }
 }

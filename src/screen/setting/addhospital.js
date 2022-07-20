@@ -22,6 +22,7 @@ import { handelAddDoctor, getCategories } from '../../reduxStore/action/doctorAc
 const Addhospital = (props) => {
   const navigation = useNavigation();
   const [loaderVisible, setloaderVisible] = useState(false);
+  const [bName ,setBName] =useState ();
   const [firstname, setfirstname] = useState();
   const [lastname, setlastname] = useState();
   const [phoneNo, setphoneNo] = useState();
@@ -48,7 +49,7 @@ const Addhospital = (props) => {
   useEffect(() => {
     if (props.allCategories.status == true) {
       let arr = [];
-      props.allCategories.data.categories.map((item, label) => {
+      props.allCategories.data.categories?.map((item, label) => {
         arr.push({ label: item.name, value: item.id });
         // console.log('arr== categories in signup==>>>', arr);
       });
@@ -58,8 +59,8 @@ const Addhospital = (props) => {
 
   const Signin_Validators = () => {
     if (
-      Validators.checkNotNull('First Name', 2, 60, firstname) &&
-      Validators.checkNotNull('Last Name', 2, 60, lastname) &&
+      Validators.checkNotNull('Business Name', 2, 60, bName) &&
+      // Validators.checkNotNull('Last Name', 2, 60, lastname) &&
       Validators.checkNotNull('phoneNo', 7, 15, phoneNo) &&
       Validators.checkNotNull('street', 2, 60, street) &&
       Validators.checkNotNull('city', 2, 60, city) &&
@@ -74,8 +75,7 @@ const Addhospital = (props) => {
   const handelDoctor = () => {
     let { actions } = props;
     let apiData = {
-      first_name: firstname,
-      last_name: lastname,
+      b_name: bName,
       category: CateId,
       mobile_no: phoneNo,
       street: street,
@@ -104,22 +104,22 @@ const Addhospital = (props) => {
       <ScrollView showsHorizontalScrollIndicator="false"
         showsVerticalScrollIndicator={false}
         style={{ flexGrow: 1, paddingHorizontal: 24, paddingTop: 16, }}>
-        <Text style={styles.textInputHeader}>First Name</Text>
+        <Text style={styles.textInputHeader}>Business Name</Text>
         <TextInput
           style={styles.textInput}
           keyboardType="default"
-          placeholder="Name"
+          placeholder="Business name"
           placeholderTextColor={Colors.imputborderColor}
-          onChangeText={setfirstname}
+          onChangeText={setBName}
         />
-        <Text style={styles.textInputHeader}>Last Name</Text>
+        {/* <Text style={styles.textInputHeader}>Last Name</Text>
         <TextInput
           style={styles.textInput}
           keyboardType="default"
           placeholder="Name"
           placeholderTextColor={Colors.imputborderColor}
           onChangeText={setlastname}
-        />
+        /> */}
         <Text style={styles.textInputHeader}>Phone No.</Text>
         <TextInput
           style={styles.textInput}
