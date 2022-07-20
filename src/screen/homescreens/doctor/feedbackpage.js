@@ -88,7 +88,7 @@ export default Feedbackpage = (props) => {
                 <Text
                   style={[styles.userNameFeed]}>
                   {/* {item.NameFeedback} */}
-                  {item.users.full_name}
+                  {item.is_anonym == 1 ? "anonymous" : item.users.full_name}
                 </Text>
                 <Image
                   style={{ height: 11, width: 11, marginLeft: 10 }}
