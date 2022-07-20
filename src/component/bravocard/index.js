@@ -46,6 +46,8 @@ export default Bravocard = (props) => {
                                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                                         <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
 
+                                        
+
                                     </View>
                                 )
                             }}
