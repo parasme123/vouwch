@@ -2,6 +2,8 @@ export const baseUrl = 'https://apponedemo.top/vouwch/api/';
 export const imgBaseUrl = 'https://apponedemo.top/vouwch/';
 
 export const getFollowData = 'getfollow';
+export const getAllCountry = "get-country";
+export const getStateAndCity = "get-state-city";
 export const getAllDoctors = 'all-doctor-list';
 export const getMessageAndComment = "business-msg-commant";
 export const postDoctorSearch = 'get-doctors';

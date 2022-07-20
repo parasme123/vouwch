@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -13,7 +12,7 @@ import {
 } from 'react-native';
 import { Rating } from 'react-native-ratings';
 import { Colors, imagepath, svg } from '@common';
-import Imagepath from '../../common/imagepath';
+
 import ToggleSwitch from 'toggle-switch-react-native';
 import { Header, Fonts, String, Fontsize } from '@common';
 import { useNavigation } from '@react-navigation/native';
@@ -27,9 +26,8 @@ import {
 } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getServices,  } from '../../reduxStore/action/doctorAction';
-const Profile = (props, { route }) => {
-  const [rating, setRating] = useState();
+import { getServices, } from '../../reduxStore/action/doctorAction';
+const Profile = (props) => {
   const [isTrue, setisTrue] = useState(false);
   const [userData, setuserData] = useState(null);
   const isBackTrue = props.route.params ? props.route.params.isBackTrue : false;
@@ -58,7 +56,7 @@ const Profile = (props, { route }) => {
   // console.log("props.allUserPostData111111111111111props.userData1111111111", props.userData);
 
   return (
-    <ImageBackground source={Imagepath.background} style={{ flex: 1 }}>
+    <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <Header title={String.ProfileSetting} isback={isBackTrue} />
@@ -72,7 +70,7 @@ const Profile = (props, { route }) => {
         <View style={styles.container}>
           {/* params */}
           <ImageBackground
-            source={Imagepath.doctor}
+            source={imagepath.doctor}
             imageStyle={{ borderRadius: 60 }}
             style={styles.profileIcon}
           >
@@ -147,7 +145,7 @@ const Profile = (props, { route }) => {
             <Image
               style={styles.pageButtonIcon}
               resizeMode="contain"
-              source={Imagepath.Accountsetting}
+              source={imagepath.Accountsetting}
             />
             <Text style={styles.pageButtonText}>Account setting</Text>
           </TouchableOpacity>
@@ -160,7 +158,7 @@ const Profile = (props, { route }) => {
                   <Image
                     style={styles.pageButtonIcon}
                     resizeMode="contain"
-                    source={Imagepath.Profilesetting}
+                    source={imagepath.Profilesetting}
                   />
                   <Text style={styles.pageButtonText}>Profile setting</Text>
                 </TouchableOpacity>
@@ -175,7 +173,7 @@ const Profile = (props, { route }) => {
               <Image
                 style={styles.pageButtonIcon}
                 resizeMode="contain"
-                source={Imagepath.Notification22}
+                source={imagepath.Notification22}
               />
               <Text style={styles.pageButtonText}>Notification</Text>
             </View>
