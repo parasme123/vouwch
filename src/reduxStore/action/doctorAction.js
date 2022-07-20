@@ -841,7 +841,7 @@ export const postLogout = (setloaderVisible, PageNavigation) => {
             PageNavigation()
             console.log("postLogout", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            // Toast.show("something went wrong");
         })
     }
 };

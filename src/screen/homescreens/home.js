@@ -58,7 +58,6 @@ const Home = (props) => {
       if (value !== null) {
         setuserType(value);
       }
-      //
     });
     // console.log('userTypeuserType------------', userType);
   }, []);
@@ -103,6 +102,7 @@ const Home = (props) => {
     let apiData = {
       business_id: id,
     }
+    console.log(apiData);
     actions.postFollow(apiData);
 
   };
@@ -174,12 +174,10 @@ const Home = (props) => {
       navigation.navigate(navigationFor, { doctorid })
     }
   }
-
   // api   Profile
   const handleProfile = () => {
     navigation.navigate('profilepage', { isBackTrue: true });
   };
-
   const categoriesItemData = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -203,7 +201,8 @@ const Home = (props) => {
         bravo_Card_Details={item.department}
         onpress_Comment={CommentpropPage}
         onpress_Message={MessagepropPage}
-        onpress_Share={onShare} user_Type={userType}
+        onpress_Share={onShare}
+        user_Type={userType}
         item={item}
         index={index}
         onpress_DoctorCard_Follow={Follow_api}

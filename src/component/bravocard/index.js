@@ -46,6 +46,8 @@ export default Bravocard = (props) => {
                                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                                         <Image source={{ uri: `${imgBaseUrl}${i.item.media_url}` }} style={{ width: 300, marginHorizontal: 20, height: 200 }} />
 
+                                        
+
                                     </View>
                                 )
                             }}
@@ -113,7 +115,7 @@ export default Bravocard = (props) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => props.handleAddBravoCardOrReview(props.item.doctor_id, 'Bravocard')}
-                        style={[styles.cardPhotoButton, { marginRight: 5 }]}>
+                        style={[styles.cardPhotoButton2, { marginRight: 5 }]}>
                         {svg.addBravo(15, 15, Colors.white)}
                         <Text style={styles.cardPhotoText}>Add Bravo Card</Text>
                     </TouchableOpacity>

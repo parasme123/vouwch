@@ -90,9 +90,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.appcolor,
     borderRadius: 10,
-    flex: 1,
+    flex: 2,
     paddingHorizontal: 5,
-    paddingVertical:5
+    paddingVertical: 5
+  },
+  cardPhotoButton2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: Colors.appcolor,
+    borderRadius: 10,
+    flex: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 5
   },
   videoButton: {
     justifyContent: 'center',
@@ -100,7 +110,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.white,
     borderRadius: 10,
-    flex: 1,
+    flex: 2,
     paddingVertical: 5,
     marginHorizontal: 7,
   },
@@ -113,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: Fontsize.small,
     lineHeight: 15,
     fontFamily: Fonts.ProximaNovaRegular,
-    paddingLeft: 5,textAlign:"center"
+    paddingLeft: 5, textAlign: "center"
   },
   cardVideoIcon: { height: 11.5, width: 13 },
   // Doctor Cards
