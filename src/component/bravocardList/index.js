@@ -95,7 +95,7 @@ export default DoctorcardList = (props) => {
                         Message
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.DoctorCardShareButton}
                     onPress={() => {
                         props.onpress_DoctorCard_Follow(props.item.doctor_id);
@@ -109,7 +109,7 @@ export default DoctorcardList = (props) => {
                             Follow
                         </Text>
                     )}
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                     style={styles.DoctorCardShareButton}
                     onPress={() => {

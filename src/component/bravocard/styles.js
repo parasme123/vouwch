@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.appcolor,
     borderRadius: 10,
     flex: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     paddingVertical:5
   },
   videoButton: {
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flex: 1,
     paddingVertical: 5,
-    marginHorizontal: 10,
+    marginHorizontal: 7,
   },
   cardPhotoImage: { height: 11.5, width: 13 },
   cardVideoText: {

@@ -69,7 +69,7 @@ export default Bravocard = (props) => {
                             {svg.messageCircle(30, 30, Colors.appcolor)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>Message</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={styles.DoctorCardShareButton}
                             onPress={() => {
                                 props.onpress_DoctorCard_Follow(props.item.doctor_id);
@@ -87,7 +87,7 @@ export default Bravocard = (props) => {
                                     Follow
                                 </Text>
                             )}
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Share(props.item.doctor_id) }}>
                             {svg.shareCircle(30, 30, Colors.black, Colors.white)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>share</Text>
