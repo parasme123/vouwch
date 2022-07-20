@@ -19,7 +19,7 @@ const DoctorList = (props) => {
         key={item.id}
         style={styles.dataListView}>
         <Text style={styles.datalistText}>
-          {item.business_name}</Text>
+          {item.business_name ?? item.name}</Text>
       </TouchableOpacity>
     )
   }
@@ -34,7 +34,7 @@ const DoctorList = (props) => {
       <View style={styles.centeredView1}>
         <View style={styles.centeredView2}>
           <View style={styles.headerView}>
-            <Text style={styles.headerText}>Doctor List</Text>
+            <Text style={styles.headerText}>{props.listTitle}</Text>
             <TouchableOpacity
               onPress={() => props.Hidemodal()}
               style={styles.headerIcon}>

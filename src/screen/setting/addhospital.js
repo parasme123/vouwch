@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -18,13 +17,11 @@ import { handleNavigation } from '../../navigator/Navigator';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RNPickerSelect from 'react-native-picker-select';
-import { handelAddDoctor, getCategories } from '../../reduxStore/action/doctorAction';
+import { handelAddDoctor, getCategories, getAllCountry, getStateAndCity } from '../../reduxStore/action/doctorAction';
 const Addhospital = (props) => {
   const navigation = useNavigation();
   const [loaderVisible, setloaderVisible] = useState(false);
-  const [bName ,setBName] =useState ();
-  const [firstname, setfirstname] = useState();
-  const [lastname, setlastname] = useState();
+  const [bName, setBName] = useState();
   const [phoneNo, setphoneNo] = useState();
   const [street, setstreet] = useState();
   const [city, setcity] = useState();
@@ -33,34 +30,92 @@ const Addhospital = (props) => {
   const [country, setcountry] = useState();
   const [CateId, setCateId] = useState();
   const [CateList, setCateList] = useState([]);
-
-
+  const [CountryList, setCountryList] = useState([]);
+  const [StateList, setStateList] = useState([]);
+  const [CityList, setCityList] = useState([]);
 
   useEffect(() => {
     Get_Categroy();
-    // console.log("getCategoriesljsalfja---------------", props.allCategories);
   }, []);
-  // handelCategories
 
   const Get_Categroy = () => {
     let { actions } = props;
     actions.getCategories();
+    actions.getAllCountry();
   };
+
+  const addSelectedCountry = (item) => {
+    let countryItem = props.allCountries.find(data => data.id == item);
+    setcountry(countryItem?.name)
+    setstate("");
+    setcity("");
+    getStateCity(1, item);
+  }
+
+  const addSelectedState = (item) => {
+    let stateItem = props.allState.find(data => data.id == item);
+    setstate(stateItem?.name);
+    setcity("");
+    getStateCity(2, item);
+  }
+
+  const addSelectedCity = (item) => {
+    let cityItem = props.allCity.find(data => data.id == item);
+    setcity(cityItem?.name);
+  }
+
+  const getStateCity = (findType, itemId) => {
+    let { actions } = props;
+    let apiData = {
+      find_type: findType,
+      c_s_id: itemId
+    }
+    actions.getStateAndCity(apiData);
+  }
+
   useEffect(() => {
     if (props.allCategories.status == true) {
       let arr = [];
       props.allCategories.data.categories?.map((item, label) => {
         arr.push({ label: item.name, value: item.id });
-        // console.log('arr== categories in signup==>>>', arr);
       });
       setCateList(arr);
     }
   }, [props.allCategories])
 
+  useEffect(() => {
+    if (props.allCountries.length > 0) {
+      let arr = [];
+      props.allCountries?.map((item) => {
+        arr.push({ label: item.name, value: item.id });
+      });
+      setCountryList(arr);
+    }
+  }, [props.allCountries])
+
+  useEffect(() => {
+    if (props.allState.length > 0) {
+      let arr = [];
+      props.allState?.map((item) => {
+        arr.push({ label: item.name, value: item.id });
+      });
+      setStateList(arr);
+    }
+  }, [props.allState])
+
+  useEffect(() => {
+    if (props.allCity.length > 0) {
+      let arr = [];
+      props.allCity?.map((item) => {
+        arr.push({ label: item.name, value: item.id });
+      });
+      setCityList(arr);
+    }
+  }, [props.allCity])
+
   const Signin_Validators = () => {
     if (
       Validators.checkNotNull('Business Name', 2, 60, bName) &&
-      // Validators.checkNotNull('Last Name', 2, 60, lastname) &&
       Validators.checkNotNull('phoneNo', 7, 15, phoneNo) &&
       Validators.checkNotNull('street', 2, 60, street) &&
       Validators.checkNotNull('city', 2, 60, city) &&
@@ -85,7 +140,7 @@ const Addhospital = (props) => {
       country: country,
     }
     // console.log("apiData------------------------",apiData);
-    actions.handelAddDoctor(apiData, setloaderVisible,()=>PageNavigation());
+    actions.handelAddDoctor(apiData, setloaderVisible, () => PageNavigation());
   };
   const PageNavigation = () => {
     handleNavigation({
@@ -135,8 +190,40 @@ const Addhospital = (props) => {
             placeholderTextColor={Colors.imputborderColor}
             placeholder={{ label: 'Select Categroy', value: null }}
             onValueChange={value => setCateId(value)}
-            // onClose={(value) =>setCateId(value)}
             items={CateList}
+            style={styles}
+          />
+        </View>
+        <Text style={styles.textInputHeader}>Country</Text>
+        <View
+          style={[{ justifyContent: "center" }, styles.textInput]}>
+          <RNPickerSelect
+            placeholderTextColor={Colors.imputborderColor}
+            placeholder={{ label: 'Select Country', value: null }}
+            onValueChange={addSelectedCountry}
+            items={CountryList}
+            style={styles}
+          />
+        </View>
+        <Text style={styles.textInputHeader}>State</Text>
+        <View
+          style={[{ justifyContent: "center" }, styles.textInput]}>
+          <RNPickerSelect
+            placeholderTextColor={Colors.imputborderColor}
+            placeholder={{ label: 'Select State', value: null }}
+            onValueChange={(value) => addSelectedState(value)}
+            items={StateList}
+            style={styles}
+          />
+        </View>
+        <Text style={styles.textInputHeader}>City</Text>
+        <View
+          style={[{ justifyContent: "center" }, styles.textInput]}>
+          <RNPickerSelect
+            placeholderTextColor={Colors.imputborderColor}
+            placeholder={{ label: 'Select City', value: null }}
+            onValueChange={(value) => addSelectedCity(value)}
+            items={CityList}
             style={styles}
           />
         </View>
@@ -148,7 +235,7 @@ const Addhospital = (props) => {
           placeholderTextColor={Colors.imputborderColor}
           onChangeText={setstreet}
         />
-        <Text style={styles.textInputHeader}>City</Text>
+        {/* <Text style={styles.textInputHeader}>City</Text>
         <TextInput
           style={styles.textInput}
           keyboardType="default"
@@ -163,7 +250,7 @@ const Addhospital = (props) => {
           placeholder="State"
           placeholderTextColor={Colors.imputborderColor}
           onChangeText={setstate}
-        />
+        /> */}
         <Text style={styles.textInputHeader}>Post Code</Text>
         <TextInput
           style={styles.textInput}
@@ -172,14 +259,14 @@ const Addhospital = (props) => {
           placeholderTextColor={Colors.imputborderColor}
           onChangeText={setpostCode}
         />
-        <Text style={styles.textInputHeader}>Country</Text>
+        {/* <Text style={styles.textInputHeader}>Country</Text>
         <TextInput
           style={styles.textInput}
           keyboardType="default"
           placeholder="Country"
           placeholderTextColor={Colors.imputborderColor}
           onChangeText={setcountry}
-        />
+        /> */}
         <TouchableOpacity
           onPress={() => { Signin_Validators() }}
           style={styles.button}>
@@ -228,11 +315,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   // allRegisterData: state.doctor.allRegisterData,
   allCategories: state.doctor.allCategories,
+  allCountries: state.doctor.allCountries,
+  allState: state.doctor.allState,
+  allCity: state.doctor.allCity
 });
 
 const ActionCreators = Object.assign(
   { handelAddDoctor },
-  { getCategories }
+  { getCategories },
+  { getAllCountry },
+  { getStateAndCity }
 );
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),

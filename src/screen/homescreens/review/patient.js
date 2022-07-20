@@ -37,6 +37,47 @@ export default Patient = (props) => {
   const [ratingMoney, setRatingMoney] = useState(1);
   const [message, setMessage] = useState();
 
+  const [modalVisibleCountry, setModalVisibleCountry] = useState(false);
+  const [modalVisibleState, setModalVisibleState] = useState(false);
+  const [modalVisibleCity, setModalVisibleCity] = useState(false);
+
+  const [countryItem, setCountryItem] = useState({})
+  const [stateItem, setStateItem] = useState({})
+  const [cityItem, setCityItem] = useState({})
+
+  const handleCountryItem = (item) => {
+    setCountryItem(item);
+    setStateItem({});
+    setCityItem({});
+    setModalVisibleCountry(!modalVisibleCountry);
+    props.getStateCity(1, item.id);
+  }
+
+  const handleStateItem = (item) => {
+    setStateItem(item);
+    setCityItem({});
+    setModalVisibleState(!modalVisibleState)
+    props.getStateCity(2, item.id);
+  }
+
+  const handleCityItem = (item) => {
+    setCityItem(item);
+    setModalVisibleCity(!modalVisibleCity)
+    props.handelDoctorList(countryItem.name, stateItem.name, item.name);
+  }
+
+  const handleCountryModal = () => {
+    setModalVisibleCountry(!modalVisibleCountry)
+  }
+
+  const handleStateModal = () => {
+    setModalVisibleState(!modalVisibleState)
+  }
+
+  const handleCityModal = () => {
+    setModalVisibleCity(!modalVisibleCity)
+  }
+
   const Buttonslect = () => {
     setclick(true);
     // settext(false);
@@ -92,20 +133,28 @@ export default Patient = (props) => {
         {
           doctorId == null ?
             <>
-              <Text
-                style={[styles.imputHeader, { marginTop: 22, marginHorizontal: 24 }]}>
-                Select Doctors List
-              </Text>
+              <Text style={[styles.imputHeader, { marginTop: 22, marginHorizontal: 24 }]}>Select Country</Text>
+              <TouchableOpacity onPress={() => handleCountryModal()} style={[styles.dropdownView, { marginBottom: 15 }]}>
+                <Text style={styles.dropdownText}>{countryItem.id ? countryItem.name : "Select Country"}</Text>
+                <Image style={styles.downArrow} source={Imagepath.down} resizeMode="contain" />
+              </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => ListModal()}
-                style={[styles.dropdownView, { marginBottom: 15 }]}>
+              <Text style={[styles.imputHeader, { marginHorizontal: 24 }]}>Select State</Text>
+              <TouchableOpacity onPress={() => handleStateModal()} style={[styles.dropdownView, { marginBottom: 15 }]}>
+                <Text style={styles.dropdownText}>{stateItem.id ? stateItem.name : "Select State"}</Text>
+                <Image style={styles.downArrow} source={Imagepath.down} resizeMode="contain" />
+              </TouchableOpacity>
+
+              <Text style={[styles.imputHeader, { marginHorizontal: 24 }]}>Select City</Text>
+              <TouchableOpacity onPress={() => handleCityModal()} style={[styles.dropdownView, { marginBottom: 15 }]}>
+                <Text style={styles.dropdownText}>{cityItem.id ? cityItem.name : "Select City"}</Text>
+                <Image style={styles.downArrow} source={Imagepath.down} resizeMode="contain" />
+              </TouchableOpacity>
+
+              <Text style={[styles.imputHeader, { marginHorizontal: 24 }]}>Select Doctors List</Text>
+              <TouchableOpacity onPress={() => ListModal()} style={[styles.dropdownView, { marginBottom: 15 }]}>
                 <Text style={styles.dropdownText}>{doctId.id ? doctId.business_name : "Select Doctors"}</Text>
-                <Image
-                  style={styles.downArrow}
-                  source={Imagepath.down}
-                  resizeMode="contain"
-                />
+                <Image style={styles.downArrow} source={Imagepath.down} resizeMode="contain" />
               </TouchableOpacity>
             </> : null
         }
@@ -178,7 +227,7 @@ export default Patient = (props) => {
             style={styles.progressButton}>
             <Image
               style={[
-                { tintColor: waitTime >= 1 ? Colors.appcolor: Colors.checkboxColor },
+                { tintColor: waitTime >= 1 ? Colors.appcolor : Colors.checkboxColor },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -187,7 +236,7 @@ export default Patient = (props) => {
           </TouchableOpacity>
           <Text
             style={[
-              { color: waitTime >= 2 ? Colors.appcolor: Colors.checkboxColor },
+              { color: waitTime >= 2 ? Colors.appcolor : Colors.checkboxColor },
               styles.progressButtonText,
             ]}>
             ---------------
@@ -199,7 +248,7 @@ export default Patient = (props) => {
             style={styles.progressButton}>
             <Image
               style={[
-                { tintColor: waitTime >= 2 ? Colors.appcolor: Colors.checkboxColor },
+                { tintColor: waitTime >= 2 ? Colors.appcolor : Colors.checkboxColor },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -208,7 +257,7 @@ export default Patient = (props) => {
           </TouchableOpacity>
           <Text
             style={[
-              { color: waitTime >= 3 ? Colors.appcolor: Colors.checkboxColor },
+              { color: waitTime >= 3 ? Colors.appcolor : Colors.checkboxColor },
               styles.progressButtonText,
             ]}>
             ---------------
@@ -220,7 +269,7 @@ export default Patient = (props) => {
             style={styles.progressButton}>
             <Image
               style={[
-                { tintColor: waitTime >= 3 ? Colors.appcolor: Colors.checkboxColor },
+                { tintColor: waitTime >= 3 ? Colors.appcolor : Colors.checkboxColor },
                 styles.dotImage,
               ]}
               resizeMode="contain"
@@ -229,14 +278,14 @@ export default Patient = (props) => {
           </TouchableOpacity>
           <Text
             style={[
-              { color: waitTime >= 4 ? Colors.appcolor: Colors.checkboxColor },
+              { color: waitTime >= 4 ? Colors.appcolor : Colors.checkboxColor },
               styles.progressButtonText,
             ]}>
             ---------------
           </Text>
           <TouchableOpacity onPress={() => setWaitTime(4)} style={styles.progressButton}>
             <Image
-              style={[styles.dotImage, { tintColor: waitTime >= 4 ? Colors.appcolor: Colors.checkboxColor }]}
+              style={[styles.dotImage, { tintColor: waitTime >= 4 ? Colors.appcolor : Colors.checkboxColor }]}
               resizeMode="contain"
               source={Imagepath.dot}
             />
@@ -257,7 +306,7 @@ export default Patient = (props) => {
             }}>
             <Text
               style={[
-                { color: waitTime >= 1 ? Colors.appcolor: Colors.checkboxColor, paddingHorizontal: 18 },
+                { color: waitTime >= 1 ? Colors.appcolor : Colors.checkboxColor, paddingHorizontal: 18 },
                 styles.progressButtonTexttime,
               ]}>
               0To15
@@ -269,7 +318,7 @@ export default Patient = (props) => {
             }}>
             <Text
               style={[
-                { color: waitTime >= 2 ? Colors.appcolor: Colors.checkboxColor },
+                { color: waitTime >= 2 ? Colors.appcolor : Colors.checkboxColor },
                 styles.progressButtonTexttime,
               ]}>
               15To30
@@ -281,7 +330,7 @@ export default Patient = (props) => {
             }}>
             <Text
               style={[
-                { color: waitTime >= 3 ? Colors.appcolor: Colors.checkboxColor, paddingLeft: 25 },
+                { color: waitTime >= 3 ? Colors.appcolor : Colors.checkboxColor, paddingLeft: 25 },
                 styles.progressButtonTexttime,
               ]}>
               30To1hr
@@ -293,7 +342,7 @@ export default Patient = (props) => {
             }}>
             <Text
               style={[
-                { color: waitTime >= 4 ? Colors.appcolor: Colors.checkboxColor },
+                { color: waitTime >= 4 ? Colors.appcolor : Colors.checkboxColor },
                 styles.progressButtonTexttime,
               ]}>
               More than hr
@@ -456,7 +505,7 @@ export default Patient = (props) => {
             borderWidth: 0.5,
             borderRadius: 10,
             marginTop: 10,
-            textAlign:"center"
+            textAlign: "center"
 
           }}
           keyboardType="default"
@@ -503,12 +552,12 @@ export default Patient = (props) => {
             alignItems: 'center',
             borderRadius: 10,
             marginBottom: 30,
-            marginHorizontal:24 
+            marginHorizontal: 24
           }}>
           <Text
             style={{
               fontSize: Fontsize.FontSixteen,
-              color:Colors.white,
+              color: Colors.white,
               fontFamily: Fonts.ProximaNovaSemibold,
             }}>
             SUBMIT
@@ -522,8 +571,33 @@ export default Patient = (props) => {
           data={props.doctorList}
           slectData={mark}
           chexkBoxFnc={ServiceData}
+          listTitle={"Doctor List"}
         />
       )}
+      <DoctorList
+        modalVisible={modalVisibleCountry}
+        Hidemodal={handleCountryModal}
+        data={props.allCountries}
+        slectData={countryItem}
+        chexkBoxFnc={handleCountryItem}
+        listTitle={"Country list"}
+      />
+      <DoctorList
+        modalVisible={modalVisibleState}
+        Hidemodal={handleStateModal}
+        data={props.allState}
+        slectData={stateItem}
+        chexkBoxFnc={handleStateItem}
+        listTitle={"State list"}
+      />
+      <DoctorList
+        modalVisible={modalVisibleCity}
+        Hidemodal={handleCityModal}
+        data={props.allCity}
+        slectData={cityItem}
+        chexkBoxFnc={handleCityItem}
+        listTitle={"City list"}
+      />
     </ImageBackground>
   );
 };
