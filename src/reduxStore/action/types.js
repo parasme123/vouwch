@@ -1,3 +1,5 @@
+export const APPMODE = "LIVE";
+
 export const DOCTORRECORD = 'DOCTORRECORD';
 
 export const SAVEFOLLOWDATA = 'SAVEFOLLOWDATA';

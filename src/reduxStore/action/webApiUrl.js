@@ -1,5 +1,6 @@
-export const baseUrl = 'https://apponedemo.top/vouwch/api/';
-export const imgBaseUrl = 'https://apponedemo.top/vouwch/';
+import {APPMODE} from './types';
+export const baseUrl = APPMODE == "LIVE" ? 'https://healthytok.com/vouwch/api/' : 'https://apponedemo.top/vouwch/api/';
+export const imgBaseUrl = APPMODE == "LIVE" ? 'https://healthytok.com/vouwch/' : 'https://apponedemo.top/vouwch/';
 
 export const getFollowData = 'getfollow';
 export const getAllCountry = "get-country";
