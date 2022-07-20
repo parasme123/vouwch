@@ -227,7 +227,7 @@ export default Feedbackpage = (props) => {
       </View>
       {activeFeedbackTab == "p" || activeFeedbackTab == "c" ?
         <>
-          {Review.map((item, index) => (
+          {Review?.map((item, index) => (
             Feedback({ item, index })
           ))
           }

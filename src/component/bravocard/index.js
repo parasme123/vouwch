@@ -113,7 +113,7 @@ export default Bravocard = (props) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => props.handleAddBravoCardOrReview(props.item.doctor_id, 'Bravocard')}
-                        style={[styles.cardPhotoButton, { marginRight: 5 }]}>
+                        style={[styles.cardPhotoButton2, { marginRight: 5 }]}>
                         {svg.addBravo(15, 15, Colors.white)}
                         <Text style={styles.cardPhotoText}>Add Bravo Card</Text>
                     </TouchableOpacity>

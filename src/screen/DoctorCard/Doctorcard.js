@@ -75,6 +75,28 @@ const Doctor_Card = (props) => {
         });
     }
     // Follow API
+
+    
+    const Follow_api = (id) => {
+        if (!userType) {
+            Helper.loginPopUp(props.navigation);
+        }
+        // else if (userType?.user_type !== 1) {
+        //     alert('please login with personal account');
+        // } else 
+        {
+            Call_FollowApi(id);
+            FollowButton(id);
+        }
+    };
+    const Call_FollowApi = (id) => {
+        let { actions } = props;
+        let apiData = {
+            business_id: id,
+        }
+        console.log(apiData);
+        actions.postFollow(apiData);
+    };
     const FollowButton = item => {
         let follows1 = [...Follows];
         if (!follows1.includes(item)) {
@@ -88,26 +110,8 @@ const Doctor_Card = (props) => {
         setFollow(follows1);
     };
 
-    const Call_FollowApi = (id) => {
-        let { actions } = props;
-        let apiData = {
-            business_id: id,
-        }
-        actions.postFollow(apiData);
-    };
 
-    const Follow_api = (id) => {
-        if (!userType) {
-            Helper.loginPopUp(props.navigation);
-        }
-        // else if (userType?.user_type !== 1) {
-        //     alert('please login with personal account');
-        // } else 
-        {
-            Call_FollowApi(id);
-            FollowButton(id);
-        }
-    };
+
     useEffect(() => {
         AsyncStorageHelper.getData(Constants.TOKEN).then(value => {
             if (value !== null) {

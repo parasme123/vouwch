@@ -778,10 +778,12 @@ export const postLogout = (setloaderVisible, PageNavigation) => {
 
             setloaderVisible(false);
             Toast.show(response.message);
-        }).catch(err => {
-            console.log("postLogout", err);
+        }).catch( async err => {
+            await AsyncStorageHelper.removeMultiItemValue([Constants.USER_DATA, Constants.TOKEN])
+            // console.log("postLogout", err);
+            PageNavigation()
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            // Toast.show("something went wrong");
         })
     }
 };
