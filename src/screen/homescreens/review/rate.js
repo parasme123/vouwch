@@ -11,7 +11,7 @@ import Clinic from './clinic';
 import Patient from './patient';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { postReview, getDoctorList } from '../../../reduxStore/action/doctorAction';
+import { postReview, getDoctorList, getAllCountry, getStateAndCity } from '../../../reduxStore/action/doctorAction';
 import { handleNavigation } from '../../../navigator/Navigator';
 import { CustomLoader } from '@lib';
 
@@ -29,14 +29,21 @@ const Rate = (props, { navigation, route }) => {
   };
   useEffect(() => {
     ClinicianPage();
-    handelDoctorList();
-
+    let { actions } = props;
+    actions.getAllCountry();
   }, []);
+
+  const getStateCity = (findType, itemId) => {
+    let { actions } = props;
+    let apiData = {
+      find_type: findType,
+      c_s_id: itemId
+    }
+    actions.getStateAndCity(apiData);
+  }
 
   const Review_Validators = (apiData) => {
     let { actions } = props;
-    console.log(apiData);
-
     actions.postReview(apiData, setloaderVisible, () => PageNavigation());
   };
 
@@ -48,13 +55,10 @@ const Rate = (props, { navigation, route }) => {
     });
   }
 
-  // doctor list data
-
-  const handelDoctorList = () => {
-    let { actions } = props;
-    actions.getDoctorList();
+  const handelDoctorList = (country, state, city) => {
+    console.log("country, state, city", country, state, city);
+    props.actions.getDoctorList(country, state, city);
   };
-
 
   return (
     <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
@@ -76,7 +80,7 @@ const Rate = (props, { navigation, route }) => {
               styles.button,
             ]}>
             <Text style={{ color: Colors.white, fontSize: 13 }}>
-            Clinician’s Feedback
+              Clinician’s Feedback
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -101,6 +105,11 @@ const Rate = (props, { navigation, route }) => {
           doctorList={props.allDoctorlist}
           docId={doctorId}
           Review_Validators={Review_Validators}
+          getStateCity={getStateCity}
+          allCountries={props.allCountries}
+          allState={props.allState}
+          allCity={props.allCity}
+          handelDoctorList={handelDoctorList}
         />
       }
       {
@@ -109,6 +118,11 @@ const Rate = (props, { navigation, route }) => {
           doctorList={props.allDoctorlist}
           docId={doctorId}
           Review_Validators={Review_Validators}
+          getStateCity={getStateCity}
+          allCountries={props.allCountries}
+          allState={props.allState}
+          allCity={props.allCity}
+          handelDoctorList={handelDoctorList}
         />
       }
       <CustomLoader loaderVisible={loaderVisible} />
@@ -128,12 +142,17 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
-  allDoctorlist: state.doctor.allDoctorlist
+  allDoctorlist: state.doctor.allDoctorlist,
+  allCountries: state.doctor.allCountries,
+  allState: state.doctor.allState,
+  allCity: state.doctor.allCity
 });
 
 const ActionCreators = Object.assign(
   { postReview },
-  { getDoctorList }
+  { getDoctorList },
+  { getAllCountry },
+  { getStateAndCity }
 );
 
 const mapDispatchToProps = dispatch => ({

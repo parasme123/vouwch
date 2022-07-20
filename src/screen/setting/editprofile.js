@@ -64,6 +64,7 @@ const Editprofile = (props) => {
   const addSelectedCountry = (item) => {
     setSelectedCountry([item]);
     setSelectedState([]);
+    setSelectedCity([]);
     setCountryModalVisible(!countryModalVisible);
     getStateCity(1, item.id);
   }
@@ -142,11 +143,19 @@ const Editprofile = (props) => {
   }
 
   const stateModal = () => {
-    setStateModalVisible(!stateModalVisible);
+    if (props.allState.length > 0) {
+      setStateModalVisible(!stateModalVisible);
+    } else {
+      alert("Please select country first");
+    }
   }
 
   const cityModal = () => {
-    setCityModalVisible(!cityModalVisible);
+    if (props.allState.length > 0) {
+      setCityModalVisible(!cityModalVisible);
+    } else {
+      alert("Please select state first");
+    }
   }
 
   return (

@@ -288,6 +288,7 @@ const Bravocard = (props) => {
           data={props.allDoctorlist}
           slectData={mark}
           chexkBoxFnc={ServiceData}
+          listTitle={"Doctor List"}
         />
       )}
       <CustomLoader loaderVisible={loaderVisible} />

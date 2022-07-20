@@ -652,10 +652,10 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
     }
 };
 
-export const getDoctorList = () => {
+export const getDoctorList = (country, state, city) => {
     return async dispatch => {
         // setloaderVisible(true);
-        await fetch(`${URL.baseUrl}${URL.doctorlist}`, {
+        await fetch(`${URL.baseUrl}${URL.doctorlist}?country_name=${country}&state_name=${state}&city_name=${city}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
