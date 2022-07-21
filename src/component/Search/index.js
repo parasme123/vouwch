@@ -27,7 +27,7 @@ const Searchresult = () => {
         onPress={() => navigation.navigate('hospital')}
         style={styles.button}>
         <Text style={styles.textButton}>
-          Add doctor / hospital name
+          Add doctor / hospital 
         </Text>
       </TouchableOpacity>
     </View>

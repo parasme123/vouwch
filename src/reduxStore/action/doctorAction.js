@@ -535,7 +535,6 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
 export const postMessge = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
-
         await fetch(`${URL.baseUrl}${URL.messageApi}`, {
             method: "POST",
             headers: {
@@ -576,6 +575,7 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
+                console.log(response);
                 Toast.show(response.message);
             } else {
                 setloaderVisible(false);

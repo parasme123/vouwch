@@ -159,11 +159,11 @@ const Addhospital = (props) => {
       <ScrollView showsHorizontalScrollIndicator="false"
         showsVerticalScrollIndicator={false}
         style={{ flexGrow: 1, paddingHorizontal: 24, paddingTop: 16, }}>
-        <Text style={styles.textInputHeader}>Doctor Name or Hospital Name</Text>
+        <Text style={styles.textInputHeader}>Doctor / Hospital Name</Text>
         <TextInput
           style={styles.textInput}
           keyboardType="default"
-          placeholder="Doctor name or Hospital Name"
+          placeholder="Doctor / Hospital Name"
           placeholderTextColor={Colors.imputborderColor}
           onChangeText={setBName}
         />
