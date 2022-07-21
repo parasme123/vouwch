@@ -39,12 +39,12 @@ export default Splash = ({ navigation }) => {
             source={Imagepath.background}
             resizeMode="cover"
             style={styles.bg}>
-            {/* <Image
+            <Image
                 style={styles.logo}
                 resizeMode="cover"
-                source={Imagepath.logo}
-            /> */}
-            {svg.vOWCHiCON(30, 30, Colors.appcolor)}
+                source={Imagepath.Vouwch}
+            />
+            {/* {svg.vOWCHiCON(30, 30, Colors.appcolor)} */}
         </ImageBackground>
     );
 }
