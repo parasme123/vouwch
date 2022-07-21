@@ -19,6 +19,7 @@ import { bindActionCreators } from 'redux';
 import { postRegister, getCategories } from '../../reduxStore/action/doctorAction';
 import { handleNavigation } from '../../navigator/Navigator';
 import { useNavigation } from '@react-navigation/native';
+import { contactUsUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
 const BusinessSignup = (props) => {
   const [mark, setMark] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
@@ -110,36 +111,6 @@ const BusinessSignup = (props) => {
             (Dodtors, Hospitals and clinics )
           </Text>
           <View style={styles.ImputView}>
-            {/* <View style={styles.textInputView}>
-              <View style={styles.textInputsubView}>
-                {svg.manIcon(16, 18, Colors.imputborderColor)}
-              </View>
-              <TextInput
-                placeholderTextColor={Colors.imputborderColor}
-                placeholder="Enter your first name"
-                style={styles.textInput}
-                onChangeText={text => {
-                  setfirstname(text);
-                }}
-                value={firstname}
-                keyboardType="default"
-              />
-            </View> */}
-            {/* <View style={styles.textInputView}>
-              <View style={styles.textInputsubView}>
-                {svg.manIcon(16, 18, Colors.imputborderColor)}
-              </View>
-              <TextInput
-                placeholderTextColor={Colors.imputborderColor}
-                placeholder="Enter your last name"
-                style={styles.textInput}
-                onChangeText={text => {
-                  // setlastname(text);
-                }}
-                value={lastname}
-                keyboardType="default"
-              />
-            </View> */}
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
                 {svg.email(16, 18, Colors.imputborderColor)}
@@ -214,16 +185,17 @@ const BusinessSignup = (props) => {
                 <Image
                   source={
                     mark
-                      ? require('../../assect/icon/yes.png')
-                      : require('../../assect/icon/check.png')
-                  }
+                      ? imagepath.yes
+                      : imagepath.check}
+
                   style={styles.checkbox}
                   resizeMode="cover"
                 />
               </TouchableOpacity>
               <Text style={styles.checkBoxText}>I agree to
                 <Text style={styles.checkBoxText2}> Terms of Services </Text>and
-                <Text onPress={() => { Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app') }} style={styles.checkBoxText2}> Privacy Policy</Text>
+                <Text onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${contactUsUrl}`, title: "Privacy Policy" })}
+                  style={styles.checkBoxText2}> Privacy Policy</Text>
               </Text>
             </View>
             <TouchableOpacity

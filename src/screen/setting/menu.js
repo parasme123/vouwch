@@ -16,6 +16,7 @@ import { handleNavigation } from '../../navigator/Navigator';
 import { logOut, postLogout } from '../../reduxStore/action/doctorAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { aboutUsUrl, baseUrl, contactUsUrl, HelpSupportUrl, imgBaseUrl, PrivacyPolicyUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
 
 // const { width, height } = Dimensions.get("window");
 const Menu = (props, { navigation }) => {
@@ -66,7 +67,7 @@ const Menu = (props, { navigation }) => {
         contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container1}>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/contact-us', title: "Contact Us" })}
+            onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${contactUsUrl}`, title: "Contact Us" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
@@ -76,7 +77,7 @@ const Menu = (props, { navigation }) => {
             <Text style={styles.pageButtonText}>contact us</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/help-support', title: "Help & support" })}
+            onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${HelpSupportUrl}`, title: "Help & support" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
@@ -86,7 +87,7 @@ const Menu = (props, { navigation }) => {
             <Text style={styles.pageButtonText}>Help & support</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/api/about-us-app', title: "About us" })}
+            onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${aboutUsUrl}`, title: "About us" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
@@ -96,7 +97,7 @@ const Menu = (props, { navigation }) => {
             <Text style={styles.pageButtonText}>About us</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("webView", { url: 'https://apponedemo.top/vouwch/privacy-policy', title: "Privacy Policy" })}
+            onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${PrivacyPolicyUrl}`, title: "Privacy Policy" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}

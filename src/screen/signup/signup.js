@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { postRegister } from '../../reduxStore/action/doctorAction';
+import { contactUsUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
 
 const Signup = (props) => {
   const [mark, setMark] = useState();
@@ -36,10 +37,10 @@ const Signup = (props) => {
   const Signin_Validators = () => {
     if (
       Validators.checkNull('First Name', 2, firstname) &&
-      Validators.checkNull('Last Name', 2,  lastname) &&
+      Validators.checkNull('Last Name', 2, lastname) &&
       Validators.checkEmail('Email', email) &&
-      Validators.checkNull('Password', 8,  password) &&
-      Validators.checkNull('Confirm Password', 8,  ConfirmPassword) &&
+      Validators.checkNull('Password', 8, password) &&
+      Validators.checkNull('Confirm Password', 8, ConfirmPassword) &&
       Validators.checkMatch('Password', password, 'Confirm Password', ConfirmPassword,)
     ) {
       if (!mark) {
@@ -164,16 +165,17 @@ const Signup = (props) => {
               <Image
                 source={
                   mark
-                    ? require('../../assect/icon/yes.png')
-                    : require('../../assect/icon/check.png')
-                }
+                    ? imagepath.yes
+                    : imagepath.check}
                 style={styles.checkbox}
                 resizeMode="cover"
               />
             </TouchableOpacity>
             <Text style={styles.checkBoxText}>I agree to
               <Text style={styles.checkBoxText2}> Terms of Services </Text>and
-              <Text onPress={() => { Linking.openURL('https://apponedemo.top/vouwch/api/privacy-policy-app') }} style={styles.checkBoxText2}> Privacy Policy</Text>
+              <Text
+                onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${contactUsUrl}`, title: "Privacy Policy" })}
+                style={styles.checkBoxText2}> Privacy Policy</Text>
             </Text>
           </View>
 
