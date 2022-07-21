@@ -45,7 +45,7 @@ export default DoctorcardList = (props) => {
                         </View>
                         <FlatList
                             style={{ marginVertical: 50 }}
-                            data={props.item.card_image_media}
+                            data={props?.item?.card_image_media}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             renderItem={(i) => {
@@ -113,7 +113,7 @@ export default DoctorcardList = (props) => {
                 <TouchableOpacity
                     style={styles.DoctorCardShareButton}
                     onPress={() => {
-                        props.onpress_Share(props.item.doctor_id);
+                        props.onpress_Share(props?.item?.doctor_id);
                     }}>
                     {svg.shareCircle(30, 30, Colors.black, Colors.white)}
                     <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>

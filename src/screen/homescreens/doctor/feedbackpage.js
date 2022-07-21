@@ -130,7 +130,7 @@ export default Feedbackpage = (props) => {
                   }}>
                   <Image
                     style={{ height: 8, width: 8, paddingRight: 3 }}
-                    source={imagepath.yellowstar}
+                    source={ activeFeedbackTab == "p" ?  imagepath.yellowstar : imagepath.redstar}
                   />
                   <Text
                     style={{

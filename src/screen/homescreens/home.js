@@ -107,9 +107,6 @@ const Home = (props) => {
 
   };
 
-
-
-
   // Search API
 
   const Call_SearchApi = searchProps => {
@@ -296,7 +293,7 @@ const Home = (props) => {
               }}
             />
             <TouchableOpacity
-              onPress={() => Call_SearchApi(search)}>
+              onPress={search.length >1 ? () => Call_SearchApi(search) : null}>
               <Image
                 source={Imagepath.searchbtn}
                 resizeMode="stretch"
