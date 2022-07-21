@@ -12,8 +12,6 @@ import { CustomLoader, } from '@lib';
 import Fontsize from '../../common/Fontsize';
 import Fonts from '../../common/Fonts';
 import moment from "moment";
-import VideoPlayer from 'react-native-video-controls';
-const { width, height } = Dimensions.get('window');
 
 const Notification = (props, { navigation, route }) => {
   const [loaderVisible, setloaderVisible] = useState(false);
@@ -49,7 +47,7 @@ const Notification = (props, { navigation, route }) => {
   const NotificationItem = ({ item, index, type, Tab }) => {
     return (
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Reply", { actTab: Tab })}
+        onPress={Tab != 3 ? () => props.navigation.navigate("Reply", { actTab: Tab }) : null}
         style={styles.headButton}
         key={index}>
         <View style={{ flex: 0.3 }}>
@@ -58,10 +56,6 @@ const Notification = (props, { navigation, route }) => {
             resizeMode="cover"
             source={userType == 1 ?
               { uri: item?.reply_msg?.profile_picture } : { uri: item?.get_user?.profile_picture }}
-          />
-          <VideoPlayer
-            source={{ uri: 'https://vjs.zencdn.net/v/oceans.mp4' }}
-            navigator={this.props.navigator}
           />
         </View>
         <View style={{ flex: 0.8 }}>
@@ -102,7 +96,7 @@ const Notification = (props, { navigation, route }) => {
           {/* {userType != 1 ? */}
           {/* <> */}
           {bravoCardNotification?.map((item, index) => (
-            NotificationItem({ item, index, type: "send a bravo card", })
+            NotificationItem({ item, index, type: "send a bravo card", Tab:3 })
           ))}
           {/* </> */}
           {/* : null} */}

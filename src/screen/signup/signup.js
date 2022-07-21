@@ -132,6 +132,7 @@ const Signup = (props) => {
             <TextInput
               placeholder="Enter your  Password"
               placeholderTextColor={Colors.imputborderColor}
+              secureTextEntry={true}
               style={styles.textInputText}
               onChangeText={text => {
                 setpassword(text);
@@ -147,6 +148,7 @@ const Signup = (props) => {
             <TextInput
               placeholder="Enter Confirm Password"
               placeholderTextColor={Colors.imputborderColor}
+              secureTextEntry={true}
               style={styles.textInputText}
               onChangeText={text => {
                 setConfirmPassword(text);

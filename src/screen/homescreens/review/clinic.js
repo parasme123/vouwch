@@ -216,7 +216,7 @@ const Clinic = (props) => {
             borderWidth: 0.5,
             borderRadius: 10,
             marginTop: 10,
-            textAlign: 'center',
+            // textAlign: 'center',
             fontFamily: Fonts.ProximaNovaSemibold,
           }}
           keyboardType="default"

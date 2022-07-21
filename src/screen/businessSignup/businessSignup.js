@@ -178,6 +178,7 @@ const BusinessSignup = (props) => {
               <TextInput
                 placeholderTextColor={Colors.imputborderColor}
                 placeholder="Enter your password"
+                secureTextEntry={true}
                 style={styles.textInput}
                 onChangeText={text => {
                   setpassword(text);
