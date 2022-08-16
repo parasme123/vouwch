@@ -47,9 +47,6 @@ export default Bravocard = (props) => {
                             renderItem={(i) => {
                                 return (
                                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: "row" }}>
-                                        {
-                                            console.log("videoBtn,videoBtn", i.item.media_url)
-                                        }
                                         {videoBtn == true ?
                                             <View style={{ margin: 10 }}>
                                                 <VideoPlayer

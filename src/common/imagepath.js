@@ -81,7 +81,7 @@ const Imagepath = {
   instaicon: require('../assect/icon/instaicon.png'),
   mailicon: require('../assect/icon/mailicon.png'),
   attach: require('../assect/icon/attach.png'),
-  // close:require('../assect/icon/close.png'),
+  Vouwch:require('../assect/icon/Vouwch.png'),
   loading: require('../assect/icon/loading.png'),
   replyIcons: require('../assect/icon/replyIcons.png'),
   forwordIcon: require('../assect/icon/forwordIcon.png'),

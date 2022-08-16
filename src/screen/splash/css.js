@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   logo: { 
-    height: 320, 
-    width: '100%' 
+    height: 250, 
+    width:  250
   },
 });
 export default styles;

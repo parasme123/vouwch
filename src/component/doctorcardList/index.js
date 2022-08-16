@@ -114,7 +114,6 @@ export default DoctorcardList = (props) => {
           onPress={() => {
             props.onpress_DoctorCard_Follow(props.item.id);
           }}>
-            {console.log("props.Followsprops.Follows",props.Follows, props.item.id)}
           {
             props.Follows?.findIndex((data) => data.business_id === props.item.id) !== -1 ?
               svg.followCircle(30, 30, Colors.white, Colors.appcolor) :

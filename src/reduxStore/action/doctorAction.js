@@ -535,7 +535,6 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
 export const postMessge = (data, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
-
         await fetch(`${URL.baseUrl}${URL.messageApi}`, {
             method: "POST",
             headers: {
@@ -544,9 +543,8 @@ export const postMessge = (data, setloaderVisible, PageNavigation) => {
             },
             body: JSON.stringify(data)
         }).then(async (res) => {
-            let response = await res.json();
-
             setloaderVisible(false);
+            let response = await res.json();
             if (response.status) {
                 PageNavigation(response)
                 Toast.show(response.message);
@@ -577,6 +575,7 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
+                console.log(response);
                 Toast.show(response.message);
             } else {
                 setloaderVisible(false);
@@ -839,6 +838,7 @@ export const postLogout = (setloaderVisible, PageNavigation) => {
         }).catch(async (err) => {
             await AsyncStorageHelper.removeMultiItemValue([Constants.USER_DATA, Constants.TOKEN])
             PageNavigation()
+            dispatch(logOut());
             console.log("postLogout", err);
             setloaderVisible(false);
             // Toast.show("something went wrong");

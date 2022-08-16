@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import { imagepath, Colors, String, Fonts } from '@common';
 import { Helper } from '@lib';
 import MessageBox from '../../common/MessegeBox';
 import Fontsize from '../../common/Fontsize';
+import AsyncStorageHelper from '../../Lib/AsyncStorageHelper';
+import Constants from '../../Lib/Constants';
 
 const Message = (props) => {
   const [Reply, setReply] = useState(0);
@@ -47,7 +49,7 @@ const Message = (props) => {
               </View>
             </View> :
             <TouchableOpacity
-              onPress={() => { onChangesecond(item.id) }}
+              onPress={ props.usettype ==2 ? () => { onChangesecond(item.id) }: null}
               style={styles.replyView}>
               <Image style={styles.replyIcon} source={imagepath.replyIcons} />
               <Text style={styles.replyText}>Reply</Text>
@@ -56,10 +58,10 @@ const Message = (props) => {
         </View>
         {
           Reply == item.id &&
-          <MessageBox 
-          item={item} 
-          typeDetail={props.typeDetail}
-          handleReply={props.handleReply} />
+          <MessageBox
+            item={item}
+            typeDetail={props.typeDetail}
+            handleReply={props.handleReply} />
 
         }
       </View>

@@ -1,6 +1,12 @@
-import {APPMODE} from './types';
+import { APPMODE } from './types';
 export const baseUrl = APPMODE == "LIVE" ? 'https://healthytok.com/vouwch/api/' : 'https://apponedemo.top/vouwch/api/';
 export const imgBaseUrl = APPMODE == "LIVE" ? 'https://healthytok.com/vouwch/' : 'https://apponedemo.top/vouwch/';
+
+export const WebBaseUrl = 'https://healthytok.com/vouwch/'
+export const aboutUsUrl = "about-us";
+export const contactUsUrl = "contact-us";
+export const HelpSupportUrl = "help-support";
+export const PrivacyPolicyUrl = "privacy-policy";
 
 export const getFollowData = 'getfollow';
 export const getAllCountry = "get-country";

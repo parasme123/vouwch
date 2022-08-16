@@ -56,7 +56,6 @@ const Reply = (props, { route }) => {
         detail: message
       }
     }
-    console.log("apiData",apiData);
     actions.postMessageReply(apiData, typeOfData);
 
   }
@@ -105,6 +104,7 @@ const Reply = (props, { route }) => {
           <Message 
           typeDetail={typeOfData }
           dataMsg={props.messageAndComment}
+          usettype={props.allUserPostData.user_type}
            handleReply={handelMessageReply} />
         ) : (
           <NoRecordFound />
@@ -164,6 +164,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   messageAndComment: state.doctor.messageAndComment,
+  allUserPostData: state.doctor.allUserPostData,
+
 });
 
 const ActionCreators = Object.assign(

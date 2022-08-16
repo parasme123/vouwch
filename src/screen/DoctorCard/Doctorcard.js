@@ -65,6 +65,7 @@ const Doctor_Card = (props) => {
             doctor_id: msgDocId,
             detail: commentText,
         };
+        console.log(apiData);
         actions.postComment(apiData, setloaderVisible, () => PageNavigation());
     };
     const PageNavigation = () => {
