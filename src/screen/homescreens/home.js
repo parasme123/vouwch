@@ -319,26 +319,6 @@ const Home = (props) => {
           />
         </View>
 
-        {/* Categouries Bravo card: */}
-        <View style={styles.featuredView}>
-          <Text style={styles.bravoCategouryText}>Featured Bravo Cards</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Hospotalbravocard')} style={{ alignItems: 'center' }}>
-            <Text style={styles.bravoCategouryButtonText}>See All</Text>
-          </TouchableOpacity>
-        </View>
-        {/* Bravo Card */}
-        <View style={{ marginHorizontal: 5 }}>
-          <FlatList
-            data={props.allHomeData.cards}
-            // data={DataCardList}
-            renderItem={Card}
-            keyExtractor={(item, index) => String(index)}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-
         {/* Featured Doctors */}
         <View style={styles.featuredView}>
           <Text style={styles.featuredViewText}>Featured Doctors</Text>
@@ -359,6 +339,26 @@ const Home = (props) => {
             renderItem={Doctor_Card}
             keyExtractor={(item, index) => String(index)}
             horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+
+        {/* Categouries Bravo card: */}
+        <View style={styles.featuredView}>
+          <Text style={styles.bravoCategouryText}>Featured Bravo Cards</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Hospotalbravocard')} style={{ alignItems: 'center' }}>
+            <Text style={styles.bravoCategouryButtonText}>See All</Text>
+          </TouchableOpacity>
+        </View>
+        {/* Bravo Card */}
+        <View style={{ marginHorizontal: 5, marginBottom:20 }}>
+          <FlatList
+            data={props.allHomeData.cards}
+            // data={DataCardList}
+            renderItem={Card}
+            keyExtractor={(item, index) => String(index)}
+            horizontal
             showsHorizontalScrollIndicator={false}
           />
         </View>

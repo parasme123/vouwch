@@ -47,7 +47,7 @@ export default class CustomDropDown extends React.Component {
 
                                     <Text style={[styles.dropDownText1, { color: this.props.placeholder == item.label ? Colors.bottonColors : '#000000' }]}>{item.label}</Text>
 
-                                    <Text style={[styles.dropDownText1, { color: this.props.placeholder == item.SlectId ? Colors.bottonColors : '#000000' }]}>{item.SlectId}</Text>
+                                    {/* <Text style={[styles.dropDownText1, { color: this.props.placeholder == item.SlectId ? Colors.bottonColors : '#000000' }]}>{item.SlectId}</Text> */}
                                 </TouchableOpacity>
                             );
                         }} />
