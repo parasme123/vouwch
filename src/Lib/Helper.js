@@ -33,7 +33,7 @@ export const setDateFormat = (newDate) => {
   let date = timeStamp.getDate();
   let month = timeStamp.getMonth();
   let year = timeStamp.getFullYear();
-  return months[month - 1] + " " + date + ", " + year;
+  return months[month] + " " + date + ", " + year;
 }
 
 export const setTimeFormat = (newDate) => {
@@ -44,7 +44,7 @@ export const setTimeFormat = (newDate) => {
   let year = timeStamp.getFullYear();
   let hours = timeStamp.getUTCHours();
   let Min = timeStamp.getUTCMinutes();
-  return months[month - 1] + " " + date + ", " + year + ", " +hours +":"+Min;
+  return months[month] + " " + date + ", " + year + ", " +hours +":"+Min;
 }
 
 export const loginPopUp = (navigation) => {

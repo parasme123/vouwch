@@ -51,7 +51,7 @@ const Clinic = (props) => {
   const onChangesecond = (item) => {
     setDropDownSec(!DropDownSec);
     setselectvalue(item.label);
-    setId(item.SlectId)
+    setId(item.id)
   };
   const onPickersecond = () => {
     setDropDownSec(!DropDownSec);
@@ -60,11 +60,11 @@ const Clinic = (props) => {
     setMark(!mark);
   };
   let DishesData = [
-    { label: 'First Choice', value: '5 Star', SlectId: "5" },
-    { label: 'Second Choice', value: '4 Star', SlectId: "4" },
-    { label: 'Third Choice', value: '3 Star', SlectId: "3" },
-    { label: 'Maybe', value: '2 Star', SlectId: "2" },
-    { label: 'Emergency only', value: '1 Star', SlectId: "1" },
+    { label: 'First Choice', value: '5 Star', id: "5" },
+    { label: 'Second Choice', value: '4 Star', id: "4" },
+    { label: 'Third Choice', value: '3 Star', id: "3" },
+    { label: 'Maybe', value: '2 Star', id: "2" },
+    { label: 'Emergency only', value: '1 Star', id: "1" },
   ];
 
   const handleCountryItem = (item) => {
@@ -167,7 +167,7 @@ const Clinic = (props) => {
 
         <Text
           style={styles.imputHeader}>
-          Slect your recommendation
+          Select your recommendation
         </Text>
 
         <TouchableOpacity

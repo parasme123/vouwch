@@ -14,6 +14,8 @@ import { Colors, Fonts, imagepath } from '@common';
 import Fontsize from '../../../common/Fontsize';
 import { Bravocard, DoctorCard } from '@component';
 import { Helper } from '@lib';
+import { Rating } from 'react-native-ratings';
+
 const styles = StyleSheet.create({
   feedBackTypeBtn: {
     backgroundColor: Colors.darkSkyBlue,
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
 export default Feedbackpage = (props) => {
   const navigation = useNavigation();
   const [activeFeedbackTab, setActiveFeedbackTab] = useState("p");
-  const Review = activeFeedbackTab == "p" ? props.data?.patient_reviews?.data : props.data?.clinical_reviews?.data;
+  const Review = activeFeedbackTab == "p" ? props.data?.patient_reviews : props.data?.clinical_reviews;
   const Feedback = ({ item, index }) => {
     return (
       <View
@@ -122,15 +124,29 @@ export default Feedbackpage = (props) => {
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    backgroundColor: '#E6F5FB',
+                    backgroundColor: Colors.white,
                     borderRadius: 10,
                     justifyContent: 'center',
                     paddingHorizontal: 10,
-                    paddingVertical: 3
+                    paddingVertical: 3,
+                    borderWidth: 0.5,
+                    borderColor: "#B5B5B5"
                   }}>
-                  <Image
+                  <Rating
+                    type="custom"
+                    max={5}
+                    readonly="true"
+                    ratingColor={activeFeedbackTab == "p" ? "#FAC917" : Colors.red}
+                    ratingBackgroundColor={Colors.white}
+                    startingValue={item.rate}
+                    imageSize={12}
+                    iconWidth={15}
+                    iconHeight={15}
+                  />
+
+                  {/* <Image
                     style={{ height: 8, width: 8, paddingRight: 3 }}
-                    source={ activeFeedbackTab == "p" ?  imagepath.yellowstar : imagepath.redstar}
+                    source={activeFeedbackTab == "p" ? imagepath.yellowstar : imagepath.redstar}
                   />
                   <Text
                     style={{
@@ -140,9 +156,9 @@ export default Feedbackpage = (props) => {
                       paddingLeft: 3,
                     }}>
                     {item.rate}
-                  </Text>
+                  </Text> */}
                 </View>
-                <Text
+                {/* <Text
                   style={{
                     fontSize: Fontsize.fontTwelve,
                     color: '#5D5D5D',
@@ -150,8 +166,19 @@ export default Feedbackpage = (props) => {
                     fontFamily: Fonts.ProximaNovaRegular,
                   }}>
                   Reviews
-                </Text>
+                </Text> */}
               </View>
+              <Text
+                style={{
+                  fontSize: Fontsize.fontTwelve,
+                  color: Colors.grey,
+                  // paddingLeft: 20,
+                  fontFamily: Fonts.ProximaNovaLight,
+                  // marginVertical: 10
+                }}>
+                {item.review}
+              </Text>
+
               {/*           View recomended   by user*/}
               <View
                 // onPress={() => navigation.navigate('profile')}s
@@ -160,31 +187,25 @@ export default Feedbackpage = (props) => {
                   style={{ height: 14, width: 14 }}
                   source={imagepath.likeicon}
                 />
-                <Text
-                  style={{
-                    fontSize: Fontsize.fontTwelve,
-                    color: Colors.appcolor,
-                    marginLeft: 5,
-                    lineHeight: 15,
-                    fontFamily: Fonts.ProximaNovaRegular,
-                    marginRight: 10
-                  }}>
-                  {item.is_recommend == 1 ? "I recommended this doctor" : "Not recommended this doctor"}
-                </Text>
+                {
+                  activeFeedbackTab == "p" ? (
+                    <Text
+                      style={{
+                        fontSize: Fontsize.fontTwelve,
+                        color: Colors.appcolor,
+                        marginLeft: 5,
+                        lineHeight: 15,
+                        fontFamily: Fonts.ProximaNovaRegular,
+                        marginRight: 10
+                      }}>
+                      {item.is_recommend == 1 ? "I recommended this doctor" : "Not recommended this doctor"}
+                    </Text>
+                  ) : null
+                }
               </View>
             </View>
           </View>
         </View>
-        <Text
-          style={{
-            fontSize: Fontsize.fontTwelve,
-            color: Colors.grey,
-            paddingLeft: 20,
-            fontFamily: Fonts.ProximaNovaLight,
-            marginVertical: 10
-          }}>
-          {item.review}
-        </Text>
       </View>
     );
   };
