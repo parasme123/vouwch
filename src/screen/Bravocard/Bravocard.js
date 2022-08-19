@@ -91,8 +91,10 @@ const Bravocard = (props) => {
 
   const BravoCard = () => {
     let { actions } = props;
+    let finalDocId = doctorId ? doctorId : doctId.id ? doctId.id : "";
+    console.log("finalDocId", finalDocId);
     const data = new FormData();
-    data.append('doctor_id', doctorId ?? props.allDoctorlist);
+    data.append('doctor_id', finalDocId);
     data.append('name', name);
     data.append('department', department);
     data.append('hospital', hospital);
@@ -197,7 +199,7 @@ const Bravocard = (props) => {
               </View>
             </View>
 
-            {
+            {/* {
               doctorId == null ?
                 <>
                   <Text
@@ -216,7 +218,7 @@ const Bravocard = (props) => {
                     />
                   </TouchableOpacity>
                 </> : null
-            }
+            } */}
 
             <InputCommon
               title={String.title}
