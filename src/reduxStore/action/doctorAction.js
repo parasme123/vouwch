@@ -608,7 +608,7 @@ export const getdoctordetails = (data, setloaderVisible) => {
                 Toast.show(response.message);
             }
         }).catch(err => {
-            console.log("postBravo", err);
+            console.log("getdoctordetails", err);
             setloaderVisible(false);
             Toast.show("something went wrong");
         })
