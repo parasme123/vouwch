@@ -77,6 +77,13 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.ProximaNovaRegular,
     flex: 1,
   },
+  cardHospitalViewTextmain: {
+    color: Colors.lightGrey,
+    fontSize: Fontsize.small,
+    lineHeight: 15,
+    fontFamily: Fonts.ProximaNovaRegular,
+    // flex: 1,
+  },
   //
   cardHospitalViewButton: {
     flexDirection: 'row',

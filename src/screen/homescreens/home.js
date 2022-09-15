@@ -102,7 +102,7 @@ const Home = (props) => {
     let apiData = {
       business_id: id,
     }
-    console.log(apiData);
+    // console.log(apiData);
     actions.postFollow(apiData);
 
   };

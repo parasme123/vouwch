@@ -32,7 +32,8 @@ const String = {
     reset: "Change Password",
     Bravocard: "Bravo Card",
     doctorcard: "Doctor Card",
-    message: "Message & Comments"
+    message: "Message & Comments",
+    DetailedBusinessProfile:"Detailed Business Profile"
 
 
 }

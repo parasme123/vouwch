@@ -28,6 +28,8 @@ import Reply from '../screen/Message/Reply';
 import MessageBox from '../common/MessegeBox';
 import MyWebComponent from '../component/webVview/MyWebComponent';
 import FeedbackUserProfile from '../screen/setting/FeedbackUserProfile';
+import feedbackpage from '../screen/homescreens/doctor/feedbackpage';
+import DetailedBusinessProfile from '../screen/DetailedBusinessProfile';
 const MainStack = createStackNavigator();
 const Navigator = () => {
   return (
@@ -64,6 +66,9 @@ const Navigator = () => {
         <MainStack.Screen name="Msg" component={MessageBox} />
         <MainStack.Screen name="webView" component={MyWebComponent} />
         <MainStack.Screen name="FeedbackUserProfile" component={FeedbackUserProfile} />
+        <MainStack.Screen name="DetailedBusinessProfile" component={DetailedBusinessProfile} />
+
+
 
 
       </MainStack.Navigator>
