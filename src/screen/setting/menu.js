@@ -16,7 +16,7 @@ import { handleNavigation } from '../../navigator/Navigator';
 import { logOut, postLogout } from '../../reduxStore/action/doctorAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { aboutUsUrl, baseUrl, contactUsUrl, HelpSupportUrl, imgBaseUrl, PrivacyPolicyUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
+import { aboutUsUrl, baseUrl, contactUsUrl, HelpSupportUrl, imgBaseUrl, PrivacyPolicyUrl, TermandConditionUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
 
 // const { width, height } = Dimensions.get("window");
 const Menu = (props, { navigation }) => {
@@ -61,7 +61,7 @@ const Menu = (props, { navigation }) => {
   return (
     <ImageBackground source={imagepath.background} style={styles.imagebg}>
       {/*  Header*/}
-      <Header title={String.menu}  />
+      <Header title={String.menu} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
@@ -105,6 +105,16 @@ const Menu = (props, { navigation }) => {
               source={imagepath.privacy}
             />
             <Text style={styles.pageButtonText}>Privacy Policy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${TermandConditionUrl}`, title: "Privacy Policy" })}
+            style={styles.pageButton}>
+            <Image
+              style={styles.pageButtonIcon}
+              resizeMode="contain"
+              source={imagepath.privacy}
+            />
+            <Text style={styles.pageButtonText}>Terms & Conditions</Text>
           </TouchableOpacity>
           {
             userType && userToken ? (

@@ -1,12 +1,24 @@
 import { APPMODE } from './types';
-export const baseUrl = APPMODE == "LIVE" ? 'https://healthytok.com/vouwch/api/' : 'https://apponedemo.top/vouwch/api/';
-export const imgBaseUrl = APPMODE == "LIVE" ? 'https://healthytok.com/vouwch/' : 'https://apponedemo.top/vouwch/';
+export const baseUrl = APPMODE == "LIVE" ? 'https://vouwch.com/test/api/' : 'https://apponedemo.top/vouwch/api/';
+export const imgBaseUrl = APPMODE == "LIVE" ? 'https://vouwch.com/test/' : 'https://apponedemo.top/vouwch/';
 
-export const WebBaseUrl = 'https://healthytok.com/vouwch/'
+
+const liveUrl = 'https://healthytok.com/vouwch/api/';
+const testUrl = 'https://vouwch.com/test/api/';
+const imageLiveUrl = 'https://healthytok.com/vouwch/';
+const imageTestUrl = 'https://vouwch.com/test/';
+
+// export const baseUrl = APPMODE == "LIVE" ? liveUrl : testUrl;
+// export const imgBaseUrl = APPMODE == "LIVE" ? imageLiveUrl : imageTestUrl;
+
+
+export const WebBaseUrl = 'https://vouwch.com/test/'
 export const aboutUsUrl = "about-us";
 export const contactUsUrl = "contact-us";
 export const HelpSupportUrl = "help-support";
 export const PrivacyPolicyUrl = "privacy-policy";
+export const TermandConditionUrl = "termd-&-condition";
+
 
 export const getFollowData = 'getfollow';
 export const getAllCountry = "get-country";

@@ -21,18 +21,22 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkSkyBlue,
     paddingVertical: 6,
     paddingHorizontal: 8,
-    marginLeft: 6,
-    borderRadius: 10
+    marginHorizontal: 15,
+    borderRadius: 10,
+    flex: 1
   },
   feedBackTypeBtnTxt: {
     color: Colors.black,
-    fontSize: Fontsize.fontTwelve
+    fontSize: Fontsize.fontTwelve,
+    textAlign: "center"
   },
   feedBackTypeBtnActive: {
     backgroundColor: Colors.appcolor,
+    textAlign: "center"
   },
   feedBackTypeBtnTxtActive: {
     color: Colors.white,
+    textAlign: "center"
   },
   listMainViewFlatlist: {
     borderBottomWidth: 0.5,
@@ -237,10 +241,10 @@ export default Feedbackpage = (props) => {
       {/* Card of Feedback */}
       <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', marginVertical: 12 }}>
         <TouchableOpacity onPress={() => setActiveFeedbackTab("p")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "p" ? styles.feedBackTypeBtnActive : null]}>
-          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "p" ? styles.feedBackTypeBtnTxtActive : null]}>Patient Feedback</Text>
+          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "p" ? styles.feedBackTypeBtnTxtActive : null]}>Patient </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setActiveFeedbackTab("c")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "c" ? styles.feedBackTypeBtnActive : null]}>
-          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "c" ? styles.feedBackTypeBtnTxtActive : null]}>Clinician Feedback</Text>
+          <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "c" ? styles.feedBackTypeBtnTxtActive : null]}>Clinician </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setActiveFeedbackTab("b")} style={[styles.feedBackTypeBtn, activeFeedbackTab == "b" ? styles.feedBackTypeBtnActive : null]}>
           <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "b" ? styles.feedBackTypeBtnTxtActive : null]}>Bravo Card</Text>

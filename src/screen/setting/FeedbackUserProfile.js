@@ -38,7 +38,7 @@ const FeedbackUserProfile = (props, { route }) => {
       // console.log('  global.userData=====================-------',   global.userData);
     });
   }, []);
-  console.log("props.feedbackUserData", props.feedbackUserData);              // console.log('  global.userData=====================-------',   global.userData);
+  // console.log("props.feedbackUserData", props.feedbackUserData);              // console.log('  global.userData=====================-------',   global.userData);
 
 
   // user data come from api of feedback Person

@@ -9,13 +9,14 @@ export default Bravocard = (props) => {
     const [showPhotoModal, setShowPhotoModal] = useState(false);
     const [videoBtn, setvideoBtn] = useState(false);
     const [showModalFor, setShowModalFor] = useState("Photos");
-    const mediaurl = videoBtn ?  props.item.card_video_media :props.item.card_image_media 
+    const mediaurl = videoBtn ? props.item.card_video_media : props.item.card_image_media
 
     const handlePhotoModal = (callFor, videoBtn) => {
         setShowPhotoModal(true);
         setShowModalFor(callFor);
         setvideoBtn(videoBtn)
     }
+    // console.log("name  titen", props.item)
     return (
         <View key={props.index}
             style={[styles.cardContainer, props.index % 2 == 0 ? { backgroundColor: Colors.lightBlue } : { backgroundColor: Colors.skinColor }]}>
@@ -109,14 +110,14 @@ export default Bravocard = (props) => {
             <View style={styles.cardHospitalView}>
                 <Text style={styles.hospitalName}>{props.item.doctor_id ? props.item.name : null}</Text>
                 <Text style={styles.cardHospitalViewText} numberOfLines={3}>{props.item?.detail}</Text>
-                <Text style={[styles.cardHospitalViewText, { marginTop: 5 }]}><Text style={{ fontWeight: "bold", fontSize: 12 }}>{props.item?.users?.full_name}</Text> added a bravo card for <Text style={{ fontWeight: "bold", fontSize: 12 }}>{props.item.name}</Text></Text>
+                <Text style={[styles.cardHospitalViewTextmain, { marginTop: 5 }]}><Text style={{ fontWeight: "bold", fontSize: 12 }}>{props.item?.users?.full_name}</Text> added a bravo card for <Text style={{ fontWeight: "bold", fontSize: 12 }}>{props?.item?.name}</Text></Text>
                 {/* photo & Videos Btn */}
                 <View style={styles.cardHospitalViewButton}>
                     <TouchableOpacity style={styles.cardPhotoButton} onPress={() => handlePhotoModal("Photos", false)} >
                         <Image style={styles.cardPhotoImage} source={imagepath.Photo} />
                         <Text style={styles.cardPhotoText}>Photo</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.videoButton} onPress={() => handlePhotoModal("Videos", true )}>
+                    <TouchableOpacity style={styles.videoButton} onPress={() => handlePhotoModal("Videos", true)}>
                         <Image style={styles.cardVideoIcon} source={imagepath.Video} />
                         <Text style={[styles.cardPhotoText, styles.cardVideoText]}>Video</Text>
                     </TouchableOpacity>

@@ -162,6 +162,17 @@ const Profile = (props) => {
                   />
                   <Text style={styles.pageButtonText}>Profile setting</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('DetailedBusinessProfile')}
+                  style={styles.pageButton}>
+                  <Image
+                    style={styles.pageButtonIcon}
+                    resizeMode="contain"
+                    source={imagepath.Profilesetting}
+                  />
+                  <Text style={styles.pageButtonText}>Detailed Business Profile</Text>
+                </TouchableOpacity>
               </>) : null
           }
           <View
