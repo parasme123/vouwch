@@ -1,6 +1,6 @@
 import { APPMODE } from './types';
-export const baseUrl = APPMODE == "LIVE" ? 'https://vouwch.com/test/api/' : 'https://apponedemo.top/vouwch/api/';
-export const imgBaseUrl = APPMODE == "LIVE" ? 'https://vouwch.com/test/' : 'https://apponedemo.top/vouwch/';
+export const baseUrl = APPMODE == "LIVE" ? 'https://vouwch.com/test/api/' : 'https://rasatva.apponedemo.top/vouwch/api/';
+export const imgBaseUrl = APPMODE == "LIVE" ? 'https://vouwch.com/test/' : 'https://rasatva.apponedemo.top/vouwch/';
 
 
 const liveUrl = 'https://healthytok.com/vouwch/api/';
