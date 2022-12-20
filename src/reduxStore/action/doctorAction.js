@@ -210,6 +210,7 @@ export const postDoctorSearch = (data, pageNo = 1,) => {
 };
 
 export const getHomeData = () => {
+    console.log(`${URL.baseUrl}${URL.getHomeData}`);
     return async dispatch => {
         await fetch(`${URL.baseUrl}${URL.getHomeData}`, {
             method: "GET",
@@ -218,6 +219,7 @@ export const getHomeData = () => {
             }
         }).then(async (res) => {
             let response = await res.json();
+            console.log("(response.data", response.data);
             dispatch(saveHomeData(response.data))
         }).catch(err => {
             console.log("getHomeData", err);
