@@ -107,7 +107,7 @@ const Menu = (props, { navigation }) => {
             <Text style={styles.pageButtonText}>Privacy Policy</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${TermandConditionUrl}`, title: "Privacy Policy" })}
+            onPress={() => props.navigation.navigate("webView", { url: `${WebBaseUrl}${TermandConditionUrl}`, title: "Terms & Conditions" })}
             style={styles.pageButton}>
             <Image
               style={styles.pageButtonIcon}
