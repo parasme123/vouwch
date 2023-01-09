@@ -30,6 +30,13 @@ import MyWebComponent from '../component/webVview/MyWebComponent';
 import FeedbackUserProfile from '../screen/setting/FeedbackUserProfile';
 import feedbackpage from '../screen/homescreens/doctor/feedbackpage';
 import DetailedBusinessProfile from '../screen/DetailedBusinessProfile';
+import NewChat from '../screen/NewChats/NewChat';
+import Messeges from '../screen/NewChats/Messeges/Messeges';
+import UserGroup from '../screen/UserGroup/UserGroup';
+import MsgManagement from '../screen/MsgManagement/MsgManagement';
+import UserGrpMsg from '../UserGrpMsg/UserGrpMsg';
+import DoctorGrpMsg from '../screen/DoctorGrpMsg/DoctorGrpMsg';
+import NewGroup from '../screen/NewGroup/NewGroup';
 const MainStack = createStackNavigator();
 const Navigator = () => {
   return (
@@ -67,6 +74,16 @@ const Navigator = () => {
         <MainStack.Screen name="webView" component={MyWebComponent} />
         <MainStack.Screen name="FeedbackUserProfile" component={FeedbackUserProfile} />
         <MainStack.Screen name="DetailedBusinessProfile" component={DetailedBusinessProfile} />
+        <MainStack.Screen name="NewChat" component={NewChat} />
+        <MainStack.Screen name="Messeges" component={Messeges} />
+        <MainStack.Screen name="UserGroup" component={UserGroup} />
+        <MainStack.Screen name="MsgManagement" component={MsgManagement} />
+        <MainStack.Screen name="UserGrpMsg" component={UserGrpMsg} />
+        <MainStack.Screen name="DoctorGrpMsg" component={DoctorGrpMsg} />
+        <MainStack.Screen name="NewGroup" component={NewGroup} />
+
+
+
 
 
 
