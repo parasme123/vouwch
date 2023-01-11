@@ -11,23 +11,23 @@ const styles = StyleSheet.create({
         width: 20,
         tintColor: Colors.appcolor,
         marginTop: 10,
-        // marginLeft: 10
+        // padding:5
     },
     newgrpTxt: {
-        fontSize: Fontsize.fontSixteen,
-        color: Colors.appcolor,
+        fontSize: Fontsize.fontEighteen,
+        color: Colors.black,
         fontFamily: Fonts.ProximaNovaBold
     },
     addparticipantsTxt: {
         fontSize: Fontsize.fontFourteen,
-        color: Colors.appcolor,
+        color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium
     },
     upperView: {
         flexDirection: "row",
         justifyContent: "space-between",
         backgroundColor: Colors.white,
-        padding: 10,
+        padding: 17,
         elevation: 10
     },
     TouchView: {
@@ -35,14 +35,15 @@ const styles = StyleSheet.create({
     },
     newgrpVw: {
         marginLeft: 10,
-        marginTop: 3
+        // marginTop: 3,
+        // padding:10
     },
     imgSearchBtn: {
         height: 20,
         width: 20,
         resizeMode: "contain",
         tintColor: Colors.appcolor,
-        marginTop: 8
+        marginTop: 6
     },
     infoTouch: {
         paddingHorizontal: 5,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         alignItems: "center",
         backgroundColor: Colors.offwhite,
-        borderBottomWidth: 0.2,
+        borderBottomWidth: 0.6,
         borderBottomColor: Colors.grey,
         justifyContent: "space-between",
     },
@@ -103,9 +104,47 @@ const styles = StyleSheet.create({
         bottom: 30,
         backgroundColor: Colors.appcolor,
         borderRadius: 40,
-elevation:10
+        elevation: 10
     },
 
+    selectedImg: {
+        // backgroundColor: Colors.white,
+        marginTop: 3,
+        // flexDirection: "row",
+        // justifyContent: "space-between",
+        padding: 10,
+
+    },
+    imageOnImg: {
+        justifyContent: 'center',
+        alignItems: 'center'
+
+    },
+    personImg: {
+        height: 70,
+        width: 70,
+        borderRadius: 20,
+    },
+    colseImgView: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end'
+    },
+    clsImg: {
+        width: 25,
+        height: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        tintColor: Colors.appcolor
+    },
+    upperSlctedImg: {
+        marginHorizontal: 3,
+        justifyContent: "space-between",
+        flexDirection: "row",
+        backgroundColor: Colors.white,
+        marginTop: 10,
+        paddingBottom: 5
+    }
 }
 )
 export default styles;  

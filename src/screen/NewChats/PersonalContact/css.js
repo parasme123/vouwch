@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         paddingVertical:1,
         alignItems: "center",
         backgroundColor: Colors.offwhite,
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 0.6,
         borderBottomColor: Colors.grey,
         paddingBottom:10
     },

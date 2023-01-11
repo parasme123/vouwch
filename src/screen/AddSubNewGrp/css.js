@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     upperView: {
         flexDirection: "row",
         backgroundColor: Colors.white,
-        padding: 10,
+        padding: 15,
         elevation: 10,
         borderBottomColor: Colors.grey
     },
@@ -25,13 +25,13 @@ const styles = StyleSheet.create({
         marginTop: 3
     },
     newgrpTxt: {
-        fontSize: Fontsize.fontSixteen,
-        color: Colors.appcolor,
+        fontSize: Fontsize.fontEighteen,
+        color: Colors.black,
         fontFamily: Fonts.ProximaNovaBold
     },
     addparticipantsTxt: {
         fontSize: Fontsize.fontFourteen,
-        color: Colors.appcolor,
+        color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium
     },
     TypeView: {
@@ -75,60 +75,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         height: 45,
     },
-    clockImg: {
-        height: 25,
-        width: 25,
-        resizeMode: "contain",
-        tintColor: Colors.appcolor
-    },
-    disAppearView: {
-        backgroundColor: Colors.white,
-        marginTop: 5,
-        elevation: 5,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: 15,
-        padding: 15
-    },
-    msgTxt: {
-        fontSize: Fontsize.fontseventeen,
-        color: Colors.black,
-        fontFamily: Fonts.ProximaNovaMedium,
-    },
-    offTxt: {
-        fontSize: Fontsize.fontFifteen,
-        color: Colors.black,
-        fontFamily: Fonts.ProximaNovaMedium,
-    },
 
-
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: Colors.white,
-        borderRadius: 10,
-        padding: 20,
-        alignItems: "flex-start",
-        shadowColor: Colors.appcolor,
-        shadowOffset: {
-            width: 0,
-            height: 10
-        },
-        shadowOpacity: 10,
-        shadowRadius: 4,
-        elevation: 5
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-        color: Colors.black,
-        fontSize: Fontsize.fontFourteen,
-        fontFamily: Fonts.ProximaNovaMedium,
-    },
     signUpBtnView: {
         width: 100,
         height: 40,
@@ -138,72 +85,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-
-    buttonClose: {
-        backgroundColor: Colors.appcolor,
-        fontSize: Fontsize.fontThirteen,
-        fontFamily: Fonts.ProximaNovaBold,
-    },
-    button: {
-        borderRadius: 20,
-        height: 40,
-        width: 100,
-        elevation: 10,
-        shadowColor: Colors.appcolor,
-        shadowOffset: {
-            width: 0,
-            height: 10
-        },
-        shadowOpacity: 10,
-        shadowRadius: 4,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 10
-    },
-    textStyle: {
-        color: Colors.white,
-        fontSize: Fontsize.fontThirteen,
-        fontFamily: Fonts.ProximaNovaBold,
-        alignSelf: "center",
-        justifyContent: "center",
-    },
-    DisappearMsg: {
-        color: Colors.black,
-        fontSize: Fontsize.fontFifteen,
-        fontFamily: Fonts.ProximaNovaMedium,
-        textAlign: "left"
-    },
-    NewMsg: {
-        color: Colors.black,
-        fontSize: Fontsize.fontThirteen,
-        fontFamily: Fonts.ProximaNovaMedium,
-        marginTop: 8
-    },
-    hoursTxt: {
-        color: Colors.black,
-        fontSize: Fontsize.fontSixteen,
-        fontFamily: Fonts.ProximaNovaMedium,
-
-    },
-    btnImg: {
-        height: 50,
-        width: 50,
-        resizeMode: "contain",
-        marginHorizontal: 10,
-        tintColor: Colors.appcolor,
-        flex: 1
-
-    },
-    hrsView: {
-        flexDirection: "row",
-        marginTop: 10,
-        paddingBottom: 10,
-        justifyContent: "center",
-        alignItems: "center"
-
-    },
-
-
     bottomSheetDetailText: {
         fontSize: Fontsize.fontEighteen,
         fontFamily: Fonts.ProximaNovaMedium,
@@ -273,6 +154,49 @@ const styles = StyleSheet.create({
         elevation: 10
 
     },
+    participants: {
+        flexDirection: "row",
+        marginTop: 10,
+        marginLeft: 10
+    },
+    participantTxt: {
+        fontSize: Fontsize.fontEighteen,
+        fontFamily: Fonts.ProximaNovaMedium,
+        color: Colors.black,
+    },
+    upperSlctedImg: {
+        marginHorizontal: 3,
+        justifyContent: "space-between",
+        flexDirection: "row",
+        backgroundColor: Colors.white,
+        marginTop: 10,
+        paddingBottom: 5
+    },
+    selectedImg: {
+        // backgroundColor: Colors.white,
+        marginTop: 3,
+        // flexDirection: "row",
+        // justifyContent: "space-between",
+        padding: 10,
+
+    },
+    imageOnImg: {
+        justifyContent: 'center',
+        alignItems: 'center'
+
+    },
+    personImg: {
+        height: 70,
+        width: 70,
+        borderRadius: 20,
+    },
+    bottomSlide: {
+        flexDirection: "row",
+        marginTop: 20,
+        alignItems: "center",
+        justifyContent: "space-evenly"
+    }
+
 }
 )
 export default styles;
