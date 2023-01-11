@@ -23,8 +23,13 @@ const NewChat = (props) => {
             <View style={styles.clinicView}>
                 <TouchableOpacity style={{
                     backgroundColor: activeTab == "MsgChat" ? Colors.appcolor : Colors.white,
-                    borderRadius: 22,
-                    padding: 10,
+                    borderRadius: 18,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingVertical: 13,
+                    marginHorizontal: 5,
+                    flex: 1.3,
+                    
                 }}
                     onPress={() => {
                         setActiveTab("MsgChat")
@@ -44,7 +49,12 @@ const NewChat = (props) => {
                         backgroundColor: activeTab == "PersonalContact" ? Colors.appcolor : Colors.white,
                         borderRadius: 22,
                         padding: 10,
-                        color: activeTab == "PersonalContact" ? Colors.white : Colors.black
+                        color: activeTab == "PersonalContact" ? Colors.white : Colors.black,
+                        flex: 1,
+                        borderRadius: 18,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginHorizontal: 5
                     }}
                 >
                     <Text style={{

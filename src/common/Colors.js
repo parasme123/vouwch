@@ -26,6 +26,7 @@ const Colors = {
     darkslategrey:"#2f4f4f",
     green:"#008000",
     lightBlack:"#2E2E2E",
+    steel:"#eaf4fc"
 
 
 

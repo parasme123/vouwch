@@ -1,5 +1,5 @@
 import React, { useState, } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, SafeAreaView } from 'react-native';
 import { Fonts, Fontsize, Colors } from '@common';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
@@ -31,8 +31,6 @@ const NewGroup = (props) => {
         { id: 8, title: "Kathryn Alexander", description: "Kathryn Alexander", img: Imagepath.proWoman },
         { id: 9, title: "Bernard Nguyen", description: "Bernard Nguyen", img: Imagepath.googleMan },
         { id: 10, title: "Connie Lane", description: "We need to meet today", img: Imagepath.googleWomen },
-
-
     ]);
 
     const Tabfunction = (type) => {
@@ -48,7 +46,8 @@ const NewGroup = (props) => {
     const MsgList = (msgObj) => {
         return (
             <View style={{ backgroundColor: Colors.white }}>
-                <TouchableOpacity onPress={() => { Tabfunction(msgObj.img) }}
+                <TouchableOpacity
+                    // onPress={() => { Tabfunction(msgObj.img)  }}
                     style={styles.infoTouch} >
                     <View style={styles.subView}>
                         <Image
@@ -67,20 +66,20 @@ const NewGroup = (props) => {
     const ObjList = (dotObj) => {
         {
             {
-                activeTab.includes(dotObj.img) ?
-                    <>
+                // activeTab.includes(dotObj.img) ?
+                //     <>
 
-                        <Image style={styles.maanImg} source={dotObj.img} />
+                //         <Image style={styles.maanImg} source={dotObj.img} />
 
-                    </>
-                    : null
+                //     </>
+                //     : null
             }
         }
     }
 
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.upperView}>
                 <View style={styles.TouchView}>
                     <TouchableOpacity onPress={() => props.navigation.goBack()}>
@@ -99,11 +98,7 @@ const NewGroup = (props) => {
             </View>
 
 
-            <View>
-                {
-                    ObjList()
-                }
-            </View>
+
 
 
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -115,8 +110,23 @@ const NewGroup = (props) => {
                     }
 
                 </View>
+
+
+
             </ScrollView>
-        </View>
+
+
+            <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => props.navigation.navigate("AddSubNewGrp")}
+                style={styles.touchableOpacityStyle}>
+
+                <Image
+                    source={Imagepath.rightarrow}
+                    style={styles.floatingButtonStyle}
+                />
+            </TouchableOpacity>
+        </SafeAreaView>
     )
 }
 export default NewGroup;

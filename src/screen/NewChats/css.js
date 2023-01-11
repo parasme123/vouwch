@@ -36,7 +36,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 16,
-        marginHorizontal: 15,
+        marginHorizontal: 20,
+        
+        
     },
     clinic: {
         backgroundColor: Colors.appcolor,

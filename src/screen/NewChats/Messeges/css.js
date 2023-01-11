@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.ProximaNovaMedium
     },
     sndTime: {
-        //marginTop: 30,
+        // marginTop: 30,
         marginLeft: 10,
         fontSize: Fontsize.fontFourteen,
         color: Colors.black,
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     },
     readView: {
         flexDirection: "row",
-        // marginTop: 48,
+        // marginTop: 10,
         marginRight: 5
     },
     readImg: {

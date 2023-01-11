@@ -101,12 +101,16 @@ const Chat = (props) => {
       <ScrollView showsVerticalScrollIndicator={false}>
 
         <View style={styles.clinicView}>
+
           <TouchableOpacity onPress={() => props.navigation.navigate("NewChat")} style={styles.clinic}>
             <Text style={styles.hospitals}>Contacts for Dr, clinics, & hospitals</Text>
           </TouchableOpacity>
+
+
           <TouchableOpacity style={styles.contactView}>
-            <Text style={styles.contect}> Contacts</Text>
+            <Text style={styles.contect}>Contacts</Text>
           </TouchableOpacity>
+
 
         </View>
 

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         backgroundColor: Colors.white,
         padding: 10,
-        elevation:10
+        elevation: 10
     },
     TouchView: {
         flexDirection: "row",
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         alignItems: "center",
         backgroundColor: Colors.offwhite,
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 0.2,
         borderBottomColor: Colors.grey,
         justifyContent: "space-between",
     },
@@ -84,6 +84,26 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginRight: 10,
         marginTop: 10
+    },
+    floatingButtonStyle: {
+        resizeMode: 'contain',
+        width: 25,
+        height: 25,
+        tintColor: Colors.white
+    },
+
+
+    touchableOpacityStyle: {
+        position: 'absolute',
+        width: 60,
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+        backgroundColor: Colors.appcolor,
+        borderRadius: 40,
+elevation:10
     },
 
 }

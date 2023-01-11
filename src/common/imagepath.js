@@ -120,17 +120,22 @@ const Imagepath = {
   notify: require('../assect/icon/notify.png'),
   group: require('../assect/icon/group.jpg'),
   editing: require('../assect/icon/editing.png'),
-  search:require('../assect/icon/search.png'),
-  invite:require('../assect/icon/invite.png'),
-  circleRight:require('../assect/icon/correct.png'),
-  redCircle:require('../assect/icon/redCircle.png'),
-  RecycleBin:require('../assect/icon/RecycleBin.png'),
-  clickcamera:require('../assect/icon/clickcamera.png'),
-  chain:require('../assect/icon/chain.png'),
-  gallery:require('../assect/icon/gallery.png'),
-  smile:require('../assect/icon/smile.png'),
-  horizontalDots:require('../assect/icon/horizontalDots.png'),
-  magnifier:require('../assect/icon/magnifier.png')
+  search: require('../assect/icon/search.png'),
+  invite: require('../assect/icon/invite.png'),
+  circleRight: require('../assect/icon/correct.png'),
+  redCircle: require('../assect/icon/redCircle.png'),
+  RecycleBin: require('../assect/icon/RecycleBin.png'),
+  clickcamera: require('../assect/icon/clickcamera.png'),
+  chain: require('../assect/icon/chain.png'),
+  gallery: require('../assect/icon/gallery.png'),
+  smile: require('../assect/icon/smile.png'),
+  horizontalDots: require('../assect/icon/horizontalDots.png'),
+  magnifier: require('../assect/icon/magnifier.png'),
+  rightarrow: require('../assect/icon/rightarrow.png'),
+  wallclock: require('../assect/icon/wallclock.png'),
+  radiobutton: require('../assect/icon/radiobutton.png'),
+  picStore: require('../assect/icon/picStore.png'),
+  right:require('../assect/icon/right.png')
 }
 
 export default Imagepath;

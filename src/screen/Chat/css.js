@@ -180,20 +180,29 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
         paddingVertical: 10,
+
+
+
 
     },
     clinic: {
+        flex: 1.3,
         backgroundColor: Colors.appcolor,
         borderRadius: 18,
-        padding: 10
+        justifyContent: "center",
+        alignItems: "center",
+        paddingVertical: 13,
+        marginHorizontal: 5
     },
     contactView: {
+        flex: 1,
         backgroundColor: Colors.white,
         borderRadius: 18,
-        padding: 10,
-        marginRight: 20
+        justifyContent: "center",
+        alignItems: "center",
+        marginHorizontal: 5
 
     },
     hospitals: {
