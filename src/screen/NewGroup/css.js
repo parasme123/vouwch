@@ -121,21 +121,32 @@ const styles = StyleSheet.create({
 
     },
     personImg: {
-        height: 70,
-        width: 70,
+        height: 60,
+        width: 60,
         borderRadius: 20,
     },
     colseImgView: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end'
+        // flex: 1,
+        // justifyContent: 'flex-end',
+        // alignItems: 'flex-end',
+        backgroundColor:Colors.appcolor,
+        borderRadius:30,
+        height:20,
+        width:20,
+        alignItems:"center",
+        justifyContent:"center",
+        position:"absolute",
+        marginTop:35,
+        marginLeft:44
+       
     },
     clsImg: {
-        width: 25,
-        height: 25,
+        width: 10,
+        height: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        tintColor: Colors.appcolor
+        tintColor: Colors.white,
+        
     },
     upperSlctedImg: {
         marginHorizontal: 3,
@@ -143,7 +154,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: Colors.white,
         marginTop: 10,
-        paddingBottom: 5
+        // paddingBottom: 5
     }
 }
 )

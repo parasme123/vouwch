@@ -7,19 +7,20 @@ import ImagePicker from 'react-native-image-crop-picker';
 import styles from './css';
 
 const AddSubNewGrp = (props) => {
-
-    const Name = ([
-        { id: 1, title: "Wendy Watson", img: Imagepath.maan },
-        { id: 2, title: "Connie Lane", img: Imagepath.proMam },
-        { id: 3, title: "Kathryn Alexander", img: Imagepath.proWoman },
-        { id: 4, title: "Bernard Nguyen", img: Imagepath.googleMan },
-        { id: 5, title: "Connie Lane", img: Imagepath.googleWomen },
-        { id: 6, title: "Wendy Watson", img: Imagepath.maan },
-        { id: 7, title: "Connie Lane", img: Imagepath.proMam },
-        { id: 8, title: "Kathryn Alexander", img: Imagepath.proWoman },
-        { id: 9, title: "Bernard Nguyen", img: Imagepath.googleMan },
-        { id: 10, title: "Connie Lane", img: Imagepath.googleWomen },
-    ]);
+    let selectedUser = props?.route?.params?.selectedUser || [];
+    // console.log("selectedUser", selectedUser)
+    // const Name = ([
+    //     { id: 1, title: "Wendy Watson", img: Imagepath.maan },
+    //     { id: 2, title: "Connie Lane", img: Imagepath.proMam },
+    //     { id: 3, title: "Kathryn Alexander", img: Imagepath.proWoman },
+    //     { id: 4, title: "Bernard Nguyen", img: Imagepath.googleMan },
+    //     { id: 5, title: "Connie Lane", img: Imagepath.googleWomen },
+    //     { id: 6, title: "Wendy Watson", img: Imagepath.maan },
+    //     { id: 7, title: "Connie Lane", img: Imagepath.proMam },
+    //     { id: 8, title: "Kathryn Alexander", img: Imagepath.proWoman },
+    //     { id: 9, title: "Bernard Nguyen", img: Imagepath.googleMan },
+    //     { id: 10, title: "Connie Lane", img: Imagepath.googleWomen },
+    // ]);
     const Lonovo = ({ item, index }) => {
         return (
 
@@ -28,7 +29,6 @@ const AddSubNewGrp = (props) => {
                     <Image source={item?.img}
                         style={styles.personImg}>
                     </Image>
-
                     <Text style={{ color: Colors.black }}>{item?.title}</Text>
                 </View>
             </View>
@@ -69,7 +69,6 @@ const AddSubNewGrp = (props) => {
                     <Text style={styles.addparticipantsTxt}>Add Subject</Text>
                 </View>
             </View>
-
 
             <View style={styles.TypeView}>
                 <TouchableOpacity onPress={() => refRBSheet.current.open()}
@@ -142,13 +141,13 @@ const AddSubNewGrp = (props) => {
 
             <View style={styles.participants}>
                 <Text style={styles.participantTxt}>Participants:</Text>
-                <Text style={styles.participantTxt}>1</Text>
+                {/* <Text style={styles.participantTxt}>1</Text> */}
             </View>
 
             <View style={styles.upperSlctedImg}>
 
                 <FlatList
-                    data={Name}
+                    data={selectedUser}
                     renderItem={Lonovo}
                     keyExtractor={item => item.index}
                     horizontal

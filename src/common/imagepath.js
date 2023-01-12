@@ -135,7 +135,8 @@ const Imagepath = {
   wallclock: require('../assect/icon/wallclock.png'),
   radiobutton: require('../assect/icon/radiobutton.png'),
   picStore: require('../assect/icon/picStore.png'),
-  right:require('../assect/icon/right.png')
+  right:require('../assect/icon/right.png'),
+  multi:require('../assect/icon/multi.png')
 }
 
 export default Imagepath;

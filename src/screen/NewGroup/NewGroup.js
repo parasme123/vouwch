@@ -5,21 +5,6 @@ import Imagepath from '../../common/imagepath';
 import styles from './css';
 
 const NewGroup = (props) => {
-
-
-    const Name = ([
-        { id: 1, title: "Wendy Watson", img: Imagepath.maan },
-        { id: 2, title: "Connie Lane", img: Imagepath.proMam },
-        { id: 3, title: "Kathryn Alexander", img: Imagepath.proWoman },
-        { id: 4, title: "Bernard Nguyen", img: Imagepath.googleMan },
-        { id: 5, title: "Connie Lane", img: Imagepath.googleWomen },
-        { id: 6, title: "Wendy Watson", img: Imagepath.maan },
-        { id: 7, title: "Connie Lane", img: Imagepath.proMam },
-        { id: 8, title: "Kathryn Alexander", img: Imagepath.proWoman },
-        { id: 9, title: "Bernard Nguyen", img: Imagepath.googleMan },
-        { id: 10, title: "Connie Lane", img: Imagepath.googleWomen },
-    ]);
-
     const [data, setData] = useState([
         { id: 1, title: "Wendy Watson", description: "We need to meet today", img: Imagepath.maan },
         { id: 2, title: "Connie Lane", description: "Where are you?", img: Imagepath.proMam },
@@ -33,21 +18,35 @@ const NewGroup = (props) => {
         { id: 10, title: "Connie Lane", description: "We need to meet today", img: Imagepath.googleWomen },
     ]);
 
-    // const Tabfunction = (type) => {
-    //     const newArr = [...activeTab]
-    //     if (newArr.includes(type)) {          //checking weather array contain the id
-    //         newArr.splice(newArr.indexOf(type), 1);  //deleting
-    //     } else {
-    //         newArr.push(type);               //adding to array because value doesnt exists
-    //     }
-    //     setActiveTab(newArr)
-    // }
+    const [selectedUser, setSelectedUser] = useState([]);
+
+    const Tabfunction = (type) => {
+        const Name = [...selectedUser]
+        const findIndexdata = Name.findIndex((item) => item.id == type.id)
+        if (findIndexdata !== -1) {          //checking weather array contain the id
+            Name.splice(findIndexdata, 1);  //deleting
+        } else {
+            Name.push(type);               //adding to array because value doesnt exists
+        }
+        setSelectedUser(Name)
+    }
+
+
+    // const [deletedUser, setDeletedUser] = useState([]);
+    
+    const DelFunction = (type) => {
+        const DelName = [...selectedUser]
+        const findIndexDelName = DelName.findIndex((item) => item.id == type.id)
+        DelName.splice(findIndexDelName, 1);  //deleting
+        setSelectedUser(DelName)
+    }
 
     const MsgList = (msgObj) => {
         return (
             <View style={{ backgroundColor: Colors.white }}>
                 <TouchableOpacity
-                    // onPress={() => { Tabfunction(msgObj.img)  }}
+                    onPress={() => { Tabfunction(msgObj) }}
+
                     style={styles.infoTouch} >
                     <View style={styles.subView}>
                         <Image
@@ -67,14 +66,16 @@ const NewGroup = (props) => {
     const Lonovo = ({ item, index }) => {
         return (
 
-            <View style={styles.selectedImg}>
+            <View
+                style={styles.selectedImg}>
                 <View style={styles.imageOnImg}>
                     <ImageBackground source={item?.img}
                         style={styles.personImg}>
 
-                        <TouchableOpacity style={styles.colseImgView}>
+                        <TouchableOpacity onPress={() => { DelFunction(item) }}
+                            style={styles.colseImgView}>
                             <Image
-                                source={Imagepath.cross}
+                                source={Imagepath.multi}
                                 style={styles.clsImg} />
                         </TouchableOpacity>
                     </ImageBackground>
@@ -108,7 +109,7 @@ const NewGroup = (props) => {
             <View style={styles.upperSlctedImg}>
 
                 <FlatList
-                    data={Name}
+                    data={selectedUser}
                     renderItem={Lonovo}
                     keyExtractor={item => item.index}
                     horizontal
@@ -134,7 +135,7 @@ const NewGroup = (props) => {
 
             <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={() => props.navigation.navigate("AddSubNewGrp")}
+                onPress={() => props.navigation.navigate("AddSubNewGrp", { selectedUser })}
                 style={styles.touchableOpacityStyle}>
 
                 <Image
