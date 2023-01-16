@@ -55,7 +55,8 @@ const Chat = (props) => {
             :
             (
               <View>
-                <TouchableOpacity style={styles.infoTouch} onPress={() => props.navigation.navigate("Messeges")}>
+                <TouchableOpacity style={styles.infoTouch}
+                  onPress={() => props.navigation.navigate("Messeges")}>
                   <View style={styles.subView}>
                     <Image
                       style={styles.maanImg}

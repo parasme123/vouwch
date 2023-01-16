@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         alignItems: "center",
         backgroundColor: Colors.offwhite,
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 0.7,
         borderBottomColor: Colors.grey,
         justifyContent: "space-between",
     },
@@ -182,9 +182,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingHorizontal: 20,
         paddingVertical: 10,
-
-
-
 
     },
     clinic: {

@@ -31,9 +31,6 @@ const NewGroup = (props) => {
         setSelectedUser(Name)
     }
 
-
-    // const [deletedUser, setDeletedUser] = useState([]);
-    
     const DelFunction = (type) => {
         const DelName = [...selectedUser]
         const findIndexDelName = DelName.findIndex((item) => item.id == type.id)
@@ -63,7 +60,7 @@ const NewGroup = (props) => {
     }
 
 
-    const Lonovo = ({ item, index }) => {
+    const Lenovo = ({ item, index }) => {
         return (
 
             <View
@@ -110,7 +107,7 @@ const NewGroup = (props) => {
 
                 <FlatList
                     data={selectedUser}
-                    renderItem={Lonovo}
+                    renderItem={Lenovo}
                     keyExtractor={item => item.index}
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -127,9 +124,6 @@ const NewGroup = (props) => {
                     }
 
                 </View>
-
-
-
             </ScrollView>
 
 
