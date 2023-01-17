@@ -113,8 +113,7 @@ const UserGroup = (props) => {
             data={selectedUser}
             renderItem={Lonovo}
             keyExtractor={item => item.index}
-            horizontal
-            showsHorizontalScrollIndicator={false}
+     
           />
 
         </View>
