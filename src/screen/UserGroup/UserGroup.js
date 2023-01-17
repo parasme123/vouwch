@@ -7,12 +7,11 @@ import { Fonts, Fontsize, Colors } from '@common';
 const UserGroup = (props) => {
 
   let selectedUser = props?.route?.params?.selectedUser || [];
-  
+
 
   const Lonovo = ({ item, index }) => {
     return (
-
-      <View style={{ backgroundColor: Colors.white}}>
+      <View style={{ backgroundColor: Colors.white }}>
         <TouchableOpacity style={styles.infoTouch} >
           <View style={styles.subView}>
             <Image
@@ -28,8 +27,6 @@ const UserGroup = (props) => {
 
     )
   };
-
-
   // const ChatList = (dataObj) => {
   //   return (
   //     <TouchableOpacity
@@ -65,14 +62,12 @@ const UserGroup = (props) => {
             </TouchableOpacity>
           </View>
           <View style={{}}>
-            <TouchableOpacity
-              onPress={() => { props.navigation.navigate("UserGrpMsg") }}
-            >
-              <Image style={styles.groupImg}
-                source={Imagepath.group} />
-            </TouchableOpacity>
+
+            <Image style={styles.groupImg}
+              source={Imagepath.group} />
+
             <Text style={styles.user}>User Group</Text>
-            <Text style={styles.paticipants}>Group:40 Participants</Text>
+            <Text style={styles.paticipants}>Group:{selectedUser.length} Participants</Text>
           </View>
         </View>
 
@@ -82,7 +77,8 @@ const UserGroup = (props) => {
             <View style={{ flexDirection: "row" }}>
               <Image style={styles.persConnct}
                 source={Imagepath.personConnect} />
-              <TouchableOpacity style={styles.memberView}>
+              <TouchableOpacity
+                style={styles.memberView}>
                 <Text style={styles.addGrp}>
                   Add Group Members/Participants
                 </Text>
@@ -113,7 +109,6 @@ const UserGroup = (props) => {
             data={selectedUser}
             renderItem={Lonovo}
             keyExtractor={item => item.index}
-     
           />
 
         </View>

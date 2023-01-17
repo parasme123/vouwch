@@ -140,7 +140,7 @@ const AddSubNewGrp = (props) => {
             </RBSheet>
 
             <View style={styles.participants}>
-                <Text style={styles.participantTxt}>Participants:</Text>
+                <Text style={styles.participantTxt}>Participants:{selectedUser.length}</Text>
                 {/* <Text style={styles.participantTxt}>1</Text> */}
             </View>
 
@@ -157,9 +157,8 @@ const AddSubNewGrp = (props) => {
             </View>
 
 
-            <TouchableOpacity  onPress={() => props.navigation.navigate('UserGroup', { selectedUser })} 
+            <TouchableOpacity  onPress={() => props.navigation.navigate('Messeges', { selectedUser })} 
                 activeOpacity={0.5}
-                // onPress={() => props.navigation.navigate("AddSubNewGrp")}
                 style={styles.touchableOpacityStyle}>
 
                 <Image

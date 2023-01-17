@@ -6,7 +6,7 @@ import Imagepath from '../../../common/imagepath';
 import styles from './css';
 
 const Messeges = (props) => {
-
+    let selectedUser = props?.route?.params?.selectedUser || [];
     const [data, setData] = useState([
         { id: 1, msg: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", time: "10:21 PM", },
         { id: 2, msg: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", time: "10:21 PM", },
@@ -106,7 +106,8 @@ const Messeges = (props) => {
                     <Image style={styles.preImg}
                         source={Imagepath.previous} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.perView}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('UserGroup', { selectedUser })}
+                    style={styles.perView}>
                     <Image
                         style={styles.gmanStyle}
                         source={Imagepath.googleMan} />

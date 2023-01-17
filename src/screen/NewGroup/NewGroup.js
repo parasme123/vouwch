@@ -1,5 +1,5 @@
 import React, { useState, } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, SafeAreaView, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, SafeAreaView, ImageBackground, FlatList, } from 'react-native';
 import { Fonts, Fontsize, Colors } from '@common';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
@@ -18,13 +18,15 @@ const NewGroup = (props) => {
         { id: 10, title: "Connie Lane", description: "We need to meet today", img: Imagepath.googleWomen },
     ]);
 
+    let addParticipateUser = props?.route?.params?.selectedUser || [];
+
     const [selectedUser, setSelectedUser] = useState([]);
 
     const Tabfunction = (type) => {
         const Name = [...selectedUser]
         const findIndexdata = Name.findIndex((item) => item.id == type.id)
         if (findIndexdata !== -1) {          //checking weather array contain the id
-            Name.splice(findIndexdata, 1);  //deleting
+            // Name.splice(findIndexdata, 1);  //deleting
         } else {
             Name.push(type);               //adding to array because value doesnt exists
         }
@@ -41,10 +43,9 @@ const NewGroup = (props) => {
     const MsgList = (msgObj) => {
         return (
             <View style={{ backgroundColor: Colors.white }}>
-                <TouchableOpacity
-                    onPress={() => { Tabfunction(msgObj) }}
 
-                    style={styles.infoTouch} >
+                <TouchableOpacity
+                    onPress={() => { Tabfunction(msgObj) }} style={styles.infoTouch} >
                     <View style={styles.subView}>
                         <Image
                             style={styles.maanImg}
@@ -60,7 +61,7 @@ const NewGroup = (props) => {
     }
 
 
-    
+
     const Lenovo = ({ item, index }) => {
         return (
 
@@ -78,14 +79,14 @@ const NewGroup = (props) => {
                         </TouchableOpacity>
                     </ImageBackground>
 
-                    <Text style={{ color: Colors.black,fontSize: Fontsize.fontEleven, }}>{item?.title}</Text>
+                    <Text style={{ color: Colors.black, fontSize: Fontsize.fontEleven, }}>{item?.title}</Text>
                 </View>
             </View>
 
         )
     };
 
-    
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -115,8 +116,19 @@ const NewGroup = (props) => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
-
             </View>
+
+            <View style={styles.upperSlctedImg}>
+
+                <FlatList
+                    data={addParticipateUser}
+                    renderItem={Lenovo}
+                    keyExtractor={item => item.index}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
+
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ marginHorizontal: 3, }}>

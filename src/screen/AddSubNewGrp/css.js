@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     participantTxt: {
-        fontSize: Fontsize.fontEighteen,
+        fontSize: Fontsize.fontFourteen,
         fontFamily: Fonts.ProximaNovaMedium,
         color: Colors.black,
     },
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: Colors.white,
         marginTop: 10,
-        paddingBottom: 5
+        // paddingBottom: 5
     },
     selectedImg: {
         // backgroundColor: Colors.white,
