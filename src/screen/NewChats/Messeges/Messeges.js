@@ -106,7 +106,7 @@ const Messeges = (props) => {
                     <Image style={styles.preImg}
                         source={Imagepath.previous} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => props.navigation.navigate('UserGroup')} style={styles.perView}>
+                <TouchableOpacity style={styles.perView}>
                     <Image
                         style={styles.gmanStyle}
                         source={Imagepath.googleMan} />

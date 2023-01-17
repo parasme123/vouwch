@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         fontSize: Fontsize.fontFifteen,
         color: Colors.appcolor,
         fontFamily: Fonts.ProximaNovaMedium,
-        marginTop:3
+        marginTop: 3
     },
     preImg: {
         height: 20,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         width: 20,
         resizeMode: "contain",
         tintColor: Colors.appcolor,
-        marginRight:7
+        marginRight: 7
     },
     editView: {
         flexDirection: "row",
@@ -108,12 +108,16 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.ProximaNovaMedium,
     },
     wdWatson: {
-        fontSize: Fontsize.fontFourteen,
+        fontSize: Fontsize.fontTwelve,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium
     },
     infoMsg: {
-        marginLeft: 10
+        marginLeft: 10,
+        marginTop:10
+    },
+    subView: {
+        flexDirection: "row",
     },
     maanImg: {
         height: 40,
@@ -125,28 +129,59 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaBold,
     },
-    listMainView: {
-    },
+    // listMainView: {
+    // },
     infoTouch: {
         paddingHorizontal: 16,
         flexDirection: "row",
         paddingVertical: 12,
         alignItems: "center",
         backgroundColor: Colors.offwhite,
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 0.6,
         borderBottomColor: Colors.grey,
- },
- searchIconBtn:{
-    height:20,
-    width:20,
-    borderRadius:5,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:5
+    },
+    searchIconBtn: {
+        height: 20,
+        width: 20,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 5
 
- }
+    },
 
 
+
+
+
+
+    selectedImg: {
+        // backgroundColor: Colors.white,
+        marginTop: 3,
+        // flexDirection: "row",
+        // justifyContent: "space-between",
+        padding: 10,
+
+    },
+    imageOnImg: {
+        justifyContent: 'center',
+        alignItems: 'center'
+
+    },
+
+    personImg: {    
+        height: 70,
+        width: 70,
+        borderRadius: 20,
+    },
+    upperSlctedImg: {
+        marginHorizontal: 3,
+        // justifyContent: "space-between",
+        // flexDirection: "column",
+        backgroundColor: Colors.white,
+        marginTop: 10,
+        paddingBottom: 5
+    },
 }
 )
 export default styles;

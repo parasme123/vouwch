@@ -60,6 +60,7 @@ const NewGroup = (props) => {
     }
 
 
+    
     const Lenovo = ({ item, index }) => {
         return (
 
@@ -77,12 +78,14 @@ const NewGroup = (props) => {
                         </TouchableOpacity>
                     </ImageBackground>
 
-                    <Text style={{ color: Colors.black }}>{item?.title}</Text>
+                    <Text style={{ color: Colors.black,fontSize: Fontsize.fontEleven, }}>{item?.title}</Text>
                 </View>
             </View>
 
         )
     };
+
+    
 
     return (
         <SafeAreaView style={styles.container}>

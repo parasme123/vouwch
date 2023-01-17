@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
         // padding:5
     },
     newgrpTxt: {
-        fontSize: Fontsize.fontEighteen,
+        fontSize: Fontsize.fontFourteen,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaBold
     },
     addparticipantsTxt: {
-        fontSize: Fontsize.fontFourteen,
+        fontSize: Fontsize.fontEleven,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium
     },
@@ -121,40 +121,41 @@ const styles = StyleSheet.create({
 
     },
     personImg: {
-        height: 60,
-        width: 60,
+        height: 50,
+        width: 50,
         borderRadius: 20,
     },
     colseImgView: {
         // flex: 1,
         // justifyContent: 'flex-end',
         // alignItems: 'flex-end',
-        backgroundColor:Colors.appcolor,
-        borderRadius:30,
-        height:20,
-        width:20,
-        alignItems:"center",
-        justifyContent:"center",
-        position:"absolute",
-        marginTop:35,
-        marginLeft:44
-       
+        backgroundColor: Colors.appcolor,
+        borderRadius: 30,
+        height: 18,
+        width: 18,
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        marginTop: 30,
+        marginLeft: 35
+
     },
     clsImg: {
-        width: 10,
-        height: 10,
+        width: 8,
+        height: 8,
         alignItems: 'center',
         justifyContent: 'center',
         tintColor: Colors.white,
-        
+        resizeMode:"contain"
+
     },
     upperSlctedImg: {
         marginHorizontal: 3,
-        justifyContent: "space-between",
-        flexDirection: "row",
+        // justifyContent: "space-between",
+        // flexDirection: "row",
         backgroundColor: Colors.white,
         marginTop: 10,
-        // paddingBottom: 5
+        paddingBottom: 5
     }
 }
 )

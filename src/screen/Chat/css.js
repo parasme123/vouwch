@@ -185,13 +185,14 @@ const styles = StyleSheet.create({
 
     },
     clinic: {
-        flex: 1.3,
+        flex: 1.4,
         backgroundColor: Colors.appcolor,
         borderRadius: 18,
         justifyContent: "center",
         alignItems: "center",
-        paddingVertical: 13,
-        marginHorizontal: 5
+        paddingVertical: 10,
+        marginHorizontal: 5,
+        paddingHorizontal:20
     },
     contactView: {
         flex: 1,

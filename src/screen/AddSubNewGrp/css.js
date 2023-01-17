@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
         marginTop: 3
     },
     newgrpTxt: {
-        fontSize: Fontsize.fontEighteen,
+        fontSize: Fontsize.fontFourteen,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaBold
     },
     addparticipantsTxt: {
-        fontSize: Fontsize.fontFourteen,
+        fontSize: Fontsize.fontTwelve,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium
     },
@@ -186,8 +186,8 @@ const styles = StyleSheet.create({
 
     },
     personImg: {
-        height: 70,
-        width: 70,
+        height: 50,
+        width: 50,
         borderRadius: 20,
     },
     bottomSlide: {

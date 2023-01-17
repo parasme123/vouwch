@@ -29,7 +29,7 @@ const AddSubNewGrp = (props) => {
                     <Image source={item?.img}
                         style={styles.personImg}>
                     </Image>
-                    <Text style={{ color: Colors.black }}>{item?.title}</Text>
+                    <Text style={{ color: Colors.black,fontSize: Fontsize.fontEleven, }}>{item?.title}</Text>
                 </View>
             </View>
 
@@ -157,7 +157,7 @@ const AddSubNewGrp = (props) => {
             </View>
 
 
-            <TouchableOpacity
+            <TouchableOpacity  onPress={() => props.navigation.navigate('UserGroup', { selectedUser })} 
                 activeOpacity={0.5}
                 // onPress={() => props.navigation.navigate("AddSubNewGrp")}
                 style={styles.touchableOpacityStyle}>

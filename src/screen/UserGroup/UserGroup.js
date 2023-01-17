@@ -1,34 +1,51 @@
 import React, { useState, } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, Easing } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, Easing, FlatList } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
+import { Fonts, Fontsize, Colors } from '@common';
 
 const UserGroup = (props) => {
-  const [data, setData] = useState([
-    { title: "Abdul Mughni", description: "How about pie project?", img: Imagepath.abdul },
-    { title: "Nola Sofyan", description: "Great work!", img: Imagepath.badal },
-    { title: "Aditya", description: "You're welcome!", img: Imagepath.cadmus },
-    { title: "Vitho Arvy", description: "Please Check Notion!", img: Imagepath.daamodar },
 
+  let selectedUser = props?.route?.params?.selectedUser || [];
+  
 
-  ]);
-
-  const ChatList = (dataObj) => {
+  const Lonovo = ({ item, index }) => {
     return (
-      <TouchableOpacity
-        // onPress={() => { props.navigation.navigate("Messeges") }}
-        style={styles.infoTouch}>
 
-        <Image
-          style={styles.maanImg}
-          source={dataObj.img} />
-        <View style={styles.infoMsg}>
-          <Text style={styles.wdWatson}>{dataObj.title}</Text>
-          <Text style={styles.weNeed}>{dataObj.description}</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={{ backgroundColor: Colors.white}}>
+        <TouchableOpacity style={styles.infoTouch} >
+          <View style={styles.subView}>
+            <Image
+              style={styles.maanImg}
+              source={item.img} />
+            <View style={styles.infoMsg}>
+              <Text style={styles.wdWatson}>{item.title}</Text>
+              <Text style={styles.weNeed}>{item.description}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+
     )
-  }
+  };
+
+
+  // const ChatList = (dataObj) => {
+  //   return (
+  //     <TouchableOpacity
+  //       // onPress={() => { props.navigation.navigate("Messeges") }}
+  //       style={styles.infoTouch}>
+
+  //       <Image
+  //         style={styles.maanImg}
+  //         source={dataObj.img} />
+  //       <View style={styles.infoMsg}>
+  //         <Text style={styles.wdWatson}>{dataObj.title}</Text>
+  //         <Text style={styles.weNeed}>{dataObj.description}</Text>
+  //       </View>
+  //     </TouchableOpacity>
+  //   )
+  // }
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -40,16 +57,16 @@ const UserGroup = (props) => {
                 source={Imagepath.previous} />
             </TouchableOpacity>
             <TouchableOpacity
-               onPress={() => { props.navigation.navigate("DoctorGrpMsg") }}
+              onPress={() => { props.navigation.navigate("DoctorGrpMsg") }}
               style={styles.editView} >
               <Image source={Imagepath.editor}
                 style={styles.editor} />
               <Text style={styles.editTxt}>Edit</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ }}>
+          <View style={{}}>
             <TouchableOpacity
-             onPress={() => { props.navigation.navigate("UserGrpMsg") }}
+              onPress={() => { props.navigation.navigate("UserGrpMsg") }}
             >
               <Image style={styles.groupImg}
                 source={Imagepath.group} />
@@ -82,21 +99,29 @@ const UserGroup = (props) => {
         </View>
 
         {/* List of participiants */}
-        <View style={styles.listMainView}>
+        {/* <View style={styles.listMainView}>
           {
             data?.map((item, index) => {
               return ChatList(item)
             })
           }
+        </View> */}
+
+        <View style={styles.upperSlctedImg}>
+
+          <FlatList
+            data={selectedUser}
+            renderItem={Lonovo}
+            keyExtractor={item => item.index}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+
         </View>
 
 
       </ScrollView>
     </View>
-
-
-
-
   )
 }
 export default UserGroup;
