@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     upperSlctedImg: {
         marginHorizontal: 3,
         // justifyContent: "space-between",
-        // flexDirection: "column",
+        flexDirection: "column",
         backgroundColor: Colors.white,
         marginTop: 10,
         paddingBottom: 5
