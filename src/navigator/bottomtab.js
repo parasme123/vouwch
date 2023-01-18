@@ -11,6 +11,7 @@ import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
 import { imagepath } from '@common';
 import Reviewmodal from '../modal/Reviewmodal';
 import Home from '../screen/homescreens/home';
+import Chat from '../screen/Chat/Chat';
 import Notification from '../screen/Notification/Notification';
 import Profile from '../screen/setting/profile';
 import Welcome from '../screen/welcome/welcome';
@@ -21,7 +22,7 @@ import { bindActionCreators } from 'redux';
 import { PostUserProfile, getFollowData } from '../reduxStore/action/doctorAction';
 import menu from '../screen/setting/menu';
 import profile from '../screen/setting/profile';
-
+import NotifyMsg from '../screen/NotifyMsg/NotifyMsg';
 export const Bottomtab = props => {
   const [userData, setuserRcord] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -48,17 +49,21 @@ export const Bottomtab = props => {
     let icon = '';
 
     switch (routeName) {
-      case 'Home':
-        icon = imagepath.homeicon;
+      case 'Chat':
+        // icon = imagepath.Notfication_icon;
+        icon = imagepath.chat;
         break;
       case 'Settingprofile':
         icon = imagepath.navmenu;
         break;
-      case 'Notification':
-        icon = imagepath.Notfication_icon;
-        break;
+      // case 'Home':
+      //   icon = imagepath.homeicon;
+      //   break;
       case 'Account':
         icon = imagepath.User_Icon;
+        break;
+      case 'NotifyMsg':
+        icon = imagepath.notify;
         break;
     }
 
@@ -135,29 +140,44 @@ export const Bottomtab = props => {
         )}
         tabBar={renderTabBar}
       >
-        <CurvedBottomBar.Screen
+        {/* <CurvedBottomBar.Screen
           name="Home"
           position="LEFT"
           options={{ headerShown: false }}
           component={Home}
-        />
-        <CurvedBottomBar.Screen
-          name="Account"
-          component={userData ? profile : Welcome}
+        /> */}
+
+<CurvedBottomBar.Screen
+          name="Chat"
+          component={userData ? Chat : Chat}
           position="LEFT"
           options={{ headerShown: false }}
         />
 
         <CurvedBottomBar.Screen
-          name="Notification"
-          component={userData ? Notification : Welcome}
+          name="Account"
+          component={userData ? profile : Welcome}
           position="RIGHT"
           options={{ headerShown: false }}
         />
 
+        {/* <CurvedBottomBar.Screen
+          name="Notification"
+          component={userData ? Notification : Welcome}
+          position="RIGHT"
+          options={{ headerShown: false }}
+        /> */}
+        <CurvedBottomBar.Screen
+          name="NotifyMsg"
+          position="LEFT"
+          options={{ headerShown: false }}
+          component={NotifyMsg}
+        />
+
+
         <CurvedBottomBar.Screen
           name="Settingprofile"
-          component={ menu }
+          component={menu}
           position="RIGHT"
           options={{ headerShown: false }}
         />

@@ -22,6 +22,11 @@ const Colors = {
     darkBlue:'#19428b',
     imputborderColor:'#CCC',
     checkboxColor:'#707070',
+    offwhite:"#f7f9fc",
+    darkslategrey:"#2f4f4f",
+    green:"#008000",
+    lightBlack:"#2E2E2E",
+    steel:"#eaf4fc"
 
 
 
