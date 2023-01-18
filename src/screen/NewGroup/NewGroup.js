@@ -139,10 +139,7 @@ const NewGroup = (props) => {
                     }
 
                 </View>
-            </ScrollView>
-
-
-            <TouchableOpacity
+            </ScrollView><TouchableOpacity
                 activeOpacity={0.5}
                 onPress={() => props.navigation.navigate("AddSubNewGrp", { selectedUser })}
                 style={styles.touchableOpacityStyle}>

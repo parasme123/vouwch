@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         borderRadius: 18,
         justifyContent: "center",
         alignItems: "center",
-        paddingVertical: 10,
+        paddingVertical: 11 ,
         marginHorizontal: 5,
         paddingHorizontal:10
     },

@@ -26,7 +26,7 @@ const NewChat = (props) => {
                     borderRadius: 18,
                     justifyContent: "center",
                     alignItems: "center",
-                    paddingVertical: 13,
+                    paddingVertical: 12,
                     marginHorizontal: 5,
                     flex: 1.3,
                     padding:6,
