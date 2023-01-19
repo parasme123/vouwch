@@ -13,24 +13,24 @@ const Chat = (props) => {
   const [number, onChangeNumber] = React.useState(null);
 
   const [data, setData] = useState([
-    { id: 1, title: "Wendy Watson", description: "We need to meet today", time: "15:20PM", status: "2", img: Imagepath.maan },
-    { id: 2, title: "Connie Lane", description: "Where are you?", time: "15:20PM", status: "1", img: Imagepath.proMam },
-    { id: 2, title: "Kathryn Alexander", description: "Kathryn Alexander", time: "15:20PM", status: "4", img: Imagepath.proWoman },
-    { id: 1, title: "Bernard Nguyen", description: "Bernard Nguyen", time: "15:20PM", status: "3", img: Imagepath.googleMan },
-    { id: 1, title: "Connie Lane", description: "We need to meet today", time: "15:20PM", status: "1", img: Imagepath.googleWomen },
-    { id: 1, title: "Wendy Watson", description: "We need to meet today", time: "15:20PM", status: "2", img: Imagepath.maan },
-    { id: 2, title: "Connie Lane", description: "Where are you?", time: "15:20PM", status: "", img: Imagepath.proMam },
-    { id: 2, title: "Kathryn Alexander", description: "Kathryn Alexander", time: "15:20PM", status: "3", img: Imagepath.proWoman },
-    { id: 1, title: "Bernard Nguyen", description: "Bernard Nguyen", time: "15:20PM", status: "5", img: Imagepath.googleMan },
-    { id: 1, title: "Connie Lane", description: "We need to meet today", time: "15:20PM", status: "7", img: Imagepath.googleWomen },
+    { id : 1, userId: 1, title: "Wendy Watson", description: "We need to meet today", time: "15:20PM", status: "2", img: Imagepath.maan },
+    { id : 2, userId: 2, title: "Connie Lane", description: "Where are you?", time: "15:20PM", status: "1", img: Imagepath.proMam },
+    { id : 3, userId: 2, title: "Kathryn Alexander", description: "Kathryn Alexander", time: "15:20PM", status: "4", img: Imagepath.proWoman },
+    { id : 4, userId: 1, title: "Bernard Nguyen", description: "Bernard Nguyen", time: "15:20PM", status: "3", img: Imagepath.googleMan },
+    { id : 5, userId: 1, title: "Connie Lane", description: "We need to meet today", time: "15:20PM", status: "1", img: Imagepath.googleWomen },
+    { id : 6, userId: 1, title: "Wendy Watson", description: "We need to meet today", time: "15:20PM", status: "2", img: Imagepath.maan },
+    { id : 7, userId: 2, title: "Connie Lane", description: "Where are you?", time: "15:20PM", status: "", img: Imagepath.proMam },
+    { id : 8, userId: 2, title: "Kathryn Alexander", description: "Kathryn Alexander", time: "15:20PM", status: "3", img: Imagepath.proWoman },
+    { id : 9, userId: 1, title: "Bernard Nguyen", description: "Bernard Nguyen", time: "15:20PM", status: "5", img: Imagepath.googleMan },
+    { id : 10, userId: 1, title: "Connie Lane", description: "We need to meet today", time: "15:20PM", status: "7", img: Imagepath.googleWomen },
 
 
   ]);
   const MsgList = (msgObj) => {
     return (
-      <View style={{ backgroundColor: Colors.white }}>
+      <View style={{ backgroundColor: Colors.white }} key={msgObj.id}>
         {
-          msgObj.id == 1 ?
+          msgObj.userId == 1 ?
             (
               <View>
                 <TouchableOpacity style={styles.infoTouch} onPress={() => props.navigation.navigate("Messeges")}>

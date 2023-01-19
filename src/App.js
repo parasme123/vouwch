@@ -3,6 +3,7 @@ import {SafeAreaView, StatusBar, LogBox} from 'react-native';
 import Navigator from './navigator/Navigator';
 import {Provider} from 'react-redux';
 import configureStore from './reduxStore/store/configureStore';
+import firestore from '@react-native-firebase/firestore';
 
 const store = configureStore();
 // store.subscribe(() => console.log(store.getState()));

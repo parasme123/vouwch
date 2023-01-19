@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { handleNavigation } from '../../navigator/Navigator';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from 'react-native-picker-select';
 import { handelAddDoctor, getCategories, getAllCountry, getStateAndCity } from '../../reduxStore/action/doctorAction';
 const Addhospital = (props) => {
   const navigation = useNavigation();
@@ -186,13 +186,13 @@ const Addhospital = (props) => {
         <Text style={styles.textInputHeader}>Category</Text>
         <View
           style={[{ justifyContent: "center" }, styles.textInput]}>
-          <RNPickerSelect
+          {/* <RNPickerSelect
             placeholderTextColor={Colors.imputborderColor}
             placeholder={{ label: 'Select Categroy', value: null }}
             onValueChange={value => setCateId(value)}
             items={CateList}
             style={styles}
-          />
+          /> */}
         </View>
         <Text style={styles.textInputHeader}>Country</Text>
         <View

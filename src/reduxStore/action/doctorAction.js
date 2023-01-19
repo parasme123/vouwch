@@ -2,6 +2,8 @@ import { DOCTORRECORD, SAVEALLCOUNTRY, SAVEALLSTATE, SAVEALLCITY, SAVEFOLLOWDATA
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
+import firestore from '@react-native-firebase/firestore';
+const usersCollection = firestore().collection('Users');
 
 export const postMessageReply = (data, typeOfData) => {
     return async dispatch => {
@@ -332,6 +334,26 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
             console.log("postRegister", err);
             setloaderVisible(false);
             Toast.show("something went wrong");
+        })
+    }
+};
+
+export const postFirebaseRegister = (data, setloaderVisible, PageNavigation) => {
+    return async dispatch => {
+        setloaderVisible(true);
+        await usersCollection.add(data).then((response) => {
+            if (!response.empty) {
+                response.onSnapshot((snapShot) => {
+                    AsyncStorageHelper.setData("firebaseUserData", JSON.stringify({ id: snapShot.id, ...snapShot.data() }));
+                })
+            }
+            setloaderVisible(false);
+            PageNavigation(response)
+            Toast.show("Register Successfully");
+        }).catch((error) => {
+            setloaderVisible(false);
+            console.log("response", error)
+            Toast.show("Something went wrong");
         })
     }
 };

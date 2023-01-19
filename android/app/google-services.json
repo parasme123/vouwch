@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "339193899754",
+    "project_id": "vouwch-84a1d",
+    "storage_bucket": "vouwch-84a1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339193899754:android:99e15d39d7c1cf01968593",
+        "android_client_info": {
+          "package_name": "com.vowch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339193899754-kjojgn2b1hd4u4dki2km4k6dkh8fvqop.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vowch",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "339193899754-9fooch69neu6on0kagvu8050gcn8706p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF2T6t50s9UjUPRO9TyXQgTWOSKTmID2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339193899754-9fooch69neu6on0kagvu8050gcn8706p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

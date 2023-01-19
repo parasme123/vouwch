@@ -1,4 +1,4 @@
-export const APPMODE = "TEST";
+export const APPMODE = "LIVE";
 
 export const DOCTORRECORD = 'DOCTORRECORD';
 

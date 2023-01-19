@@ -8,19 +8,25 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  FlatList
 } from 'react-native';
 import { imagepath, Colors, svg } from "@common";
 import { Validators, CustomLoader } from '@lib';
-import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from 'react-native-picker-select';
+import Modal from "react-native-modal";
 import Toast from 'react-native-simple-toast';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { postRegister, getCategories } from '../../reduxStore/action/doctorAction';
+import { postRegister, getCategories, postFirebaseRegister } from '../../reduxStore/action/doctorAction';
 import { handleNavigation } from '../../navigator/Navigator';
 import { useNavigation } from '@react-navigation/native';
 import { contactUsUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
+import firestore from '@react-native-firebase/firestore';
+import Dropdown from '../../component/dropdown';
+
 const BusinessSignup = (props) => {
+  const usersCollection = firestore().collection('Users');
   const [mark, setMark] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const [firstname, setfirstname] = useState('');
@@ -30,7 +36,10 @@ const BusinessSignup = (props) => {
   const [BusinessName, setBusinessName] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const [CateList, setCateList] = useState([]);
-  const [CateId, setCateId] = useState();
+  const [searchVal, setSearchVal] = useState("");
+  const [searchCatList, setSearchCatList] = useState([]);
+  const [CateId, setCateId] = useState({});
+  const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const chexkBox = () => {
     setMark(!mark);
@@ -63,21 +72,29 @@ const BusinessSignup = (props) => {
     }
   }, [props.allCategories])
 
-  const Signin_Validators = () => {
+  const checkUserisNew = async () => {
+    const querySnapshot = await usersCollection.where("email", "==", email).limit(1).get();
+    return querySnapshot.empty;
+  }
+
+  const Signin_Validators = async () => {
     if (
       Validators.checkNull('First Name', 2, BusinessName) &&
       Validators.checkEmail('Email', email) &&
       Validators.checkNull('Password', 7, password)
     ) {
+      let isNew = await checkUserisNew();
       if (!mark) {
         Toast.show('Please Select Terms of Services and Privacy Policy');
+      } else if (!isNew) {
+        Toast.show('This email already registered! Please try with another Email');
       } else {
         Signin_CallApi();
       }
     }
   };
 
-  const Signin_CallApi = () => {
+  const Signin_CallApi = async () => {
     let { actions } = props;
     let apiData = {
       user_type: 'Business',
@@ -88,18 +105,40 @@ const BusinessSignup = (props) => {
       confirm_password: ConfirmPassword,
       device_type: 'Android',
       device_token: 'Business',
-      category_id: CateId,
+      category_id: CateId.value,
     };
-    actions.postRegister(apiData, setloaderVisible, () => PageNavigation());
-    setloaderVisible(true);
+    // actions.postRegister(apiData, setloaderVisible, (res) => PageNavigation(res, apiData));
+    actions.postFirebaseRegister(apiData, setloaderVisible, () => PageNavigation())
+    // setloaderVisible(true);
   };
 
-  const PageNavigation = () => {
+  const PageNavigation = async () => {
     handleNavigation({
       type: 'setRoot',
       page: 'bottomtab',
       navigation: navigation,
     });
+  }
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  useEffect(() => {
+    if (!isModalVisible) {
+      setSearchVal("");
+      setSearchCatList([])
+    }
+  }, [isModalVisible])
+
+  const handleSearchCategory = (val) => {
+    setSearchVal(val)
+    setSearchCatList(CateList.filter((item) => item.label.toLowerCase().includes(val.toLowerCase())))
+  }
+
+  const handleCatSelect = (item) => {
+    toggleModal()
+    setCateId(item);
   }
 
   return (
@@ -158,25 +197,23 @@ const BusinessSignup = (props) => {
                 keyboardType="default"
               />
             </View>
-
-            <View
-              style={{
-                marginVertical: 10,
-                marginHorizontal: 0,
-                paddingLeft: 10,
-                borderColor: '#CCC',
-                borderWidth: 1,
-                borderRadius: 30,
-              }}>
-              <RNPickerSelect
-                placeholderTextColor={Colors.imputborderColor}
-                placeholder={{ label: 'Select Categroy', value: null }}
-                onValueChange={value => setCateId(value)}
-                // onClose={(value) =>setCateId(value)}
-                items={CateList}
-                style={styles}
+            <View style={styles.textInputView}>
+              <View style={styles.textInputsubView}>
+                {svg.lockIcon(16, 18, Colors.imputborderColor)}
+              </View>
+              <Dropdown
+                isModalVisible={isModalVisible}
+                toggleModal={toggleModal}
+                handleCatSelect={handleCatSelect}
+                searchVal={searchVal}
+                searchCatList={searchCatList}
+                CateList={CateList}
+                handleSearchCategory={handleSearchCategory}
+                CateId={CateId}
               />
             </View>
+
+
 
             <View style={styles.privacyView}>
               <TouchableOpacity
@@ -234,7 +271,8 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
   { postRegister },
-  { getCategories }
+  { getCategories },
+  { postFirebaseRegister }
 );
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
