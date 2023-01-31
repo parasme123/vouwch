@@ -15,15 +15,15 @@ export const checkAlphabet = (name, min, max, value) => {
   var max = max || 30;
   if (value) {
     if (!VALIDATE.ALPHABET_ONLY.test(value)) {
-      Toast.show(name + ' is Invalid.');
+      Toast.show(name + ' is Invalid.', Toast.LONG);
       return false;
     } else if (value.length < min || value.length > max) {
-      Toast.show(`${name} must be between ${min} to ${max} Characters.`);
+      Toast.show(`${name} must be between ${min} to ${max} Characters.`, Toast.LONG);
       return false;
     }
     return true;
   } else {
-    Toast.show(name + ' is Required.');
+    Toast.show(name + ' is Required.', Toast.LONG);
     return false;
   }
 }
@@ -31,11 +31,11 @@ export const checkAlphabet = (name, min, max, value) => {
 export const checkEmail = (name, value) => {
   if (value) {
     if (!VALIDATE.EMAIL.test(value)) {
-      Toast.show(`${name} is Invalid.`);
+      Toast.show(`${name} is Invalid.`, Toast.LONG);
       return false;
     }
   } else {
-    Toast.show(`${name} is Invalid.`);
+    Toast.show(`${name} is Invalid.`, Toast.LONG);
     return false;
   }
   return true;
@@ -46,17 +46,17 @@ export const checkNumber = (name, min, max, value) => {
   var max = max || 15;
   if (value) {
     if (!VALIDATE.NUMBER.test(value)) {
-      Toast.show(`${name} is Invalid.`);
+      Toast.show(`${name} is Invalid.`, Toast.LONG);
       return false;
     } else if (value.length < min || value.length > max) {
       Toast.show(
-        `${name} entered must be between ${min} to ${max} Characters.`,
+        `${name} entered must be between ${min} to ${max} Characters.`, Toast.LONG
       );
       return false;
     }
     return true;
   } else {
-    Toast.show(`${name} is Required.`);
+    Toast.show(`${name} is Required.`, Toast.LONG);
     return false;
   }
 }
@@ -65,15 +65,15 @@ export const checkPhoneNumberWithFixLength = (name, max, value) => {
   var max = max || 10;
   if (value) {
     if (!VALIDATE.MOBILE.test(value)) {
-      Toast.show(`${name} is Invalid.`);
+      Toast.show(`${name} is Invalid.`, Toast.LONG);
       return false;
     } else if (value.length != max) {
-      Toast.show(`${name} should be ${max} digits.`);
+      Toast.show(`${name} should be ${max} digits.`, Toast.LONG);
       return false;
     }
     return true;
   } else {
-    Toast.show(`${name} is Required.`);
+    Toast.show(`${name} is Required.`, Toast.LONG);
     return false;
   }
 }
@@ -82,10 +82,10 @@ export const checkOptionalPhoneNumberWithFixLength = (name, max, value) => {
   var max = max || 10;
   if (value) {
     if (!VALIDATE.MOBILE.test(value)) {
-      Toast.show(`${name} is Invalid.`);
+      Toast.show(`${name} is Invalid.`, Toast.LONG);
       return false;
     } else if (value.length != max) {
-      Toast.show(`${name} should be ${max} digits.`);
+      Toast.show(`${name} should be ${max} digits.`, Toast.LONG);
       return false;
     }
     return true;
@@ -99,15 +99,15 @@ export const checkPhoneNumber = (name, min, max, value) => {
   var max = max || 15;
   if (value) {
     if (!VALIDATE.MOBILE.test(value)) {
-      Toast.show(`${name} is Invalid.`);
+      Toast.show(`${name} is Invalid.`, Toast.LONG);
       return false;
     } else if (value.length < min || value.length > max) {
-      Toast.show(`${name} should be greater than ${min - 1} digits.`);
+      Toast.show(`${name} should be greater than ${min - 1} digits.`, Toast.LONG);
       return false;
     }
     return true;
   } else {
-    Toast.show(`${name} is Required.`);
+    Toast.show(`${name} is Required.`, Toast.LONG);
     return false;
   }
 }
@@ -117,25 +117,25 @@ export const checkNotNull = (name, min, max, value) => {
   var max = max || 2000;
   if (value) {
     if (value.length < min || value.length > max) {
-      Toast.show(`${name} must be between ${min} to ${max} Characters.`);
+      Toast.show(`${name} must be between ${min} to ${max} Characters.`, Toast.LONG);
       return false;
     }
     return true;
   } else {
-    Toast.show(`${name} is Required.`);
+    Toast.show(`${name} is Required.`, Toast.LONG);
     return false;
   }
 }
 export const checkNull = (name, min, value) => {
   if (value) {
     if (value?.length < min) {
-    Toast.show(`${name} must be at least ${min} characters.`);
+    Toast.show(`${name} must be at least ${min} characters.`, Toast.LONG);
     return false;
   } else {
     return true;
   }
  } else {
-  Toast.show(`${name} is Required.`);
+  Toast.show(`${name} is Required.`, Toast.LONG);
   return false;
 }
   
@@ -146,12 +146,12 @@ export const checkOtp = (name, min, max, value) => {
   var max = max || 10;
   if (value) {
     if (value.length < min || value.length > max) {
-      Toast.show(`${name} must be between ${min} to ${max} Characters.`);
+      Toast.show(`${name} must be between ${min} to ${max} Characters.`, Toast.LONG);
       return false;
     }
     return true;
   } else {
-    Toast.show(`${name} is Required.`);
+    Toast.show(`${name} is Required.`, Toast.LONG);
     return false;
   }
 }
@@ -160,7 +160,7 @@ export const checkRequire = (name, value) => {
   if (value) {
     return true;
   } else {
-    Toast.show(`Please enter ${name}`);
+    Toast.show(`Please enter ${name}`, Toast.LONG);
     return false;
   }
 }
@@ -169,7 +169,7 @@ export const checkRequireSelect = (name, value) => {
   if (value) {
     return true;
   } else {
-    Toast.show(`Please select ${name}`);
+    Toast.show(`Please select ${name}`, Toast.LONG);
     return false;
   }
 }
@@ -179,17 +179,17 @@ export const checkPassword = (name, min, max, value) => {
   var max = max || 15;
   if (value) {
     if (VALIDATE.PASSWORD.test(value)) {
-      Toast.show(`${name} is Invalid.`);
+      Toast.show(`${name} is Invalid.`, Toast.LONG);
       return false;
     } else if (value.length < min || value.length > max) {
       Toast.show(
-        `${name} entered must be between ${min} to ${max} Characters.`,
+        `${name} entered must be between ${min} to ${max} Characters.`, Toast.LONG
       );
       return false;
     }
     return true;
   } else {
-    Toast.show(`${name} is Required.`);
+    Toast.show(`${name} is Required.`, Toast.LONG);
     return false;
   }
 }
@@ -200,7 +200,7 @@ export const checkMatch = (name, value, name2, value2) => {
   if (value == value2) {
     return true;
   } else {
-    Toast.show(`${name} and ${name2} should be same.`);
+    Toast.show(`${name} and ${name2} should be same.`, Toast.LONG);
     return false;
   }
 }
@@ -210,17 +210,17 @@ export const checkStreet = (name, min, max, value) => {
   var max = max || 15;
   if (value) {
     if (VALIDATE.STREET.test(value)) {
-      Toast.show(`${name} is Invalid.`);
+      Toast.show(`${name} is Invalid.`, Toast.LONG);
       return false;
     } else if (value.length < min || value.length > max) {
       Toast.show(
-        `${name} entered must be between ${min} to ${max} Characters.`,
+        `${name} entered must be between ${min} to ${max} Characters.`, Toast.LONG
       );
       return false;
     }
     return true;
   } else {
-    Toast.show(`${name} is Required.`);
+    Toast.show(`${name} is Required.`, Toast.LONG);
     return false;
   }
 }

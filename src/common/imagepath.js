@@ -136,7 +136,8 @@ const Imagepath = {
   radiobutton: require('../assect/icon/radiobutton.png'),
   picStore: require('../assect/icon/picStore.png'),
   right:require('../assect/icon/right.png'),
-  multi:require('../assect/icon/multi.png')
+  multi:require('../assect/icon/multi.png'),
+  sendImg:require('../assect/send-msg.png')
 }
 
 export default Imagepath;

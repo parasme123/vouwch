@@ -6,18 +6,18 @@ import Imagepath from '../../../common/imagepath';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { messageList, addMessage } from '../../../reduxStore/action/firebaseActions';
+import { groupMessageList, addMessage } from '../../../reduxStore/action/firebaseActions';
 import { CustomLoader, AsyncStorageHelper } from "@lib";
 
-const Messeges = (props) => {
-    let selectedUser = props?.route?.params?.selectedUser || [];
-    let { chatUserData } = props?.route?.params;
+const GroupMessage = (props) => {
+    let groupDataParam = props?.route?.params?.chatGroupData;
     const flatListRef = useRef();
 
     const [messagesList, setMessageList] = useState([])
     const [userData, setUserData] = useState({})
     const [typeTxt, setTypeText] = useState("")
     const [loaderVisible, setloaderVisible] = useState(false);
+    const [chatGroupData, setchatGroupData] = useState({})
 
     useEffect(() => {
         async function getUserData() {
@@ -28,11 +28,12 @@ const Messeges = (props) => {
     }, [])
 
     useEffect(() => {
-        const { actions } = props;
+        const { actions, groupData } = props;
         setMessageList([]);
-        let chatWithId = chatUserData.id;
-        actions.messageList(chatWithId, setloaderVisible)
-    }, [chatUserData])
+        setchatGroupData(groupData.find((item) => item.id == groupDataParam.id))
+        let chatWithId = groupDataParam.id;
+        actions.groupMessageList(chatWithId, setloaderVisible)
+    }, [groupDataParam])
 
     useEffect(() => {
         const { messageUserList } = props;
@@ -144,7 +145,7 @@ const Messeges = (props) => {
         // console.log("newMsgList", newMsgList);
         // setMessageList(newMsgList);
         // setTypeText("")
-        actions.addMessage(apiData, chatUserData.id, messageUserList.messageCollectionId, setloaderVisible);
+        actions.addMessage(apiData, chatGroupData.id, messageUserList.messageCollectionId, setloaderVisible, true);
     }
 
     return (
@@ -154,18 +155,18 @@ const Messeges = (props) => {
                     <Image style={styles.preImg} source={Imagepath.previous} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.perView}
-                // onPress={() => props.navigation.navigate('UserGroup', { selectedUser })}
+                    onPress={() => props.navigation.navigate('UserGroup', { chatGroupData })}
                 >
                     <Image
                         style={styles.gmanStyle}
-                        source={chatUserData.profileImg ? chatUserData.profileImg : require('../../../assect/images/default-user.png')} />
+                        source={chatGroupData.profileImg ? chatGroupData.profileImg : require('../../../assect/images/default-user.png')} />
                     <View style={styles.info}>
-                        <Text style={styles.alexTxt}>{chatUserData.first_name}</Text>
-                        <View style={styles.onlineView}>
+                        <Text style={styles.alexTxt}>{chatGroupData.groupName}</Text>
+                        {/* <View style={styles.onlineView}>
                             <Image style={styles.circleImg}
                                 source={Imagepath.circle} />
                             <Text style={styles.onlineTxt}>Online Now</Text>
-                        </View>
+                        </View> */}
                     </View>
                 </TouchableOpacity>
             </View>
@@ -230,10 +231,11 @@ const Messeges = (props) => {
 
 const mapStateToProps = state => ({
     messageUserList: state?.firebaseData?.messageUserList,
+    groupData: state?.firebaseData?.groupData,
 });
 
 const ActionCreators = Object.assign(
-    { messageList },
+    { groupMessageList },
     { addMessage }
 );
 
@@ -241,7 +243,7 @@ const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Messeges)
+export default connect(mapStateToProps, mapDispatchToProps)(GroupMessage)
 
 
 // export default Messeges;

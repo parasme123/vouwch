@@ -8,8 +8,8 @@ import firestore from '@react-native-firebase/firestore';
 const store = configureStore();
 // store.subscribe(() => console.log(store.getState()));
 export default function App() {
-  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-  LogBox.ignoreAllLogs(); //Ignore all log notifications
+  // LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  // LogBox.ignoreAllLogs(); //Ignore all log notifications
   return (
     <SafeAreaView style={{flex: 1}}>
       <Provider store={store}>

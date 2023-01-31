@@ -18,17 +18,16 @@ import CustomLoader from '../../Lib/CustomLoader';
 import {Header} from '@common';
 import String from '../../common/String';
 import Toast from 'react-native-simple-toast';
-import {handleNavigation} from '../../navigator/navigator';
 import styles from './css';
 
 export default function OtpPage({navigation, route}) {
   const [loaderVisible, setloaderVisible] = useState(false);
   const [OtpSave, setOtpSave] = useState(route.params.Otp);
 
-  const firstInput = useRef();
-  const secondInput = useRef();
-  const thirdInput = useRef();
-  const fourthInput = useRef();
+  const firstInput = useRef(null);
+  const secondInput = useRef(null);
+  const thirdInput = useRef(null);
+  const fourthInput = useRef(null);
   const [otp1, setOtp1] = useState('');
   const [otp2, setOtp2] = useState('');
   const [otp3, setOtp3] = useState('');
@@ -37,9 +36,9 @@ export default function OtpPage({navigation, route}) {
   const Signin_Validators = () => {
     let OTP = otp1 + otp2 + otp3 + otp4;
     if (OTP.length < 4) {
-      Toast.show('Please Select OTP ');
+      Toast.show('Please Select OTP ', Toast.LONG);
     } else if (OtpSave != OTP) {
-      Toast.show('OTP Worng ');
+      Toast.show('OTP Worng ', Toast.LONG);
     } else {
       Signin_CallApi(OTP);
     }
@@ -60,7 +59,7 @@ export default function OtpPage({navigation, route}) {
           navigation.navigate('Resetpassword', {Email: route.params.Email});
         } else {
           navigation.navigate('Resetpassword', {Email: route.params.Email});
-          Toast.show(response.message);
+          Toast.show(response.message, Toast.LONG);
         }
       })
       .catch(err => {

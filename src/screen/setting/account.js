@@ -28,24 +28,36 @@ import { connect } from 'react-redux';
 import { handleNavigation } from '../../navigator/Navigator';
 import { bindActionCreators } from 'redux';
 import { postAccountSetting } from '../../reduxStore/action/doctorAction';
+import { updateFirebaseProfile } from '../../reduxStore/action/firebaseActions';
 const { width, height } = Dimensions.get('window');
+import storage from '@react-native-firebase/storage';
+
 const Account = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState({});
   const [firstName, setfirstName] = useState();
   const [lastName, setlastName] = useState();
+  const [firebaseImagePath, setFirebaseImagePath] = useState();
   const [mailAddress, setmailAddress] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const [editText, seteditText] = useState(false);
   const [userData, setuser] = useState(null);
 
   useEffect(() => {
-    setuser(props?.allUserPostData)
-    setfirstName(props?.allUserPostData?.first_name);
-    setlastName(props.allUserPostData?.last_name);
+    async function setUserData() {
+      let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+      firebaseUserData = JSON.parse(firebaseUserData);
+      setuser(firebaseUserData)
+      setfirstName(firebaseUserData?.first_name);
+      setlastName(firebaseUserData?.last_name);
+      // setuser(props?.allUserPostData)
+      // setfirstName(props?.allUserPostData?.first_name);
+      // setlastName(props.allUserPostData?.last_name);
+    }
+    setUserData()
   }, []);
 
-// console.log(props?.allUserPostData)
+  // console.log(props?.allUserPostData)
   const requestCamera = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -76,8 +88,9 @@ const Account = (props) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      setImage(image);
       setModalVisible(!modalVisible);
+      setImage(image);
+      uploadImage(image, "img")
     }).catch((err) => {
       console.log("Error in OPen Camera : ", err)
     });
@@ -88,8 +101,9 @@ const Account = (props) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      setImage(image);
       setModalVisible(!modalVisible);
+      setImage(image);
+      uploadImage(image, "img")
     });
   };
 
@@ -104,20 +118,33 @@ const Account = (props) => {
   const Account_SettingApi = () => {
     let { actions } = props;
     let imageData = {}
-    if(image.path){
-    let fileName = image?.path?.split("/");
-     imageData = {
-      uri: image.path,
-      name: fileName[fileName.length - 1],
-      type: image.mime
-    }}
+    if (image.path) {
+      let fileName = image?.path?.split("/");
+      imageData = {
+        uri: image.path,
+        name: fileName[fileName.length - 1],
+        type: image.mime
+      }
+    }
+
     const data = new FormData();
     data.append('profile_picture', image.path ? imageData : "");
     data.append('user_fname', firstName);
     data.append('user_lname', lastName);
     data.append('email', userData?.email);
-    actions.postAccountSetting(data, () => setloaderVisible(), () => PageNavigation());
+    actions.postAccountSetting(data, setloaderVisible, () => firebaseProfileUpdate());
   };
+
+  const firebaseProfileUpdate = () => {
+    let { actions } = props;
+    let firebaseApiData = {
+      profile_picture: firebaseImagePath,
+      first_name: firstName,
+      last_name: lastName
+    }
+    actions.updateFirebaseProfile(firebaseApiData, userData.id, setloaderVisible, () => PageNavigation())
+  }
+
   const PageNavigation = () => {
     handleNavigation({
       type: 'setRoot',
@@ -126,6 +153,44 @@ const Account = (props) => {
     });
   }
 
+  const uploadImage = async (photo, type) => {
+    let filetype = "";
+    if (photo.mime.includes("image")) {
+      filetype = "imageFirebaseUser"
+    } else {
+      filetype = "FileFirebaseUser"
+    }
+    let photoUri = photo.path;
+    let realFileName = type == "img" ? photoUri.substring(photoUri.lastIndexOf('/') + 1) : photo.name;
+    const filename = type == "img" ? filetype + "-" + realFileName : filetype + "-" + photo.name;
+    console.log('filename', type);
+    const uploadUri = Platform.OS === 'ios' ? photoUri.replace('file://', '') : photoUri;
+    console.log('uploadUri', uploadUri)
+    const task = storage().ref(`user-profile/${filename}`).putFile(uploadUri);
+    task.on('state_changed',
+      snapshot => {
+        // setTransferred(
+        //   Math.round(snapshot.bytesTransferred / snapshot.totalBytes)
+        // );
+      },
+      error => {
+        console.log('error', error);
+        // setError({ message: 'Something went wrong, please try again ' })
+      },
+      () => {
+        task.snapshot.ref.getDownloadURL().then(url => {
+          console.log('URL', url);
+          console.log('realFileName', realFileName);
+          setFirebaseImagePath(url)
+        })
+      }
+    );
+    try {
+      await task;
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   return (
     <ImageBackground source={Imagepath.background} style={styles.imagebg}>
@@ -152,7 +217,7 @@ const Account = (props) => {
         <View style={styles.profileImageview}>
           <Image
             style={styles.ProfileImage}
-            source={image.path ? { uri: image.path } : { uri: userData?.profile_picture }}
+            source={image.path ? { uri: image.path } : userData?.profile_picture ? { uri: userData?.profile_picture } : require('../../assect/images/default-user.png')}
             resizeMode="contain"
           />
           <TouchableOpacity
@@ -406,7 +471,8 @@ const mapStateToProps = state => ({
 });
 
 const ActionCreators = Object.assign(
-  { postAccountSetting }
+  { postAccountSetting },
+  { updateFirebaseProfile }
 );
 
 const mapDispatchToProps = dispatch => ({

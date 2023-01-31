@@ -9,6 +9,7 @@ import {
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
+  Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Imagepath from '../../common/imagepath';
@@ -20,6 +21,9 @@ import { Validators, Constants, SortUrl, ApiCall, CustomLoader, } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { postLogin } from '../../reduxStore/action/doctorAction';
+import { firebaseLogin } from '../../reduxStore/action/firebaseActions';
+import messaging from '@react-native-firebase/messaging';
+
 const Login = (props, { route }) => {
   const navigation = useNavigation();
   const [securepasswordIcon, setSecurepassworddIcon] = useState(true);
@@ -34,24 +38,33 @@ const Login = (props, { route }) => {
   };
 
   const Signin_Validators = () => {
-    if (
-      Validators.checkEmail('Email', Email) &&
-      Validators.checkNull('Password', 8, Password)
-    ) {
+    if (!Email || !Password) {
+      Alert.alert("Email Or Password is required")
+      return
+    } else {
       Call_LoginApi();
     }
   };
 
-  const Call_LoginApi = () => {
+  const Call_LoginApi = async () => {
     let { actions } = props;
+    let fcmToken = await messaging().getToken();
+    console.log("fcmToken", fcmToken);
+    // return
     let apiData = {
       email: Email,
       password: Password,
       device_token: 12345,
       device_type: 'Android',
+      fcmToken: fcmToken
     }
-    actions.postLogin(apiData, Check_User(), setloaderVisible, () => PageNavigation());
+    actions.postLogin(apiData, Check_User(), setloaderVisible, (data) => loginFirebase(apiData, data));
   };
+
+  const loginFirebase = (apiData, loginData) => {
+    let { actions } = props;
+    actions.firebaseLogin(apiData, loginData, Check_User(), setloaderVisible, () => PageNavigation());
+  }
 
   const PageNavigation = () => {
     handleNavigation({
@@ -63,9 +76,9 @@ const Login = (props, { route }) => {
 
   const Check_User = () => {
     if (props.route.params.UserType == 'PERSONAL') {
-      return "personal"
+      return "User"
     } else {
-      return "business"
+      return "Business"
     }
   };
 
@@ -195,7 +208,8 @@ const mapStateToProps = state => ({
 });
 
 const ActionCreators = Object.assign(
-  { postLogin }
+  { postLogin },
+  { firebaseLogin }
 );
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),

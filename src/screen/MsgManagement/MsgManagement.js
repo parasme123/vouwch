@@ -1,62 +1,119 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, TextInput, Alert, Modal, } from 'react-native';
-// import CheckBox from '@react-native-community/checkbox';
-// import { Colors } from 'react-native/Libraries/NewAppScreen';
-import RBSheet from "react-native-raw-bottom-sheet";
 import Imagepath from '../../common/imagepath';
 import styles from './css';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addExternalUser, getBussinessAddedUser, deleteAddedUser } from '../../reduxStore/action/firebaseActions';
+import { CustomLoader, AsyncStorageHelper } from "@lib";
+import firestore from '@react-native-firebase/firestore';
 
-const MsgManagement = () => {
+const MsgManagement = (props) => {
+    const usersCollection = firestore().collection('Users');
     const [modalVisible, setModalVisible] = useState(false);
+    const [ischecked, setischecked] = useState(false);
+    const [empEmail, setEmpEmail] = useState("");
+    const [empName, setEmpName] = useState("");
+    const [empPassword, setEmpPassword] = useState("");
+    const [loaderVisible, setloaderVisible] = useState(false);
+    const [addedUsers, setAddedUsers] = useState([]);
+    const [selectedId, setSelectedId] = useState();
 
-    // const refRBSheet = useRef();
+    useEffect(() => {
+        let { actions } = props;
+        actions.getBussinessAddedUser()
+    }, [])
 
-    const [ischecked, setischecked] = useState();
-    const [meta, setMeta] = useState([
-        { id: 1, title: "Abdul Mughni", description: "How about pie project?", img: Imagepath.abdul },
-        { id: 2, title: "Baadal", description: "Great work!", img: Imagepath.badal },
-        { id: 3, title: "Cadmus", description: "You're welcome!", img: Imagepath.cadmus },
-        { id: 4, title: "Daamodar", description: "Please Check Notion!", img: Imagepath.daamodar },
-        { id: 5, title: "Edgarton", description: "We need to meet today", img: Imagepath.edgarton },
-    ]);
+    useEffect(() => {
+        setAddedUsers(props.addedUserList)
+    }, [props.addedUserList])
+
+    const handleDeleteConfirm = (deleteId) => {
+        setischecked(!ischecked)
+        setSelectedId(deleteId);
+    }
+
+    const handleDeleteAddedUser = () => {
+        let { actions } = props;
+        actions.deleteAddedUser(selectedId, setloaderVisible, () => handleDeleteSuccess())
+    }
+
+    const handleDeleteSuccess = () => {
+        Alert.alert("User Deleted Successfully")
+        setischecked(false);
+    }
 
     const DataList = (metaObj) => {
         return (
-            <View style={{}}>
-
-                <TouchableOpacity style={styles.rightTouch}>
-                    <View style={{ flexDirection: "row" }}>
-                        <Image
-                            style={styles.maanImg}
-                            source={metaObj.img} />
-                        <View style={styles.infoMsg}>
-                            <Text style={styles.wdWatson}>{metaObj.title}</Text>
-                            <Text style={styles.weNeed}>{metaObj.description}</Text>
-                        </View>
+            <TouchableOpacity style={styles.rightTouch} key={metaObj.id}>
+                <View style={{ flexDirection: "row" }}>
+                    <Image
+                        style={styles.maanImg}
+                        source={metaObj.img ? metaObj.img : require('../../assect/images/default-user.png')} />
+                    <View style={styles.infoMsg}>
+                        <Text style={styles.wdWatson}>{metaObj.first_name}</Text>
+                        <Text style={styles.weNeed}>{metaObj.description}</Text>
                     </View>
-                    { /*<View style={styles.checkboxContainer}>
-                        <CheckBox
-                            value={isSelected}
-                            onValueChange={setSelection}
-                            style={styles.checkbox}
-                        />
-                        <Text style={styles.label}>Do you like React Native?</Text>
-                    </View> */}
-
-                    <TouchableOpacity onPress={() => { setischecked(!ischecked) }}>
-                        <Image style={styles.bin}
-                            source={Imagepath.RecycleBin} />
-                    </TouchableOpacity>
-
-
-
+                </View>
+                <TouchableOpacity onPress={() => handleDeleteConfirm(metaObj.id)}>
+                    <Image style={styles.bin}
+                        source={Imagepath.RecycleBin} />
                 </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
         )
     }
+
+    const handleEmpEmail = (e) => {
+        setEmpEmail(e);
+    }
+
+    const handleEmpName = (e) => {
+        setEmpName(e);
+    }
+
+    const handleEmpPassword = (e) => {
+        setEmpPassword(e);
+    }
+
+    const checkUserisNew = async () => {
+        const querySnapshot = await usersCollection.where("email", "==", empEmail).limit(1).get();
+        return querySnapshot.empty;
+    }
+
+
+    const addExternalUser = async () => {
+        if (!empName || !empEmail) {
+            Alert.alert("All Fields Are required")
+            return
+        }
+        let isNew = await checkUserisNew();
+        if (!isNew) {
+            Alert.alert('This email already registered! Please try with another Email');
+            return;
+        }
+        let { actions, userData } = props;
+        let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+        firebaseUserData = JSON.parse(firebaseUserData)
+        let apiData = {
+            user_type: 'sub-user',
+            first_name: empName,
+            last_name: "",
+            email: empEmail,
+            password: empPassword ? empPassword : "12345678",
+            addedBy: firebaseUserData.id
+        };
+        actions.addExternalUser(apiData, setloaderVisible, () => handleAddSuccess());
+    }
+
+    const handleAddSuccess = () => {
+        setModalVisible(true);
+        setEmpPassword("")
+        setEmpName("")
+        setEmpEmail("")
+    }
+
     return (
         <View style={styles.container}>
-
             <View style={styles.upperView}>
                 <Text style={styles.mgmtTxt}>Message Management</Text>
             </View>
@@ -69,93 +126,117 @@ const MsgManagement = () => {
                         <Text style={styles.admin}>( it user have admin privileges )</Text>
                     </View>
                 </View>
-
-
                 <View style={styles.signUPView}>
                     <Text style={styles.signTxt}>Sign Up</Text>
                     <Text style={styles.empTxt}>Employee email ( Username )</Text>
                     <TextInput
                         style={styles.textInput}
-                        keyboardType="default"
+                        keyboardType="email-address"
+                        placeholder='Enter Email'
+                        onChangeText={handleEmpEmail}
+                        value={empEmail}
                     />
-                    <Text style={styles.empTxt}>Default Password (123)</Text>
+                    <Text style={styles.empTxt}>Employee Name</Text>
                     <TextInput
                         style={styles.textInput}
-                        keyboardType="numeric"
+                        keyboardType="email-address"
+                        placeholder='Enter Name'
+                        onChangeText={handleEmpName}
+                        value={empName}
                     />
-
-
+                    <Text style={styles.empTxt}>Password (Default Value 12345678)</Text>
+                    <TextInput
+                        style={styles.textInput}
+                        keyboardType='default'
+                        placeholder='Enter Password'
+                        secureTextEntry={true}
+                        onChangeText={handleEmpPassword}
+                        value={empPassword}
+                    />
                     <Modal
                         animationType="slide"
                         transparent={true}
                         visible={modalVisible}
                         onRequestClose={() => {
-                            Alert.alert("Modal has been closed.");
                             setModalVisible(!modalVisible);
                         }}>
-
-
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>You SignedUp Successfully.</Text>
+                                <Text style={styles.modalText}>You Added User Successfully.</Text>
                                 <TouchableOpacity
                                     style={[styles.button, styles.buttonClose]}
                                     onPress={() => setModalVisible(!modalVisible)}
                                 >
-                                    <Text style={styles.textStyle}>Hide</Text>
+                                    <Text style={styles.textStyle}>Ok</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
-
                     </Modal>
-
-                    <TouchableOpacity style={styles.signUpBtnView} onPress={() => setModalVisible(true)}>
-                        {/* // onPress={() => refRBSheet.current.open()} */}
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={ischecked}
+                        onRequestClose={() => {
+                            setischecked(!ischecked);
+                        }}>
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Are You sure to Delete.</Text>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={() => setischecked(!ischecked)}
+                                    >
+                                        <Text style={styles.textStyle}>No</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={handleDeleteAddedUser}
+                                    >
+                                        <Text style={styles.textStyle}>Yes</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+                    <TouchableOpacity style={styles.signUpBtnView} onPress={addExternalUser}>
                         <Text style={styles.signUpTxt}>Sign Up</Text>
                     </TouchableOpacity>
-
                 </View>
-                {/* 
-                <RBSheet
-                    ref={refRBSheet}
-                    closeOnDragDown={false}
-                    closeOnPressMask={false}
-                    height={550}
-                    customStyles={{
-                        wrapper: {
-                            backgroundColor: "transparent"
-                        },
-                        draggableIcon: {
-                            backgroundColor: "red"
-                        }
-                    }}
-                > */}
-
                 <View style={styles.removeListView}>
                     <Text style={styles.signTxt}>List of sign up employees</Text>
-                    {/* <TouchableOpacity style={styles.delView}>
-                        <Image style={styles.bin}
-                            source={Imagepath.RecycleBin} />
-                        <Text style={styles.DelTxt}>Delete Select</Text>
-                    </TouchableOpacity> */}
                 </View>
                 <View style={styles.ListView}>
-
                     <ScrollView style={{}}
                         showsVerticalScrollIndicator={false}>
                         {
-                            meta?.map((item, index) => {
+                            addedUsers?.map((item, index) => {
                                 return DataList(item)
                             })
                         }
                     </ScrollView>
                 </View>
-
-
-                {/* </RBSheet> */}
-
             </ScrollView >
+            <CustomLoader loaderVisible={loaderVisible} />
         </View >
     )
 }
-export default MsgManagement;
+
+const mapStateToProps = state => ({
+    userData: state?.firebaseData?.userData,
+    addedUserList: state?.firebaseData?.addedUserList,
+});
+
+const ActionCreators = Object.assign(
+    { addExternalUser },
+    { getBussinessAddedUser },
+    { deleteAddedUser }
+);
+
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MsgManagement)
+
+// export default MsgManagement;

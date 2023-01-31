@@ -1,4 +1,4 @@
-package com.vowch;
+package com.vouwch;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

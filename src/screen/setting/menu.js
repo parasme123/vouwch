@@ -14,6 +14,7 @@ import { Header, Fonts, String, Colors, Fontsize, imagepath } from '@common';
 import { Helper, Constants, AsyncStorageHelper, CustomLoader } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
 import { logOut, postLogout } from '../../reduxStore/action/doctorAction';
+import { firebaseLogout } from '../../reduxStore/action/firebaseActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { aboutUsUrl, baseUrl, contactUsUrl, HelpSupportUrl, imgBaseUrl, PrivacyPolicyUrl, TermandConditionUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
@@ -49,12 +50,13 @@ const Menu = (props, { navigation }) => {
 
   const HandelLogoutbyApi = () => {
     let { actions } = props;
-    actions.postLogout(setloaderVisible, PostNavigation);
+    // actions.postLogout(setloaderVisible, PostNavigation);
+    actions.firebaseLogout(setloaderVisible, () => PostNavigation());
   };
   const PostNavigation = () => {
     handleNavigation({
       type: 'setRoot',
-      page: 'bottomtab',
+      page: 'welcome',
       navigation: props.navigation,
     });
   };
@@ -116,22 +118,22 @@ const Menu = (props, { navigation }) => {
             />
             <Text style={styles.pageButtonText}>Terms & Conditions</Text>
           </TouchableOpacity>
-          {
-            userType && userToken ? (
-              <TouchableOpacity
-                style={[styles.pageButton, { marginBottom: 50 }]}
-                onPress={() => {
-                  HandelLogoutbyApi();
-                }}>
-                <Image
-                  style={styles.pageButtonIcon}
-                  resizeMode="contain"
-                  source={imagepath.help}
-                />
-                <Text style={styles.pageButtonText}>Sign out</Text>
-              </TouchableOpacity>
-            ) : null
-          }
+          {/* {
+            userType && userToken ? ( */}
+          <TouchableOpacity
+            style={[styles.pageButton, { marginBottom: 50 }]}
+            onPress={() => {
+              HandelLogoutbyApi();
+            }}>
+            <Image
+              style={styles.pageButtonIcon}
+              resizeMode="contain"
+              source={imagepath.help}
+            />
+            <Text style={styles.pageButtonText}>Sign out</Text>
+          </TouchableOpacity>
+          {/* ) : null
+          } */}
         </View>
       </ScrollView>
       <CustomLoader loaderVisible={loaderVisible} />
@@ -163,7 +165,8 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
   { logOut },
-  { postLogout }
+  { postLogout },
+  { firebaseLogout }
 );
 
 const mapDispatchToProps = dispatch => ({

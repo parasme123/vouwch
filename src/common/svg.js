@@ -152,7 +152,6 @@ export const addReview = (width, height, color) => {
     )
 }
 
-
 export const doctorIcon = (width, height, color) => {
     return (
         <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 26 26">
@@ -171,10 +170,6 @@ export const doctorIcon = (width, height, color) => {
     )
 }
 
-
-
-
-
 export const manIcon = (width, height, color) => {
     return (
         <Svg xmlns="http://www.w3.org/2000/svg" width="15.206" height="20.013" viewBox="0 0 23.601 25.543">
@@ -189,18 +184,17 @@ export const manIcon = (width, height, color) => {
 
 export const lockIcon = (width, height, color) => {
     return (
-<Svg xmlns="http://www.w3.org/2000/svg" width="15.206" height="20.013" viewBox="0 0 15.206 20.013">
-  <G id="Layer_2" data-name="Layer 2" transform="translate(0 0.013)">
-    <G id="lock" transform="translate(0 -0.013)">
-      <Path id="Path_121" data-name="Path 121" d="M12.865,8.4h-.06v-3.2a5.2,5.2,0,0,0-5.438-5.2A5.31,5.31,0,0,0,2.4,5.354v.84a1,1,0,0,0,2,0V5.322A3.285,3.285,0,0,1,7.395,1.993a3.2,3.2,0,0,1,3.409,3.2V8.4H2.341A2.341,2.341,0,0,0,0,10.736v6.923A2.341,2.341,0,0,0,2.341,20H12.865a2.341,2.341,0,0,0,2.341-2.341V10.736A2.341,2.341,0,0,0,12.865,8.4Zm.34,9.264a.34.34,0,0,1-.34.34H2.341a.34.34,0,0,1-.34-.34V10.736a.34.34,0,0,1,.34-.34H12.865a.34.34,0,0,1,.34.34Z" transform="translate(0 0.013)" fill={color}/>
-      <Rect id="Rectangle_38" data-name="Rectangle 38" width="2.001" height="3.601" rx="1" transform="translate(6.603 12.41)" fill={color}/>
-    </G>
-  </G>
-</Svg>
+        <Svg xmlns="http://www.w3.org/2000/svg" width="15.206" height="20.013" viewBox="0 0 15.206 20.013">
+            <G id="Layer_2" data-name="Layer 2" transform="translate(0 0.013)">
+                <G id="lock" transform="translate(0 -0.013)">
+                    <Path id="Path_121" data-name="Path 121" d="M12.865,8.4h-.06v-3.2a5.2,5.2,0,0,0-5.438-5.2A5.31,5.31,0,0,0,2.4,5.354v.84a1,1,0,0,0,2,0V5.322A3.285,3.285,0,0,1,7.395,1.993a3.2,3.2,0,0,1,3.409,3.2V8.4H2.341A2.341,2.341,0,0,0,0,10.736v6.923A2.341,2.341,0,0,0,2.341,20H12.865a2.341,2.341,0,0,0,2.341-2.341V10.736A2.341,2.341,0,0,0,12.865,8.4Zm.34,9.264a.34.34,0,0,1-.34.34H2.341a.34.34,0,0,1-.34-.34V10.736a.34.34,0,0,1,.34-.34H12.865a.34.34,0,0,1,.34.34Z" transform="translate(0 0.013)" fill={color} />
+                    <Rect id="Rectangle_38" data-name="Rectangle 38" width="2.001" height="3.601" rx="1" transform="translate(6.603 12.41)" fill={color} />
+                </G>
+            </G>
+        </Svg>
 
     )
 }
-
 
 export const fbIcon = (width, height) => {
     return (
@@ -218,8 +212,6 @@ export const fbIcon = (width, height) => {
     )
 }
 
-
-
 export const twiterIcon = (width, height) => {
     return (
         <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 83 56">
@@ -234,8 +226,6 @@ export const twiterIcon = (width, height) => {
 
     )
 }
-
-
 
 export const googleIcon = (width, height) => {
     return (
@@ -258,30 +248,28 @@ export const googleIcon = (width, height) => {
     )
 }
 
-
 export const businessIcon = (width, height, color) => {
     return (
-<Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 20.5 19">
-  <G id="_15953164891594941301" data-name="15953164891594941301" transform="translate(-2.5 -3.5)">
-    <Path id="Path_141" data-name="Path 141" d="M22,20.6v3.3a1.5,1.5,0,0,1-1.5,1.5H5.5A1.5,1.5,0,0,1,4,23.9V20.6" transform="translate(-0.25 -4.15)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <Path id="Path_142" data-name="Path 142" d="M15.5,22.75h0a1.5,1.5,0,0,1-1.5-1.5V19h3v2.25A1.5,1.5,0,0,1,15.5,22.75Z" transform="translate(-2.75 -3.75)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <Path id="Path_143" data-name="Path 143" d="M11.25,18.5H6a3.009,3.009,0,0,1-3-3v-6A1.5,1.5,0,0,1,4.5,8H21a1.5,1.5,0,0,1,1.5,1.5v6a3.009,3.009,0,0,1-3,3H14.25" transform="translate(0 -1)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <Path id="Path_144" data-name="Path 144" d="M18,7H12V5.5A1.5,1.5,0,0,1,13.5,4h3A1.5,1.5,0,0,1,18,5.5Z" transform="translate(-2.25)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <Line id="Line_32" data-name="Line 32" y1="1" transform="translate(5.75 21)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-    <Line id="Line_33" data-name="Line 33" y1="1" transform="translate(19.75 21)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-  </G>
-</Svg>
+        <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 20.5 19">
+            <G id="_15953164891594941301" data-name="15953164891594941301" transform="translate(-2.5 -3.5)">
+                <Path id="Path_141" data-name="Path 141" d="M22,20.6v3.3a1.5,1.5,0,0,1-1.5,1.5H5.5A1.5,1.5,0,0,1,4,23.9V20.6" transform="translate(-0.25 -4.15)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                <Path id="Path_142" data-name="Path 142" d="M15.5,22.75h0a1.5,1.5,0,0,1-1.5-1.5V19h3v2.25A1.5,1.5,0,0,1,15.5,22.75Z" transform="translate(-2.75 -3.75)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                <Path id="Path_143" data-name="Path 143" d="M11.25,18.5H6a3.009,3.009,0,0,1-3-3v-6A1.5,1.5,0,0,1,4.5,8H21a1.5,1.5,0,0,1,1.5,1.5v6a3.009,3.009,0,0,1-3,3H14.25" transform="translate(0 -1)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                <Path id="Path_144" data-name="Path 144" d="M18,7H12V5.5A1.5,1.5,0,0,1,13.5,4h3A1.5,1.5,0,0,1,18,5.5Z" transform="translate(-2.25)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                <Line id="Line_32" data-name="Line 32" y1="1" transform="translate(5.75 21)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+                <Line id="Line_33" data-name="Line 33" y1="1" transform="translate(19.75 21)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            </G>
+        </Svg>
 
 
     )
 }
 
-
 export const vOWCHiCON = (width, height, color) => {
     return (
-<Svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 337 337">
-  <G id="Group_114" data-name="Group 114" transform="translate(-46 -295)">
-    {/* <G id="Ellipse_53" data-name="Ellipse 53" transform="translate(46 295)" fill="none" stroke="#245fc7" stroke-width="1">
+        <Svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 337 337">
+            <G id="Group_114" data-name="Group 114" transform="translate(-46 -295)">
+                {/* <G id="Ellipse_53" data-name="Ellipse 53" transform="translate(46 295)" fill="none" stroke="#245fc7" stroke-width="1">
       <Circle cx="168.5" cy="168.5" r="168.5" stroke="none"/>
       <Circle cx="168.5" cy="168.5" r="168" fill="none"/>
     </G>
@@ -297,19 +285,19 @@ export const vOWCHiCON = (width, height, color) => {
       <Circle cx="113.5" cy="113.5" r="113.5" stroke="none"/>
       <Circle cx="113.5" cy="113.5" r="113" fill="none"/>
     </G> */}
-    <G id="logo" transform="translate(132.458)">
-   
-      <G id="Group_57" data-name="Group 57" transform="translate(28.665 397.329)">
-        <Path id="Path_111" data-name="Path 111" d="M0,0H108.259V107.342H0Z" transform="translate(0)" fill="#245fc7"/>
-        <G id="Path_112" data-name="Path 112" transform="translate(14.373 17.584)">
-          <Path id="Path_145" data-name="Path 145" d="M96.923,89.6H25V25H96.923Z" transform="translate(-21.177 -21.177)" fill="#245fc7"/>
-          <Path id="Path_146" data-name="Path 146" d="M7.645,7.645V64.6H71.923V7.645H7.645M0,0H79.568V72.247H0Z" transform="translate(0 0)" fill="#fff"/>
-        </G>
-        <Path id="Path_113" data-name="Path 113" d="M6071.49,300.147h6.673l10.665,27.15,10.97-27.181h6.582l-17.552,40.832Z" transform="translate(-6034.791 -266.783)" fill="#fff"/>
-      </G>
-    </G>
-  </G>
-</Svg>
+                <G id="logo" transform="translate(132.458)">
+
+                    <G id="Group_57" data-name="Group 57" transform="translate(28.665 397.329)">
+                        <Path id="Path_111" data-name="Path 111" d="M0,0H108.259V107.342H0Z" transform="translate(0)" fill="#245fc7" />
+                        <G id="Path_112" data-name="Path 112" transform="translate(14.373 17.584)">
+                            <Path id="Path_145" data-name="Path 145" d="M96.923,89.6H25V25H96.923Z" transform="translate(-21.177 -21.177)" fill="#245fc7" />
+                            <Path id="Path_146" data-name="Path 146" d="M7.645,7.645V64.6H71.923V7.645H7.645M0,0H79.568V72.247H0Z" transform="translate(0 0)" fill="#fff" />
+                        </G>
+                        <Path id="Path_113" data-name="Path 113" d="M6071.49,300.147h6.673l10.665,27.15,10.97-27.181h6.582l-17.552,40.832Z" transform="translate(-6034.791 -266.783)" fill="#fff" />
+                    </G>
+                </G>
+            </G>
+        </Svg>
 
 
     )

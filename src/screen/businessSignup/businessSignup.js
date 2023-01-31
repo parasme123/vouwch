@@ -18,12 +18,14 @@ import Toast from 'react-native-simple-toast';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { postRegister, getCategories, postFirebaseRegister } from '../../reduxStore/action/doctorAction';
+import { postRegister, getCategories } from '../../reduxStore/action/doctorAction';
+import { firebaseRegister } from '../../reduxStore/action/firebaseActions';
 import { handleNavigation } from '../../navigator/Navigator';
 import { useNavigation } from '@react-navigation/native';
 import { contactUsUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
 import firestore from '@react-native-firebase/firestore';
 import Dropdown from '../../component/dropdown';
+import messaging from '@react-native-firebase/messaging';
 
 const BusinessSignup = (props) => {
   const usersCollection = firestore().collection('Users');
@@ -85,9 +87,9 @@ const BusinessSignup = (props) => {
     ) {
       let isNew = await checkUserisNew();
       if (!mark) {
-        Toast.show('Please Select Terms of Services and Privacy Policy');
+        Toast.show('Please Select Terms of Services and Privacy Policy', Toast.LONG);
       } else if (!isNew) {
-        Toast.show('This email already registered! Please try with another Email');
+        Toast.show('This email already registered! Please try with another Email', Toast.LONG);
       } else {
         Signin_CallApi();
       }
@@ -96,6 +98,7 @@ const BusinessSignup = (props) => {
 
   const Signin_CallApi = async () => {
     let { actions } = props;
+    let fcmToken = await messaging().getToken();
     let apiData = {
       user_type: 'Business',
       first_name: BusinessName,
@@ -104,13 +107,17 @@ const BusinessSignup = (props) => {
       password: password,
       confirm_password: ConfirmPassword,
       device_type: 'Android',
-      device_token: 'Business',
+      // device_token: 'Business',
       category_id: CateId.value,
+      device_token: fcmToken
     };
-    // actions.postRegister(apiData, setloaderVisible, (res) => PageNavigation(res, apiData));
-    actions.postFirebaseRegister(apiData, setloaderVisible, () => PageNavigation())
-    // setloaderVisible(true);
+    actions.postRegister(apiData, setloaderVisible, () => registerOnFirebase(apiData));
   };
+
+  const registerOnFirebase = (apiData) => {
+    let { actions } = props;
+    actions.firebaseRegister(apiData, setloaderVisible, () => PageNavigation())
+  }
 
   const PageNavigation = async () => {
     handleNavigation({
@@ -272,7 +279,7 @@ const mapStateToProps = state => ({
 const ActionCreators = Object.assign(
   { postRegister },
   { getCategories },
-  { postFirebaseRegister }
+  { firebaseRegister }
 );
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),

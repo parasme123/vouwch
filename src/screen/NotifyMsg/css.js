@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium,
         alignSelf: "center",
-        justystifyContent: "center"
+        justifyContent: "center"
     },
     infoTouch: {
         paddingHorizontal: 5,

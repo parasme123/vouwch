@@ -19,9 +19,13 @@ import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { postRegister } from '../../reduxStore/action/doctorAction';
+import { firebaseRegister } from '../../reduxStore/action/firebaseActions';
 import { contactUsUrl, WebBaseUrl } from '../../reduxStore/action/webApiUrl';
+import firestore from '@react-native-firebase/firestore';
+import messaging from '@react-native-firebase/messaging';
 
 const Signup = (props) => {
+  const usersCollection = firestore().collection('Users');
   const [mark, setMark] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
   const [firstname, setfirstname] = useState('');
@@ -34,7 +38,12 @@ const Signup = (props) => {
     setMark(!mark);
   };
 
-  const Signin_Validators = () => {
+  const checkUserisNew = async () => {
+    const querySnapshot = await usersCollection.where("email", "==", email).limit(1).get();
+    return querySnapshot.empty;
+  }
+
+  const Signin_Validators = async () => {
     if (
       Validators.checkNull('First Name', 2, firstname) &&
       Validators.checkNull('Last Name', 2, lastname) &&
@@ -43,15 +52,19 @@ const Signup = (props) => {
       Validators.checkNull('Confirm Password', 8, ConfirmPassword) &&
       Validators.checkMatch('Password', password, 'Confirm Password', ConfirmPassword,)
     ) {
+      let isNew = await checkUserisNew();
       if (!mark) {
-        Toast.show('Please Select Terms of Services and Privacy Policy');
+        Toast.show('Please Select Terms of Services and Privacy Policy', Toast.LONG);
+      } else if (!isNew) {
+        Toast.show('This email already registered! Please try with another Email', Toast.LONG);
       } else {
         Signup_CallApi();
       }
     }
   };
-  const Signup_CallApi = () => {
+  const Signup_CallApi = async () => {
     let { actions } = props;
+    let fcmToken = await messaging().getToken();
     let apiData = {
       user_type: 'User',
       first_name: firstname,
@@ -60,10 +73,16 @@ const Signup = (props) => {
       password: password,
       confirm_password: ConfirmPassword,
       device_type: 'Android',
-      device_token: 'abcd',
+      // device_token: 'abcd',
+      device_token: fcmToken
     };
-    actions.postRegister(apiData, setloaderVisible, () => PageNavigation());
+    actions.postRegister(apiData, setloaderVisible, () => registerOnFirebase(apiData));
   };
+
+  const registerOnFirebase = (apiData) => {
+    let { actions } = props;
+    actions.firebaseRegister(apiData, setloaderVisible, () => PageNavigation())
+  }
 
   const PageNavigation = () => {
     handleNavigation({
@@ -212,7 +231,8 @@ const mapStateToProps = state => ({
 });
 
 const ActionCreators = Object.assign(
-  { postRegister }
+  { postRegister },
+  { firebaseRegister }
 );
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),

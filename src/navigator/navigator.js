@@ -32,6 +32,7 @@ import feedbackpage from '../screen/homescreens/doctor/feedbackpage';
 import DetailedBusinessProfile from '../screen/DetailedBusinessProfile';
 import NewChat from '../screen/NewChats/NewChat';
 import Messeges from '../screen/NewChats/Messeges/Messeges';
+import GroupMessage from '../screen/NewChats/GroupMessage/Messeges';
 import UserGroup from '../screen/UserGroup/UserGroup';
 import MsgManagement from '../screen/MsgManagement/MsgManagement';
 import UserGrpMsg from '../UserGrpMsg/UserGrpMsg';
@@ -77,6 +78,7 @@ const Navigator = () => {
         <MainStack.Screen name="DetailedBusinessProfile" component={DetailedBusinessProfile} />
         <MainStack.Screen name="NewChat" component={NewChat} />
         <MainStack.Screen name="Messeges" component={Messeges} />
+        <MainStack.Screen name="GroupMesseges" component={GroupMessage} />
         <MainStack.Screen name="UserGroup" component={UserGroup} />
         <MainStack.Screen name="MsgManagement" component={MsgManagement} />
         <MainStack.Screen name="UserGrpMsg" component={UserGrpMsg} />

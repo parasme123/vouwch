@@ -8,23 +8,23 @@ import styles from './css';
 const NotifyMsg = () => {
 
     const [data, setData] = useState([
-        { id: 1, title: "Wendy Watson", description: "We need to meet today", time: "15:20PM", status: "2", img: Imagepath.maan },
-        { id: 2, title: "Connie Lane", description: "Where are you?", time: "15:20PM", status: "1", img: Imagepath.proMam },
-        { id: 2, title: "Kathryn Alexander", description: "Kathryn Alexander", time: "15:20PM", status: "4", img: Imagepath.proWoman },
-        { id: 1, title: "Bernard Nguyen", description: "Bernard Nguyen", time: "15:20PM", status: "3", img: Imagepath.googleMan },
-        { id: 1, title: "Connie Lane", description: "We need to meet today", time: "15:20PM", status: "1", img: Imagepath.googleWomen },
-        { id: 1, title: "Wendy Watson", description: "We need to meet today", time: "15:20PM", status: "2", img: Imagepath.maan },
-        { id: 2, title: "Connie Lane", description: "Where are you?", time: "15:20PM", status: "", img: Imagepath.proMam },
-        { id: 2, title: "Kathryn Alexander", description: "Kathryn Alexander", time: "15:20PM", status: "3", img: Imagepath.proWoman },
-        { id: 1, title: "Bernard Nguyen", description: "Bernard Nguyen", time: "15:20PM", status: "5", img: Imagepath.googleMan },
-        { id: 1, title: "Connie Lane", description: "We need to meet today", time: "15:20PM", status: "7", img: Imagepath.googleWomen },
+        { docId: 1, id: 1, title: "Wendy Watson", description: "We need to meet today", time: "15:20PM", status: "2", img: Imagepath.maan },
+        { docId: 2, id: 2, title: "Connie Lane", description: "Where are you?", time: "15:20PM", status: "1", img: Imagepath.proMam },
+        { docId: 3, id: 2, title: "Kathryn Alexander", description: "Kathryn Alexander", time: "15:20PM", status: "4", img: Imagepath.proWoman },
+        { docId: 4, id: 1, title: "Bernard Nguyen", description: "Bernard Nguyen", time: "15:20PM", status: "3", img: Imagepath.googleMan },
+        { docId: 5, id: 1, title: "Connie Lane", description: "We need to meet today", time: "15:20PM", status: "1", img: Imagepath.googleWomen },
+        { docId: 6, id: 1, title: "Wendy Watson", description: "We need to meet today", time: "15:20PM", status: "2", img: Imagepath.maan },
+        { docId: 7, id: 2, title: "Connie Lane", description: "Where are you?", time: "15:20PM", status: "", img: Imagepath.proMam },
+        { docId: 8, id: 2, title: "Kathryn Alexander", description: "Kathryn Alexander", time: "15:20PM", status: "3", img: Imagepath.proWoman },
+        { docId: 9, id: 1, title: "Bernard Nguyen", description: "Bernard Nguyen", time: "15:20PM", status: "5", img: Imagepath.googleMan },
+        { docId: 10, id: 1, title: "Connie Lane", description: "We need to meet today", time: "15:20PM", status: "7", img: Imagepath.googleWomen },
 
 
     ]);
 
     const MsgList = (msgObj) => {
         return (
-            <View style={{ backgroundColor: Colors.white, }}>
+            <View style={{ backgroundColor: Colors.white, }} key={msgObj.docId}>
                 {
                     msgObj.id == 1 ?
                         (

@@ -122,9 +122,6 @@ const styles = StyleSheet.create({
         width: 15,
         resizeMode: "contain",
         tintColor: Colors.white,
-        position: "absolute",
-        marginLeft: 8,
-        marginTop: 8,
     },
     rect: {
         height: 35,
@@ -138,7 +135,7 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
         marginTop: 8,
         marginLeft: 10,
-        borderRadius: 20
+        borderRadius: 30
     },
     lineStyle: {
         borderWidth: 0.5,
@@ -151,8 +148,8 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         alignItems: "center",
         backgroundColor: Colors.offwhite,
-        borderBottomWidth: 0.7,
-        borderBottomColor: Colors.grey,
+        borderTopWidth: 0.7,
+        borderTopColor: Colors.grey,
         justifyContent: "space-between",
     },
     subView: {
@@ -180,9 +177,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-
+        marginHorizontal: 16,
+        // paddingVertical: 10,
     },
     clinic: {
         flex: 1.5,
@@ -190,9 +186,9 @@ const styles = StyleSheet.create({
         borderRadius: 18,
         justifyContent: "center",
         alignItems: "center",
-        paddingVertical: 11 ,
+        paddingVertical: 12,
         marginHorizontal: 5,
-        paddingHorizontal:10
+        // paddingHorizontal:4
     },
     contactView: {
         flex: 0.6,
@@ -207,7 +203,7 @@ const styles = StyleSheet.create({
         fontSize: Fontsize.fontTwelve,
         color: Colors.white,
         fontFamily: Fonts.ProximaNovaMedium,
-        marginTop: 3,
+        // marginTop: 3,
 
     },
     contect: {
@@ -219,10 +215,9 @@ const styles = StyleSheet.create({
     txtinputView: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginTop: -10,
-        marginLeft: -15,
-        paddingHorizontal: 10,
-        // paddingVertical: 5,
+        alignItems: "center",
+        paddingVertical: 12,
+        paddingHorizontal: 18,
     },
     backColor: {
         backgroundColor: Colors.white,
@@ -239,34 +234,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.white,
-        margin: 20,
         borderRadius: 30,
-        height: 37,
-
+        marginRight: 8
     },
     searchIcon: {
         // padding: 10,
     },
     input: {
         flex: 1,
-        marginLeft: 10,
-        paddingLeft: 0,
         height: 35,
         fontSize: Fontsize.fontTwelve,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium,
-        marginTop: 2
     },
     SquareShapeView: {
-
-        width: 33,
-        height: 33,
         backgroundColor: Colors.appcolor,
-        marginTop: 22,
-        marginLeft: -10,
+        padding: 10,
+        // marginTop: 22,
+        // marginLeft: -10,
         borderRadius: 5,
         elevation: 10
-
     },
     updateView: {
         justifyContent: "center",
@@ -301,16 +288,18 @@ const styles = StyleSheet.create({
     },
     broadBtnTxt: {
         fontSize: Fontsize.fontFifteen,
-        color: Colors.appcolor,
+        color: Colors.white,
         fontFamily: Fonts.ProximaNovaMedium,
     },
     broadBtnView: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginHorizontal: 10,
-        borderBottomWidth: 0.5,
-        borderBottomColor: Colors.grey,
-        paddingBottom: 10
+        paddingHorizontal: 12,
+        alignItems:"center",
+        // borderBottomWidth: 0.5,
+        // borderBottomColor: Colors.grey,
+        paddingVertical: 10,
+        backgroundColor: Colors.appcolor
     }
 
 }

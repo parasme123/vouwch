@@ -11,14 +11,13 @@ const imageTestUrl = 'https://vouwch.com/test/';
 // export const baseUrl = APPMODE == "LIVE" ? liveUrl : testUrl;
 // export const imgBaseUrl = APPMODE == "LIVE" ? imageLiveUrl : imageTestUrl;
 
-
+// Url of web views
 export const WebBaseUrl = 'https://vouwch.com/test/'
 export const aboutUsUrl = "about-us";
 export const contactUsUrl = "contact-us";
 export const HelpSupportUrl = "help-support";
 export const PrivacyPolicyUrl = "privacy-policy";
 export const TermandConditionUrl = "termd-&-condition";
-
 
 export const getFollowData = 'getfollow';
 export const getAllCountry = "get-country";

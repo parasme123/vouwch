@@ -72,11 +72,15 @@ const styles = StyleSheet.create({
         fontSize: Fontsize.fontTwelve,
         color: Colors.lightBlack,
         fontFamily: Fonts.ProximaNovaMedium,
-        marginTop: 12
+        marginVertical: 12
     },
     textInput: {
         backgroundColor: Colors.offwhite,
-        marginTop: 5
+        height: 40,
+        borderWidth: 0.4,
+        borderColor: Colors.gray,
+        borderRadius: 5,
+        // marginTop: 5
     },
     rightTouch: {
         flexDirection: "row",
@@ -139,13 +143,17 @@ const styles = StyleSheet.create({
         marginLeft: 2
     },
     signUpBtnView: {
-        width: 100,
-        height: 40,
+        // width: 100,
+        // height: 40,
+        alignSelf: "flex-start",
         backgroundColor: Colors.appcolor,
         borderRadius: 20,
         marginTop: 10,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        marginTop: 24
     },
     signUpTxt: {
         color: Colors.white,
@@ -161,20 +169,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 35,
         alignItems: "center",
-        shadowColor: Colors.appcolor,
-        shadowOffset: {
-            width: 0,
-            height: 10
-        },
-        shadowOpacity: 10,
-        shadowRadius: 4,
-        elevation: 5
     },
     centeredView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        marginTop: 8,
     },
     modalText: {
         marginBottom: 15,
@@ -183,25 +183,15 @@ const styles = StyleSheet.create({
         fontSize: Fontsize.fontFourteen,
         fontFamily: Fonts.ProximaNovaMedium,
     },
-    buttonClose: {
-        backgroundColor: Colors.appcolor,
-        fontSize: Fontsize.fontThirteen,
-        fontFamily: Fonts.ProximaNovaBold,
-    },
     button: {
+        // flex: 1,
         borderRadius: 20,
-        height: 40,
-        width: 100,
-        elevation: 10,
-        shadowColor: Colors.appcolor,
-        shadowOffset: {
-            width: 0,
-            height: 10
-        },
-        shadowOpacity: 10,
-        shadowRadius: 4,
+        paddingVertical: 6,
+        paddingHorizontal: 24,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        backgroundColor: Colors.appcolor,
+        marginHorizontal: 12
     },
     textStyle: {
         color: Colors.white,

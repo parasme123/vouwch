@@ -1,14 +1,43 @@
-import React, { useState, } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView } from 'react-native';
-import { Fonts, Fontsize, Colors } from '@common';
+import React, { useState, useEffect } from 'react';
+import { TouchableOpacity, View, Image, Text } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { allUserList, startChatWithNewUser } from '../../reduxStore/action/firebaseActions';
+import { CustomLoader, AsyncStorageHelper } from "@lib";
 import MsgChat from './MsgChat/MsgChat';
-import PersonalContact from './PersonalContact/PersonalContact';
 
 const NewChat = (props) => {
+    const [activeTab, setActiveTab] = useState("MsgChat");
+    const [firebaseUsersList, setFirebaseUsersList] = useState([]);
+    const [loaderVisible, setloaderVisible] = useState(false);
 
-    const [activeTab, setActiveTab] = useState("MsgChat")
+    useEffect(() => {
+        let { actions } = props;
+        // async function fun() {
+        //     let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+        //     firebaseUserData = JSON.parse(firebaseUserData);
+        //     console.log("firebaseUserData", firebaseUserData);
+        // }
+        // fun()
+        actions.allUserList();
+    }, [])
+
+    useEffect(() => {
+        let { allUsers } = props;
+        setFirebaseUsersList(allUsers?.length ? allUsers : [])
+    }, [props.allUsers])
+
+
+    const handleStartChat = (chatUserData) => {
+        let { actions } = props;
+        actions.startChatWithNewUser(chatUserData.id, setloaderVisible, () => handleChatStart(chatUserData))
+    }
+
+    const handleChatStart = (chatUserData) => {
+        props.navigation.navigate("Messeges", { chatUserData })
+    }
 
     return (
         <View style={styles.container}>
@@ -21,71 +50,38 @@ const NewChat = (props) => {
             </View>
 
             <View style={styles.clinicView}>
-                <TouchableOpacity style={{
-                    backgroundColor: activeTab == "MsgChat" ? Colors.appcolor : Colors.white,
-                    borderRadius: 18,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    paddingVertical: 12,
-                    marginHorizontal: 5,
-                    flex: 1.3,
-                    padding:6,
-                    paddingHorizontal:2
-                    
-                }}
-                    onPress={() => {
-                        setActiveTab("MsgChat")
-                    }}>
-                    <Text style={{
-                        fontSize: Fontsize.fontTwelve,
-                        color: activeTab == "MsgChat" ? Colors.white : Colors.black,
-                        fontFamily: Fonts.ProximaNovaMedium,
-                        marginTop: 3,
-                    }}>Drs and Hospitals directory</Text>
+                <TouchableOpacity style={[styles.inactiveTab, activeTab == "MsgChat" ? styles.activeTab : null]}
+                    onPress={() => setActiveTab("MsgChat")} >
+                    <Text style={[styles.inactiveTabTxt, activeTab == "MsgChat" ? styles.activeTabTxt : null]}>Drs and Hospitals directory</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => {
-                        setActiveTab("PersonalContact")
-                    }}
-                    style={{
-                        backgroundColor: activeTab == "PersonalContact" ? Colors.appcolor : Colors.white,
-                        borderRadius: 22,
-                        padding: 5,
-                        color: activeTab == "PersonalContact" ? Colors.white : Colors.black,
-                        flex: 0.8,
-                        borderRadius: 18,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginHorizontal: 5
-                    }}
+                    // onPress={() => setActiveTab("PersonalContact")}
+                    style={[styles.inactiveTab, activeTab == "PersonalContact" ? styles.activeTab : null]}
                 >
-                    <Text style={{
-                        fontSize: Fontsize.fontTwelve,
-                        color: activeTab == "PersonalContact" ? Colors.white : Colors.black,
-                        fontFamily: Fonts.ProximaNovaMedium,
-                        marginTop: 3,
-                    }}>Personal contacts</Text>
+                    <Text style={[styles.inactiveTabTxt, activeTab == "PersonalContact" ? styles.activeTabTxt : null]}>Personal contacts</Text>
                 </TouchableOpacity>
-
-
             </View>
-{/* 
-            <TouchableOpacity style={{marginLeft:20}}>
-                <Text style={styles.newGrpTxt}>New Group</Text>
-            </TouchableOpacity> */}
-
-
-            <View style={styles.Line} />
-
-
-
-
             <View style={{ flexGrow: 1 }}>
-
-                {activeTab == "MsgChat" ? <MsgChat navigation={props.navigation} /> : activeTab == "PersonalContact" ? <PersonalContact navigation={props.navigation} /> : null}
+                <MsgChat navigation={props.navigation} onUserClick={handleStartChat} userList={firebaseUsersList} />
             </View>
-
+            <CustomLoader loaderVisible={loaderVisible} />
         </View >
     )
 }
-export default NewChat;
+
+const mapStateToProps = state => ({
+    allUsers: state?.firebaseData?.allUsers,
+});
+
+const ActionCreators = Object.assign(
+    { allUserList },
+    { startChatWithNewUser }
+);
+
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewChat)
+
+// export default NewChat;

@@ -1,10 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import doctorReducer from '../reducer/doctorReducer';
+import FirebaseReducer from '../reducer/firebaseReducer';
 import * as types from '../action/types';
 
 const appReducer = combineReducers(
-    { doctor: doctorReducer }, 
+  {
+    doctor: doctorReducer,
+    firebaseData: FirebaseReducer
+  }
 );
 
 const initialState = appReducer({}, {});
@@ -16,7 +20,7 @@ const rootReducer = (state, action) => {
 }
 
 const configureStore = () => {
-    return createStore(rootReducer, applyMiddleware(thunk));
+  return createStore(rootReducer, applyMiddleware(thunk));
 }
 
 export default configureStore;

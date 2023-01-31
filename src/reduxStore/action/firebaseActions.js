@@ -1,0 +1,454 @@
+import { USERDATA, CHATLIST, ALL_MESSAGE, ALLUSERLIST, GROUPLIST, ALLADDEDUSERLIST, ALLPARTICIPIANTSLIST } from './firebaseTypes';
+import Toast from 'react-native-simple-toast';
+import * as URL from './webApiUrl';
+import { Constants, AsyncStorageHelper } from "@lib";
+import firestore from '@react-native-firebase/firestore';
+import { logOut } from './doctorAction';
+const usersCollection = firestore().collection('Users');
+const messageCollection = firestore().collection('Message');
+const groupCollection = firestore().collection('Groups');
+
+export const firebaseRegister = (data, setloaderVisible, PageNavigation) => {
+  return async dispatch => {
+    setloaderVisible(true);
+    data = { ...data, createdAt: new Date(), email: data.email.toLowerCase() }
+    usersCollection.add(data).then((response) => {
+      if (!response.empty) {
+        response.onSnapshot((snapShot) => {
+          let userData = { ...snapShot.data(), id: snapShot.id };
+          AsyncStorageHelper.setData("firebaseUserData", JSON.stringify(userData));
+          dispatch(saveUserData(userData))
+        })
+      }
+      setloaderVisible(false);
+      PageNavigation(response)
+      Toast.show("Register Successfully", Toast.LONG);
+    }).catch((error) => {
+      setloaderVisible(false);
+      console.log("firebaseRegister", error)
+      Toast.show("Something went wrong", Toast.LONG);
+    })
+  }
+};
+
+export const addExternalUser = (data, setloaderVisible, PageNavigation) => {
+  return async dispatch => {
+    setloaderVisible(true);
+    await usersCollection.add(data).then((response) => {
+      dispatch(getBussinessAddedUser())
+      setloaderVisible(false);
+      PageNavigation()
+    }).catch((error) => {
+      setloaderVisible(false);
+      console.log("firebaseRegister", error)
+    })
+  }
+};
+
+export const deleteAddedUser = (data, setloaderVisible, PageNavigation) => {
+  return async dispatch => {
+    setloaderVisible(true);
+    console.log("data", data)
+    await usersCollection.doc(data).delete().then((response) => {
+      dispatch(getBussinessAddedUser())
+      setloaderVisible(false);
+      PageNavigation()
+    }).catch((error) => {
+      setloaderVisible(false);
+      console.log("firebaseRegister", error)
+    })
+  }
+};
+
+export const saveUserData = (data) => {
+  return ({
+    type: USERDATA,
+    payload: data
+  })
+};
+
+export const firebaseLogin = (data, loginData, type, setloaderVisible, PageNavigation) => {
+  return async dispatch => {
+    setloaderVisible(true);
+    const querySnapshot = usersCollection.where("email", "==", data.email.toLowerCase()).where("password", "==", data.password).where("user_type", "==", type).limit(1);
+    querySnapshot.get().then(snapshot => {
+      if (snapshot?.docs?.length < 1) {
+        dispatch(firebaseRegister({ ...loginData, user_type: loginData.user_type == 1 ? "User" : "Business", password: data.password }, setloaderVisible, PageNavigation))
+      } else {
+        snapshot.docs.forEach(documentSnapshot => {
+          let userData = { ...documentSnapshot.data(), id: documentSnapshot.id }
+          AsyncStorageHelper.setData("firebaseUserData", JSON.stringify(userData));
+          dispatch(saveUserData(userData))
+        })
+        setloaderVisible(false);
+        PageNavigation()
+      }
+      Toast.show("Login Successfully", Toast.LONG);
+    }).catch(err => {
+      console.log("firebaseLogin", err);
+      setloaderVisible(false);
+      Toast.show("Invailid credentials", Toast.LONG);
+    })
+  }
+};
+
+export const firebaseLogout = (setloaderVisible, PageNavigation) => {
+  return async dispatch => {
+    AsyncStorageHelper.removeMultiItemValue(["firebaseUserData"])
+    dispatch(logOut())
+    setloaderVisible(false);
+    PageNavigation()
+    Toast.show("Logged Out Successfully", Toast.LONG);
+  }
+};
+
+export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => {
+  return async dispatch => {
+    setloaderVisible(true);
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    firebaseUserData = JSON.parse(firebaseUserData);
+    const querySnapshot = usersCollection.where("friends", "array-contains", chatWithId);
+    querySnapshot.get().then(snapshot => {
+      console.log("snapshot", snapshot?.docs)
+      if (snapshot?.docs?.length < 1) {
+        usersCollection.doc(firebaseUserData.id).update({
+          friends: firestore.FieldValue.arrayUnion(chatWithId)
+        }).then(() => {
+          usersCollection.doc(chatWithId).update({
+            friends: firestore.FieldValue.arrayUnion(firebaseUserData.id)
+          });
+          let apiData = {
+            admin: firebaseUserData.id,
+            createdAt: new Date(),
+            deletedBy: [],
+            isGroup: false,
+            participiants: [chatWithId, firebaseUserData.id],
+            updatedAt: new Date()
+          }
+          dispatch(createGroup(apiData, setloaderVisible, callBack))
+          // callBack()
+          // setloaderVisible(false);
+        }).catch((error) => {
+          setloaderVisible(false);
+          console.log("startChatWithNewUser", error)
+          Toast.show("Something went wrong", Toast.LONG);
+        })
+      } else {
+        callBack()
+        setloaderVisible(false)
+      }
+    })
+    // if (empty(querySnapshot)) {
+    //   await usersCollection.doc(firebaseUserData.id).update({
+    //     friends: firestore.FieldValue.arrayUnion(chatWithId)
+    //   }).then(() => {
+    //     usersCollection.doc(chatWithId).update({
+    //       friends: firestore.FieldValue.arrayUnion(firebaseUserData.id)
+    //     });
+    //     let apiData = {
+    //       admin: firebaseUserData.id,
+    //       createdAt: new Date(),
+    //       deletedBy: [],
+    //       isGroup: false,
+    //       participiants: [chatWithId, firebaseUserData.id],
+    //       updatedAt: new Date()
+    //     }
+    //     dispatch(createGroup(apiData, setloaderVisible, callBack))
+    //     // callBack()
+    //     // setloaderVisible(false);
+    //   }).catch((error) => {
+    //     setloaderVisible(false);
+    //     console.log("firebaseRegister", error)
+    //     // Toast.show("Something went wrong");
+    //   })
+    // } else {
+    //   callBack()
+    //   setloaderVisible(false)
+    // }
+  }
+}
+
+export const chatList = () => {
+  return async dispatch => {
+    // setloaderVisible(true);
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    if (firebaseUserData) {
+      let userData = JSON.parse(firebaseUserData);
+      const querySnapshot = usersCollection.where("friends", "array-contains", userData.id);
+
+      querySnapshot.get().then(snapshot => {
+        let userChatList = []
+        snapshot.docs.forEach(doc => {
+          userChatList.push({ ...doc.data(), id: doc.id })
+        })
+        dispatch(saveUserChatList(userChatList));
+      }).catch(err => {
+        console.log('chatList', err);
+        Toast.show("Something Went wrong", Toast.LONG);
+      });
+    }
+  }
+};
+
+export const groupList = () => {
+  return async dispatch => {
+    // setloaderVisible(true);
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    if (firebaseUserData) {
+      let userData = JSON.parse(firebaseUserData);
+      const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id).where("isGroup", "==", true);
+
+      querySnapshot.get().then(snapshot => {
+        let userGroupList = []
+        snapshot.docs.forEach(doc => {
+          userGroupList.push({ ...doc.data(), id: doc.id })
+        })
+        dispatch(saveUserGroupList(userGroupList));
+      }).catch(err => {
+        console.log('groupList', err);
+        Toast.show("Something Went wrong", Toast.LONG);
+      });
+    }
+  }
+};
+
+export const saveUserGroupList = (data) => {
+  return ({
+    type: GROUPLIST,
+    payload: data
+  })
+}
+
+export const saveUserChatList = (data) => {
+  return ({
+    type: CHATLIST,
+    payload: data
+  })
+}
+
+export const messageList = (chatWithId, setloaderVisible) => {
+  return async dispatch => {
+    setloaderVisible(true);
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    let roomRef;
+    if (firebaseUserData) {
+      let userData = JSON.parse(firebaseUserData);
+      console.log("[userData.id, chatWithId]", [userData.id, chatWithId]);
+      const querySnapshot = groupCollection.where("participiants", "array-contains", chatWithId && userData.id).where("isGroup", "==", false);
+      querySnapshot.get().then(snapshot => {
+        console.log("snapshot.docs", snapshot.docs);
+        snapshot.docs.forEach(doc => {
+          roomRef = doc.id
+          messageCollection.where("group", "==", doc.id).limit(1).get().then(snapshotMsg => {
+            snapshotMsg.forEach(docMsg => {
+              console.log("snapshotMsg.docs", docMsg.id);
+              dispatch(saveMessagesList({ ...docMsg.data(), messageCollectionId: docMsg.id }));
+            })
+          })
+        })
+        setloaderVisible(false);
+        // dispatch(saveUserChatList(userChatList));
+      }).catch(err => {
+        console.log('messageList', err);
+        Toast.show("Something Went wrong", Toast.LONG);
+      });
+    }
+  }
+};
+
+export const groupMessageList = (chatWithId, setloaderVisible) => {
+  return async dispatch => {
+    setloaderVisible(true);
+    messageCollection.where("group", "==", chatWithId).limit(1).get().then(snapshotMsg => {
+      snapshotMsg.forEach(docMsg => {
+        // console.log("snapshotMsg.docs", docMsg.id);
+        dispatch(saveMessagesList({ ...docMsg.data(), messageCollectionId: docMsg.id }));
+      })
+      setloaderVisible(false);
+    }).catch(err => {
+      console.log('Error getting documents', err);
+      Toast.show("Something Went wrong", Toast.LONG);
+    });
+  }
+};
+
+export const saveMessagesList = (data) => {
+  return ({
+    type: ALL_MESSAGE,
+    payload: data
+  })
+}
+
+export const addMessage = (data, chatWithId, collectionId, setloaderVisible, isGroup = false) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    await messageCollection.doc(collectionId).update({
+      message: firestore.FieldValue.arrayUnion(data)
+    }).then(() => {
+      if (isGroup) {
+        dispatch(groupMessageList(chatWithId, setloaderVisible))
+      } else {
+        dispatch(messageList(chatWithId, setloaderVisible))
+      }
+      // callBack()
+    }).catch((error) => {
+      console.log("addMessage", error);
+      Toast.show("Something Went wrong", Toast.LONG);
+    });
+    // messageCollection.doc(collectionId).update({
+    //   message: data
+    // }).then(() => {
+    //   callBack()
+    // }).catch((error) => {
+    //   console.log("addMessage", error);
+    // });
+  }
+};
+
+export const allUserList = () => {
+  return async dispatch => {
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    usersCollection.onSnapshot(snapshot => {
+      let userData = JSON.parse(firebaseUserData);
+      let userList = []
+      snapshot.forEach(doc => {
+        if (userData.id != doc.id) {
+          // console.log("userData.id != doc.id", userData.id, doc.id);
+          userList.push({ ...doc.data(), id: doc.id })
+        }
+      })
+      dispatch(saveAllUserList(userList));
+    })
+  }
+};
+
+export const saveAllUserList = (data) => {
+  return ({
+    type: ALLUSERLIST,
+    payload: data
+  })
+}
+
+export const getBussinessAddedUser = () => {
+  return async dispatch => {
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    let userData = JSON.parse(firebaseUserData);
+    usersCollection.where("addedBy", "==", userData.id).get().then(snapshot => {
+      let userList = []
+      snapshot.forEach(doc => {
+        userList.push({ ...doc.data(), id: doc.id })
+      })
+      dispatch(saveAddedUserList(userList));
+    })
+  }
+};
+
+export const saveAddedUserList = (data) => {
+  return ({
+    type: ALLADDEDUSERLIST,
+    payload: data
+  })
+}
+
+export const createGroup = (data, setloaderVisible, callBack) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    groupCollection.add(data).then((response) => {
+      if (!response.empty) {
+        response.onSnapshot((snapShot) => {
+          let groupData = { ...snapShot.data(), id: snapShot.id };
+          data.participiants.forEach(async element => {
+            await usersCollection.doc(element).update({
+              groups: firestore.FieldValue.arrayUnion(snapShot.id)
+            })
+          });
+          messageCollection.add({ group: snapShot.id, message: [] })
+        })
+      }
+      callBack()
+      setloaderVisible(false)
+    }).catch((error) => {
+      console.log("firebaseRegister", error)
+      Toast.show("Something Went wrong", Toast.LONG);
+    })
+  }
+};
+
+export const updateFirebaseProfile = (data, collectionId, setloaderVisible, callBack) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    let userData = JSON.parse(firebaseUserData);
+    usersCollection.doc(collectionId).update(data).then((response) => {
+      let newuserData = { ...userData, ...data }
+      AsyncStorageHelper.setData("firebaseUserData", JSON.stringify(newuserData));
+      callBack()
+      setloaderVisible(false)
+    }).catch((error) => {
+      console.log("firebaseRegister", error)
+      Toast.show("Something Went wrong", Toast.LONG);
+    })
+  }
+};
+
+export const getGroupParticipiants = (participiants) => {
+  return async dispatch => {
+    // setloaderVisible(true)
+    const querySnapshot = usersCollection.where(firestore.FieldPath.documentId(), "in", participiants);
+    querySnapshot.get().then(snapshot => {
+      let participiantsList = []
+      snapshot.docs.forEach(doc => {
+        participiantsList.push({ ...doc.data(), id: doc.id })
+      })
+      dispatch(saveParticipiantsList(participiantsList));
+    }).catch(err => {
+      console.log('chatList', err);
+      Toast.show("Something Went wrong", Toast.LONG);
+    });
+  }
+};
+
+export const saveParticipiantsList = (data) => {
+  return ({
+    type: ALLPARTICIPIANTSLIST,
+    payload: data
+  })
+}
+
+export const removeUserFromGroup = (userId, groupId, participiantsList, callBack) => {
+  return async dispatch => {
+    // setloaderVisible(true)
+    usersCollection.doc(userId).update({
+      groups: firestore.FieldValue.arrayRemove(groupId)
+    }).then(snapshot => {
+      groupCollection.doc(groupId).update({
+        participiants: firestore.FieldValue.arrayRemove(userId)
+      }).then(data => {
+        dispatch(saveParticipiantsList(participiantsList.filter((item) => item.id != userId)));
+        dispatch(groupList());
+        callBack()
+      }).catch(err => {
+        callBack()
+        Toast.show("Something Went wrong", Toast.LONG);
+      });
+    }).catch(err => {
+      console.log('removeUserFromGroup', err);
+      callBack()
+      Toast.show("Something Went wrong", Toast.LONG);
+    });
+  }
+
+}
+
+export const updateGroupProfile = (profile_picture, groupId, callBack) => {
+  return async dispatch => {
+    groupCollection.doc(groupId).update({ profile_picture }).then((response) => {
+      dispatch(groupList());
+      callBack()
+    }).catch((error) => {
+      console.log("firebaseRegister", error)
+      Toast.show("Something Went wrong", Toast.LONG);
+      callBack()
+    })
+  }
+}

@@ -5,10 +5,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.white,
-        paddingTop: 8
     },
     upperView: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: Colors.white,
         paddingHorizontal: 16,
         marginBottom: 10,
@@ -16,6 +15,7 @@ const styles = StyleSheet.create({
     editorsView: {
         flexDirection: "row",
         justifyContent: "space-between",
+        marginTop: 12
     },
     editTxt: {
         fontSize: Fontsize.fontFifteen,
@@ -44,20 +44,18 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     groupImg: {
-        height: 50,
-        width: 50,
+        height: 70,
+        width: 70,
         resizeMode: "cover",
-        alignSelf: "center"
+        borderRadius: 40
     },
     paticipants: {
-        alignSelf: "center",
         fontSize: Fontsize.fontTwelve,
     },
     user: {
         fontSize: Fontsize.fontFourteen,
         color: Colors.appcolor,
         fontFamily: Fonts.ProximaNovaBold,
-        alignSelf: "center",
     },
     persConnct: {
         height: 30,
@@ -76,6 +74,9 @@ const styles = StyleSheet.create({
     addView: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
+        marginHorizontal: 24,
+        marginTop: 24,
     },
     adminTxt: {
         fontFamily: Fonts.ProximaNovaMedium,
@@ -113,16 +114,21 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.ProximaNovaMedium
     },
     infoMsg: {
+        flexDirection: "row",
+        alignItems: "center",
         marginLeft: 10,
-        marginTop:10
+        // marginTop: 10
     },
     subView: {
         flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
     },
     maanImg: {
         height: 40,
         width: 40,
         resizeMode: "contain",
+        borderRadius: 30
     },
     singleTxt: {
         fontSize: Fontsize.fontSixteen,
@@ -134,6 +140,7 @@ const styles = StyleSheet.create({
     infoTouch: {
         paddingHorizontal: 16,
         flexDirection: "row",
+        justifyContent: "space-between",
         paddingVertical: 12,
         alignItems: "center",
         backgroundColor: Colors.offwhite,
@@ -149,27 +156,15 @@ const styles = StyleSheet.create({
         marginTop: 5
 
     },
-
-
-
-
-
-
     selectedImg: {
-        // backgroundColor: Colors.white,
         marginTop: 3,
-        // flexDirection: "row",
-        // justifyContent: "space-between",
         padding: 10,
-
     },
     imageOnImg: {
         justifyContent: 'center',
         alignItems: 'center'
-
     },
-
-    personImg: {    
+    personImg: {
         height: 70,
         width: 70,
         borderRadius: 20,
@@ -179,9 +174,102 @@ const styles = StyleSheet.create({
         // justifyContent: "space-between",
         flexDirection: "column",
         backgroundColor: Colors.white,
-        marginTop: 10,
+        marginTop: 24,
         paddingBottom: 5
     },
-}
-)
+    bin: {
+        height: 15,
+        width: 15,
+        resizeMode: "contain",
+        tintColor: Colors.red
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: Colors.white,
+        borderRadius: 10,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: Colors.appcolor,
+        shadowOffset: {
+            width: 0,
+            height: 10
+        },
+        shadowOpacity: 10,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 8,
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        color: Colors.black,
+        fontSize: Fontsize.fontFourteen,
+        fontFamily: Fonts.ProximaNovaMedium,
+    },
+    button: {
+        flex: 1,
+        borderRadius: 20,
+        paddingVertical: 6,
+        paddingHorizontal: 24,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: Colors.appcolor,
+        marginHorizontal: 12
+    },
+    textStyle: {
+        color: Colors.white,
+        fontSize: Fontsize.fontThirteen,
+        fontFamily: Fonts.ProximaNovaBold,
+        alignSelf: "center",
+        justifyContent: "center",
+        // marginTop: 11
+    },
+    CameraButton: {
+        position: 'absolute',
+        right: 120,
+        top: 0
+    },
+    CameraImage: {
+        height: 28,
+        width: 28
+    },
+    CancleArrow1: { height: 15, width: 15 },
+    SelecttextStyle1: {
+        fontSize: 20,
+        fontFamily: Fonts.ProximaNovaMedium,
+        color: 'white',
+        textAlign: 'center',
+    },
+    modalView1: {
+        borderRadius: 20,
+        paddingVertical: 20,
+        marginHorizontal: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    button1: {
+        marginHorizontal: 20,
+        backgroundColor: Colors.appcolor,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginVertical: 15,
+        marginBottom: 0,
+    },
+    buttonClose1: { backgroundColor: '#38C348', width: '40%' },
+    textStyle1: {
+        fontSize: 18,
+        fontFamily: Fonts.ProximaNovaRegular,
+        color: 'white',
+        textAlign: 'center',
+    },
+
+})
+
 export default styles;

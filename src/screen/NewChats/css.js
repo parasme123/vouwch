@@ -35,10 +35,9 @@ const styles = StyleSheet.create({
     clinicView: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginTop: 16,
+        alignItems: "center",
+        marginVertical: 16,
         marginHorizontal: 20,
-        
-        
     },
     clinic: {
         backgroundColor: Colors.appcolor,
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         borderRadius: 22,
         padding: 15,
-        
+
     },
     hospitals: {
         fontSize: Fontsize.fontTwelve,
@@ -92,19 +91,31 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaBold,
         //marginTop:33
-        alignSelf:"center",
-        justifyContent:"center"
+        alignSelf: "center",
+        justifyContent: "center"
     },
     weNeed: {
         fontSize: Fontsize.fontTwelve,
-        //color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium,
     },
-    // newGrpTxt:{
-    //     fontSize: Fontsize.fontFifteen,
-    //     color: Colors.appcolor,
-    //     fontFamily: Fonts.ProximaNovaMedium,
-    // }
-   
+    activeTab: {
+        backgroundColor: Colors.appcolor,
+    },
+    inactiveTab: {
+        backgroundColor: Colors.white,
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 18,
+        marginHorizontal: 4,
+    },
+    activeTabTxt: {
+        color: Colors.white,
+    },
+    inactiveTabTxt: {
+        fontSize: Fontsize.fontTwelve,
+        color: Colors.black,
+        fontFamily: Fonts.ProximaNovaMedium,
+    }
+
 })
 export default styles;

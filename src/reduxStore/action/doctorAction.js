@@ -2,8 +2,6 @@ import { DOCTORRECORD, SAVEALLCOUNTRY, SAVEALLSTATE, SAVEALLCITY, SAVEFOLLOWDATA
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
-import firestore from '@react-native-firebase/firestore';
-const usersCollection = firestore().collection('Users');
 
 export const postMessageReply = (data, typeOfData) => {
     return async dispatch => {
@@ -17,7 +15,7 @@ export const postMessageReply = (data, typeOfData) => {
         }).then(async (res) => {
             let response = await res.json();
             dispatch(getMessageAndComment(typeOfData))
-            Toast.show(response.message);
+            Toast.show(response.message, Toast.LONG);
             // console.log("res", res);
         }).catch(err => {
             console.log("postMessageReply", err);
@@ -124,11 +122,11 @@ export const getMessageAndComment = (id) => {
         }).then(async (res) => {
             let response = await res.json();
             // console.log("getMessageAndComment", response.data)
-            // Toast.show(response.message);
+            Toast.show(response.message, Toast.LONG);
             dispatch(saveMessageAndComment(response.data))
         }).catch(err => {
             console.log("getMessageAndComment", err);
-            Toast.show(response.message);
+            Toast.show(response.message, Toast.LONG);
         })
     }
 }
@@ -272,7 +270,7 @@ export const postFollow = (data) => {
 export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
     return async dispatch => {
         setloaderVisible(true);
-        await fetch(`${URL.baseUrl}${type == "personal" ? URL.getPersonalLogin : URL.getLoginBusiness}`, {
+        await fetch(`${URL.baseUrl}${type == "User" ? URL.getPersonalLogin : URL.getLoginBusiness}`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
@@ -281,6 +279,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
+            console.log("response", response);
             if (response.status) {
                 dispatch(setUserData(response.data))
                 dispatch(saveUserProfile(response.data))
@@ -288,15 +287,15 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 global.token = response.token;
                 dispatch(getFollowData());
-                PageNavigation(response)
+                PageNavigation(response.data)
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("postLogin", err);              //...............log..........remove please
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -325,35 +324,15 @@ export const postRegister = (data, setloaderVisible, PageNavigation) => {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 AsyncStorageHelper.setData(Constants.TOKEN, response.token);
                 PageNavigation(response)
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("postRegister", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
-        })
-    }
-};
-
-export const postFirebaseRegister = (data, setloaderVisible, PageNavigation) => {
-    return async dispatch => {
-        setloaderVisible(true);
-        await usersCollection.add(data).then((response) => {
-            if (!response.empty) {
-                response.onSnapshot((snapShot) => {
-                    AsyncStorageHelper.setData("firebaseUserData", JSON.stringify({ id: snapShot.id, ...snapShot.data() }));
-                })
-            }
-            setloaderVisible(false);
-            PageNavigation(response)
-            Toast.show("Register Successfully");
-        }).catch((error) => {
-            setloaderVisible(false);
-            console.log("response", error)
-            Toast.show("Something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -402,15 +381,15 @@ export const postForgot = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("postForgot", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -433,12 +412,12 @@ export const Handelotp = (data, setloaderVisible) => {
             } else {
                 setloaderVisible(false);
                 // alert('hello')
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("Handelotp", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -458,15 +437,15 @@ export const handelresetPassword = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation()
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("handelresetPassword", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -487,15 +466,15 @@ export const postAccountSetting = (data, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("postAccountSetting", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -514,15 +493,15 @@ export const handelAddDoctor = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("handelAddDoctor", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -543,15 +522,15 @@ export const HandlDocProfil = (data, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 AsyncStorageHelper.setData(Constants.USER_DATA, response.data);
                 PageNavigation(response)
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("HandlDocProfil", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -571,15 +550,15 @@ export const postMessge = (data, setloaderVisible, PageNavigation) => {
             let response = await res.json();
             if (response.status) {
                 PageNavigation(response)
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("postComment", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -600,15 +579,15 @@ export const postComment = (data, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 PageNavigation(response)
                 console.log(response);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("postComment", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -629,12 +608,12 @@ export const getdoctordetails = (data, setloaderVisible) => {
                 dispatch(savedoctordetails(response.data))
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("getdoctordetails", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -662,15 +641,15 @@ export const postBravo = (data, setloaderVisible, PageNavigation) => {
             setloaderVisible(false);
             if (response.status) {
                 PageNavigation(response)
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             } else {
                 setloaderVisible(false);
-                Toast.show(response.message);
+                Toast.show(response.message, Toast.LONG);
             }
         }).catch(err => {
             console.log("postBravo", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -721,11 +700,11 @@ export const postReview = (data, setloaderVisible, PageNavigation) => {
             if (response.status) {
                 PageNavigation(response)
             }
-            Toast.show(response.message);
+            Toast.show(response.message, Toast.LONG);
         }).catch(err => {
             console.log("postReview", err);
             setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -749,7 +728,7 @@ export const getServices = (setloaderVisible) => {
         }).catch(err => {
             setloaderVisible(false);
             console.log("getServices", err);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -790,7 +769,7 @@ export const PostUserProfile = (data, setloaderVisible = () => { }, callForFeedb
         }).catch(err => {
             console.log("PostUserProfile", err);
             // setloaderVisible(false);
-            Toast.show("something went wrong");
+            Toast.show("something went wrong", Toast.LONG);
         })
     }
 };
@@ -849,7 +828,7 @@ export const postLogout = (setloaderVisible, PageNavigation) => {
             },
             // body: JSON.stringify(d   ata)
         }).then(async (res) => {
-            await AsyncStorageHelper.removeMultiItemValue([Constants.USER_DATA, Constants.TOKEN])
+            await AsyncStorageHelper.removeMultiItemValue(["firebaseUserData", Constants.USER_DATA, Constants.TOKEN])
             let response = await res.json();
             console.log(response);
             PageNavigation()
@@ -858,14 +837,14 @@ export const postLogout = (setloaderVisible, PageNavigation) => {
             dispatch(logOut())
 
             setloaderVisible(false);
-            Toast.show(response.message);
+            Toast.show(response.message, Toast.LONG);
         }).catch(async (err) => {
             await AsyncStorageHelper.removeMultiItemValue([Constants.USER_DATA, Constants.TOKEN])
             PageNavigation()
             dispatch(logOut());
             console.log("postLogout", err);
             setloaderVisible(false);
-            // Toast.show("something went wrong");
+            // Toast.show("something went wrong", Toast.LONG);
         })
     }
 };

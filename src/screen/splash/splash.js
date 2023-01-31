@@ -15,20 +15,21 @@ import { Colors, imagepath, svg } from '@common';
 export default Splash = ({ navigation }) => {
     useEffect(() => {
         setTimeout(() => {
-            AsyncStorageHelper.getData(Constants.GUEST_USER).then((GesstData) => {
+            AsyncStorageHelper.getData("firebaseUserData").then((GesstData) => {
                 if (!GesstData) {
-                    handleNavigation({ type: 'setRoot', page: 'bottomtab', navigation: navigation, });
+                    handleNavigation({ type: 'setRoot', page: 'welcome', navigation: navigation, });
                 }
                 else {
-                    AsyncStorageHelper.getData(Constants.USER_DATA).then((responseData) => {
-                        if (responseData) {
-                            AsyncStorageHelper.setData(Constants.USER_DATA, responseData.data)
-                            AsyncStorageHelper.setData(Constants.TOKEN, responseData.token)
-                            handleNavigation({ type: 'setRoot', page: 'bottomtab', navigation: navigation, });
-                        } else {
-                            handleNavigation({ type: 'setRoot', page: 'welcome', navigation: navigation, });
-                        }
-                    })
+                    handleNavigation({ type: 'setRoot', page: 'bottomtab', navigation: navigation, });
+                    // AsyncStorageHelper.getData(Constants.USER_DATA).then((responseData) => {
+                    //     if (responseData) {
+                    //         AsyncStorageHelper.setData(Constants.USER_DATA, responseData.data)
+                    //         AsyncStorageHelper.setData(Constants.TOKEN, responseData.token)
+                    //         handleNavigation({ type: 'setRoot', page: 'bottomtab', navigation: navigation, });
+                    //     } else {
+                    //         handleNavigation({ type: 'setRoot', page: 'welcome', navigation: navigation, });
+                    //     }
+                    // })
                 }
             })
         }, 1000);

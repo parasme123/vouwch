@@ -5,10 +5,11 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: Colors.offwhite,
+        backgroundColor: Colors.white,
     },
     upperView: {
         flexDirection: "row",
+        alignItems: "center",
         backgroundColor: Colors.white,
         padding: 15,
         elevation: 10,
@@ -18,11 +19,11 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         tintColor: Colors.appcolor,
-        marginTop: 15,
+        // marginTop: 15,
     },
     newgrpVw: {
         marginLeft: 10,
-        marginTop: 3
+        // marginTop: 3
     },
     newgrpTxt: {
         fontSize: Fontsize.fontFourteen,
@@ -38,28 +39,25 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         marginTop: 3,
         flexDirection: "row",
+        alignItems: "center",
         padding: 10,
-        justifyContent: "space-between",
         paddingHorizontal: 10,
     },
     ClickImg: {
-        height: 40,
-        width: 40,
+        height: 30,
+        width: 30,
         resizeMode: "contain",
         tintColor: Colors.appcolor
     },
     ImgView: {
-        height: 60,
-        width: 60,
         backgroundColor: Colors.steel,
         borderRadius: 30,
-        alignItems: "center",
-        justifyContent: "center"
+        padding: 10,
+        marginRight: 6
     },
     smileView: {
         alignItems: "center",
         justifyContent: "center",
-        flex: 0.1,
         marginLeft: 10
     },
     smileImg: {
@@ -69,11 +67,10 @@ const styles = StyleSheet.create({
         tintColor: Colors.appcolor,
     },
     tiView: {
-        flex: 0.9,
         borderBottomColor: Colors.appcolor,
         borderBottomWidth: 1,
-        marginLeft: 5,
-        height: 45,
+        height: 35,
+        flex: 1
     },
 
     signUpBtnView: {
