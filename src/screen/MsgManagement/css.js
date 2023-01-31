@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     },
     upperView: {
         backgroundColor: Colors.white,
-        padding: 10
+        paddingVertical: 16
     },
     mgmtTxt: {
         color: Colors.lightBlack,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         marginVertical: 12
     },
     textInput: {
-        backgroundColor: Colors.offwhite,
+        backgroundColor: Colors.white,
         height: 40,
         borderWidth: 0.4,
         borderColor: Colors.gray,

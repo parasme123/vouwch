@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, Image, Text } from 'react-native';
+import { TouchableOpacity, View, Image, Text, TextInput } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ const NewChat = (props) => {
     const [activeTab, setActiveTab] = useState("MsgChat");
     const [firebaseUsersList, setFirebaseUsersList] = useState([]);
     const [loaderVisible, setloaderVisible] = useState(false);
+    const [searchVal, setSearchVal] = useState("");
 
     useEffect(() => {
         let { actions } = props;
@@ -39,6 +40,12 @@ const NewChat = (props) => {
         props.navigation.navigate("Messeges", { chatUserData })
     }
 
+    const handleSearch = (e) => {
+        setSearchVal(e);
+        let { allUsers } = props;
+        setFirebaseUsersList(allUsers.filter((item) => item.first_name.toLowerCase().includes(e.toLowerCase())))
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.UpperView}>
@@ -60,6 +67,17 @@ const NewChat = (props) => {
                 >
                     <Text style={[styles.inactiveTabTxt, activeTab == "PersonalContact" ? styles.activeTabTxt : null]}>Personal contacts</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={styles.searchSection}>
+                <Image style={styles.searchI}
+                    source={Imagepath.serachIcon} />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Search"
+                    underlineColorAndroid="transparent"
+                    onChangeText={handleSearch}
+                    value={searchVal}
+                />
             </View>
             <View style={{ flexGrow: 1 }}>
                 <MsgChat navigation={props.navigation} onUserClick={handleStartChat} userList={firebaseUsersList} />

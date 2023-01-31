@@ -49,14 +49,11 @@ const Login = (props, { route }) => {
   const Call_LoginApi = async () => {
     let { actions } = props;
     let fcmToken = await messaging().getToken();
-    console.log("fcmToken", fcmToken);
-    // return
     let apiData = {
       email: Email,
       password: Password,
-      device_token: 12345,
       device_type: 'Android',
-      fcmToken: fcmToken
+      device_token: fcmToken
     }
     actions.postLogin(apiData, Check_User(), setloaderVisible, (data) => loginFirebase(apiData, data));
   };

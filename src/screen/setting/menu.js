@@ -118,6 +118,20 @@ const Menu = (props, { navigation }) => {
             />
             <Text style={styles.pageButtonText}>Terms & Conditions</Text>
           </TouchableOpacity>
+          {
+            userType && userType.user_type !== 1 ? (
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("MsgManagement")}
+                style={styles.pageButton}>
+                <Image
+                  style={styles.pageButtonIcon}
+                  resizeMode="contain"
+                  source={imagepath.privacy}
+                />
+                <Text style={styles.pageButtonText}>Message Managment</Text>
+              </TouchableOpacity>
+            ) : null
+          }
           {/* {
             userType && userToken ? ( */}
           <TouchableOpacity

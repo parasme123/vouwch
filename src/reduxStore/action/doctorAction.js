@@ -279,7 +279,7 @@ export const postLogin = (data, type, setloaderVisible, PageNavigation) => {
         }).then(async (res) => {
             let response = await res.json();
             setloaderVisible(false);
-            console.log("response", response);
+            // console.log("response", response);
             if (response.status) {
                 dispatch(setUserData(response.data))
                 dispatch(saveUserProfile(response.data))

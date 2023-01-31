@@ -73,7 +73,7 @@ export const firebaseLogin = (data, loginData, type, setloaderVisible, PageNavig
     const querySnapshot = usersCollection.where("email", "==", data.email.toLowerCase()).where("password", "==", data.password).where("user_type", "==", type).limit(1);
     querySnapshot.get().then(snapshot => {
       if (snapshot?.docs?.length < 1) {
-        dispatch(firebaseRegister({ ...loginData, user_type: loginData.user_type == 1 ? "User" : "Business", password: data.password }, setloaderVisible, PageNavigation))
+        dispatch(firebaseRegister({ ...loginData, user_type: loginData.user_type == 1 ? "User" : "Business", ...data }, setloaderVisible, PageNavigation))
       } else {
         snapshot.docs.forEach(documentSnapshot => {
           let userData = { ...documentSnapshot.data(), id: documentSnapshot.id }
@@ -107,7 +107,7 @@ export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => 
     setloaderVisible(true);
     let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
     firebaseUserData = JSON.parse(firebaseUserData);
-    const querySnapshot = usersCollection.where("friends", "array-contains", chatWithId);
+    const querySnapshot = usersCollection.where("friends", "array-contains", chatWithId).where(firestore.FieldPath.documentId(), "==", firebaseUserData.id);
     querySnapshot.get().then(snapshot => {
       console.log("snapshot", snapshot?.docs)
       if (snapshot?.docs?.length < 1) {
@@ -125,6 +125,7 @@ export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => 
             participiants: [chatWithId, firebaseUserData.id],
             updatedAt: new Date()
           }
+          console.log("createGroup claad by startChatWithNewUser");
           dispatch(createGroup(apiData, setloaderVisible, callBack))
           // callBack()
           // setloaderVisible(false);
@@ -170,18 +171,24 @@ export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => 
 
 export const chatList = () => {
   return async dispatch => {
-    // setloaderVisible(true);
     let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
     if (firebaseUserData) {
       let userData = JSON.parse(firebaseUserData);
-      const querySnapshot = usersCollection.where("friends", "array-contains", userData.id);
-
+      const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id).where("isGroup", "==", false);
       querySnapshot.get().then(snapshot => {
         let userChatList = []
-        snapshot.docs.forEach(doc => {
-          userChatList.push({ ...doc.data(), id: doc.id })
-        })
-        dispatch(saveUserChatList(userChatList));
+        if (snapshot?.docs?.length > 0) {
+          snapshot.docs.forEach(doc => {
+            usersCollection.where("groups", "array-contains", doc.id).where(firestore.FieldPath.documentId(), "!=", userData.id).get().then(snapshot1 => {
+              snapshot1.docs.forEach(doc1 => {
+                userChatList.push({ ...doc1.data(), id: doc1.id })
+              })
+              dispatch(saveUserChatList(userChatList));
+            })
+          })
+        } else {
+          dispatch(saveUserChatList(userChatList));
+        }
       }).catch(err => {
         console.log('chatList', err);
         Toast.show("Something Went wrong", Toast.LONG);
@@ -197,7 +204,6 @@ export const groupList = () => {
     if (firebaseUserData) {
       let userData = JSON.parse(firebaseUserData);
       const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id).where("isGroup", "==", true);
-
       querySnapshot.get().then(snapshot => {
         let userGroupList = []
         snapshot.docs.forEach(doc => {
@@ -295,13 +301,6 @@ export const addMessage = (data, chatWithId, collectionId, setloaderVisible, isG
       console.log("addMessage", error);
       Toast.show("Something Went wrong", Toast.LONG);
     });
-    // messageCollection.doc(collectionId).update({
-    //   message: data
-    // }).then(() => {
-    //   callBack()
-    // }).catch((error) => {
-    //   console.log("addMessage", error);
-    // });
   }
 };
 
@@ -352,6 +351,7 @@ export const saveAddedUserList = (data) => {
 
 export const createGroup = (data, setloaderVisible, callBack) => {
   return async dispatch => {
+    console.log("createGroup called");
     setloaderVisible(true)
     groupCollection.add(data).then((response) => {
       if (!response.empty) {
@@ -402,7 +402,7 @@ export const getGroupParticipiants = (participiants) => {
       })
       dispatch(saveParticipiantsList(participiantsList));
     }).catch(err => {
-      console.log('chatList', err);
+      console.log('getGroupParticipiants', err);
       Toast.show("Something Went wrong", Toast.LONG);
     });
   }
@@ -450,5 +450,81 @@ export const updateGroupProfile = (profile_picture, groupId, callBack) => {
       Toast.show("Something Went wrong", Toast.LONG);
       callBack()
     })
+  }
+}
+
+export const clearFirebaseChat = (setloaderVisible, callBack) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    let userData = JSON.parse(firebaseUserData);
+    const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id);
+    querySnapshot.get().then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        messageCollection.where("group", "==", doc.id).limit(1).get().then(snapshotMsg => {
+          snapshotMsg.forEach(docMsg => {
+            messageCollection.doc(docMsg.id).update({ message: [] }).then(() => {
+              callBack();
+              setloaderVisible(false)
+              Toast.show("Chat Clear Successfully", Toast.LONG);
+            }).catch((err) => {
+              console.log('clearFirebaseChat', err);
+              Toast.show("Something Went wrong", Toast.LONG);
+            });
+          })
+        })
+      })
+    }).catch(err => {
+      console.log('clearFirebaseChat', err);
+      Toast.show("Something Went wrong", Toast.LONG);
+    });
+
+  }
+}
+
+export const deleteFirebaseChat = (setloaderVisible, callBack) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    let userData = JSON.parse(firebaseUserData);
+    usersCollection.doc(userData.id).update({
+      groups: [],
+      friends: []
+    }).then(() => {
+      const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id);
+      querySnapshot.get().then(snapshot => {
+        if (snapshot?.docs?.length > 0) {
+          snapshot.docs.forEach(docMsg => {
+            groupCollection.doc(docMsg.id).update({
+              participiants: firestore.FieldValue.arrayRemove(userData.id)
+            }).then(() => {
+              dispatch(chatList())
+              dispatch(groupList())
+              setloaderVisible(false)
+              callBack();
+              Toast.show("Chat Deleted Successfully", Toast.LONG);
+            }).catch((err) => {
+              setloaderVisible(false)
+              console.log('deleteFirebaseChat', err);
+              Toast.show("Something Went wrong", Toast.LONG);
+            });
+          })
+        } else {
+          dispatch(chatList())
+          dispatch(groupList())
+          setloaderVisible(false)
+          callBack();
+          Toast.show("Chat Deleted Successfully", Toast.LONG);
+        }
+      }).catch(err => {
+        setloaderVisible(false)
+        console.log('deleteFirebaseChat', err);
+        Toast.show("Something Went wrong", Toast.LONG);
+      });
+    }).catch((err) => {
+      setloaderVisible(false)
+      console.log('deleteFirebaseChat', err);
+      Toast.show("Something Went wrong", Toast.LONG);
+    });
   }
 }

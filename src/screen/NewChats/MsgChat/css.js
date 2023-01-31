@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
     infoTouch: {
         paddingHorizontal: 5,
         flexDirection: "row",
-        paddingVertical:1,
+        paddingVertical: 1,
         alignItems: "center",
         backgroundColor: Colors.offwhite,
         borderBottomWidth: 0.6,
         borderBottomColor: Colors.grey,
-        paddingBottom:10
+        paddingBottom: 10
     },
     singleTxt: {
         fontSize: Fontsize.fontThirteen,
@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
         width: 40,
         resizeMode: "contain",
         marginTop: 12,
-        marginLeft: 10
+        marginLeft: 10,
+        borderRadius: 20
     },
     infoMsg: {
         marginTop: 15,

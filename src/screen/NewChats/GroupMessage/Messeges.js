@@ -159,7 +159,7 @@ const GroupMessage = (props) => {
                 >
                     <Image
                         style={styles.gmanStyle}
-                        source={chatGroupData.profileImg ? chatGroupData.profileImg : require('../../../assect/images/default-user.png')} />
+                        source={chatGroupData.profile_picture ? { uri: chatGroupData.profile_picture } : require('../../../assect/images/default-user.png')} />
                     <View style={styles.info}>
                         <Text style={styles.alexTxt}>{chatGroupData.groupName}</Text>
                         {/* <View style={styles.onlineView}>
@@ -170,20 +170,16 @@ const GroupMessage = (props) => {
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={styles.todayView}>
+            {/* <View style={styles.todayView}>
                 <Text style={styles.todayTxt}>Today</Text>
-            </View>
+            </View> */}
             <View style={{ flex: 1 }}>
                 {
                     messagesList?.length ? (
                         <FlatList
                             ref={flatListRef}
-                            // onContentSizeChange={() => setTimeout(() => flatListRef?.current?.scrollToEnd(), 200)} // scroll end  
-                            // contentContainerStyle={{flex:1}}
                             onContentSizeChange={() => setTimeout(() => flatListRef?.current?.scrollToEnd(), 200)}
                             showsVerticalScrollIndicator={false}
-                            // inverted={true}
-                            // style={{ borderWidth: 1, flex: 1 }}
                             data={messagesList}
                             keyboardShouldPersistTaps="handled"
                             scrollEnabled={true}

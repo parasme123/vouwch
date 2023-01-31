@@ -33,7 +33,6 @@ const UserGroup = (props) => {
     let { actions, groupData } = props;
     let dataOfGroup = groupData.find((item) => item.id == groupDataParam.id)
     setchatGroupData(dataOfGroup)
-    console.log("dataOfGroup.participiants", dataOfGroup.participiants);
     actions.getGroupParticipiants(dataOfGroup.participiants)
   }, [groupDataParam])
 
@@ -199,7 +198,7 @@ const UserGroup = (props) => {
       {/* Header */}
       <View style={styles.upperView}>
         <View style={styles.editorsView}>
-          <TouchableOpacity onPress={() => { props.navigation.goBack() }}>
+          <TouchableOpacity onPress={() => { props.navigation.navigate("GroupMesseges", { chatGroupData }) }}>
             <Image style={styles.preImg}
               source={Imagepath.previous} />
           </TouchableOpacity>

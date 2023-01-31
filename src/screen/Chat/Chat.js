@@ -1,19 +1,25 @@
 import React, { useEffect, useState, } from 'react';
 import Popover, { PopoverMode, PopoverPlacement } from 'react-native-popover-view';
-import { StyleSheet, TouchableOpacity, View, Image, Text, TextInput, FlatList, ScrollView, Animated, Easing, Icon } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Text, TextInput, FlatList, ScrollView, Animated, Easing, Icon, Modal } from 'react-native';
 import { Fonts, Fontsize, Colors } from '@common';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { chatList, saveMessagesList, groupList } from '../../reduxStore/action/firebaseActions';
+import { chatList, saveMessagesList, groupList, clearFirebaseChat, deleteFirebaseChat } from '../../reduxStore/action/firebaseActions';
 import { useIsFocused } from '@react-navigation/native';
+import { CustomLoader, AsyncStorageHelper } from "@lib";
 
 const Chat = (props) => {
   const isFocused = useIsFocused();
 
-  const [userList, setUserList] = React.useState([]);
-  const [groupList, setGroupList] = React.useState([]);
+  const [userList, setUserList] = useState([]);
+  const [groupList, setGroupList] = useState([]);
+  const [searchVal, setSearchVal] = useState("");
+  const [clearChatConfirm, setClearChatConfirm] = useState(false);
+  const [deleteChatConfirm, setDeleteChatConfirm] = useState(false);
+  const [showPopover, setShowPopover] = useState(false);
+  const [loaderVisible, setloaderVisible] = useState(false);
 
   useEffect(() => {
     const { actions, userData } = props;
@@ -22,8 +28,8 @@ const Chat = (props) => {
   }, [isFocused])
 
   useEffect(() => {
-    setUserList(props.userChatList)
-  }, [props.userChatList])
+    setUserList(props.chatData)
+  }, [props.chatData])
 
   useEffect(() => {
     setGroupList(props.groupData)
@@ -91,12 +97,47 @@ const Chat = (props) => {
     )
   }
 
+  const handleSearch = (e) => {
+    setSearchVal(e);
+    let { groupData, chatData } = props;
+    setGroupList(groupData.filter((item) => item.groupName.toLowerCase().includes(e.toLowerCase())))
+    setUserList(chatData.filter((item) => item.first_name.toLowerCase().includes(e.toLowerCase())))
+  }
+
+  const confirmClearChat = () => {
+    setClearChatConfirm(true);
+    setShowPopover(false)
+  }
+
+  const handleClearChat = () => {
+    let { actions } = props;
+    actions.clearFirebaseChat(setloaderVisible, () => handleClearChatSuccess())
+  }
+
+  const handleClearChatSuccess = () => {
+    setClearChatConfirm(false);
+  }
+
+  const confirmDeleteChat = () => {
+    setDeleteChatConfirm(true);
+    setShowPopover(false)
+  }
+
+  const handleDeleteChat = () => {
+    let { actions } = props;
+    actions.deleteFirebaseChat(setloaderVisible, () => handleDeleteChatSuccess())
+  }
+
+  const handleDeleteChatSuccess = () => {
+    setDeleteChatConfirm(false);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.chatsView}>
         <Text style={styles.chatss} >Chats</Text>
         <View style={styles.buttonView}>
-          <TouchableOpacity onPress={() => props.navigation.navigate("MsgManagement")} >
+          <TouchableOpacity onPress={() => props.navigation.navigate("NewChat")} >
             <Image source={Imagepath.editor}
               style={styles.editor} />
           </TouchableOpacity>
@@ -110,7 +151,7 @@ const Chat = (props) => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.clinicView}>
-          <TouchableOpacity onPress={() => props.navigation.navigate("NewChat")} style={styles.clinic}>
+          <TouchableOpacity style={styles.clinic}>
             <Text style={styles.hospitals}>Contacts for Dr, clinics, & hospitals</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.contactView}>
@@ -126,27 +167,37 @@ const Chat = (props) => {
               style={styles.input}
               placeholder="Search"
               underlineColorAndroid="transparent"
+              onChangeText={handleSearch}
+              value={searchVal}
             />
           </View>
           <Popover
+            isVisible={showPopover}
+            onRequestClose={() => setShowPopover(false)}
             popoverStyle={{ borderRadius: 8, elevation: 10, }}
             backgroundStyle={{ opacity: 0.001, }}
             arrowSize={{ width: 30, height: 20, }}
             arrowShift={-0.001}
             placement={PopoverPlacement.BOTTOM}
-            animationConfig={{ duration: 10, easing: Easing.circle }}
+            animationConfig={{ duration: 1, easing: Easing.circle }}
             from={(
-              <TouchableOpacity style={styles.SquareShapeView} >
+              <TouchableOpacity style={styles.SquareShapeView} onPress={() => setShowPopover(true)} >
                 <Image style={styles.menuIcon}
                   source={Imagepath.menu} />
               </TouchableOpacity>
             )}>
-            <View style={{ height: 155, width: 150, marginTop: 10, }}>
-              <TouchableOpacity><Text style={styles.touchKeys}>Clear All Chats</Text></TouchableOpacity>
-              <TouchableOpacity><Text style={styles.touchKeys}>Delete All Chats</Text></TouchableOpacity>
-              <TouchableOpacity><Text style={styles.touchKeys}>Archive All Chats</Text></TouchableOpacity>
-              <TouchableOpacity><Text style={styles.touchKeys}>Invite a Friend</Text></TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.popoverBtn} onPress={confirmClearChat}>
+              <Text style={styles.touchKeys}>Clear All Chats</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.popoverBtn} onPress={confirmDeleteChat}>
+              <Text style={styles.touchKeys}>Delete All Chats</Text>
+            </TouchableOpacity>
+            {/* <TouchableOpacity>
+                <Text style={styles.touchKeys}>Archive All Chats</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={styles.touchKeys}>Invite a Friend</Text>
+              </TouchableOpacity> */}
           </Popover>
         </View>
         {/* </View> */}
@@ -179,6 +230,61 @@ const Chat = (props) => {
           })
         }
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={clearChatConfirm}
+        onRequestClose={() => {
+          setClearChatConfirm(!clearChatConfirm);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are You Sure to Clear All Chat.</Text>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setClearChatConfirm(!clearChatConfirm)}
+              >
+                <Text style={styles.textStyle}>No</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleClearChat}
+              >
+                <Text style={styles.textStyle}>Yes</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={deleteChatConfirm}
+        onRequestClose={() => {
+          setDeleteChatConfirm(!deleteChatConfirm);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are You Sure to Delete All Chat.</Text>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setDeleteChatConfirm(!deleteChatConfirm)}
+              >
+                <Text style={styles.textStyle}>No</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleDeleteChat}
+              >
+                <Text style={styles.textStyle}>Yes</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <CustomLoader loaderVisible={loaderVisible} />
     </View >
 
   )
@@ -188,13 +294,15 @@ const Chat = (props) => {
 const mapStateToProps = state => ({
   userData: state?.firebaseData?.userData,
   groupData: state?.firebaseData?.groupData,
-  userChatList: state?.firebaseData?.chatData,
+  chatData: state?.firebaseData?.chatData,
 });
 
 const ActionCreators = Object.assign(
   { chatList },
   { saveMessagesList },
-  { groupList }
+  { groupList },
+  { clearFirebaseChat },
+  { deleteFirebaseChat }
 );
 
 const mapDispatchToProps = dispatch => ({

@@ -122,7 +122,7 @@ const MsgManagement = (props) => {
                     <Image style={styles.inviteImg}
                         source={Imagepath.invite} />
                     <View style={styles.signView}>
-                        <Text style={styles.emp}>Sign up employee(employee personal user account)</Text>
+                        <Text style={styles.emp}>Sign up employee ( employee personal user account )</Text>
                         <Text style={styles.admin}>( it user have admin privileges )</Text>
                     </View>
                 </View>
@@ -207,14 +207,14 @@ const MsgManagement = (props) => {
                     <Text style={styles.signTxt}>List of sign up employees</Text>
                 </View>
                 <View style={styles.ListView}>
-                    <ScrollView style={{}}
-                        showsVerticalScrollIndicator={false}>
+                    {/* <ScrollView style={{}} */}
+                        {/* showsVerticalScrollIndicator={false}> */}
                         {
                             addedUsers?.map((item, index) => {
                                 return DataList(item)
                             })
                         }
-                    </ScrollView>
+                    {/* </ScrollView> */}
                 </View>
             </ScrollView >
             <CustomLoader loaderVisible={loaderVisible} />

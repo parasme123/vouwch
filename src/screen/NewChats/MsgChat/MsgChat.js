@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import { TouchableOpacity, View, Image, Text, ScrollView } from 'react-native';
 import styles from './css';
 
@@ -13,7 +13,7 @@ const MsgChat = (props) => {
                 <Text style={styles.singleTxt}>{dataObj.sequence}</Text>
                 <Image
                     style={styles.maanImg}
-                    source={dataObj?.img ? dataObj?.img : require('../../../assect/images/default-user.png')} />
+                    source={dataObj?.profile_picture ? { uri: dataObj?.profile_picture } : require('../../../assect/images/default-user.png')} />
                 <View style={styles.infoMsg}>
                     <Text style={styles.wdWatson}>{dataObj.first_name}</Text>
                     <Text style={styles.weNeed}>{dataObj.about}</Text>

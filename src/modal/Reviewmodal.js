@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Imagepath from '../common/imagepath';
 // import styles from './ReviewmodalCss';
-import {Fontsize, Colors} from '@common';
+import { Fontsize, Colors, imagepath } from '@common';
 
 const Reviewmodal = props => {
   return (
@@ -29,7 +29,7 @@ const Reviewmodal = props => {
               <Text style={styles.headerText}>Review & Bravo Card</Text>
               <TouchableOpacity
                 onPress={() => props.Hidemodal()}
-                style={styles.headerIcon}>
+              >
                 <Image
                   style={styles.headerIcon}
                   resizeMode="contain"
@@ -39,20 +39,30 @@ const Reviewmodal = props => {
             </View>
             <View style={styles.buttonView}>
               <TouchableOpacity
-                onPress={() => props.AddReview()}
-                style={styles.buttonFirst}>
+                onPress={() => props.startChat()}
+                style={styles.addReviewBtn}>
                 <Image
-                  style={styles.headerIcon}
+                  style={styles.addReviewBtnImg}
+                  resizeMode="contain"
+                  source={Imagepath.chat}
+                />
+                <Text style={styles.buttonTwoText}>Start New message/chat</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => props.AddReview()}
+                style={styles.addReviewBtn}>
+                <Image
+                  style={styles.addReviewBtnImg}
                   resizeMode="contain"
                   source={Imagepath.write}
                 />
-                <Text style={styles.headerText}>Add Review</Text>
+                <Text style={styles.buttonTwoText}>Add Review</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => props.AddBravoCard()}
-                style={styles.buttonTwo}>
+                style={styles.addReviewBtn}>
                 <Image
-                  style={styles.headerIcon}
+                  style={styles.addReviewBtnImg}
                   resizeMode="contain"
                   source={Imagepath.addbravocard}
                 />
@@ -76,7 +86,6 @@ const styles = StyleSheet.create({
   centeredView1: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: Colors.transparentBlack,
     opacity: 5,
   },
@@ -89,15 +98,12 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   centeredView2: {
-    width: '92%',
-    height: 255,
+    width: "70%",
     borderRadius: 15,
     alignSelf: 'center',
     backgroundColor: Colors.white,
-    elevation: 1,
   },
   headerView: {
-    height: 50,
     backgroundColor: Colors.bottonColors,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
@@ -105,6 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 15,
+    paddingVertical: 6
   },
   headerText: {
     color: Colors.white,
@@ -112,33 +119,31 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     height: 30,
-    width: 30,
+    width: 30
   },
   buttonView: {
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 65,
+    // alignItems: 'center',
+    marginVertical: 24,
     paddingHorizontal: 10,
   },
-  buttonFirst: {
+  addReviewBtn: {
+    // flex: 1,
     flexDirection: 'row',
+    marginBottom: 12,
+    paddingVertical: 6,
     borderRadius: 10,
-    backgroundColor: Colors.bottonColors,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
+    // backgroundColor: Colors.bottonColors,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    paddingHorizontal: 10,
   },
-  buttonTwo: {
-    flexDirection: 'row',
-    borderRadius: 10,
-    backgroundColor: Colors.bottonColors,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
+  addReviewBtnImg: {
+    height: 20,
+    width: 20,
+    tintColor: Colors.black
   },
   buttonTwoText: {
-    color: Colors.white,
+    color: Colors.black,
     fontSize: Fontsize.fontFifteen,
     marginLeft: 5,
   },

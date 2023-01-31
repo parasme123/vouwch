@@ -2,11 +2,9 @@ import { StyleSheet } from 'react-native';
 import { Colors, Fontsize, Fonts, } from "@common";
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         backgroundColor: "#f7f9fc",
-
     },
     upperPartView: {
         backgroundColor: "#f7f9fc",
@@ -15,11 +13,10 @@ const styles = StyleSheet.create({
     },
     chatsView: {
         flexDirection: "row",
-
         backgroundColor: Colors.white,
-        paddingHorizontal: 20,
-        paddingVertical: 12,
-        width: "100%",
+        paddingHorizontal: 24,
+        paddingVertical: 16,
+        // width: "100%",
         justifyContent: 'space-between',
         alignItems: "center"
     },
@@ -39,13 +36,9 @@ const styles = StyleSheet.create({
         fontSize: Fontsize.fontFourteen,
         color: Colors.darkslategrey,
         fontFamily: Fonts.ProximaNovaRegular,
-        marginLeft: 15,
-        marginBottom: 5,
-        padding: 8
     },
     weNeed: {
         fontSize: Fontsize.fontTwelve,
-        //color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium,
     },
     editor: {
@@ -69,13 +62,10 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     row: {
-        // borderRadius: 20,
         backgroundColor: Colors.white,
         flexDirection: "row",
         marginTop: 22,
         flex: 1,
-
-
     },
     inputWrap: {
         flex: 1,
@@ -104,7 +94,6 @@ const styles = StyleSheet.create({
         height: 12,
         width: 12,
         resizeMode: "contain",
-        // marginTop: 18,
         marginLeft: 10
     },
     textboxfield: {
@@ -165,7 +154,6 @@ const styles = StyleSheet.create({
         marginTop: 5,
         height: 1
     },
-
     lastLine: {
         borderBottomColor: '#CED2D7',
         borderBottomWidth: StyleSheet.hairlineWidth,
@@ -176,41 +164,35 @@ const styles = StyleSheet.create({
     clinicView: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
         marginTop: 10,
         marginHorizontal: 16,
-        // paddingVertical: 10,
     },
     clinic: {
-        flex: 1.5,
         backgroundColor: Colors.appcolor,
         borderRadius: 18,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingVertical: 12,
+        paddingVertical: 14,
         marginHorizontal: 5,
-        // paddingHorizontal:4
+        paddingHorizontal: 12
     },
     contactView: {
-        flex: 0.6,
+        flex: 1,
         backgroundColor: Colors.white,
         borderRadius: 18,
-        justifyContent: "center",
-        alignItems: "center",
-        marginHorizontal: 5
-
+        paddingVertical: 14,
+        marginHorizontal: 5,
+        paddingHorizontal: 12,
+        alignItems: "center"
     },
     hospitals: {
         fontSize: Fontsize.fontTwelve,
         color: Colors.white,
         fontFamily: Fonts.ProximaNovaMedium,
-        // marginTop: 3,
-
     },
     contect: {
         fontSize: Fontsize.fontTwelve,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium,
-        marginTop: 3
     },
     txtinputView: {
         flexDirection: "row",
@@ -222,7 +204,6 @@ const styles = StyleSheet.create({
     backColor: {
         backgroundColor: Colors.white,
         marginVertical: 10,
-
     },
     buttonView: {
         flexDirection: "row",
@@ -242,7 +223,7 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        height: 35,
+        height: 40,
         fontSize: Fontsize.fontTwelve,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium,
@@ -250,10 +231,16 @@ const styles = StyleSheet.create({
     SquareShapeView: {
         backgroundColor: Colors.appcolor,
         padding: 10,
-        // marginTop: 22,
-        // marginLeft: -10,
         borderRadius: 5,
         elevation: 10
+    },
+    popoverBtn: {
+        flex: 1,
+        width: 120,
+        // borderWidth: 1,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        marginVertical: 6,
     },
     updateView: {
         justifyContent: "center",
@@ -295,12 +282,50 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         paddingHorizontal: 12,
-        alignItems:"center",
-        // borderBottomWidth: 0.5,
-        // borderBottomColor: Colors.grey,
+        alignItems: "center",
         paddingVertical: 10,
         backgroundColor: Colors.appcolor
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 8,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: Colors.white,
+        borderRadius: 10,
+        paddingHorizontal: 24,
+        paddingTop: 24,
+        paddingBottom: 12,
+        alignItems: "center",
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        color: Colors.black,
+        fontSize: Fontsize.fontFourteen,
+        fontFamily: Fonts.ProximaNovaMedium,
+    },
+    button: {
+        // flex: 1,
+        borderRadius: 20,
+        paddingVertical: 6,
+        paddingHorizontal: 24,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: Colors.appcolor,
+        marginHorizontal: 12
+    },
+    textStyle: {
+        color: Colors.white,
+        fontSize: Fontsize.fontThirteen,
+        fontFamily: Fonts.ProximaNovaBold,
+        alignSelf: "center",
+        justifyContent: "center",
+        // marginTop: 11
+    },
 
 }
 )

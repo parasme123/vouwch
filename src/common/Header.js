@@ -21,7 +21,20 @@ export default Header = (props) => {
 }
 
 const styles = StyleSheet.create({
-    Header_view: { flexDirection: 'row', alignItems: "center", backgroundColor: "#245FC7", height: 60 },
-    backIcon: { height: 20, width: 20, tintColor: '#fff' },
-    TextStyles: { fontSize: 18, color: "#fff", fontFamily: Fonts.ProximaNovaMedium }
+    Header_view: {
+        flexDirection: 'row',
+        alignItems: "center",
+        backgroundColor: "#245FC7",
+        paddingVertical: 16,
+    },
+    backIcon: {
+        height: 20,
+        width: 20,
+        tintColor: '#fff'
+    },
+    TextStyles: {
+        fontSize: 18,
+        color: "#fff",
+        fontFamily: Fonts.ProximaNovaMedium
+    }
 })

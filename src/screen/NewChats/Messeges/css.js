@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     talkBubbleRight: {
         backgroundColor: Colors.appcolor,
         paddingHorizontal: 8,
-        paddingVertical: 10,
+        paddingVertical: 8,
         maxWidth: width - 80,
         borderRadius: 6,
         paddingRight: 12,

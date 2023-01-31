@@ -10,7 +10,6 @@ import { messageList, addMessage } from '../../../reduxStore/action/firebaseActi
 import { CustomLoader, AsyncStorageHelper } from "@lib";
 
 const Messeges = (props) => {
-    let selectedUser = props?.route?.params?.selectedUser || [];
     let { chatUserData } = props?.route?.params;
     const flatListRef = useRef();
 
@@ -144,7 +143,9 @@ const Messeges = (props) => {
         // console.log("newMsgList", newMsgList);
         // setMessageList(newMsgList);
         // setTypeText("")
-        actions.addMessage(apiData, chatUserData.id, messageUserList.messageCollectionId, setloaderVisible);
+        if (typeTxt && typeTxt != "") {
+            actions.addMessage(apiData, chatUserData.id, messageUserList.messageCollectionId, setloaderVisible);
+        }
     }
 
     return (
@@ -158,7 +159,7 @@ const Messeges = (props) => {
                 >
                     <Image
                         style={styles.gmanStyle}
-                        source={chatUserData.profileImg ? chatUserData.profileImg : require('../../../assect/images/default-user.png')} />
+                        source={chatUserData.profile_picture ? { uri: chatUserData.profile_picture } : require('../../../assect/images/default-user.png')} />
                     <View style={styles.info}>
                         <Text style={styles.alexTxt}>{chatUserData.first_name}</Text>
                         <View style={styles.onlineView}>
@@ -169,9 +170,9 @@ const Messeges = (props) => {
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={styles.todayView}>
+            {/* <View style={styles.todayView}>
                 <Text style={styles.todayTxt}>Today</Text>
-            </View>
+            </View> */}
             <View style={{ flex: 1 }}>
                 {
                     messagesList?.length ? (

@@ -29,7 +29,7 @@ export const Bottomtab = props => {
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
-      AsyncStorageHelper.getData("firebaseUserData").then(value => {
+      AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
         if (value !== null) {
           setuserRcord(value);
           props.actions.PostUserProfile(value.id);
@@ -68,7 +68,7 @@ export const Bottomtab = props => {
     }
 
     return (
-      <View>
+      <View key={routeName}>
         <Image
           resizeMode="contain"
           style={{
@@ -90,6 +90,7 @@ export const Bottomtab = props => {
     // console.log("selectedTab : ", selectedTab);
     return (
       <TouchableOpacity
+        key={routeName}
         onPress={() => navigate(routeName)}
         style={{
           flex: 1,
@@ -147,7 +148,7 @@ export const Bottomtab = props => {
           component={Home}
         /> */}
 
-<CurvedBottomBar.Screen
+        <CurvedBottomBar.Screen
           name="Chat"
           component={userData ? Chat : Chat}
           position="LEFT"
@@ -190,6 +191,9 @@ export const Bottomtab = props => {
           }}
           AddReview={() => {
             setModalVisible(!modalVisible), props.navigation.navigate('review');
+          }}
+          startChat={() => {
+            setModalVisible(!modalVisible), props.navigation.navigate('NewChat');
           }}
           AddBravoCard={() => {
             setModalVisible(!modalVisible),
