@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         borderBottomWidth: 0.6,
         borderBottomColor: Colors.grey,
-        paddingHorizontal: 24
+        paddingHorizontal: 24,
     },
     maanImg: {
         height: 50,
@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
     wdWatson: {
         fontSize: Fontsize.fontThirteen,
         color: Colors.black,
-        fontFamily: Fonts.ProximaNovaMedium
+        fontFamily: Fonts.ProximaNovaMedium,
+        marginBottom: 4
     },
     weNeed: {
         fontSize: Fontsize.fontTwelve,

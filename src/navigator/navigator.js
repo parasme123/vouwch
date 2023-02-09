@@ -38,6 +38,7 @@ import MsgManagement from '../screen/MsgManagement/MsgManagement';
 import UserGrpMsg from '../UserGrpMsg/UserGrpMsg';
 import DoctorGrpMsg from '../screen/DoctorGrpMsg/DoctorGrpMsg';
 import NewGroup from '../screen/NewGroup/NewGroup';
+import AddParticipiants from '../screen/AddParticipiants';
 import AddSubNewGrp from '../screen/AddSubNewGrp/AddSubNewGrp';
 const MainStack = createStackNavigator();
 const Navigator = () => {
@@ -84,6 +85,7 @@ const Navigator = () => {
         <MainStack.Screen name="UserGrpMsg" component={UserGrpMsg} />
         <MainStack.Screen name="DoctorGrpMsg" component={DoctorGrpMsg} />
         <MainStack.Screen name="NewGroup" component={NewGroup} />
+        <MainStack.Screen name="AddParticipiants" component={AddParticipiants} />
         <MainStack.Screen name="AddSubNewGrp" component={AddSubNewGrp} />
 
 

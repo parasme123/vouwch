@@ -125,7 +125,18 @@ const styles = StyleSheet.create({
         height: 40,
         marginLeft: 6,
         flex: 1
-    }
+    },
+    newGrpBtn: {
+        // backgroundColor: Colors.appcolor,
+        paddingVertical:6,
+        paddingHorizontal:8,
+        borderRadius:20
+    },
+    broadBtnTxt: {
+        fontSize: Fontsize.fontFifteen,
+        color: Colors.white,
+        fontFamily: Fonts.ProximaNovaMedium,
+    },
 
 })
 export default styles;

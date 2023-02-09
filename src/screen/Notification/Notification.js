@@ -13,7 +13,7 @@ import Fontsize from '../../common/Fontsize';
 import Fonts from '../../common/Fonts';
 import moment from "moment";
 
-const Notification = (props, { navigation, route }) => {
+const Notification = (props) => {
   const [loaderVisible, setloaderVisible] = useState(false);
   const [userType, setUserType] = useState()
   const isTrue = props.route.params ? props.route.params.isTrue : false;

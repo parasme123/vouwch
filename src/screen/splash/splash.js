@@ -12,8 +12,14 @@ import Constants from '../../Lib/Constants';
 import { handleNavigation } from '../../navigator/Navigator';
 import styles from './css';
 import { Colors, imagepath, svg } from '@common';
-export default Splash = ({ navigation }) => {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+// import { getUnreadMsg } from '../../reduxStore/action/firebaseActions';
+
+const Splash = (props) => {
+    let { navigation, actions } = props;
     useEffect(() => {
+        // actions.getUnreadMsg();
         setTimeout(() => {
             AsyncStorageHelper.getData("firebaseUserData").then((GesstData) => {
                 if (!GesstData) {
@@ -49,5 +55,21 @@ export default Splash = ({ navigation }) => {
         </ImageBackground>
     );
 }
+
+
+const mapStateToProps = state => ({
+    allUsers: state?.firebaseData?.allUsers,
+});
+
+const ActionCreators = Object.assign(
+    {}
+);
+
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Splash)
+
 
 

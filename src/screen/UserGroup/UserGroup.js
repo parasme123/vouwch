@@ -192,6 +192,11 @@ const UserGroup = (props) => {
   //     </TouchableOpacity>
   //   )
   // }
+
+  const handleAddParticipiants = () => {
+    props.navigation.navigate("AddParticipiants", { chatGroupData })
+  }
+
   return (
     <View style={styles.container}>
       {/* <ScrollView showsVerticalScrollIndicator={false}> */}
@@ -235,7 +240,7 @@ const UserGroup = (props) => {
           <Image style={styles.persConnct}
             source={Imagepath.personConnect} />
           <TouchableOpacity
-            style={styles.memberView}>
+            style={styles.memberView} onPress={handleAddParticipiants}>
             <Text style={styles.addGrp}>
               Add Group Members/Participants
             </Text>

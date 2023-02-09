@@ -23,6 +23,7 @@ import { PostUserProfile, getFollowData } from '../reduxStore/action/doctorActio
 import menu from '../screen/setting/menu';
 import profile from '../screen/setting/profile';
 import NotifyMsg from '../screen/NotifyMsg/NotifyMsg';
+
 export const Bottomtab = props => {
   const [userData, setuserRcord] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -172,9 +173,8 @@ export const Bottomtab = props => {
           name="NotifyMsg"
           position="LEFT"
           options={{ headerShown: false }}
-          component={NotifyMsg}
+          component={Notification}
         />
-
 
         <CurvedBottomBar.Screen
           name="Settingprofile"

@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, SafeAreaView, ImageBackground, FlatList, } from 'react-native';
-import { Fonts, Fontsize, Colors } from '@common';
+import { TouchableOpacity, View, Image, Text, ScrollView, SafeAreaView, FlatList, } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { allUserList } from '../../reduxStore/action/firebaseActions';
+import { allUserList, getGroupParticipiants, addParticipiants } from '../../reduxStore/action/firebaseActions';
+import { CustomLoader, AsyncStorageHelper } from "@lib";
 
-const NewGroup = (props) => {
+const AddParticipans = (props) => {
+    let groupDataParam = props?.route?.params?.chatGroupData;
     const [selectedUser, setSelectedUser] = useState([]);
     const [firebaseUsersList, setFirebaseUsersList] = useState([]);
+    const [chatGroupData, setchatGroupData] = useState({})
+    const [loaderVisible, setloaderVisible] = useState(false);
+
+    useEffect(() => {
+        let { actions, groupData } = props;
+        let dataOfGroup = groupData.find((item) => item.id == groupDataParam.id)
+        setchatGroupData(dataOfGroup)
+        // actions.getGroupParticipiants(dataOfGroup.participiants)
+    }, [groupDataParam])
 
     useEffect(() => {
         let { actions } = props;
@@ -32,14 +42,25 @@ const NewGroup = (props) => {
         setSelectedUser(participants)
     }
 
+    const handleAddParticipiants = () => {
+        let { actions } = props;
+        actions.addParticipiants(selectedUser, chatGroupData, setloaderVisible, () => handleAddSuccess());
+    }
+
+    const handleAddSuccess = () => {
+        props.navigation.navigate("GroupMesseges", { chatGroupData })
+    }
+
     const MsgList = (msgObj) => {
         return (
-            <TouchableOpacity onPress={() => { addParticipans(msgObj) }} style={styles.infoTouch} >
+            <TouchableOpacity onPress={() => addParticipans(msgObj)} style={styles.infoTouch}
+                disabled={chatGroupData?.participiants?.includes(msgObj.id)}
+            >
                 <Image style={styles.maanImg}
                     source={msgObj?.profile_picture ? { uri: msgObj?.profile_picture } : require('../../assect/images/default-user.png')} />
                 <View style={styles.infoMsg}>
                     <Text style={styles.wdWatson}>{msgObj.first_name}</Text>
-                    <Text style={styles.weNeed}>{msgObj.about}</Text>
+                    <Text style={styles.weNeed}>{chatGroupData?.participiants?.includes(msgObj.id) ? "Already Added in this group" : msgObj.about}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -69,7 +90,7 @@ const NewGroup = (props) => {
                             source={Imagepath.previous} />
                     </TouchableOpacity>
                     <View style={styles.newgrpVw}>
-                        <Text style={styles.newgrpTxt}>New Group</Text>
+                        <Text style={styles.newgrpTxt}>{chatGroupData.groupName}</Text>
                         <Text style={styles.addparticipantsTxt}>Add Participants</Text>
                     </View>
                 </View>
@@ -96,30 +117,39 @@ const NewGroup = (props) => {
                         })
                     }
                 </View>
-            </ScrollView><TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => props.navigation.navigate("AddSubNewGrp", { selectedUser })}
-                style={styles.touchableOpacityStyle}>
-                <Image
-                    source={Imagepath.rightarrow}
-                    style={styles.floatingButtonStyle}
-                />
-            </TouchableOpacity>
+            </ScrollView>
+            {
+                selectedUser?.length > 0 ? (
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={handleAddParticipiants}
+                        style={styles.touchableOpacityStyle}>
+                        <Image
+                            source={Imagepath.rightarrow}
+                            style={styles.floatingButtonStyle}
+                        />
+                    </TouchableOpacity>
+                ) : null
+            }
+            <CustomLoader loaderVisible={loaderVisible} />
         </SafeAreaView>
     )
 }
 
 const mapStateToProps = state => ({
     allUsers: state?.firebaseData?.allUsers,
+    groupData: state?.firebaseData?.groupData,
 });
 
 const ActionCreators = Object.assign(
-    { allUserList }
+    { allUserList },
+    { getGroupParticipiants },
+    { addParticipiants }
 );
 
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewGroup)
+export default connect(mapStateToProps, mapDispatchToProps)(AddParticipans)
 

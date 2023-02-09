@@ -64,21 +64,18 @@ const styles = StyleSheet.create({
         height: 15,
         width: 15,
         resizeMode: "contain",
-        marginTop: 5,
-        marginRight: 2
+        tintColor: Colors.gray,
+        alignSelf: "flex-end"
     },
     todayView: {
         backgroundColor: Colors.white,
         paddingHorizontal: 12,
         paddingVertical: 4,
-        alignSelf: "center",
-        // alignItems: "center",
         borderRadius: 20,
         marginTop: 10
     },
     quoteView: {
         flexDirection: "row",
-        alignSelf: "center",
         paddingHorizontal: 5
     },
     todayTxt: {
@@ -132,6 +129,7 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     },
     IpsumTxt: {
+        // maxWidth: width - 170,
         fontSize: Fontsize.fontTwelve,
         color: Colors.white,
         fontFamily: Fonts.ProximaNovaMedium,
@@ -149,12 +147,10 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.ProximaNovaMedium
     },
     sndTime: {
-        // marginTop: 30,
-        marginLeft: 10,
-        fontSize: Fontsize.fontFourteen,
+        marginRight: 10,
+        fontSize: Fontsize.small,
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaMedium,
-
     },
     chatView: {
         flexDirection: "row",
@@ -164,8 +160,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 6,
         paddingVertical: 10,
         flexDirection: "row",
-        justifyContent: "center",
-        alignSelf: "flex-end",
+        justifyContent: "flex-end",
     },
     containerLeft: {
         paddingHorizontal: 6,
@@ -178,7 +173,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.appcolor,
         paddingHorizontal: 8,
         paddingVertical: 8,
-        maxWidth: width - 80,
+        maxWidth: width - 100,
         borderRadius: 6,
         paddingRight: 12,
         marginRight: 12
@@ -208,20 +203,23 @@ const styles = StyleSheet.create({
         borderLeftColor: Colors.appcolor,
         borderBottomWidth: 20,
         borderBottomColor: "transparent",
-
     },
     readView: {
         flexDirection: "row",
-        // marginTop: 10,
-        marginRight: 5
+        marginLeft: 12,
+        alignItems:"center"
     },
     readImg: {
-        height: 15,
-        width: 12,
+        height: 16,
+        width: 18,
         resizeMode: "contain",
-        tintColor: Colors.grey,
-        marginTop: 2,
-        marginRight: -5
+        tintColor: Colors.appcolor,
+    },
+    unreadImg: {
+        height: 16,
+        width: 18,
+        resizeMode: "contain",
+        tintColor: Colors.lightGrey,
     },
     buttonView: {
         width: 150,
@@ -232,14 +230,11 @@ const styles = StyleSheet.create({
 
     },
     replayView: {
-        // marginRight: 5,
         flexDirection: "row",
         justifyContent: "space-evenly",
-        // padding: 7,
         justifyContent: "flex-start",
         textAlign: "center",
         padding: 7
-
     },
     replayImg: {
         height: 15,
@@ -253,28 +248,22 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.ProximaNovaMedium,
         marginLeft: 15
     },
-
     forwordImg: {
         height: 15,
         width: 15,
         resizeMode: "contain"
     },
-
-
     copyImg: {
         marginRight: 3,
         height: 15,
         width: 15,
         resizeMode: "cover"
     },
-
-
     popoverCss: {
-        borderTopLeftRadius: 8,
-        borderBottomLeftRadius: 8,
-        elevation: 10,
+        borderRadius: 8,
+        // borderBottomLeftRadius: 8,
+        // elevation: 10,
     },
-
     sectionStyle: {
         flexDirection: 'row',
         justifyContent: "space-between",
@@ -286,12 +275,10 @@ const styles = StyleSheet.create({
     },
     selectFilesBtn: {
         paddingVertical: 12,
-        // borderWidth: 1,
         paddingRight: 6,
     },
     cameraBtn: {
         paddingVertical: 12,
-        // borderWidth: 1,
         paddingHorizontal: 6
     },
     imageStyle: {
@@ -303,9 +290,7 @@ const styles = StyleSheet.create({
     msgText: {
         flex: 1,
         lineHeight: 20,
-        // marginLeft: 10,
         maxHeight: 140,
-        // width: width - 150
     },
     sendBtn: {
         backgroundColor: Colors.appcolor,
@@ -316,7 +301,43 @@ const styles = StyleSheet.create({
     sendBtnImg: {
         height: 28,
         width: 28
+    },
+    CancleArrow1: { height: 30, width: 30 },
+    SelecttextStyle1: {
+        fontSize: 20,
+        fontFamily: Fonts.ProximaNovaMedium,
+        color: 'white',
+        textAlign: 'center',
+    },
+    modalView1: {
+        borderRadius: 20,
+        paddingVertical: 20,
+        marginHorizontal: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    button1: {
+        marginHorizontal: 20,
+        backgroundColor: Colors.appcolor,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginVertical: 15,
+        marginBottom: 0,
+    },
+    buttonClose1: { backgroundColor: '#38C348', width: '40%' },
+    textStyle1: {
+        fontSize: 18,
+        fontFamily: Fonts.ProximaNovaRegular,
+        color: 'white',
+        textAlign: 'center',
+    },
+    chatImage: {
+        height: 180,
+        width: 180,
+        borderRadius: 10
     }
-}
-)
+})
+
 export default styles;  

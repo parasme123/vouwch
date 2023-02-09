@@ -58,21 +58,18 @@ const styles = StyleSheet.create({
         height: 7,
         width: 7,
         tintColor: Colors.green,
-        // marginTop: 6
     },
     dotsImg: {
         height: 15,
         width: 15,
         resizeMode: "contain",
-        marginTop: 5,
-        marginRight: 2
+        alignSelf: "flex-end"
     },
     todayView: {
         backgroundColor: Colors.white,
         paddingHorizontal: 12,
         paddingVertical: 4,
         alignSelf: "center",
-        // alignItems: "center",
         borderRadius: 20,
         marginTop: 10
     },
@@ -87,13 +84,8 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontFamily: Fonts.ProximaNovaMedium
     },
-    talkBubble: {
-        //backgroundColor: "transparent",
-
-    },
     talkBubbleSquare: {
         width: 230,
-        // height: 100,
         backgroundColor: Colors.white,
         borderRadius: 10,
         flexDirection: "row",
@@ -212,6 +204,7 @@ const styles = StyleSheet.create({
     },
     readView: {
         flexDirection: "row",
+        alignItems: "center",
         // marginTop: 10,
         marginRight: 5
     },
@@ -219,7 +212,15 @@ const styles = StyleSheet.create({
         height: 15,
         width: 12,
         resizeMode: "contain",
-        tintColor: Colors.grey,
+        tintColor: Colors.appcolor,
+        marginTop: 2,
+        marginRight: -5
+    },
+    unreadImg: {
+        height: 15,
+        width: 12,
+        resizeMode: "contain",
+        tintColor: Colors.lightGrey,
         marginTop: 2,
         marginRight: -5
     },
@@ -316,7 +317,43 @@ const styles = StyleSheet.create({
     sendBtnImg: {
         height: 28,
         width: 28
+    },
+    CancleArrow1: { height: 30, width: 30 },
+    SelecttextStyle1: {
+        fontSize: 20,
+        fontFamily: Fonts.ProximaNovaMedium,
+        color: 'white',
+        textAlign: 'center',
+    },
+    modalView1: {
+        borderRadius: 20,
+        paddingVertical: 20,
+        marginHorizontal: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    button1: {
+        marginHorizontal: 20,
+        backgroundColor: Colors.appcolor,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginVertical: 15,
+        marginBottom: 0,
+    },
+    buttonClose1: { backgroundColor: '#38C348', width: '40%' },
+    textStyle1: {
+        fontSize: 18,
+        fontFamily: Fonts.ProximaNovaRegular,
+        color: 'white',
+        textAlign: 'center',
+    },
+    chatImage: {
+        height: 180,
+        width: 180,
+        borderRadius: 10
     }
-}
-)
+})
+
 export default styles;  

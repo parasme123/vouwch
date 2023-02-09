@@ -51,13 +51,13 @@ const Chat = (props) => {
     return (
       <View style={{ backgroundColor: Colors.white }} key={msgObj.id}>
         <TouchableOpacity style={styles.infoTouch}
-          onPress={() => handleChatMsg(msgObj)}>
+          onPress={msgObj?.isGroup ? () => handleGroupChat(msgObj) : () => handleChatMsg(msgObj)}>
           <View style={styles.subView}>
             <Image
               style={styles.maanImg}
               source={msgObj?.profile_picture ? { uri: msgObj.profile_picture } : require('../../assect/images/default-user.png')} />
             <View style={styles.infoMsg}>
-              <Text style={styles.wdWatson}>{msgObj.first_name}</Text>
+              <Text style={styles.wdWatson}>{msgObj?.isGroup ? msgObj?.groupName : msgObj.first_name}</Text>
               <Text style={styles.weNeed}>{msgObj.description}</Text>
             </View>
 
@@ -85,7 +85,6 @@ const Chat = (props) => {
               <Text style={styles.wdWatson}>{item.groupName}</Text>
               <Text style={styles.weNeed}>{item.description}</Text>
             </View>
-
           </View>
           {/* <View style={styles.updateView}>
             <Text style={styles.timeShowTxt}>{item.time}</Text>
@@ -165,7 +164,7 @@ const Chat = (props) => {
               source={Imagepath.serachIcon} />
             <TextInput
               style={styles.input}
-              placeholder="Search"
+              placeholder="Staff Directory  |  Name  |  City State"
               underlineColorAndroid="transparent"
               onChangeText={handleSearch}
               value={searchVal}
@@ -201,7 +200,7 @@ const Chat = (props) => {
           </Popover>
         </View>
         {/* </View> */}
-        <View style={[styles.broadBtnView, { paddingTop: 12, marginTop: 12 }]}>
+        {/* <View style={[styles.broadBtnView, { paddingTop: 12, marginTop: 12 }]}>
           <TouchableOpacity>
             <Text style={styles.broadBtnTxt}>Group List</Text>
           </TouchableOpacity>
@@ -213,16 +212,16 @@ const Chat = (props) => {
           groupList?.map((item, index) => {
             return userGroupsRender(item)
           })
-        }
+        } */}
 
-        <View style={[styles.broadBtnView, { paddingTop: 12, marginTop: 12 }]}>
-          <TouchableOpacity>
+        {/* <View style={[styles.broadBtnView, { paddingTop: 12, marginTop: 12 }]}> */}
+        {/* <TouchableOpacity>
             <Text style={styles.broadBtnTxt}>Users List</Text>
-          </TouchableOpacity>
-          {/* <TouchableOpacity onPress={() => props.navigation.navigate("NewGroup")}>
+          </TouchableOpacity> */}
+        {/* <TouchableOpacity onPress={() => props.navigation.navigate("NewGroup")}>
             <Text style={styles.broadBtnTxt}>New Group</Text>
           </TouchableOpacity> */}
-        </View>
+        {/* </View> */}
 
         {
           userList?.map((item, index) => {

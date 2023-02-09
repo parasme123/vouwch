@@ -49,10 +49,15 @@ const NewChat = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.UpperView}>
-                <Text style={styles.chatTxt}>New Chats</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate("Chat")}>
-                    <Image source={Imagepath.cross}
+                <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                    <Image source={Imagepath.previous}
                         style={styles.crossImg} />
+                </TouchableOpacity>
+                <Text style={styles.chatTxt}>New Chats</Text>
+                <TouchableOpacity style={styles.newGrpBtn} onPress={() => props.navigation.navigate("NewGroup")}>
+                    {/* <Text style={styles.broadBtnTxt}>New Group</Text> */}
+                    <Image source={Imagepath.userGroup}
+                        style={{height:10, width:20}} />
                 </TouchableOpacity>
             </View>
 
@@ -67,13 +72,14 @@ const NewChat = (props) => {
                 >
                     <Text style={[styles.inactiveTabTxt, activeTab == "PersonalContact" ? styles.activeTabTxt : null]}>Personal contacts</Text>
                 </TouchableOpacity>
+
             </View>
             <View style={styles.searchSection}>
                 <Image style={styles.searchI}
                     source={Imagepath.serachIcon} />
                 <TextInput
                     style={styles.input}
-                    placeholder="Search"
+                    placeholder="Staff Directory  |  Name  |  City State"
                     underlineColorAndroid="transparent"
                     onChangeText={handleSearch}
                     value={searchVal}

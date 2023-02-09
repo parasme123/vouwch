@@ -48,7 +48,7 @@ export const addExternalUser = (data, setloaderVisible, PageNavigation) => {
 export const deleteAddedUser = (data, setloaderVisible, PageNavigation) => {
   return async dispatch => {
     setloaderVisible(true);
-    console.log("data", data)
+    // console.log("data", data)
     await usersCollection.doc(data).delete().then((response) => {
       dispatch(getBussinessAddedUser())
       setloaderVisible(false);
@@ -109,7 +109,7 @@ export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => 
     firebaseUserData = JSON.parse(firebaseUserData);
     const querySnapshot = usersCollection.where("friends", "array-contains", chatWithId).where(firestore.FieldPath.documentId(), "==", firebaseUserData.id);
     querySnapshot.get().then(snapshot => {
-      console.log("snapshot", snapshot?.docs)
+      // console.log("snapshot", snapshot?.docs)
       if (snapshot?.docs?.length < 1) {
         usersCollection.doc(firebaseUserData.id).update({
           friends: firestore.FieldValue.arrayUnion(chatWithId)
@@ -125,7 +125,7 @@ export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => 
             participiants: [chatWithId, firebaseUserData.id],
             updatedAt: new Date()
           }
-          console.log("createGroup claad by startChatWithNewUser");
+          // console.log("createGroup claad by startChatWithNewUser");
           dispatch(createGroup(apiData, setloaderVisible, callBack))
           // callBack()
           // setloaderVisible(false);
@@ -174,18 +174,25 @@ export const chatList = () => {
     let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
     if (firebaseUserData) {
       let userData = JSON.parse(firebaseUserData);
-      const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id).where("isGroup", "==", false);
+      const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id);
       querySnapshot.get().then(snapshot => {
-        let userChatList = []
+        var userChatList = []
+        console.log("snapshot?.docs", snapshot?.docs);
         if (snapshot?.docs?.length > 0) {
           snapshot.docs.forEach(doc => {
-            usersCollection.where("groups", "array-contains", doc.id).where(firestore.FieldPath.documentId(), "!=", userData.id).get().then(snapshot1 => {
-              snapshot1.docs.forEach(doc1 => {
-                userChatList.push({ ...doc1.data(), id: doc1.id })
+            if (doc.data().isGroup) {
+              userChatList.push({ ...doc.data(), id: doc.id })
+            } else {
+              usersCollection.where("groups", "array-contains", doc.id).where(firestore.FieldPath.documentId(), "!=", userData.id).get().then(snapshot1 => {
+                snapshot1.docs.forEach(doc1 => {
+                  userChatList.push({ ...doc1.data(), id: doc1.id })
+                })
               })
-              dispatch(saveUserChatList(userChatList));
-            })
+            }
           })
+          setTimeout(() => {
+            dispatch(saveUserChatList(userChatList));
+          }, 2000);
         } else {
           dispatch(saveUserChatList(userChatList));
         }
@@ -239,15 +246,15 @@ export const messageList = (chatWithId, setloaderVisible) => {
     let roomRef;
     if (firebaseUserData) {
       let userData = JSON.parse(firebaseUserData);
-      console.log("[userData.id, chatWithId]", [userData.id, chatWithId]);
+      // console.log("[userData.id, chatWithId]", [userData.id, chatWithId]);
       const querySnapshot = groupCollection.where("participiants", "array-contains", chatWithId && userData.id).where("isGroup", "==", false);
       querySnapshot.get().then(snapshot => {
-        console.log("snapshot.docs", snapshot.docs);
+        // console.log("snapshot.docs", snapshot.docs);
         snapshot.docs.forEach(doc => {
           roomRef = doc.id
           messageCollection.where("group", "==", doc.id).limit(1).get().then(snapshotMsg => {
             snapshotMsg.forEach(docMsg => {
-              console.log("snapshotMsg.docs", docMsg.id);
+              // console.log("snapshotMsg.docs", docMsg.id);
               dispatch(saveMessagesList({ ...docMsg.data(), messageCollectionId: docMsg.id }));
             })
           })
@@ -304,6 +311,33 @@ export const addMessage = (data, chatWithId, collectionId, setloaderVisible, isG
   }
 };
 
+export const deleteMessage = (data, chatWithId, collectionId, setloaderVisible, isGroup = false) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    await messageCollection.doc(collectionId).update({
+      message: firestore.FieldValue.arrayRemove(data)
+    }).then(() => {
+      if (isGroup) {
+        dispatch(groupMessageList(chatWithId, setloaderVisible))
+      } else {
+        dispatch(messageList(chatWithId, setloaderVisible))
+      }
+      // callBack()
+    }).catch((error) => {
+      console.log("addMessage", error);
+      Toast.show("Something Went wrong", Toast.LONG);
+    });
+  }
+};
+
+export const setReadMsg = (data, collectionId) => {
+  return async dispatch => {
+    await messageCollection.doc(collectionId).update({
+      message: data
+    })
+  }
+};
+
 export const allUserList = () => {
   return async dispatch => {
     let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
@@ -351,7 +385,7 @@ export const saveAddedUserList = (data) => {
 
 export const createGroup = (data, setloaderVisible, callBack) => {
   return async dispatch => {
-    console.log("createGroup called");
+    // console.log("createGroup called");
     setloaderVisible(true)
     groupCollection.add(data).then((response) => {
       if (!response.empty) {
@@ -487,44 +521,79 @@ export const deleteFirebaseChat = (setloaderVisible, callBack) => {
     setloaderVisible(true)
     let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
     let userData = JSON.parse(firebaseUserData);
-    usersCollection.doc(userData.id).update({
-      groups: [],
-      friends: []
-    }).then(() => {
-      const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id);
-      querySnapshot.get().then(snapshot => {
-        if (snapshot?.docs?.length > 0) {
-          snapshot.docs.forEach(docMsg => {
-            groupCollection.doc(docMsg.id).update({
-              participiants: firestore.FieldValue.arrayRemove(userData.id)
-            }).then(() => {
-              dispatch(chatList())
-              dispatch(groupList())
-              setloaderVisible(false)
-              callBack();
-              Toast.show("Chat Deleted Successfully", Toast.LONG);
-            }).catch((err) => {
-              setloaderVisible(false)
-              console.log('deleteFirebaseChat', err);
-              Toast.show("Something Went wrong", Toast.LONG);
-            });
+    await usersCollection.doc(userData.id).update({ groups: [], friends: [] })
+
+    const snapshot = await groupCollection.where("participiants", "array-contains", userData.id).get();
+    // querySnapshot.then(snapshot => {
+    if (snapshot?.docs?.length > 0) {
+      snapshot.docs.forEach(async docMsg => {
+        docMsg.data().participiants.map(async element => {
+          await usersCollection.doc(element).update({
+            groups: firestore.FieldValue.arrayRemove(docMsg.id),
           })
-        } else {
+        })
+        const dataMsg = await messageCollection.where("group", "==", docMsg.id).get()
+        messageCollection.doc(dataMsg.docs[0].id).delete()
+        await groupCollection.doc(docMsg.id).delete().then(() => {
           dispatch(chatList())
-          dispatch(groupList())
+          // dispatch(groupList())
           setloaderVisible(false)
           callBack();
           Toast.show("Chat Deleted Successfully", Toast.LONG);
-        }
-      }).catch(err => {
-        setloaderVisible(false)
-        console.log('deleteFirebaseChat', err);
-        Toast.show("Something Went wrong", Toast.LONG);
-      });
-    }).catch((err) => {
+        }).catch((err) => {
+          setloaderVisible(false)
+          console.log('deleteFirebaseChat', err);
+          Toast.show("Something Went wrong", Toast.LONG);
+        });
+        // groupCollection.doc(docMsg.id).update({
+        //   participiants: firestore.FieldValue.arrayRemove(userData.id)
+        // }).then(() => {
+        //   dispatch(chatList())
+        //   dispatch(groupList())
+        //   setloaderVisible(false)
+        //   callBack();
+        //   Toast.show("Chat Deleted Successfully", Toast.LONG);
+        // }).catch((err) => {
+        //   setloaderVisible(false)
+        //   console.log('deleteFirebaseChat', err);
+        //   Toast.show("Something Went wrong", Toast.LONG);
+        // });
+      })
+    } else {
+      dispatch(chatList())
+      // dispatch(groupList())
       setloaderVisible(false)
-      console.log('deleteFirebaseChat', err);
-      Toast.show("Something Went wrong", Toast.LONG);
-    });
+      callBack();
+      Toast.show("Chat Deleted Successfully", Toast.LONG);
+    }
+    // }).catch(err => {
+    //   setloaderVisible(false)
+    //   console.log('deleteFirebaseChat', err);
+    //   Toast.show("Something Went wrong", Toast.LONG);
+    // });
+    // }).catch((err) => {
+    //   setloaderVisible(false)
+    //   console.log('deleteFirebaseChat', err);
+    //   Toast.show("Something Went wrong", Toast.LONG);
+    // });
+  }
+}
+
+export const addParticipiants = (participiants, groupData, setloaderVisible, callBack) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    participiants.forEach((element) => {
+      usersCollection.doc(element.id).update({
+        groups: firestore.FieldValue.arrayUnion(groupData.id)
+      }).then(() => {
+        groupCollection.doc(groupData.id).update({
+          participiants: firestore.FieldValue.arrayUnion(element.id)
+        })
+      })
+    })
+    dispatch(groupList())
+    setloaderVisible(false)
+    callBack();
+    Toast.show("Participiants Added Successfully", Toast.LONG);
   }
 }

@@ -1,6 +1,7 @@
 import { BackHandler } from 'react-native';
 
 const Imagepath = {
+  userGroup: require('../assect/connectpeople.png'),
   icon: require('../assect/icon/Logo.svg'),
   logo: require('../assect/icon/icon.png'),
   background: require('../assect/images/Welcome.png'),
@@ -101,6 +102,7 @@ const Imagepath = {
   googleWomen: require('../assect/icon/googleWomen.jpg'),
   editor: require('../assect/icon/editor.png'),
   threeDots: require('../assect/icon/dots.png'),
+  threeDotsHorizontal: require('../assect/icon/dots-horizontal.png'),
   cross: require('../assect/icon/cross.png'),
   abdul: require('../assect/icon/abdul.png'),
   badal: require('../assect/icon/badal.png'),
