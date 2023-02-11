@@ -34,6 +34,7 @@ import NewChat from '../screen/NewChats/NewChat';
 import Messeges from '../screen/NewChats/Messeges/Messeges';
 import GroupMessage from '../screen/NewChats/GroupMessage/Messeges';
 import UserGroup from '../screen/UserGroup/UserGroup';
+import UserGroupEdit from '../screen/UserGroupEdit/UserGroup'
 import MsgManagement from '../screen/MsgManagement/MsgManagement';
 import UserGrpMsg from '../UserGrpMsg/UserGrpMsg';
 import DoctorGrpMsg from '../screen/DoctorGrpMsg/DoctorGrpMsg';
@@ -81,20 +82,13 @@ const Navigator = () => {
         <MainStack.Screen name="Messeges" component={Messeges} />
         <MainStack.Screen name="GroupMesseges" component={GroupMessage} />
         <MainStack.Screen name="UserGroup" component={UserGroup} />
+        <MainStack.Screen name="UserGroupEdit" component={UserGroupEdit} />
         <MainStack.Screen name="MsgManagement" component={MsgManagement} />
         <MainStack.Screen name="UserGrpMsg" component={UserGrpMsg} />
         <MainStack.Screen name="DoctorGrpMsg" component={DoctorGrpMsg} />
         <MainStack.Screen name="NewGroup" component={NewGroup} />
         <MainStack.Screen name="AddParticipiants" component={AddParticipiants} />
         <MainStack.Screen name="AddSubNewGrp" component={AddSubNewGrp} />
-
-
-
-
-
-
-
-
       </MainStack.Navigator>
     </NavigationContainer>
   );

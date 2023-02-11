@@ -4,11 +4,13 @@ import Imagepath from '../../common/imagepath';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { allUserList, startChatWithNewUser } from '../../reduxStore/action/firebaseActions';
+import { allUserList, startChatWithNewUser, forwardMessage } from '../../reduxStore/action/firebaseActions';
 import { CustomLoader, AsyncStorageHelper } from "@lib";
 import MsgChat from './MsgChat/MsgChat';
 
 const NewChat = (props) => {
+    let forwardMesssage = props?.route?.params?.forwardMesssage ? props?.route?.params?.forwardMesssage : {};
+
     const [activeTab, setActiveTab] = useState("MsgChat");
     const [firebaseUsersList, setFirebaseUsersList] = useState([]);
     const [loaderVisible, setloaderVisible] = useState(false);
@@ -37,7 +39,7 @@ const NewChat = (props) => {
     }
 
     const handleChatStart = (chatUserData) => {
-        props.navigation.navigate("Messeges", { chatUserData })
+        props.navigation.navigate("Messeges", { chatUserData, forwardMesssage })
     }
 
     const handleSearch = (e) => {
@@ -57,7 +59,7 @@ const NewChat = (props) => {
                 <TouchableOpacity style={styles.newGrpBtn} onPress={() => props.navigation.navigate("NewGroup")}>
                     {/* <Text style={styles.broadBtnTxt}>New Group</Text> */}
                     <Image source={Imagepath.userGroup}
-                        style={{height:10, width:20}} />
+                        style={{ height: 10, width: 20 }} />
                 </TouchableOpacity>
             </View>
 
@@ -99,7 +101,8 @@ const mapStateToProps = state => ({
 
 const ActionCreators = Object.assign(
     { allUserList },
-    { startChatWithNewUser }
+    { startChatWithNewUser },
+    { forwardMessage }
 );
 
 const mapDispatchToProps = dispatch => ({

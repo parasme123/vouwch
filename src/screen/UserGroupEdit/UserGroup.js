@@ -1,58 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, Easing, FlatList, Modal, PermissionsAndroid } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Text, ScrollView, Easing, FlatList, Modal, PermissionsAndroid, TextInput } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
 import { Fonts, Fontsize, Colors } from '@common';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getGroupParticipiants, removeUserFromGroup, updateGroupProfile } from '../../reduxStore/action/firebaseActions';
-import { CustomLoader, AsyncStorageHelper } from "@lib";
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
 
-const UserGroup = (props) => {
+const UserGroupEdit = (props) => {
   let groupDataParam = props?.route?.params?.chatGroupData;
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [groupList, setGroupList] = useState([]);
-  const [userData, setUserData] = useState({})
-  const [ischecked, setischecked] = useState(false);
-  const [selectedId, setSelectedId] = useState();
   const [chatGroupData, setchatGroupData] = useState({})
-  const [showSearchIcon, setShowSearchIcon] = useState(false);
-
-  useEffect(() => {
-    async function getUserData() {
-      let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
-      setUserData(JSON.parse(firebaseUserData))
-    }
-    getUserData();
-  }, [])
+  const [groupName, setGroupName] = useState("");
 
   useEffect(() => {
     let { actions, groupData, chatData } = props;
     let dataOfGroup = chatData.find((item) => item.id == groupDataParam.id)
     setchatGroupData(dataOfGroup)
+    setGroupName(dataOfGroup.groupName)
     actions.getGroupParticipiants(dataOfGroup.participiants)
   }, [groupDataParam])
-
-  useEffect(() => {
-    setGroupList(props.participiantsList)
-  }, [props.participiantsList])
-
-  const handleDeleteConfirm = (deleteId) => {
-    setischecked(!ischecked)
-    setSelectedId(deleteId);
-  }
-
-  const handleRemoveUser = () => {
-    let { actions } = props;
-    actions.removeUserFromGroup(selectedId, chatGroupData.id, groupList, () => handleRemoveSuccess())
-  }
-
-  const handleRemoveSuccess = () => {
-    setischecked(!ischecked)
-  }
 
   const requestCamera = async () => {
     try {
@@ -132,7 +102,7 @@ const UserGroup = (props) => {
           console.log('URL', url);
           console.log('realFileName', realFileName);
           setchatGroupData({ ...chatGroupData, profile_picture: url })
-          updateGroupProfile(url)
+          // updateGroupProfile(url)
         })
       }
     );
@@ -143,82 +113,33 @@ const UserGroup = (props) => {
     }
   }
 
-  const updateGroupProfile = (url) => {
+  const updateGroupData = () => {
     let { actions } = props;
-    actions.updateGroupProfile(url, chatGroupData.id, () => groupProfileSuccess(url))
+    actions.updateGroupProfile(chatGroupData.profile_picture, groupName, chatGroupData.id, () => groupProfileSuccess())
   }
 
-  const groupProfileSuccess = (url) => {
-    setchatGroupData({ ...chatGroupData, profile_picture: url })
-  }
-
-  const Lonovo = ({ item, index }) => {
-    return (
-      <View style={styles.infoTouch} key={item.id}>
-        <View style={styles.infoMsg}>
-          <Image style={styles.maanImg}
-            source={item?.profile_picture ? { uri: item.profile_picture } : require('../../assect/images/default-user.png')} />
-          <View style={{ marginLeft: 12 }}>
-            <Text style={styles.wdWatson}>{item.id === userData.id ? "You" : item.first_name}</Text>
-            <Text style={styles.weNeed}>{item.about}</Text>
-          </View>
-        </View>
-        {
-          item.id !== userData.id && chatGroupData.admin === userData.id ? (
-            <TouchableOpacity
-              onPress={() => handleDeleteConfirm(item.id)}
-            >
-              <Image style={styles.bin}
-                source={Imagepath.RecycleBin} />
-            </TouchableOpacity>
-          ) : null
-        }
-      </View>
-    )
-  };
-  // const ChatList = (dataObj) => {
-  //   return (
-  //     <TouchableOpacity
-  //       // onPress={() => { props.navigation.navigate("Messeges") }}
-  //       style={styles.infoTouch}>
-
-  //       <Image
-  //         style={styles.maanImg}
-  //         source={dataObj.img} />
-  //       <View style={styles.infoMsg}>
-  //         <Text style={styles.wdWatson}>{dataObj.title}</Text>
-  //         <Text style={styles.weNeed}>{dataObj.description}</Text>
-  //       </View>
-  //     </TouchableOpacity>
-  //   )
-  // }
-
-  const handleAddParticipiants = () => {
-    props.navigation.navigate("AddParticipiants", { chatGroupData })
+  const groupProfileSuccess = () => {
+    props.navigation.navigate("Chat");
   }
 
   return (
     <View style={styles.container}>
-      {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-      {/* Header */}
       <View style={styles.upperView}>
         <View style={styles.editorsView}>
-          <TouchableOpacity onPress={() => { props.navigation.navigate("GroupMesseges", { chatGroupData }) }}>
+          <TouchableOpacity onPress={() => { props.navigation.navigate("UserGroup", { chatGroupData }) }}>
             <Image style={styles.preImg}
               source={Imagepath.previous} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => { props.navigation.navigate("UserGroupEdit", { chatGroupData }) }}
+            onPress={updateGroupData}
             style={styles.editView} >
-            <Image source={Imagepath.editor}
-              style={styles.editor} />
-            <Text style={styles.editTxt}>Edit</Text>
+            <Text style={styles.editTxt}>Done</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ alignItems: "center" }}>
+        <View style={{ alignItems: "center", marginTop: 50 }}>
           <Image style={styles.groupImg}
             source={chatGroupData?.profile_picture ? { uri: chatGroupData?.profile_picture } : Imagepath.group} />
-          {/* <TouchableOpacity
+          <TouchableOpacity
             onPress={() => setModalVisible(true)}
             style={styles.CameraButton}>
             <Image
@@ -226,79 +147,19 @@ const UserGroup = (props) => {
               source={Imagepath.camera}
               resizeMode="contain"
             />
-          </TouchableOpacity> */}
-
-          <Text style={styles.user}>{chatGroupData.groupName}</Text>
-          <Text style={styles.paticipants}>Group : {chatGroupData?.participiants?.length} Participants</Text>
-        </View>
-      </View>
-
-      {/* Add participiants */}
-      {/* <View style={styles.addGrpView}> */}
-      <View style={styles.addView}>
-        <View style={{ flexDirection: "row" }}>
-          <Image style={styles.persConnct}
-            source={Imagepath.personConnect} />
-          <TouchableOpacity
-            style={styles.memberView} onPress={handleAddParticipiants}>
-            <Text style={styles.addGrp}>
-              Add Group Members/Participants
-            </Text>
-            <Text style={styles.adminTxt}>
-              (it user have admin privileges)
-            </Text>
           </TouchableOpacity>
-        </View>
-        {/* <TouchableOpacity style={styles.searchIconBtn} onPress={() => setShowSearchIcon(true)}>
-          <Image style={styles.searchIcon}
-            source={Imagepath.search} />
-        </TouchableOpacity> */}
-      </View>
 
-      {/* </View> */}
-      {/* List of participiants */}
-      {/* <View style={styles.listMainView}>
-          {
-            data?.map((item, index) => {
-              return ChatList(item)
-            })
-          }
-        </View> */}
-      <View style={styles.upperSlctedImg}>
-        <FlatList
-          data={groupList}
-          renderItem={Lonovo}
-          keyExtractor={item => item.index}
-        />
-      </View>
-      {/* </ScrollView> */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={ischecked}
-        onRequestClose={() => {
-          setischecked(!ischecked);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Are You sure to Remove.</Text>
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => setischecked(!ischecked)}
-              >
-                <Text style={styles.textStyle}>No</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={handleRemoveUser}
-              >
-                <Text style={styles.textStyle}>Yes</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
         </View>
-      </Modal>
+        <View style={{ marginTop: 30 }}>
+          <TextInput
+            style={styles.input}
+            placeholder="Group Name"
+            underlineColorAndroid="transparent"
+            onChangeText={setGroupName}
+            value={groupName}
+          />
+        </View>
+      </View>
 
       <Modal
         animationType="slide"
@@ -365,5 +226,5 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserGroup)
+export default connect(mapStateToProps, mapDispatchToProps)(UserGroupEdit)
 // export default UserGroup;

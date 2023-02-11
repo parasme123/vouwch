@@ -23,8 +23,10 @@ const Chat = (props) => {
 
   useEffect(() => {
     const { actions, userData } = props;
-    actions.chatList(userData);
-    actions.groupList(userData);
+    if (isFocused) {
+      actions.chatList(setloaderVisible);
+      // actions.groupList(userData);
+    }
   }, [isFocused])
 
   useEffect(() => {
@@ -99,8 +101,8 @@ const Chat = (props) => {
   const handleSearch = (e) => {
     setSearchVal(e);
     let { groupData, chatData } = props;
-    setGroupList(groupData.filter((item) => item.groupName.toLowerCase().includes(e.toLowerCase())))
-    setUserList(chatData.filter((item) => item.first_name.toLowerCase().includes(e.toLowerCase())))
+    // setGroupList(groupData.filter((item) => item.groupName.toLowerCase().includes(e.toLowerCase())))
+    setUserList(chatData.filter((item) => item?.first_name?.toLowerCase()?.includes(e?.toLowerCase()) || item?.groupName?.toLowerCase()?.includes(e?.toLowerCase())))
   }
 
   const confirmClearChat = () => {

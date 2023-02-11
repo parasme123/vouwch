@@ -36,7 +36,7 @@ const GroupMessage = (props) => {
     useEffect(() => {
         if (messagesList?.length > 0) {
             let readMessageList = messagesList.map((item) => {
-                if (item.sendBy !== userData.id && !item.isRead.includes(userData.id)) {
+                if (item?.sendBy !== userData.id && !item?.isRead?.includes(userData.id)) {
                     return { ...item, isRead: [...item.isRead, userData.id] }
                 } else {
                     return { ...item }
@@ -52,9 +52,9 @@ const GroupMessage = (props) => {
     }
 
     useEffect(() => {
-        const { actions, groupData } = props;
+        const { actions, groupData, chatData } = props;
         setMessageList([]);
-        setchatGroupData(groupData.find((item) => item.id == groupDataParam.id))
+        setchatGroupData(chatData.find((item) => item.id == groupDataParam.id))
         let chatWithId = groupDataParam.id;
         actions.groupMessageList(chatWithId, setloaderVisible)
     }, [groupDataParam])
@@ -282,7 +282,7 @@ const GroupMessage = (props) => {
         let { actions, messageUserList } = props;
         let apiData = {
             createdAt: new Date(),
-            isRead: false,
+            isRead: [userData.id],
             messageId: messagesList.length + 1,
             sendBy: userData.id,
             isFile: true,
@@ -296,7 +296,7 @@ const GroupMessage = (props) => {
         let apiData = {
             createdAt: new Date(),
             isRead: [userData.id],
-            messageId: messagesList[messagesList.length - 1].messageId + 1,
+            messageId: messagesList.length > 0 ? messagesList[messagesList.length - 1].messageId + 1 : 1,
             sendBy: userData.id,
             isFile: false,
             textMsg: typeTxt
@@ -378,12 +378,12 @@ const GroupMessage = (props) => {
                     value={typeTxt}
                 />
                 <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity style={styles.selectFilesBtn}>
+                    <TouchableOpacity style={styles.selectFilesBtn} onPress={() => setModalVisible(true)}>
                         <Image source={Imagepath.chain} style={styles.imageStyle} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.cameraBtn} onPress={() => setModalVisible(true)}>
+                    {/* <TouchableOpacity style={styles.cameraBtn}>
                         <Image source={Imagepath.clickcamera} style={styles.imageStyle} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <TouchableOpacity style={styles.sendBtn} onPress={handleSendMsg}>
                     <Image source={Imagepath.sendImg} style={styles.sendBtnImg} />
@@ -441,6 +441,7 @@ const GroupMessage = (props) => {
 const mapStateToProps = state => ({
     messageUserList: state?.firebaseData?.messageUserList,
     groupData: state?.firebaseData?.groupData,
+    chatData: state?.firebaseData?.chatData,
 });
 
 const ActionCreators = Object.assign(

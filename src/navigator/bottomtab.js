@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Text
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
@@ -20,6 +21,7 @@ import { Constants, AsyncStorageHelper, Helper } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PostUserProfile, getFollowData } from '../reduxStore/action/doctorAction';
+import { unreadMessages } from '../reduxStore/action/firebaseActions';
 import menu from '../screen/setting/menu';
 import profile from '../screen/setting/profile';
 import NotifyMsg from '../screen/NotifyMsg/NotifyMsg';
@@ -27,9 +29,30 @@ import NotifyMsg from '../screen/NotifyMsg/NotifyMsg';
 export const Bottomtab = props => {
   const [userData, setuserRcord] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [allUnreadMessage, setAllUnreadMessage] = useState(0);
   const isFocused = useIsFocused();
+
+  useEffect(() => {
+    let { allChatMessages } = props;
+    // console.log("allChatMessages", allChatMessages);
+    async function unreadFilter() {
+      let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+      let userData = JSON.parse(firebaseUserData);
+      let setMsgArr = [];
+      allChatMessages.map((item) => {
+        setMsgArr = [...setMsgArr, ...item.message]
+      })
+      let unreadMsgArr = setMsgArr.filter(item => item.sendBy != userData.id && !item?.isRead)
+      setAllUnreadMessage(unreadMsgArr.length)
+    }
+    unreadFilter()
+    // console.log("setMsgArr", setMsgArr);
+  }, [props.allChatMessages])
+
   useEffect(() => {
     if (isFocused) {
+      let { actions } = props;
+      actions.unreadMessages();
       AsyncStorageHelper.getData(Constants.USER_DATA).then(value => {
         if (value !== null) {
           setuserRcord(value);
@@ -79,6 +102,11 @@ export const Bottomtab = props => {
           }}
           source={icon}
         />
+        {
+          allUnreadMessage > 0 && (routeName == "Chat" || routeName == "NotifyMsg") ? (
+            <Text style={{ backgroundColor: "red", position: "absolute", top: -8, right: -6, fontSize: 8, paddingHorizontal: 6, paddingVertical: 4, borderRadius: 8, color: "white" }}>{allUnreadMessage}</Text>
+          ) : null
+        }
       </View>
     );
   };
@@ -173,7 +201,7 @@ export const Bottomtab = props => {
           name="NotifyMsg"
           position="LEFT"
           options={{ headerShown: false }}
-          component={Notification}
+          component={NotifyMsg}
         />
 
         <CurvedBottomBar.Screen
@@ -329,11 +357,13 @@ export const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   setData: state.doctor.setData,
+  allChatMessages: state.firebaseData.allChatMessages,
 });
 
 const ActionCreators = Object.assign(
   { PostUserProfile },
-  { getFollowData }
+  { getFollowData },
+  { unreadMessages }
 );
 
 const mapDispatchToProps = dispatch => ({

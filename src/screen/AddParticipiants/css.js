@@ -130,6 +130,16 @@ const styles = StyleSheet.create({
         marginTop: 6,
         color: Colors.black,
         fontSize: 12
-    }
+    },
+    input: {
+        flex: 1,
+        height: 35,
+        fontSize: Fontsize.fontTwelve,
+        color: Colors.black,
+        fontFamily: Fonts.ProximaNovaMedium,
+        marginLeft: 12,
+        borderWidth: 0.4,
+        borderRadius: 10
+    },
 })
 export default styles;  

@@ -1,4 +1,4 @@
-import { USERDATA, CHATLIST, ALL_MESSAGE, ALLUSERLIST, GROUPLIST, ALLADDEDUSERLIST, ALLPARTICIPIANTSLIST } from './firebaseTypes';
+import { USERDATA, CHATLIST, ALL_MESSAGE, ALLUSERLIST, GROUPLIST, ALLADDEDUSERLIST, ALLPARTICIPIANTSLIST, SAVEALLCHATMESSAGE } from './firebaseTypes';
 import Toast from 'react-native-simple-toast';
 import * as URL from './webApiUrl';
 import { Constants, AsyncStorageHelper } from "@lib";
@@ -135,8 +135,9 @@ export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => 
           Toast.show("Something went wrong", Toast.LONG);
         })
       } else {
+        dispatch(messageList(chatWithId, setloaderVisible))
         callBack()
-        setloaderVisible(false)
+        // setloaderVisible(false)
       }
     })
     // if (empty(querySnapshot)) {
@@ -169,6 +170,48 @@ export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => 
   }
 }
 
+export const unreadMessages = () => {
+  return async dispatch => {
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    if (firebaseUserData) {
+      let userData = JSON.parse(firebaseUserData);
+      const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id);
+      querySnapshot.get().then(snapshot => {
+        var userChatList = []
+        if (snapshot?.docs?.length > 0) {
+          snapshot.docs.forEach(doc => {
+            messageCollection.where("group", "==", doc.id).get().then(snapshot1 => {
+              snapshot1.docs.forEach(doc1 => {
+                if (doc.data().isGroup) {
+                  userChatList.push({ ...doc1.data(), id: doc1.id, groupId: doc.id })
+                } else {
+                  let participiantsID = doc.data().participiants.filter(item => item != userData.id)
+                  userChatList.push({ ...doc1.data(), id: doc1.id, userId: participiantsID[0] })
+                }
+              })
+              setTimeout(() => {
+                dispatch(saveAllMessageList(userChatList));
+              }, 5000);
+            })
+          })
+        } else {
+          dispatch(saveAllMessageList(userChatList));
+        }
+      }).catch(err => {
+        console.log('chatList', err);
+        Toast.show("Something Went wrong", Toast.LONG);
+      });
+    }
+  }
+}
+
+export const saveAllMessageList = (data) => {
+  return ({
+    type: SAVEALLCHATMESSAGE,
+    payload: data
+  })
+}
+
 export const chatList = () => {
   return async dispatch => {
     let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
@@ -177,7 +220,6 @@ export const chatList = () => {
       const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id);
       querySnapshot.get().then(snapshot => {
         var userChatList = []
-        console.log("snapshot?.docs", snapshot?.docs);
         if (snapshot?.docs?.length > 0) {
           snapshot.docs.forEach(doc => {
             if (doc.data().isGroup) {
@@ -187,12 +229,12 @@ export const chatList = () => {
                 snapshot1.docs.forEach(doc1 => {
                   userChatList.push({ ...doc1.data(), id: doc1.id })
                 })
+                setTimeout(() => {
+                  dispatch(saveUserChatList(userChatList))
+                }, 2000);
               })
             }
           })
-          setTimeout(() => {
-            dispatch(saveUserChatList(userChatList));
-          }, 2000);
         } else {
           dispatch(saveUserChatList(userChatList));
         }
@@ -243,21 +285,21 @@ export const messageList = (chatWithId, setloaderVisible) => {
   return async dispatch => {
     setloaderVisible(true);
     let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
-    let roomRef;
     if (firebaseUserData) {
       let userData = JSON.parse(firebaseUserData);
       // console.log("[userData.id, chatWithId]", [userData.id, chatWithId]);
       const querySnapshot = groupCollection.where("participiants", "array-contains", chatWithId && userData.id).where("isGroup", "==", false);
       querySnapshot.get().then(snapshot => {
-        // console.log("snapshot.docs", snapshot.docs);
         snapshot.docs.forEach(doc => {
-          roomRef = doc.id
-          messageCollection.where("group", "==", doc.id).limit(1).get().then(snapshotMsg => {
-            snapshotMsg.forEach(docMsg => {
-              // console.log("snapshotMsg.docs", docMsg.id);
-              dispatch(saveMessagesList({ ...docMsg.data(), messageCollectionId: docMsg.id }));
+          // console.log("doc", doc.data());
+          if (doc.data().participiants.includes(userData.id) && doc.data().participiants.includes(chatWithId)) {
+            messageCollection.where("group", "==", doc.id).limit(1).get().then(snapshotMsg => {
+              snapshotMsg.forEach(docMsg => {
+                // console.log("snapshotMsg.docs", docMsg.id);
+                dispatch(saveMessagesList({ ...docMsg.data(), messageCollectionId: docMsg.id }));
+              })
             })
-          })
+          }
         })
         setloaderVisible(false);
         // dispatch(saveUserChatList(userChatList));
@@ -311,6 +353,51 @@ export const addMessage = (data, chatWithId, collectionId, setloaderVisible, isG
   }
 };
 
+export const forwardMessage = (data, chatWithId, setloaderVisible, isGroup = false) => {
+  return async dispatch => {
+    setloaderVisible(true);
+    let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+    if (firebaseUserData) {
+      let userData = JSON.parse(firebaseUserData);
+      // console.log("[userData.id, chatWithId]", [userData.id, chatWithId]);
+      const querySnapshot = groupCollection.where("participiants", "array-contains", chatWithId && userData.id).where("isGroup", "==", isGroup);
+      querySnapshot.get().then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          // console.log("doc", doc.data());
+          if (doc.data().participiants.includes(userData.id) && doc.data().participiants.includes(chatWithId)) {
+            messageCollection.where("group", "==", doc.id).limit(1).get().then(snapshotMsg => {
+              snapshotMsg.forEach(docMsg => {
+                // console.log("snapshotMsg.docs", docMsg.id);
+                // dispatch(saveMessagesList({ ...docMsg.data(), messageCollectionId: docMsg.id }));
+                let messagesList = docMsg.data().message;
+                data.messageId = messagesList.length > 0 ? messagesList[messagesList.length - 1].messageId + 1 : 1
+                messageCollection.doc(docMsg.id).update({
+                  message: firestore.FieldValue.arrayUnion(data)
+                }).then(() => {
+                  if (isGroup) {
+                    dispatch(groupMessageList(chatWithId, setloaderVisible))
+                  } else {
+                    dispatch(messageList(chatWithId, setloaderVisible))
+                  }
+                  // callBack()
+                }).catch((error) => {
+                  console.log("addMessage", error);
+                  Toast.show("Something Went wrong", Toast.LONG);
+                });
+              })
+            })
+          }
+        })
+        setloaderVisible(false);
+        // dispatch(saveUserChatList(userChatList));
+      }).catch(err => {
+        console.log('messageList', err);
+        Toast.show("Something Went wrong", Toast.LONG);
+      });
+    }
+  }
+};
+
 export const deleteMessage = (data, chatWithId, collectionId, setloaderVisible, isGroup = false) => {
   return async dispatch => {
     setloaderVisible(true)
@@ -334,6 +421,8 @@ export const setReadMsg = (data, collectionId) => {
   return async dispatch => {
     await messageCollection.doc(collectionId).update({
       message: data
+    }).then(() => {
+      dispatch(unreadMessages())
     })
   }
 };
@@ -459,7 +548,7 @@ export const removeUserFromGroup = (userId, groupId, participiantsList, callBack
         participiants: firestore.FieldValue.arrayRemove(userId)
       }).then(data => {
         dispatch(saveParticipiantsList(participiantsList.filter((item) => item.id != userId)));
-        dispatch(groupList());
+        dispatch(chatList());
         callBack()
       }).catch(err => {
         callBack()
@@ -474,10 +563,10 @@ export const removeUserFromGroup = (userId, groupId, participiantsList, callBack
 
 }
 
-export const updateGroupProfile = (profile_picture, groupId, callBack) => {
+export const updateGroupProfile = (profile_picture, groupName, groupId, callBack) => {
   return async dispatch => {
-    groupCollection.doc(groupId).update({ profile_picture }).then((response) => {
-      dispatch(groupList());
+    groupCollection.doc(groupId).update({ profile_picture, groupName }).then((response) => {
+      // dispatch(chatList());
       callBack()
     }).catch((error) => {
       console.log("firebaseRegister", error)
@@ -591,7 +680,7 @@ export const addParticipiants = (participiants, groupData, setloaderVisible, cal
         })
       })
     })
-    dispatch(groupList())
+    dispatch(chatList())
     setloaderVisible(false)
     callBack();
     Toast.show("Participiants Added Successfully", Toast.LONG);

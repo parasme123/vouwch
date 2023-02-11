@@ -1,4 +1,4 @@
-import { USERDATA, CHATLIST, ALL_MESSAGE, ALLUSERLIST, GROUPLIST, ALLADDEDUSERLIST, ALLPARTICIPIANTSLIST } from '../action/firebaseTypes';
+import { USERDATA, CHATLIST, ALL_MESSAGE, ALLUSERLIST, GROUPLIST, ALLADDEDUSERLIST, ALLPARTICIPIANTSLIST, SAVEALLCHATMESSAGE } from '../action/firebaseTypes';
 
 const initialState = {
   userData: {},
@@ -7,7 +7,8 @@ const initialState = {
   allUsers: [],
   messageUserList: {},
   addedUserList: [],
-  participiantsList: []
+  participiantsList: [],
+  allChatMessages: []
 };
 
 const FirebaseReducer = (state = initialState, action) => {
@@ -27,6 +28,8 @@ const FirebaseReducer = (state = initialState, action) => {
       return { ...state, addedUserList: action.payload };
     case ALLPARTICIPIANTSLIST:
       return { ...state, participiantsList: action.payload };
+    case SAVEALLCHATMESSAGE:
+      return { ...state, allChatMessages: action.payload };
     default:
       return state;
   }

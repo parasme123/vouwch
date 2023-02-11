@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, Image, Text, ScrollView, SafeAreaView, FlatList, } from 'react-native';
+import { TouchableOpacity, View, Image, Text, ScrollView, SafeAreaView, FlatList, TextInput } from 'react-native';
 import Imagepath from '../../common/imagepath';
 import styles from './css';
 import { connect } from 'react-redux';
@@ -13,10 +13,12 @@ const AddParticipans = (props) => {
     const [firebaseUsersList, setFirebaseUsersList] = useState([]);
     const [chatGroupData, setchatGroupData] = useState({})
     const [loaderVisible, setloaderVisible] = useState(false);
+    const [showSearchBox, setShowSearchBox] = useState(false);
+    const [searchVal, setSearchVal] = useState("");
 
     useEffect(() => {
-        let { actions, groupData } = props;
-        let dataOfGroup = groupData.find((item) => item.id == groupDataParam.id)
+        let { actions, groupData, chatData } = props;
+        let dataOfGroup = chatData.find((item) => item.id == groupDataParam.id)
         setchatGroupData(dataOfGroup)
         // actions.getGroupParticipiants(dataOfGroup.participiants)
     }, [groupDataParam])
@@ -81,23 +83,45 @@ const AddParticipans = (props) => {
         )
     };
 
+    const handleSearch = (e) => {
+        setSearchVal(e);
+        let { allUsers } = props;
+        setFirebaseUsersList(allUsers.filter((item) => item?.first_name?.toLowerCase()?.includes(e?.toLowerCase())))
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.upperView}>
                 <View style={styles.TouchView}>
-                    <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                    <TouchableOpacity onPress={showSearchBox ? () => setShowSearchBox(false) : () => props.navigation.goBack()}>
                         <Image style={styles.preImg}
                             source={Imagepath.previous} />
                     </TouchableOpacity>
-                    <View style={styles.newgrpVw}>
-                        <Text style={styles.newgrpTxt}>{chatGroupData.groupName}</Text>
-                        <Text style={styles.addparticipantsTxt}>Add Participants</Text>
-                    </View>
+                    {
+                        showSearchBox ? (
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Staff Directory | Name | City State"
+                                underlineColorAndroid="transparent"
+                                onChangeText={handleSearch}
+                                value={searchVal}
+                            />
+                        ) : (
+                            <View style={styles.newgrpVw}>
+                                <Text style={styles.newgrpTxt}>{chatGroupData.groupName}</Text>
+                                <Text style={styles.addparticipantsTxt}>Add Participants</Text>
+                            </View>
+                        )
+                    }
                 </View>
-                <TouchableOpacity>
-                    <Image style={styles.imgSearchBtn}
-                        source={Imagepath.magnifier} />
-                </TouchableOpacity>
+                {
+                    !showSearchBox ? (
+                        <TouchableOpacity onPress={() => setShowSearchBox(true)}>
+                            <Image style={styles.imgSearchBtn}
+                                source={Imagepath.magnifier} />
+                        </TouchableOpacity>
+                    ) : null
+                }
             </View>
             <View style={styles.upperSlctedImg}>
                 <FlatList
@@ -132,13 +156,14 @@ const AddParticipans = (props) => {
                 ) : null
             }
             <CustomLoader loaderVisible={loaderVisible} />
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
 const mapStateToProps = state => ({
     allUsers: state?.firebaseData?.allUsers,
     groupData: state?.firebaseData?.groupData,
+    chatData: state?.firebaseData?.chatData,
 });
 
 const ActionCreators = Object.assign(

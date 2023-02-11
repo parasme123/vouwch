@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     containerRight: {
         paddingHorizontal: 6,
         paddingVertical: 10,
-        flexDirection: "row",
-        justifyContent: "flex-end",
+        // flexDirection: "row",
+        // justifyContent: "flex-end",
     },
     containerLeft: {
         paddingHorizontal: 6,
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     readView: {
         flexDirection: "row",
         marginLeft: 12,
-        alignItems:"center"
+        alignItems: "center"
     },
     readImg: {
         height: 16,
@@ -337,6 +337,14 @@ const styles = StyleSheet.create({
         height: 180,
         width: 180,
         borderRadius: 10
+    },
+    replyMsgView: {
+        marginHorizontal: 24,
+        backgroundColor: Colors.appcolor,
+        padding: 6,
+        borderRadius: 12,
+        flexDirection: "row",
+        alignItems: "center"
     }
 })
 
