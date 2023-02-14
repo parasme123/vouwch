@@ -243,14 +243,14 @@ const styles = StyleSheet.create({
         marginVertical: 6,
     },
     updateView: {
-        justifyContent: "center",
-        alignItems: "center",
         marginRight: 10,
-        marginTop: 10
+        backgroundColor: "red",
+        paddingHorizontal: 4,
+        borderRadius:4
     },
     timeShowTxt: {
         fontSize: Fontsize.fontTwelve,
-        color: Colors.black,
+        color: Colors.white,
         fontFamily: Fonts.ProximaNovaRegular
     },
     readStatus: {

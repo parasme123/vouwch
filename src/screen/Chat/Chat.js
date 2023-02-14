@@ -20,6 +20,7 @@ const Chat = (props) => {
   const [deleteChatConfirm, setDeleteChatConfirm] = useState(false);
   const [showPopover, setShowPopover] = useState(false);
   const [loaderVisible, setloaderVisible] = useState(false);
+  const [asyncUserData, setAsyncUserData] = useState({});
 
   useEffect(() => {
     const { actions, userData } = props;
@@ -30,6 +31,11 @@ const Chat = (props) => {
   }, [isFocused])
 
   useEffect(() => {
+    async function unreadFilter() {
+      let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
+      setAsyncUserData(JSON.parse(firebaseUserData))
+    }
+    unreadFilter()
     setUserList(props.chatData)
   }, [props.chatData])
 
@@ -50,6 +56,11 @@ const Chat = (props) => {
   }
 
   const MsgList = (msgObj) => {
+    let { allChatMessages } = props;
+    // console.log("allChatMessages", allChatMessages);
+    let setMsgArr = allChatMessages.find((item) => item?.userId == msgObj.id || item?.groupId == msgObj.id)
+    // let createdDate = setMsgArr?.message[setMsgArr?.message?.length - 1]?.createdAt?.toDate();
+    let unreadMsgArr = setMsgArr?.message?.filter(item => item.sendBy != asyncUserData.id && !item?.isRead)
     return (
       <View style={{ backgroundColor: Colors.white }} key={msgObj.id}>
         <TouchableOpacity style={styles.infoTouch}
@@ -64,6 +75,13 @@ const Chat = (props) => {
             </View>
 
           </View>
+          {
+            unreadMsgArr?.length ? (
+              <View style={styles.updateView}>
+                <Text style={styles.timeShowTxt}>{unreadMsgArr?.length}</Text>
+              </View>
+            ) : null
+          }
           {/* <View style={styles.updateView}>
             <Text style={styles.timeShowTxt}>{msgObj.time}</Text>
             <Image style={styles.readStatus}
@@ -296,6 +314,7 @@ const mapStateToProps = state => ({
   userData: state?.firebaseData?.userData,
   groupData: state?.firebaseData?.groupData,
   chatData: state?.firebaseData?.chatData,
+  allChatMessages: state.firebaseData.allChatMessages,
 });
 
 const ActionCreators = Object.assign(

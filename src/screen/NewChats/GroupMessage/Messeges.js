@@ -4,17 +4,21 @@ import Imagepath from '../../../common/imagepath';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { groupMessageList, addMessage, deleteMessage, setReadMsg } from '../../../reduxStore/action/firebaseActions';
+import { groupMessageList, addMessage, deleteMessage, setReadMsg, forwardMessage, saveMessagesList, getUserData } from '../../../reduxStore/action/firebaseActions';
 import { CustomLoader, AsyncStorageHelper } from "@lib";
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import { Colors, Fontsize, Fonts, } from "@common";
 import moment from "moment";
 import Popover, { PopoverPlacement } from 'react-native-popover-view';
+import { useIsFocused } from '@react-navigation/native';
 
 const GroupMessage = (props) => {
     let groupDataParam = props?.route?.params?.chatGroupData;
+    let forwardMesssage = props?.route?.params?.forwardMesssage;
     const flatListRef = useRef();
+    const inputTextRef = useRef();
+    const isFocused = useIsFocused();
 
     const [modalVisible, setModalVisible] = useState(false);
     const [messagesList, setMessageList] = useState([])
@@ -24,6 +28,8 @@ const GroupMessage = (props) => {
     const [chatGroupData, setchatGroupData] = useState({})
     const [showPopover, setShowPopover] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState("")
+    const [isReply, setIsReply] = useState(false)
+    const [replyMsg, setReplyMsg] = useState({})
 
     useEffect(() => {
         async function getUserData() {
@@ -34,7 +40,14 @@ const GroupMessage = (props) => {
     }, [])
 
     useEffect(() => {
-        if (messagesList?.length > 0) {
+        if (forwardMesssage?.textMsg) {
+            console.log("forwardMesssage?.textMsg", forwardMesssage?.textMsg);
+            // handleForwardMsg(forwardMesssage?.textMsg);
+        }
+    }, [forwardMesssage])
+
+    useEffect(() => {
+        if (messagesList?.length > 0 && isFocused) {
             let readMessageList = messagesList.map((item) => {
                 if (item?.sendBy !== userData.id && !item?.isRead?.includes(userData.id)) {
                     return { ...item, isRead: [...item.isRead, userData.id] }
@@ -63,7 +76,21 @@ const GroupMessage = (props) => {
         const { messageUserList } = props;
         setMessageList(messageUserList?.message?.length ? messageUserList?.message : []);
         setTypeText("")
+        setIsReply(false)
     }, [props.messageUserList])
+
+    const handleForwardMessage = (msgObj) => {
+        props.navigation.navigate("NewChat", { forwardMesssage: msgObj })
+    }
+
+    const handlePrivateMsg = (msgObj) => {
+        props.actions.getUserData(msgObj.sendBy, (res) => handleSingleChat(res))
+    }
+
+    const handleSingleChat = (userDataPrivately) => {
+        props.actions.saveMessagesList({})
+        props.navigation.navigate("Messeges", { chatUserData: userDataPrivately })
+    }
 
     const MsgList = ({ item }) => {
         let msgObj = item;
@@ -73,54 +100,73 @@ const GroupMessage = (props) => {
                 {
                     msgObj.sendBy == userData.id ? (
                         <View style={styles.containerRight}>
-                            <View style={styles.readView}>
-                                <Image style={msgObj?.isRead?.length >= chatGroupData?.participiants?.length ? styles.readImg : styles.unreadImg}
-                                    source={Imagepath.read} />
-                                <Text style={styles.sndTime}>{moment(createdDate).format('hh:mm a')}</Text>
-                            </View>
-                            <View style={styles.talkBubbleRight}>
-                                <Popover
-                                    isVisible={showPopover && selectedMessage == msgObj.messageId}
-                                    onRequestClose={() => setShowPopover(false)}
-                                    popoverStyle={styles.popoverCss}
-                                    backgroundStyle={{ opacity: 0.001, }}
-                                    // arrowSize={{ width: 30, height: 20, }}
-                                    // arrowShift={-0.9}
-                                    placement={PopoverPlacement.BOTTOM}
-                                    animationConfig={{ duration: 200, easing: Easing.circle }}
-                                    from={(
-                                        <TouchableOpacity onPress={() => {
-                                            setShowPopover(true)
-                                            setSelectedMessage(msgObj.messageId)
-                                        }}>
-                                            <Image style={[styles.dotsImg, { tintColor: "white" }]}
-                                                source={Imagepath.threeDotsHorizontal} />
-                                        </TouchableOpacity>
-                                    )}>
-                                    <View style={styles.buttonView}>
-                                        <TouchableOpacity style={styles.replayView} onPress={() => {
-                                            Clipboard.setString(msgObj.textMsg);
-                                            setShowPopover(false);
-                                        }}>
-                                            <Image source={Imagepath.coppyy} style={styles.replayImg} />
-                                            <Text style={styles.replayTxt}>Copy</Text>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity style={styles.replayView} onPress={() => handleDeleteMsg(msgObj)}>
-                                            <Image source={Imagepath.bin} style={styles.replayImg} />
-                                            <Text style={styles.replayTxt}>Delete</Text>
-                                        </TouchableOpacity>
+                            {
+                                msgObj?.replyOf ? (
+                                    <View style={{ backgroundColor: "#7575FF", maxWidth: "80%", flex: 1, alignSelf: "flex-end", paddingHorizontal: 12, paddingVertical: 6, borderRadius: 5 }}>
+                                        <Text numberOfLines={1} style={{ flex: 1, color: "white" }}>{msgObj.replyOfMessage}</Text>
                                     </View>
+                                ) : null
+                            }
+                            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                                <View style={styles.readView}>
+                                    <Image style={msgObj?.isRead?.length >= chatGroupData?.participiants?.length ? styles.readImg : styles.unreadImg}
+                                        source={Imagepath.read} />
+                                    <Text style={styles.sndTime}>{moment(createdDate).format('hh:mm a')}</Text>
+                                </View>
+                                <View style={styles.talkBubbleRight}>
+                                    <Popover
+                                        isVisible={showPopover && selectedMessage == msgObj.messageId}
+                                        onRequestClose={() => setShowPopover(false)}
+                                        popoverStyle={styles.popoverCss}
+                                        backgroundStyle={{ opacity: 0.001, }}
+                                        // arrowSize={{ width: 30, height: 20, }}
+                                        // arrowShift={-0.9}
+                                        placement={PopoverPlacement.BOTTOM}
+                                        animationConfig={{ duration: 200, easing: Easing.circle }}
+                                        from={(
+                                            <TouchableOpacity onPress={() => {
+                                                setShowPopover(true)
+                                                setSelectedMessage(msgObj.messageId)
+                                            }}>
+                                                <Image style={[styles.dotsImg, { tintColor: "white" }]}
+                                                    source={Imagepath.threeDotsHorizontal} />
+                                            </TouchableOpacity>
+                                        )}>
+                                        <View style={styles.buttonView}>
+                                            <TouchableOpacity style={styles.replayView} onPress={() => handleReply(msgObj.messageId)}>
+                                                <Image source={Imagepath.curvedBack} style={styles.replayImg} />
+                                                <Text style={styles.replayTxt}>Reply</Text>
+                                            </TouchableOpacity>
 
-                                </Popover>
-                                {
-                                    msgObj?.isFile ? (
-                                        <Image style={styles.chatImage} source={{ uri: msgObj.textMsg }} />
-                                    ) : (
-                                        <Text style={styles.IpsumTxt}>{msgObj.textMsg}</Text>
-                                    )
-                                }
-                                <View style={styles.talkBubbleTriangleRight} />
+                                            <TouchableOpacity style={styles.replayView} onPress={() => handleForwardMessage(msgObj)}>
+                                                <Image source={Imagepath.forworrdd} style={styles.replayImg} />
+                                                <Text style={styles.replayTxt}>Forward</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity style={styles.replayView} onPress={() => {
+                                                Clipboard.setString(msgObj.textMsg);
+                                                setShowPopover(false);
+                                            }}>
+                                                <Image source={Imagepath.coppyy} style={styles.replayImg} />
+                                                <Text style={styles.replayTxt}>Copy</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity style={styles.replayView} onPress={() => handleDeleteMsg(msgObj)}>
+                                                <Image source={Imagepath.bin} style={styles.replayImg} />
+                                                <Text style={styles.replayTxt}>Delete</Text>
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    </Popover>
+                                    {
+                                        msgObj?.isFile ? (
+                                            <Image style={styles.chatImage} source={{ uri: msgObj.textMsg }} />
+                                        ) : (
+                                            <Text style={styles.IpsumTxt}>{msgObj.textMsg}</Text>
+                                        )
+                                    }
+                                    <View style={styles.talkBubbleTriangleRight} />
+                                </View>
                             </View>
                         </View>
                     ) : (
@@ -145,6 +191,15 @@ const GroupMessage = (props) => {
                                         </TouchableOpacity>
                                     )}>
                                     <View style={styles.buttonView}>
+                                        <TouchableOpacity style={styles.replayView} onPress={() => handleReply(msgObj.messageId)}>
+                                            <Image source={Imagepath.curvedBack} style={styles.replayImg} />
+                                            <Text style={styles.replayTxt}>Reply</Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity style={styles.replayView} onPress={() => handleForwardMessage(msgObj)}>
+                                            <Image source={Imagepath.forworrdd} style={styles.replayImg} />
+                                            <Text style={styles.replayTxt}>Forward</Text>
+                                        </TouchableOpacity>
                                         <TouchableOpacity style={styles.replayView} onPress={() => {
                                             Clipboard.setString(msgObj.textMsg);
                                             setShowPopover(false);
@@ -156,6 +211,10 @@ const GroupMessage = (props) => {
                                         <TouchableOpacity style={styles.replayView} onPress={() => handleDeleteMsg(msgObj)}>
                                             <Image source={Imagepath.bin} style={styles.replayImg} />
                                             <Text style={styles.replayTxt}>Delete</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.replayView} onPress={() => handlePrivateMsg(msgObj)}>
+                                            <Image source={Imagepath.bin} style={styles.replayImg} />
+                                            <Text style={styles.replayTxt}>Privately Message</Text>
                                         </TouchableOpacity>
                                     </View>
 
@@ -301,6 +360,10 @@ const GroupMessage = (props) => {
             isFile: false,
             textMsg: typeTxt
         }
+        if (isReply) {
+            apiData['replyOf'] = replyMsg.messageId;
+            apiData['replyOfMessage'] = replyMsg.textMsg;
+        }
         // let newMsgList = [...messagesList, apiData];
         // console.log("newMsgList", newMsgList);
         // setMessageList(newMsgList);
@@ -315,6 +378,13 @@ const GroupMessage = (props) => {
         setShowPopover(false);
         actions.deleteMessage(msgObj, chatGroupData.id, messageUserList.messageCollectionId, setloaderVisible, true);
         console.log("msgObj", msgObj);
+    }
+
+    const handleReply = (msgID) => {
+        setIsReply(true);
+        setReplyMsg(messagesList.find(item => item.messageId == msgID))
+        setShowPopover(false);
+        inputTextRef.current.focus()
     }
 
     return (
@@ -368,8 +438,25 @@ const GroupMessage = (props) => {
                 }
             </ScrollView> */}
             {/* <View style={{ height: 10 }}></View> */}
+            {
+                isReply ? (
+                    <View style={styles.replyMsgView}>
+                        <Text numberOfLines={1} style={{ flex: 1, color: "white" }}>{replyMsg.textMsg}</Text>
+                        <TouchableOpacity onPress={() => {
+                            setIsReply(false)
+                        }}>
+                            <Image
+                                style={[styles.CancleArrow1, { tintColor: Colors.white }]}
+                                source={Imagepath.crose}
+                                resizeMode="contain"
+                            />
+                        </TouchableOpacity>
+                    </View>
+                ) : null
+            }
             <View style={styles.sectionStyle}>
                 <TextInput
+                    ref={inputTextRef}
                     style={styles.msgText}
                     placeholder="Type..."
                     keyboardType='email-address'
@@ -448,7 +535,9 @@ const ActionCreators = Object.assign(
     { groupMessageList },
     { addMessage },
     { deleteMessage },
-    { setReadMsg }
+    { setReadMsg },
+    { saveMessagesList },
+    { getUserData }
 );
 
 const mapDispatchToProps = dispatch => ({

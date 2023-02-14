@@ -20,7 +20,7 @@ import Menu from '../screen/setting/menu';
 import { Constants, AsyncStorageHelper, Helper } from '@lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { PostUserProfile, getFollowData } from '../reduxStore/action/doctorAction';
+import { PostUserProfile, getFollowData, handelNotification } from '../reduxStore/action/doctorAction';
 import { unreadMessages } from '../reduxStore/action/firebaseActions';
 import menu from '../screen/setting/menu';
 import profile from '../screen/setting/profile';
@@ -30,7 +30,23 @@ export const Bottomtab = props => {
   const [userData, setuserRcord] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [allUnreadMessage, setAllUnreadMessage] = useState(0);
+  const [allNotificationCount, setAllNotificationCount] = useState(0);
   const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (props?.allNotification?.notifcationDta?.user_type == 1) {
+      let msgReplyNoti = props?.allNotification?.notifcationDta?.get_msg_reply?.length;
+      let commentReply = props?.allNotification?.notifcationDta?.get_commant_reply?.length;
+      let totalNotification = (msgReplyNoti ? msgReplyNoti : 0) + (commentReply ? commentReply : 0)
+      setAllNotificationCount(totalNotification)
+    } else {
+      let msgNoti = props?.allNotification?.notifcationDta?.get_msg?.length;
+      let cmntNoti = props?.allNotification?.notifcationDta?.get_commant?.length;
+      let cardNoti = props?.allNotification?.notifcationDta?.get_card?.length;
+      let totalNotification = (msgNoti ? msgNoti : 0) + (cmntNoti ? cmntNoti : 0) + (cardNoti ? cardNoti : 0)
+      setAllNotificationCount(totalNotification)
+    }
+  }, [props?.allNotification?.notifcationDta])
 
   useEffect(() => {
     let { allChatMessages } = props;
@@ -63,6 +79,7 @@ export const Bottomtab = props => {
         if (value !== null) {
           global.token = value;
           props.actions.getFollowData();
+          props.actions.handelNotification();
         }
       });
     }
@@ -103,8 +120,13 @@ export const Bottomtab = props => {
           source={icon}
         />
         {
-          allUnreadMessage > 0 && (routeName == "Chat" || routeName == "NotifyMsg") ? (
+          allUnreadMessage > 0 && (routeName == "Chat") ? (
             <Text style={{ backgroundColor: "red", position: "absolute", top: -8, right: -6, fontSize: 8, paddingHorizontal: 6, paddingVertical: 4, borderRadius: 8, color: "white" }}>{allUnreadMessage}</Text>
+          ) : null
+        }
+        {
+          allNotificationCount > 0 && (routeName == "NotifyMsg") ? (
+            <Text style={{ backgroundColor: "red", position: "absolute", top: -8, right: -6, fontSize: 8, paddingHorizontal: 6, paddingVertical: 4, borderRadius: 8, color: "white" }}>{allNotificationCount}</Text>
           ) : null
         }
       </View>
@@ -201,7 +223,7 @@ export const Bottomtab = props => {
           name="NotifyMsg"
           position="LEFT"
           options={{ headerShown: false }}
-          component={NotifyMsg}
+          component={Notification}
         />
 
         <CurvedBottomBar.Screen
@@ -358,12 +380,14 @@ export const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   setData: state.doctor.setData,
   allChatMessages: state.firebaseData.allChatMessages,
+  allNotification: state.doctor.allNotification,
 });
 
 const ActionCreators = Object.assign(
   { PostUserProfile },
   { getFollowData },
-  { unreadMessages }
+  { unreadMessages },
+  { handelNotification }
 );
 
 const mapDispatchToProps = dispatch => ({

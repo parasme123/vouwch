@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { messageList, addMessage, deleteMessage, setReadMsg, forwardMessage } from '../../../reduxStore/action/firebaseActions';
 import { CustomLoader, AsyncStorageHelper } from "@lib";
-import { Colors, Fontsize, Fonts, } from "@common";
+import { Colors, } from "@common";
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from "moment";
@@ -414,7 +414,7 @@ const Messeges = (props) => {
                 >
                     <Image
                         style={styles.gmanStyle}
-                        source={chatUserData.profile_picture ? { uri: chatUserData.profile_picture } : require('../../../assect/images/default-user.png')} />
+                        source={chatUserData?.profile_picture ? { uri: chatUserData.profile_picture } : require('../../../assect/images/default-user.png')} />
                     <View style={styles.info}>
                         <Text style={styles.alexTxt}>{chatUserData.first_name}</Text>
                         <View style={styles.onlineView}>

@@ -45,6 +45,20 @@ export const addExternalUser = (data, setloaderVisible, PageNavigation) => {
   }
 };
 
+export const getUserData = (data, PageNavigation) => {
+  return async dispatch => {
+    usersCollection.where(firestore.FieldPath.documentId(), "==", data).limit(1).get().then(snapshot => {
+      snapshot?.docs?.forEach((doc) => {
+        console.log("doc", doc.data(), doc.id);
+        PageNavigation({ ...doc.data(), id: doc.id })
+      })
+    }).catch((error) => {
+      // setloaderVisible(false);
+      console.log("getUserData", error)
+    })
+  }
+};
+
 export const deleteAddedUser = (data, setloaderVisible, PageNavigation) => {
   return async dispatch => {
     setloaderVisible(true);
@@ -360,17 +374,17 @@ export const forwardMessage = (data, chatWithId, setloaderVisible, isGroup = fal
     if (firebaseUserData) {
       let userData = JSON.parse(firebaseUserData);
       // console.log("[userData.id, chatWithId]", [userData.id, chatWithId]);
-      const querySnapshot = groupCollection.where("participiants", "array-contains", chatWithId && userData.id).where("isGroup", "==", isGroup);
+      const querySnapshot = groupCollection.where("participiants", "array-contains", userData.id).where("isGroup", "==", isGroup);
       querySnapshot.get().then(snapshot => {
         snapshot.docs.forEach(doc => {
           // console.log("doc", doc.data());
           if (doc.data().participiants.includes(userData.id) && doc.data().participiants.includes(chatWithId)) {
-            messageCollection.where("group", "==", doc.id).limit(1).get().then(snapshotMsg => {
-              snapshotMsg.forEach(docMsg => {
-                // console.log("snapshotMsg.docs", docMsg.id);
+            messageCollection?.where("group", "==", doc.id).limit(1).get().then(snapshotMsg => {
+              snapshotMsg.docs.forEach(docMsg => {
                 // dispatch(saveMessagesList({ ...docMsg.data(), messageCollectionId: docMsg.id }));
                 let messagesList = docMsg.data().message;
-                data.messageId = messagesList.length > 0 ? messagesList[messagesList.length - 1].messageId + 1 : 1
+                data.messageId = messagesList.length > 0 ? messagesList[messagesList.length - 1].messageId + 1 : 1;
+                data.sendBy = userData.id;
                 messageCollection.doc(docMsg.id).update({
                   message: firestore.FieldValue.arrayUnion(data)
                 }).then(() => {
@@ -381,17 +395,20 @@ export const forwardMessage = (data, chatWithId, setloaderVisible, isGroup = fal
                   }
                   // callBack()
                 }).catch((error) => {
-                  console.log("addMessage", error);
+                  console.log("forwardMessage1", error);
                   Toast.show("Something Went wrong", Toast.LONG);
                 });
               })
-            })
+            }).catch(err => {
+              console.log('forwardMessage2', err);
+              Toast.show("Something Went wrong", Toast.LONG);
+            });
           }
         })
         setloaderVisible(false);
         // dispatch(saveUserChatList(userChatList));
       }).catch(err => {
-        console.log('messageList', err);
+        console.log('forwardMessage3', err);
         Toast.show("Something Went wrong", Toast.LONG);
       });
     }

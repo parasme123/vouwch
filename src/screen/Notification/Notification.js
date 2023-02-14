@@ -19,6 +19,7 @@ const Notification = (props) => {
   const isTrue = props.route.params ? props.route.params.isTrue : false;
   const [messagesNotification, setMessagesNotification] = useState([]);
   const [commentNotification, setCommentNotification] = useState([]);
+  const [bravoCardNotification, setBravoCardNotification] = useState([]);
 
   const NotificationApi = () => {
     let { actions } = props;
@@ -42,7 +43,6 @@ const Notification = (props) => {
     }
     setUserType(props?.allNotification?.notifcationDta?.user_type)
   }, [props?.allNotification?.notifcationDta])
-  const [bravoCardNotification, setBravoCardNotification] = useState([]);
 
   const NotificationItem = ({ item, index, type, Tab }) => {
     return (

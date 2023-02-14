@@ -4,7 +4,7 @@ import Imagepath from '../../common/imagepath';
 import styles from './css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { allUserList, startChatWithNewUser, forwardMessage } from '../../reduxStore/action/firebaseActions';
+import { allUserList, startChatWithNewUser, forwardMessage, saveMessagesList } from '../../reduxStore/action/firebaseActions';
 import { CustomLoader, AsyncStorageHelper } from "@lib";
 import MsgChat from './MsgChat/MsgChat';
 
@@ -39,6 +39,7 @@ const NewChat = (props) => {
     }
 
     const handleChatStart = (chatUserData) => {
+        props.actions.saveMessagesList({})
         props.navigation.navigate("Messeges", { chatUserData, forwardMesssage })
     }
 
@@ -102,7 +103,8 @@ const mapStateToProps = state => ({
 const ActionCreators = Object.assign(
     { allUserList },
     { startChatWithNewUser },
-    { forwardMessage }
+    { forwardMessage },
+    { saveMessagesList }
 );
 
 const mapDispatchToProps = dispatch => ({
