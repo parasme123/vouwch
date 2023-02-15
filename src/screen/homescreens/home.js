@@ -321,11 +321,11 @@ const Home = (props) => {
 
         {/* Featured Doctors */}
         <View style={styles.featuredView}>
-          <Text style={styles.featuredViewText}>Featured Doctors</Text>
+          <Text style={styles.featuredViewText}>Featured Hospital</Text>
           <TouchableOpacity
             style={{}}
             onPress={() => {
-              navigation.navigate('DoctorCard');
+              navigation.navigate('DoctorCard', {typeOfCard : "Hospitals"});
             }}>
             <Text style={styles.featuredViewButtonText}>See All</Text>
           </TouchableOpacity>
@@ -333,7 +333,31 @@ const Home = (props) => {
         {/* Card of Doctors */}
         <View style={{ marginHorizontal: 5 }}>
           <FlatList
-            data={props.allHomeData.reviews}
+            data={props.allHomeData.hospitals_list}
+            // data={DoctorCardList}
+            style={{ width: "100%" }}
+            renderItem={Doctor_Card}
+            keyExtractor={(item, index) => String(index)}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        
+                {/* Featured Doctors */}
+        <View style={styles.featuredView}>
+          <Text style={styles.featuredViewText}>Featured Doctors</Text>
+          <TouchableOpacity
+            style={{}}
+            onPress={() => {
+              navigation.navigate('DoctorCard', {typeOfCard : "Doctors"});
+            }}>
+            <Text style={styles.featuredViewButtonText}>See All</Text>
+          </TouchableOpacity>
+        </View>
+        {/* Card of Doctors */}
+        <View style={{ marginHorizontal: 5 }}>
+          <FlatList
+            data={props.allHomeData.doctor_list}
             // data={DoctorCardList}
             style={{ width: "100%" }}
             renderItem={Doctor_Card}

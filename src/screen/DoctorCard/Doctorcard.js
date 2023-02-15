@@ -15,6 +15,7 @@ import { handleNavigation } from '../../navigator/Navigator';
 
 const Doctor_Card = (props) => {
     const searchProps = props.route?.params ? props.route?.params?.searchProps : null;
+    const typeOfCard = props.route?.params?.typeOfCard ? props.route?.params?.typeOfCard : ""
 
     const [modalVisibleComment, setModalVisibleComment] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -77,7 +78,7 @@ const Doctor_Card = (props) => {
     }
     // Follow API
 
-    
+
     const Follow_api = (id) => {
         if (!userType) {
             Helper.loginPopUp(props.navigation);
@@ -139,7 +140,7 @@ const Doctor_Card = (props) => {
         // console.log("pageNo : ", pageNo, "lastPage : ", lastPage)
         if (pageNo <= lastPage) {
             // console.log("apiData : ", apiData)
-            actions.postDoctorSearch(apiData, pageNo);
+            actions.postDoctorSearch(apiData, pageNo, typeOfCard == "Hospitals" ? 1 : 2);
         }
     }, [pageNo]);
 
@@ -193,7 +194,7 @@ const Doctor_Card = (props) => {
             source={imagepath.homebg}
             resizeMode='cover'
             style={styles.image} >
-            <Header title={"Doctor Card"} isback={true} />
+            <Header title={typeOfCard} isback={true} />
 
             {/* Header */}
 

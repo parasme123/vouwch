@@ -182,12 +182,13 @@ export const saveBravoCard = (data) => {
 //     }
 // };
 
-export const postDoctorSearch = (data, pageNo = 1,) => {
+export const postDoctorSearch = (data, pageNo = 1, type) => {
     return async dispatch => {
         if (pageNo == 1) {
             dispatch(saveDoctorData([]))
         }
-        await fetch(`${URL.baseUrl}${data.keyword == null ? URL.getAllDoctors : URL.postDoctorSearch}?page=${pageNo}`,
+        let apiUrl = data.keyword == null ? `${URL.baseUrl}${URL.getAllDoctors}?page=${pageNo}&type=${type}` : `${URL.baseUrl}${URL.postDoctorSearch}?page=${pageNo}`
+        await fetch(apiUrl,
             data.keyword == null ? {
                 method: "GET",
                 headers: {
