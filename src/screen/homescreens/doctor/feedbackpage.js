@@ -250,7 +250,7 @@ export default Feedbackpage = (props) => {
           <Text style={[styles.feedBackTypeBtnTxt, activeFeedbackTab == "b" ? styles.feedBackTypeBtnTxtActive : null]}>Bravo Card</Text>
         </TouchableOpacity>
       </View>
-      {activeFeedbackTab == "p" || activeFeedbackTab == "c" ?
+      {(activeFeedbackTab == "p" || activeFeedbackTab == "c") && Review?.length > 0 ?
         <>
           {Review?.map((item, index) => (
             Feedback({ item, index })

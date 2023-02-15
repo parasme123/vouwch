@@ -79,7 +79,7 @@ export const Bottomtab = props => {
         if (value !== null) {
           global.token = value;
           props.actions.getFollowData();
-          props.actions.handelNotification();
+          // props.actions.handelNotification();
         }
       });
     }
@@ -97,15 +97,15 @@ export const Bottomtab = props => {
       case 'Settingprofile':
         icon = imagepath.navmenu;
         break;
-      // case 'Home':
-      //   icon = imagepath.homeicon;
-      //   break;
+      case 'Home':
+        icon = imagepath.homeicon;
+        break;
       case 'Account':
         icon = imagepath.User_Icon;
         break;
-      case 'NotifyMsg':
-        icon = imagepath.notify;
-        break;
+      // case 'NotifyMsg':
+      //   icon = imagepath.notify;
+      //   break;
     }
 
     return (
@@ -192,19 +192,13 @@ export const Bottomtab = props => {
         )}
         tabBar={renderTabBar}
       >
-        {/* <CurvedBottomBar.Screen
+        <CurvedBottomBar.Screen
           name="Home"
           position="LEFT"
           options={{ headerShown: false }}
           component={Home}
-        /> */}
-
-        <CurvedBottomBar.Screen
-          name="Chat"
-          component={userData ? Chat : Chat}
-          position="LEFT"
-          options={{ headerShown: false }}
         />
+
 
         <CurvedBottomBar.Screen
           name="Account"
@@ -220,11 +214,17 @@ export const Bottomtab = props => {
           options={{ headerShown: false }}
         /> */}
         <CurvedBottomBar.Screen
+          name="Chat"
+          component={userData ? Chat : Chat}
+          position="LEFT"
+          options={{ headerShown: false }}
+        />
+        {/* <CurvedBottomBar.Screen
           name="NotifyMsg"
           position="LEFT"
           options={{ headerShown: false }}
           component={Notification}
-        />
+        /> */}
 
         <CurvedBottomBar.Screen
           name="Settingprofile"
