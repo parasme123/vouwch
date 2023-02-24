@@ -21,8 +21,9 @@ import Rate from '../screen/homescreens/review/rate';
 // import settingprofile from '../screen/setting/settingprofile';
 import Editprofile from '../screen/setting/editprofile';
 import ForgotPassword from '../screen/Forgotpassword/Forgotpassword';
-import Hospotalbravocard from '../screen/HospitalBravocard/HospitalBravocard';
+
 import Doctorcard from '../screen/DoctorCard/Doctorcard';
+
 import Resetpassword from '../screen/Forgotpassword/Resetpassword';
 import Reply from '../screen/Message/Reply';
 import MessageBox from '../common/MessegeBox';
@@ -41,6 +42,9 @@ import DoctorGrpMsg from '../screen/DoctorGrpMsg/DoctorGrpMsg';
 import NewGroup from '../screen/NewGroup/NewGroup';
 import AddParticipiants from '../screen/AddParticipiants';
 import AddSubNewGrp from '../screen/AddSubNewGrp/AddSubNewGrp';
+import Hospotalbravocard from '../component/Hospitalcard'
+import Hospitalcard from '../component/Hospitalcard';
+import HospitalDetail from '../screen/homescreens/doctor/HospitalDetail';
 const MainStack = createStackNavigator();
 const Navigator = () => {
   return (
@@ -58,6 +62,7 @@ const Navigator = () => {
         {/* <MainStack.Screen name="home" component={Home} /> */}
         <MainStack.Screen name="bottomtab" component={Bottomtab} />
         <MainStack.Screen name="Doctordetails" component={Doctordetails} />
+        <MainStack.Screen name="HospitalDetail" component={HospitalDetail} />
         <MainStack.Screen name="Bravocard" component={Bravocard} />
         <MainStack.Screen name="Notification" component={Notification} />
         <MainStack.Screen name="review" component={Rate} />
@@ -71,6 +76,7 @@ const Navigator = () => {
         <MainStack.Screen name="edit" component={Editprofile} />
         <MainStack.Screen name="forgotpassword" component={ForgotPassword} />
         <MainStack.Screen name="DoctorCard" component={Doctorcard} />
+       <MainStack.Screen name='Hospitalcard' component={Hospitalcard} />
         <MainStack.Screen name="Hospotalbravocard" component={Hospotalbravocard} />
         <MainStack.Screen name="Confirmpassword" component={Resetpassword} />
         <MainStack.Screen name="Reply" component={Reply} />

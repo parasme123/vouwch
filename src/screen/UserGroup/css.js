@@ -135,6 +135,11 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontFamily: Fonts.ProximaNovaBold,
     },
+    groupAdminTxt: {
+        fontSize: 8,
+        color: Colors.appcolor,
+        fontFamily: Fonts.ProximaNovaBold,
+    },
     // listMainView: {
     // },
     infoTouch: {
@@ -186,23 +191,22 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 20,
         backgroundColor: Colors.white,
-        borderRadius: 10,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: Colors.appcolor,
-        shadowOffset: {
-            width: 0,
-            height: 10
-        },
-        shadowOpacity: 10,
-        shadowRadius: 4,
-        elevation: 5
+        // borderRadius: 10,
+        paddingVertical:24
+        // padding: 35,
+        // alignItems: "center",
+    },
+    handleUserBtn: {
+        paddingHorizontal: 12,
+        paddingVertical: 12,
+        // borderBottomWidth: 0.4
     },
     centeredView: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
-        marginTop: 8,
+        // alignItems: "center",
+        // marginTop: 8,
+        backgroundColor: "rgba(52, 52, 52, 0.8)"
     },
     modalText: {
         marginBottom: 15,

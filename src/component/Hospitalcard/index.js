@@ -9,7 +9,7 @@ import {
 import { Rating } from 'react-native-ratings';
 import { Colors, imagepath, svg } from '@common';
 import { useNavigation } from '@react-navigation/native';
-export default Doctorcard = props => {
+export default Hospitalcard = props => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -22,10 +22,7 @@ export default Doctorcard = props => {
         styles.doctorCardContainer,
         { backgroundColor: props.index % 2 == 0 ? '#D7EFFB' : '#FBEBE2' },
       ]}>
-      <Image style={styles.doctorCardIcon} 
-      source={props?.item?.business_profile ? props.item.business_profile : imagepath.doctor}
-      // source={props?.item?.business_name?.includes("Hospital") ?  imagepath.doctor : imagepath.hospitalImage}
-       />
+      <Image style={styles.doctorCardIcon} source={props?.item?.business_profile ? props.item.business_profile : imagepath.hospitalImage} />
       {/* Button of Share , Comment and Mesage */}
       <View style={styles.DoctorCardShareView}>
         <TouchableOpacity

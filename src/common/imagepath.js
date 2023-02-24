@@ -139,7 +139,8 @@ const Imagepath = {
   picStore: require('../assect/icon/picStore.png'),
   right:require('../assect/icon/right.png'),
   multi:require('../assect/icon/multi.png'),
-  sendImg:require('../assect/send-msg.png')
+  sendImg:require('../assect/send-msg.png'),
+  hospitalImage:require('../assect/icon/hospitalBuliding.png')
 }
 
 export default Imagepath;

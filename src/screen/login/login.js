@@ -55,6 +55,7 @@ const Login = (props, { route }) => {
       device_type: 'Android',
       device_token: fcmToken
     }
+    console.log("apiData", apiData);
     actions.postLogin(apiData, Check_User(), setloaderVisible, (data) => loginFirebase(apiData, data));
   };
 
@@ -73,8 +74,10 @@ const Login = (props, { route }) => {
 
   const Check_User = () => {
     if (props.route.params.UserType == 'PERSONAL') {
+      console.log("User");
       return "User"
     } else {
+      console.log("Business");
       return "Business"
     }
   };
@@ -108,7 +111,7 @@ const Login = (props, { route }) => {
                 {svg.manIcon(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
-                placeholder="Enter Username"
+                placeholder="Email / Mobile Number"
                 placeholderTextColor={Colors.imputborderColor}
                 style={styles.textInputname}
                 onChangeText={text => {
@@ -125,7 +128,7 @@ const Login = (props, { route }) => {
                 {svg.lockIcon(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
-                placeholder="Enter Password"
+                placeholder="Password"
                 style={styles.textinputPassword}
                 placeholderTextColor={Colors.imputborderColor}
 

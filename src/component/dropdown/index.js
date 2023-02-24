@@ -10,7 +10,7 @@ import { Fonts, Colors, Fontsize } from '@common';
 import Modal from "react-native-modal";
 
 const Dropdown = (props) => {
-  const { isModalVisible, toggleModal, handleCatSelect, searchVal, searchCatList, CateList, handleSearchCategory, CateId } = props;
+  const { isModalVisible, toggleModal, handleCatSelect, searchVal, searchCatList, CateList, handleSearchCategory, CateId, placeholder } = props;
   return (
     <View>
       <TouchableOpacity
@@ -27,14 +27,18 @@ const Dropdown = (props) => {
           fontFamily: Fonts.ProximaNovaLight,
           paddingLeft: 15,
           flex: 1
-        }}>{CateId?.value ? CateId.label : "Selecte Category"}</Text>
+        }}>{CateId?.value ? CateId.label : placeholder}</Text>
       </TouchableOpacity>
       <Modal isVisible={isModalVisible}
         onBackdropPress={toggleModal}
         onBackButtonPress={toggleModal}
       >
-        <View style={{ flex: 1, backgroundColor: "white", padding: 12, borderRadius: 14 }}>
-          <TextInput placeholder='Search Category' onChangeText={handleSearchCategory} value={searchVal} />
+        <View style={{ backgroundColor: "white", padding: 12, borderRadius: 14, marginVertical: 12 }}>
+          {
+            handleSearchCategory ? (
+              <TextInput placeholder='Search Category' onChangeText={handleSearchCategory} value={searchVal} />
+            ) : null
+          }
           <FlatList
             data={searchVal && searchVal != "" ? searchCatList : CateList}
             renderItem={({ item }) =>

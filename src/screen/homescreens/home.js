@@ -26,7 +26,8 @@ import Comments from '../../modal/Comments';
 import { handleNavigation } from '../../navigator/Navigator';
 import Message from '../../modal/Message';
 import styles from './homecss';
-import { Bravocard, DoctorCard } from '@component';
+import { Bravocard, DoctorCard  } from '@component';
+import Hospitalcard from '../../component/Hospitalcard';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getHomeData, postFollow, postMessge, postComment } from '../../reduxStore/action/doctorAction';
@@ -190,6 +191,10 @@ const Home = (props) => {
     navigation.navigate('Doctordetails', { doctorId: item, activeTab });
   };
 
+  const HospitalNavigation = (item, activeTab) => {
+    navigation.navigate('HospitalDetail', { doctorId: item, activeTab });
+  };
+
   // Card DATA Content   && Bravo card
   const Card = ({ item, index }) => {
     return (
@@ -237,6 +242,30 @@ const Home = (props) => {
     );
   };
 
+    /* // Hospital CARDS */
+    const Hospital_Card = ({ item, index }) => {
+      return (
+        <Hospitalcard
+          onpress_DoctorCard={HospitalNavigation}
+          onpress_Comment={CommentpropPage}
+          onpress_Message={MessagepropPage}
+          onpress_Share={onShare}
+  
+          Follows={props.followData}
+          onpress_DoctorCard_Follow={Follow_api}
+          item={item}
+          index={index}
+          Doctor_business_name={item?.business_name}
+          Doctorcard_Details={item?.category?.name}
+          Clinician_Rating={item?.clinical_rate}
+          patient_Rating={item?.patient_rate}
+          startingValue={item?.patient_rate}
+          ClinicianReview_Value={item?.clinical_rate}
+          handleAddBravoCardOrReview={handleAddBravoCardOrReview}
+        />
+      );
+    };
+
   const handleLogin = () => {
     Helper.loginPopUp(props.navigation);
   }
@@ -272,7 +301,7 @@ const Home = (props) => {
               onPress={() => userType && userToken ? handleProfile() : handleLogin()}
               style={styles.notificationbutton}>
               <Image
-                source={props.allUserPostData?.profile_picture == null ? Imagepath.doctor : { uri: props.allUserPostData?.profile_picture }}
+                source={props.allUserPostData?.profile_picture == null ? Imagepath.DoctorCard : { uri: props.allUserPostData?.profile_picture }}
                 // source={{uri : userType?.profile_picture}}
                 resizeMode="stretch"
                 imageStyle={{}}
@@ -332,11 +361,14 @@ const Home = (props) => {
         </View>
         {/* Card of Doctors */}
         <View style={{ marginHorizontal: 5 }}>
+          {
+            console.log("props.allHomeData.hospitals_list" , props.allHomeData.hospitals_list)
+          }
           <FlatList
             data={props.allHomeData.hospitals_list}
             // data={DoctorCardList}
             style={{ width: "100%" }}
-            renderItem={Doctor_Card}
+            renderItem={Hospital_Card}
             keyExtractor={(item, index) => String(index)}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -354,6 +386,9 @@ const Home = (props) => {
             <Text style={styles.featuredViewButtonText}>See All</Text>
           </TouchableOpacity>
         </View>
+        {
+            console.log("props.allHomeData.doctor_list" , props.allHomeData.doctor_list)
+          }
         {/* Card of Doctors */}
         <View style={{ marginHorizontal: 5 }}>
           <FlatList

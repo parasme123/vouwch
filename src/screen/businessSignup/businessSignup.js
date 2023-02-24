@@ -31,8 +31,6 @@ const BusinessSignup = (props) => {
   const usersCollection = firestore().collection('Users');
   const [mark, setMark] = useState();
   const [loaderVisible, setloaderVisible] = useState(false);
-  const [firstname, setfirstname] = useState('');
-  const [lastname, setlastname] = useState('');
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [BusinessName, setBusinessName] = useState('');
@@ -42,6 +40,13 @@ const BusinessSignup = (props) => {
   const [searchCatList, setSearchCatList] = useState([]);
   const [CateId, setCateId] = useState({});
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isBussinesTypeModal, setisBussinesTypeModal] = useState(false);
+  const [allBussinesTypes, setAllBussinesTypes] = useState([
+    { label: "Hospital", value: 1 },
+    { label: "Doctor", value: 2 }
+  ]);
+  const [selectedBussinessType, setSelectedBussinessType] = useState({});
+  const [mobileNumber, setMobileNumber] = useState("");
   const navigation = useNavigation();
   const chexkBox = () => {
     setMark(!mark);
@@ -109,7 +114,9 @@ const BusinessSignup = (props) => {
       device_type: 'Android',
       // device_token: 'Business',
       category_id: CateId.value,
-      device_token: fcmToken
+      device_token: fcmToken,
+      bussiness_type: selectedBussinessType.value,
+      mobile_no: mobileNumber
     };
     actions.postRegister(apiData, setloaderVisible, () => registerOnFirebase(apiData));
   };
@@ -148,6 +155,15 @@ const BusinessSignup = (props) => {
     setCateId(item);
   }
 
+  const handleBussinessTypeModal = () => {
+    setisBussinesTypeModal(!isBussinesTypeModal)
+  }
+
+  const handleSelectBussinessType = (item) => {
+    handleBussinessTypeModal()
+    setSelectedBussinessType(item);
+  }
+
   return (
     <ImageBackground source={imagepath.background} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
@@ -159,26 +175,11 @@ const BusinessSignup = (props) => {
           <View style={styles.ImputView}>
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
-                {svg.email(16, 18, Colors.imputborderColor)}
-              </View>
-              <TextInput
-                placeholderTextColor={Colors.imputborderColor}
-                placeholder="Enter your email address"
-                style={styles.textInput}
-                onChangeText={text => {
-                  setemail(text);
-                }}
-                value={email}
-                keyboardType="email-address"
-              />
-            </View>
-            <View style={styles.textInputView}>
-              <View style={styles.textInputsubView}>
                 {svg.businessIcon(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
                 placeholderTextColor={Colors.imputborderColor}
-                placeholder="Enter your  business name"
+                placeholder="Name"
                 style={styles.textInput}
                 onChangeText={text => {
                   setBusinessName(text);
@@ -190,11 +191,41 @@ const BusinessSignup = (props) => {
 
             <View style={styles.textInputView}>
               <View style={styles.textInputsubView}>
+                {svg.email(16, 18, Colors.imputborderColor)}
+              </View>
+              <TextInput
+                placeholderTextColor={Colors.imputborderColor}
+                placeholder="Email Address"
+                style={styles.textInput}
+                onChangeText={text => {
+                  setemail(text);
+                }}
+                value={email}
+                keyboardType="email-address"
+              />
+            </View>
+            <View style={styles.textInputView}>
+              <View style={styles.textInputsubView}>
+                {svg.phoneIcon(16, 18, Colors.imputborderColor)}
+              </View>
+              <TextInput
+                placeholderTextColor={Colors.imputborderColor}
+                placeholder="Mobile Number"
+                style={styles.textInput}
+                onChangeText={text => {
+                  setMobileNumber(text);
+                }}
+                value={mobileNumber}
+                keyboardType="numeric"
+              />
+            </View>
+            <View style={styles.textInputView}>
+              <View style={styles.textInputsubView}>
                 {svg.lockIcon(16, 18, Colors.imputborderColor)}
               </View>
               <TextInput
                 placeholderTextColor={Colors.imputborderColor}
-                placeholder="Enter your password"
+                placeholder="Password"
                 secureTextEntry={true}
                 style={styles.textInput}
                 onChangeText={text => {
@@ -217,10 +248,26 @@ const BusinessSignup = (props) => {
                 CateList={CateList}
                 handleSearchCategory={handleSearchCategory}
                 CateId={CateId}
+                placeholder={"Select Category"}
               />
             </View>
 
-
+            <View style={styles.textInputView}>
+              <View style={styles.textInputsubView}>
+                {svg.lockIcon(16, 18, Colors.imputborderColor)}
+              </View>
+              <Dropdown
+                isModalVisible={isBussinesTypeModal}
+                toggleModal={handleBussinessTypeModal}
+                handleCatSelect={handleSelectBussinessType}
+                // searchVal={searchVal}
+                // searchCatList={searchCatList}
+                CateList={allBussinesTypes}
+                // handleSearchCategory={handleSearchCategory}
+                CateId={selectedBussinessType}
+                placeholder={"Select Bussiness Type"}
+              />
+            </View>
 
             <View style={styles.privacyView}>
               <TouchableOpacity

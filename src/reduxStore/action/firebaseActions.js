@@ -132,7 +132,7 @@ export const startChatWithNewUser = (chatWithId, setloaderVisible, callBack) => 
             friends: firestore.FieldValue.arrayUnion(firebaseUserData.id)
           });
           let apiData = {
-            admin: firebaseUserData.id,
+            admin: [firebaseUserData.id],
             createdAt: new Date(),
             deletedBy: [],
             isGroup: false,
@@ -562,7 +562,8 @@ export const removeUserFromGroup = (userId, groupId, participiantsList, callBack
       groups: firestore.FieldValue.arrayRemove(groupId)
     }).then(snapshot => {
       groupCollection.doc(groupId).update({
-        participiants: firestore.FieldValue.arrayRemove(userId)
+        participiants: firestore.FieldValue.arrayRemove(userId),
+        admin: firestore.FieldValue.arrayRemove(userId)
       }).then(data => {
         dispatch(saveParticipiantsList(participiantsList.filter((item) => item.id != userId)));
         dispatch(chatList());
@@ -701,5 +702,31 @@ export const addParticipiants = (participiants, groupData, setloaderVisible, cal
     setloaderVisible(false)
     callBack();
     Toast.show("Participiants Added Successfully", Toast.LONG);
+  }
+}
+
+export const makeAdminToUser = (id, groupData, setloaderVisible, callBack) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    groupCollection.doc(groupData.id).update({
+      admin: firestore.FieldValue.arrayUnion(id)
+    })
+    dispatch(chatList())
+    callBack();
+    setloaderVisible(false)
+    Toast.show("Participiants Made admin successfully", Toast.LONG);
+  }
+}
+
+export const dismissAdminToUser = (id, groupData, setloaderVisible, callBack) => {
+  return async dispatch => {
+    setloaderVisible(true)
+    groupCollection.doc(groupData.id).update({
+      admin: firestore.FieldValue.arrayRemove(id)
+    })
+    dispatch(chatList())
+    callBack();
+    setloaderVisible(false)
+    Toast.show("Participiants dismissed as admin successfully", Toast.LONG);
   }
 }

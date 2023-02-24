@@ -33,6 +33,8 @@ const Signup = (props) => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
+  const [mobileNumber, setMobileNumber] = useState("");
+
   const navigation = useNavigation();
   const chexkBox = () => {
     setMark(!mark);
@@ -74,7 +76,8 @@ const Signup = (props) => {
       confirm_password: ConfirmPassword,
       device_type: 'Android',
       // device_token: 'abcd',
-      device_token: fcmToken
+      device_token: fcmToken,
+      mobile_no: mobileNumber
     };
     actions.postRegister(apiData, setloaderVisible, () => registerOnFirebase(apiData));
   };
@@ -105,7 +108,7 @@ const Signup = (props) => {
             </View>
             <TextInput
               placeholderTextColor={Colors.imputborderColor}
-              placeholder="Enter your first name"
+              placeholder="First name"
               style={styles.textInputText}
               onChangeText={text => {
                 setfirstname(text);
@@ -120,7 +123,7 @@ const Signup = (props) => {
             </View>
             <TextInput
               placeholderTextColor={Colors.imputborderColor}
-              placeholder="Enter your last name"
+              placeholder="Last name"
               style={styles.textInputText}
               onChangeText={text => {
                 setlastname(text);
@@ -135,7 +138,7 @@ const Signup = (props) => {
               {svg.email(16, 18, Colors.imputborderColor)}
             </View>
             <TextInput
-              placeholder="Enter your email address"
+              placeholder="Email address"
               placeholderTextColor={Colors.imputborderColor}
               style={styles.textInputText}
               onChangeText={text => {
@@ -146,11 +149,26 @@ const Signup = (props) => {
             />
           </View>
           <View style={styles.textInputView}>
+              <View style={styles.textInputSubView}>
+                {svg.phoneIcon(16, 18, Colors.imputborderColor)}
+              </View>
+              <TextInput
+                placeholderTextColor={Colors.imputborderColor}
+                placeholder="Mobile Number"
+                style={styles.textInputText}
+                onChangeText={text => {
+                  setMobileNumber(text);
+                }}
+                value={mobileNumber}
+                keyboardType="numeric"
+              />
+            </View>
+          <View style={styles.textInputView}>
             <View style={styles.textInputSubView}>
               {svg.lockIcon(16, 18, Colors.imputborderColor)}
             </View>
             <TextInput
-              placeholder="Enter your  Password"
+              placeholder="Password"
               placeholderTextColor={Colors.imputborderColor}
               secureTextEntry={true}
               style={styles.textInputText}
@@ -166,7 +184,7 @@ const Signup = (props) => {
               {svg.lockIcon(16, 18, Colors.imputborderColor)}
             </View>
             <TextInput
-              placeholder="Enter Confirm Password"
+              placeholder="Confirm Password"
               placeholderTextColor={Colors.imputborderColor}
               secureTextEntry={true}
               style={styles.textInputText}

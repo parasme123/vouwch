@@ -5,7 +5,7 @@ import styles from './css';
 import { Fonts, Fontsize, Colors } from '@common';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getGroupParticipiants, removeUserFromGroup, updateGroupProfile } from '../../reduxStore/action/firebaseActions';
+import { getGroupParticipiants, removeUserFromGroup, updateGroupProfile, makeAdminToUser, dismissAdminToUser } from '../../reduxStore/action/firebaseActions';
 import { CustomLoader, AsyncStorageHelper } from "@lib";
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -20,6 +20,9 @@ const UserGroup = (props) => {
   const [selectedId, setSelectedId] = useState();
   const [chatGroupData, setchatGroupData] = useState({})
   const [showSearchIcon, setShowSearchIcon] = useState(false);
+  const [selectedUser, setSelectedUser] = useState();
+  const [userHandleModal, setUserHandleModal] = useState(false);
+  const [loaderVisible, setloaderVisible] = useState(false);
 
   useEffect(() => {
     async function getUserData() {
@@ -52,6 +55,9 @@ const UserGroup = (props) => {
 
   const handleRemoveSuccess = () => {
     setischecked(!ischecked)
+    setSelectedUser();
+    setUserHandleModal(false);
+
   }
 
   const requestCamera = async () => {
@@ -152,25 +158,50 @@ const UserGroup = (props) => {
     setchatGroupData({ ...chatGroupData, profile_picture: url })
   }
 
+  const handleUserOfGroup = async (userID) => {
+    await setSelectedUser(userID);
+    setUserHandleModal(true);
+  }
+
+  const handleUserMakeAdmin = () => {
+    props.actions.makeAdminToUser(selectedUser, chatGroupData, setloaderVisible, () => {
+      setSelectedUser();
+      setUserHandleModal(false);
+      props.navigation.goBack();
+    });
+  }
+
+  const handleUserDiscussAdmin = () => {
+    props.actions.dismissAdminToUser(selectedUser, chatGroupData, setloaderVisible, () => {
+      setSelectedUser();
+      setUserHandleModal(false);
+      // props.navigation.goBack();
+    });
+  }
+
   const Lonovo = ({ item, index }) => {
     return (
       <View style={styles.infoTouch} key={item.id}>
-        <View style={styles.infoMsg}>
+        <TouchableOpacity
+          style={styles.infoMsg}
+          onPress={
+            item.id !== userData.id && chatGroupData?.admin?.includes(userData.id) ?
+              () => handleUserOfGroup(item.id)
+              : null
+          }
+        >
           <Image style={styles.maanImg}
             source={item?.profile_picture ? { uri: item.profile_picture } : require('../../assect/images/default-user.png')} />
           <View style={{ marginLeft: 12 }}>
             <Text style={styles.wdWatson}>{item.id === userData.id ? "You" : item.first_name}</Text>
             <Text style={styles.weNeed}>{item.about}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
         {
-          item.id !== userData.id && chatGroupData.admin === userData.id ? (
-            <TouchableOpacity
-              onPress={() => handleDeleteConfirm(item.id)}
-            >
-              <Image style={styles.bin}
-                source={Imagepath.RecycleBin} />
-            </TouchableOpacity>
+          chatGroupData?.admin?.includes(item.id) ? (
+            <View style={{ backgroundColor: "#EBEBEB", padding: 6, borderRadius: 3, alignSelf: "flex-start" }}>
+              <Text style={styles.groupAdminTxt}>Group admin</Text>
+            </View>
           ) : null
         }
       </View>
@@ -275,6 +306,39 @@ const UserGroup = (props) => {
       <Modal
         animationType="slide"
         transparent={true}
+        visible={userHandleModal}
+        onRequestClose={() => {
+          setUserHandleModal(!userHandleModal);
+        }}>
+        <TouchableOpacity style={styles.centeredView}
+          onPress={() => {
+            setUserHandleModal(!userHandleModal);
+          }}>
+          <View style={styles.modalView}>
+            {/* <TouchableOpacity style={styles.handleUserBtn}>
+              <Text>Send Message</Text>
+            </TouchableOpacity> */}
+            {
+              chatGroupData?.admin?.includes(selectedUser) ? (
+                <TouchableOpacity style={styles.handleUserBtn} onPress={() => handleUserDiscussAdmin()}>
+                  <Text>Dismiss as admin</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity style={styles.handleUserBtn} onPress={() => handleUserMakeAdmin()}>
+                  <Text>Make group admin</Text>
+                </TouchableOpacity>
+              )
+            }
+            <TouchableOpacity style={styles.handleUserBtn} onPress={() => handleDeleteConfirm(selectedUser)}>
+              <Text>Remove</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
         visible={ischecked}
         onRequestClose={() => {
           setischecked(!ischecked);
@@ -307,7 +371,7 @@ const UserGroup = (props) => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <View style={{ flex: 1, justifyContent: 'center', backgroundColor: "transparent" }}>
+        <View style={{ flex: 1, justifyContent: 'center', backgroundColor: "rgba(52, 52, 52, 0.8)" }}>
           <View
             style={{
               paddingVertical: 20,
@@ -344,6 +408,7 @@ const UserGroup = (props) => {
           </View>
         </View>
       </Modal>
+      <CustomLoader loaderVisible={loaderVisible} />
 
     </View>
   )
@@ -358,7 +423,9 @@ const mapStateToProps = state => ({
 const ActionCreators = Object.assign(
   { getGroupParticipiants },
   { removeUserFromGroup },
-  { updateGroupProfile }
+  { updateGroupProfile },
+  { makeAdminToUser },
+  { dismissAdminToUser }
 );
 
 const mapDispatchToProps = dispatch => ({

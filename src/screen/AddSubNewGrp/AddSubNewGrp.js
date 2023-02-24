@@ -32,7 +32,7 @@ const AddSubNewGrp = (props) => {
         let { actions } = props;
         let firebaseUserData = await AsyncStorageHelper.getData("firebaseUserData");
         let apiData = {
-            admin: JSON.parse(firebaseUserData).id,
+            admin: [JSON.parse(firebaseUserData).id],
             createdAt: new Date(),
             deletedBy: [],
             isGroup: true,
