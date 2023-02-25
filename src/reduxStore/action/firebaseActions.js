@@ -11,13 +11,15 @@ const groupCollection = firestore().collection('Groups');
 export const firebaseRegister = (data, setloaderVisible, PageNavigation) => {
   return async dispatch => {
     setloaderVisible(true);
-    data = { ...data, createdAt: new Date(), email: data.email.toLowerCase() }
+    data = { ...data, createdAt: new Date(), email: data?.email ? data?.email?.toLowerCase() : "" }
     usersCollection.add(data).then((response) => {
       if (!response.empty) {
         response.onSnapshot((snapShot) => {
           let userData = { ...snapShot.data(), id: snapShot.id };
-          AsyncStorageHelper.setData("firebaseUserData", JSON.stringify(userData));
-          dispatch(saveUserData(userData))
+          if (data?.email) {
+            AsyncStorageHelper.setData("firebaseUserData", JSON.stringify(userData));
+            dispatch(saveUserData(userData))
+          }
         })
       }
       setloaderVisible(false);

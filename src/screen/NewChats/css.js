@@ -97,6 +97,20 @@ const styles = StyleSheet.create({
     activeTab: {
         backgroundColor: Colors.appcolor,
     },
+    addContact: {
+        backgroundColor: Colors.appcolor,
+        borderRadius: 20,
+        paddingVertical: 12,
+        paddingHorizontal: 18,
+        marginHorizontal: 24,
+        marginBottom: 12,
+        alignSelf: "flex-end"
+    },
+    addContactTxt: {
+        fontSize: Fontsize.fontTwelve,
+        color: Colors.white,
+        fontFamily: Fonts.ProximaNovaMedium,
+    },
     inactiveTab: {
         backgroundColor: Colors.white,
         borderRadius: 20,
@@ -128,15 +142,52 @@ const styles = StyleSheet.create({
     },
     newGrpBtn: {
         // backgroundColor: Colors.appcolor,
-        paddingVertical:6,
-        paddingHorizontal:8,
-        borderRadius:20
+        paddingVertical: 6,
+        paddingHorizontal: 8,
+        borderRadius: 20
     },
     broadBtnTxt: {
         fontSize: Fontsize.fontFifteen,
         color: Colors.white,
         fontFamily: Fonts.ProximaNovaMedium,
     },
-
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        // alignItems: "center",
+        // marginTop: 8,
+        backgroundColor: "rgba(52, 52, 52, 0.8)"
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: Colors.white,
+        borderRadius: 10,
+        paddingVertical: 24,
+        paddingHorizontal: 12
+        // padding: 35,
+        // alignItems: "center",
+    },
+    addUserInput: {
+        borderWidth: 0.4,
+        marginBottom:12,
+        borderRadius:10,
+        paddingLeft:12,
+        height:45,
+        fontSize: Fontsize.fontFourteen,
+        color: Colors.black,
+        fontFamily: Fonts.ProximaNovaMedium,
+    },
+    addUserBtn: {
+        backgroundColor: Colors.appcolor,
+        marginTop: 24,
+        alignItems: "center",
+        paddingVertical: 12,
+        borderRadius: 10
+    },
+    addUserBtnTxt:{
+        fontSize: Fontsize.fontFourteen,
+        color: Colors.white,
+        fontFamily: Fonts.ProximaNovaMedium,
+    }
 })
 export default styles;
