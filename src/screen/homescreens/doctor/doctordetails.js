@@ -46,22 +46,24 @@ const Doctordetails = (props, { route }) => {
   const [activeTab, setActiveTab] = useState(propActiveTab)
   const [userType, setuserType] = useState();
 
-//   const CommentpropPage = DataCardiList => {
-//     setmsgDocId(DataCardiList)
-//     if (!userType) {
-//       Helper.loginPopUp(props.navigation);
-//     } else {
-//       navigation.navigate('review', { doctorid: doctorId });
-//   }
-// }
+  //   const CommentpropPage = DataCardiList => {
+  //     setmsgDocId(DataCardiList)
+  //     if (!userType) {
+  //       Helper.loginPopUp(props.navigation);
+  //     } else {
+  //       navigation.navigate('review', { doctorid: doctorId });
+  //   }
+  // }
 
   const AddReview = () => {
     // setmsgDocId(DataCardiList)
     if (!userType) {
       Helper.loginPopUp(props.navigation);
+    } else if (userType?.user_type !== 1) {
+      alert('please login with personal account');
     } else {
       navigation.navigate('review', { doctorid: doctorId });
-  }
+    }
   };
 
   useEffect(() => {
@@ -70,7 +72,7 @@ const Doctordetails = (props, { route }) => {
       if (value !== null) {
       }
       setuserType(value?.user_type);
-      
+
     });
   }, []);
   const Call_Details_Api = () => {

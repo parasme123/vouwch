@@ -310,3 +310,20 @@ export const phoneIcon = (width, height, color) => {
         </Svg>
     )
 }
+
+export const locationIcon = (width, height, color) => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 41 41">
+            <G id="location-icon2" transform="translate(-799 -822)">
+                <G id="verified-svgrepo-com" transform="translate(812 832.482)">
+                    <G id="Group_123" data-name="Group 123" transform="translate(0 0)">
+                        <G id="_5396842941595452556" data-name="5396842941595452556">
+                            <path id="Path_195" data-name="Path 195" d="M19,9.827c0,6.41-7.211,12.019-7.211,12.019S4.577,16.237,4.577,9.827A7.211,7.211,0,0,1,19,9.827Z" transform="translate(-4.577 -2.615)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.308"></path>
+                            <circle id="Ellipse_84" data-name="Ellipse 84" cx="2.404" cy="2.404" r="2.404" transform="translate(4.808 4.808)" fill="none" stroke={color} stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.308"></circle>
+                        </G>
+                    </G>
+                </G>
+            </G>
+        </Svg>
+    )
+}

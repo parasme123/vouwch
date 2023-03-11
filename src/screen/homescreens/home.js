@@ -287,7 +287,7 @@ const Home = (props) => {
           {/* Header View of profile notification */}
           <View style={styles.notificationHeaserView}>
             {/* profile Notification */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => userType && userToken ? navigation.navigate('Reply', { isBack: true }) : handleLogin()}
               style={[styles.notificationbutton, { marginRight: 10 }]}>
               <Image
@@ -296,7 +296,7 @@ const Home = (props) => {
                 imageStyle={{}}
                 style={styles.notificationIcon}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={() => userType && userToken ? handleProfile() : handleLogin()}
               style={styles.notificationbutton}>
