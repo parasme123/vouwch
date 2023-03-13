@@ -34,8 +34,8 @@ import {
   Helper
 } from '@lib';
 import { bindActionCreators } from 'redux';
-import { getBravoCardData, postMessge, postComment  ,postFollow} from '../../reduxStore/action/doctorAction';
-
+import { getBravoCardData, postMessge, postComment, postFollow } from '../../reduxStore/action/doctorAction';
+import { checkIsUserRegistered } from '../../reduxStore/action/firebaseActions';
 const Hospotalbravocard = (props) => {
   const [loaderVisible, setloaderVisible] = useState(false);
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
@@ -51,12 +51,14 @@ const Hospotalbravocard = (props) => {
   const [commentText, setcommentText] = useState();
   const [Follows, setFollow] = useState([]);
   const MessagepropPage = DataCardiList => {
-    setmsgDocId(DataCardiList);
+    // setmsgDocId(DataCardiList);
     if (!userType) {
       Helper.loginPopUp(props.navigation);
     } else {
-      setReviewModalPopup(!modalVisible);
-      setModalVisible(!modalVisible);
+      let { actions } = props;
+      actions.checkIsUserRegistered(DataCardiList, setloaderVisible, () => props.navigation.navigate("Messeges", { chatUserData: DataCardiList }))
+      // setReviewModalPopup(!modalVisible);
+      // setModalVisible(!modalVisible);
     }
   };
 
@@ -127,7 +129,7 @@ const Hospotalbravocard = (props) => {
   const Follow_api = (msgDocId) => {
     if (!userType) {
       Helper.loginPopUp(props.navigation);
-    }else{
+    } else {
       Call_FollowApi(msgDocId);
     }
   };
@@ -227,7 +229,8 @@ const ActionCreators = Object.assign(
   { getBravoCardData },
   { postMessge },
   { postComment },
-  {postFollow}
+  { postFollow },
+  { checkIsUserRegistered }
 
 );
 

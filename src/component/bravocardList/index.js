@@ -88,7 +88,7 @@ export default DoctorcardList = (props) => {
                 <TouchableOpacity
                     style={styles.DoctorCardShareButton}
                     onPress={() => {
-                        props.onpress_Message(props?.item?.doctor_id);
+                        props.onpress_Message(props?.item?.users_details);
                     }}>
                     {svg.messageCircle(30, 30, Colors.appcolor)}
                     <Text numberOfLines={1} style={styles.DoctorCardShareButtonText}>

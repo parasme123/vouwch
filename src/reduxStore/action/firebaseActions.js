@@ -8,22 +8,23 @@ const usersCollection = firestore().collection('Users');
 const messageCollection = firestore().collection('Message');
 const groupCollection = firestore().collection('Groups');
 
-export const firebaseRegister = (data, setloaderVisible, PageNavigation) => {
+export const firebaseRegister = (data, setloaderVisible, PageNavigation, sessionWillSet = true) => {
   return async dispatch => {
     setloaderVisible(true);
     data = { ...data, createdAt: new Date(), email: data?.email ? data?.email?.toLowerCase() : "" }
     usersCollection.add(data).then((response) => {
+      var userData = {}
       if (!response.empty) {
         response.onSnapshot((snapShot) => {
-          let userData = { ...snapShot.data(), id: snapShot.id };
-          if (data?.email) {
+          userData = { ...snapShot.data(), id: snapShot.id };
+          if (data?.email && sessionWillSet) {
             AsyncStorageHelper.setData("firebaseUserData", JSON.stringify(userData));
             dispatch(saveUserData(userData))
           }
         })
       }
       setloaderVisible(false);
-      PageNavigation(response)
+      PageNavigation(userData)
       Toast.show("Register Successfully", Toast.LONG);
     }).catch((error) => {
       setloaderVisible(false);
@@ -115,6 +116,27 @@ export const firebaseLogout = (setloaderVisible, PageNavigation) => {
     setloaderVisible(false);
     PageNavigation()
     Toast.show("Logged Out Successfully", Toast.LONG);
+  }
+};
+
+export const checkIsUserRegistered = (userData, setloaderVisible, newUserCheck, oldUserCallBack) => {
+  return async dispatch => {
+    let userType = userData.user_type == 1 ? "User" : "Business"
+    setloaderVisible(true);
+    const querySnapshot = usersCollection.where("email", "==", userData.email.toLowerCase()).where("user_type", "==", userType).limit(1);
+    querySnapshot.get().then(snapshot => {
+      if (snapshot?.docs?.length < 1) {
+        dispatch(firebaseRegister({...userData,  user_type: userType}, setloaderVisible, newUserCheck, false))
+      } else {
+        setloaderVisible(false);
+        oldUserCallBack()
+      }
+      // Toast.show("Login Successfully", Toast.LONG);
+    }).catch(err => {
+      console.log("checkIsUserRegistered", err);
+      setloaderVisible(false);
+      Toast.show("Something went wrong", Toast.LONG);
+    })
   }
 };
 

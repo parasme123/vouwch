@@ -75,7 +75,7 @@ export default Bravocard = (props) => {
                             {svg.commentCircle(30, 30, Colors.appcolor)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>Comment</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Message(props.item.doctor_id) }}>
+                        <TouchableOpacity style={styles.shareButton} onPress={() => { props.onpress_Message(props.item.users_details) }}>
                             {svg.messageCircle(30, 30, Colors.appcolor)}
                             <Text numberOfLines={1} style={styles.shareButtonText}>Message</Text>
                         </TouchableOpacity>

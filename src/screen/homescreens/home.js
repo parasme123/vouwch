@@ -26,11 +26,12 @@ import Comments from '../../modal/Comments';
 import { handleNavigation } from '../../navigator/Navigator';
 import Message from '../../modal/Message';
 import styles from './homecss';
-import { Bravocard, DoctorCard  } from '@component';
+import { Bravocard, DoctorCard } from '@component';
 import Hospitalcard from '../../component/Hospitalcard';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getHomeData, postFollow, postMessge, postComment } from '../../reduxStore/action/doctorAction';
+import { checkIsUserRegistered } from '../../reduxStore/action/firebaseActions';
 const Home = (props) => {
   const [modalVisibleComment, setModalVisibleComment] = useState(false);
   const [modalVisible, setModalVisible] = useState();
@@ -114,13 +115,15 @@ const Home = (props) => {
     navigation.navigate('DoctorCard', { searchProps });
   };
   // Button condition
-  const MessagepropPage = DataCardiList => {
-    setmsgDocId(DataCardiList);
+  const MessagepropPage = userDetail => {
+    let { actions } = props;
+    // setmsgDocId(DataCardiList);
     if (!userType) {
       Helper.loginPopUp(props.navigation);
     } else {
-      setReviewModalPopup(!modalVisible);
-      setModalVisible(!modalVisible);
+      actions.checkIsUserRegistered(userDetail, setloaderVisible, () => props.navigation.navigate("Messeges", { chatUserData: userDetail }))
+      // setReviewModalPopup(!modalVisible);
+      // setModalVisible(!modalVisible);
     }
   };
 
@@ -242,29 +245,29 @@ const Home = (props) => {
     );
   };
 
-    /* // Hospital CARDS */
-    const Hospital_Card = ({ item, index }) => {
-      return (
-        <Hospitalcard
-          onpress_DoctorCard={HospitalNavigation}
-          onpress_Comment={CommentpropPage}
-          onpress_Message={MessagepropPage}
-          onpress_Share={onShare}
-  
-          Follows={props.followData}
-          onpress_DoctorCard_Follow={Follow_api}
-          item={item}
-          index={index}
-          Doctor_business_name={item?.business_name}
-          Doctorcard_Details={item?.category?.name}
-          Clinician_Rating={item?.clinical_rate}
-          patient_Rating={item?.patient_rate}
-          startingValue={item?.patient_rate}
-          ClinicianReview_Value={item?.clinical_rate}
-          handleAddBravoCardOrReview={handleAddBravoCardOrReview}
-        />
-      );
-    };
+  /* // Hospital CARDS */
+  const Hospital_Card = ({ item, index }) => {
+    return (
+      <Hospitalcard
+        onpress_DoctorCard={HospitalNavigation}
+        onpress_Comment={CommentpropPage}
+        onpress_Message={MessagepropPage}
+        onpress_Share={onShare}
+
+        Follows={props.followData}
+        onpress_DoctorCard_Follow={Follow_api}
+        item={item}
+        index={index}
+        Doctor_business_name={item?.business_name}
+        Doctorcard_Details={item?.category?.name}
+        Clinician_Rating={item?.clinical_rate}
+        patient_Rating={item?.patient_rate}
+        startingValue={item?.patient_rate}
+        ClinicianReview_Value={item?.clinical_rate}
+        handleAddBravoCardOrReview={handleAddBravoCardOrReview}
+      />
+    );
+  };
 
   const handleLogin = () => {
     Helper.loginPopUp(props.navigation);
@@ -322,7 +325,7 @@ const Home = (props) => {
               }}
             />
             <TouchableOpacity
-              onPress={search.length >1 ? () => Call_SearchApi(search) : null}>
+              onPress={search.length > 1 ? () => Call_SearchApi(search) : null}>
               <Image
                 source={Imagepath.searchbtn}
                 resizeMode="stretch"
@@ -354,7 +357,7 @@ const Home = (props) => {
           <TouchableOpacity
             style={{}}
             onPress={() => {
-              navigation.navigate('DoctorCard', {typeOfCard : "Hospitals"});
+              navigation.navigate('DoctorCard', { typeOfCard: "Hospitals" });
             }}>
             <Text style={styles.featuredViewButtonText}>See All</Text>
           </TouchableOpacity>
@@ -362,7 +365,7 @@ const Home = (props) => {
         {/* Card of Doctors */}
         <View style={{ marginHorizontal: 5 }}>
           {
-            console.log("props.allHomeData.hospitals_list" , props.allHomeData.hospitals_list)
+            console.log("props.allHomeData.hospitals_list", props.allHomeData.hospitals_list)
           }
           <FlatList
             data={props.allHomeData.hospitals_list}
@@ -374,21 +377,21 @@ const Home = (props) => {
             showsHorizontalScrollIndicator={false}
           />
         </View>
-        
-                {/* Featured Doctors */}
+
+        {/* Featured Doctors */}
         <View style={styles.featuredView}>
           <Text style={styles.featuredViewText}>Featured Doctors</Text>
           <TouchableOpacity
             style={{}}
             onPress={() => {
-              navigation.navigate('DoctorCard', {typeOfCard : "Doctors"});
+              navigation.navigate('DoctorCard', { typeOfCard: "Doctors" });
             }}>
             <Text style={styles.featuredViewButtonText}>See All</Text>
           </TouchableOpacity>
         </View>
         {
-            console.log("props.allHomeData.doctor_list" , props.allHomeData.doctor_list)
-          }
+          console.log("props.allHomeData.doctor_list", props.allHomeData.doctor_list)
+        }
         {/* Card of Doctors */}
         <View style={{ marginHorizontal: 5 }}>
           <FlatList
@@ -411,7 +414,7 @@ const Home = (props) => {
           </TouchableOpacity>
         </View>
         {/* Bravo Card */}
-        <View style={{ marginHorizontal: 5, marginBottom:20 }}>
+        <View style={{ marginHorizontal: 5, marginBottom: 20 }}>
           <FlatList
             data={props.allHomeData.cards}
             // data={DataCardList}
@@ -455,6 +458,7 @@ const ActionCreators = Object.assign(
   { postFollow },
   { postMessge },
   { postComment },
+  { checkIsUserRegistered }
 );
 
 const mapDispatchToProps = dispatch => ({

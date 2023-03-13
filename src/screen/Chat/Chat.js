@@ -243,11 +243,17 @@ const Chat = (props) => {
           </TouchableOpacity> */}
         {/* </View> */}
 
-        {
+        <FlatList
+          style={{ height: 500 }}
+          data={userList}
+          renderItem={({ item }) => MsgList(item)}
+        />
+
+        {/* {
           userList?.map((item, index) => {
             return MsgList(item)
           })
-        }
+        } */}
       </ScrollView>
       <Modal
         animationType="slide"

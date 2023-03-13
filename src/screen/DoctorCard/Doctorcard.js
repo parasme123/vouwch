@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { AsyncStorageHelper, Constants, Helper } from '@lib';
 import { handleNavigation } from '../../navigator/Navigator';
-
+import { checkIsUserRegistered } from '../../reduxStore/action/firebaseActions';
 const Doctor_Card = (props) => {
     const searchProps = props.route?.params ? props.route?.params?.searchProps : null;
     const typeOfCard = props.route?.params?.typeOfCard ? props.route?.params?.typeOfCard : ""
@@ -32,12 +32,14 @@ const Doctor_Card = (props) => {
 
     // Button condition
     const MessagepropPage = DataCardiList => {
-        setmsgDocId(DataCardiList);
+        // setmsgDocId(DataCardiList);
         if (!userType) {
             Helper.loginPopUp(props.navigation);
         } else {
-            setReviewModalPopup(!modalVisible);
-            setModalVisible(!modalVisible);
+            let { actions } = props;
+            actions.checkIsUserRegistered(DataCardiList, setloaderVisible, () => props.navigation.navigate("Messeges", { chatUserData: DataCardiList }))
+            // setReviewModalPopup(!modalVisible);
+            // setModalVisible(!modalVisible);
         }
     };
 
@@ -244,7 +246,8 @@ const ActionCreators = Object.assign(
     { postDoctorSearch },
     { postMessge },
     { postComment },
-    { postFollow }
+    { postFollow },
+    { checkIsUserRegistered }
 );
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(ActionCreators, dispatch),
