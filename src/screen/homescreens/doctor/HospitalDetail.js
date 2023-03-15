@@ -110,6 +110,14 @@ const HospitalDetail = (props, { route }) => {
             <Text style={styles.doctorSpacilist}>
               {props.allDetailsDoc?.business?.category?.name}
             </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
+              <Image style={{ width: 15, height: 15 }} source={require('../../../assect/images/location.png')} />
+              <Text style={{ fontSize: 10, left: 10, color: '#000' }}>{props.allDetailsDoc?.business?.street}, {props.allDetailsDoc?.business?.city}, {props.allDetailsDoc?.business?.state}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
+              <Image style={{ width: 15, height: 15 }} source={require('../../../assect/images/telephone.png')} />
+              <Text style={{ fontSize: 10, left: 10, color: '#000' }}>{props.allDetailsDoc?.business?.mobile_no}</Text>
+            </View>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 1 }}>
                 <View style={styles.ratingViewRed}>
